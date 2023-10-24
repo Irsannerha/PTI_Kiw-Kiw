@@ -4,6 +4,9 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from 'next/image'
 import Tolkit from "@/app/components/Tolkit";
+import AlertInputEmail from "@/app/components/AlertInputEmail"
+import AlertInputPassword from "@/app/components/AlertInputPassword"
+import AlertLoginSucces from "@/app/components/AlertLoginSucces"
 
 interface DataFecth {
     email: string;
@@ -21,27 +24,38 @@ export default function landingPage() {
     const [isEmailEmpty, setIsEmailEmpty] = useState(false);
     const [isPasswordEmpty, setIsPasswordEmpty] = useState(false);
 
+    const [showPasswordAlert, setShowPasswordAlert] = useState(false);
+    const [showEmailAlert, setShowEmailAlert] = useState(false);
+    const [showSuccesLoginAlert, setshowSuccesLoginAlert] = useState(false);
+
     const handleFormSubmit = async () => {
         if (!email) {
             setIsEmailEmpty(true);
         } else {
             setIsEmailEmpty(false);
         }
-
         if (!password) {
             setIsPasswordEmpty(true);
         } else {
             setIsPasswordEmpty(false);
         }
-
         if (email && password) {
             if (email.includes('@gmail.com')) {
                 console.log('email: ', email);
                 console.log('password: ', password);
+                if (email === "test@gmail.com" && password === "test") {
+                    setshowSuccesLoginAlert(true);
+                }
                 handleReset();
             } else {
                 alert('Use @gmail.com in email');
             }
+        }
+
+        if (email && isPasswordEmpty) {
+            setShowPasswordAlert(true);
+        } else if (password && isEmailEmpty) {
+            setShowEmailAlert(true);
         }
     };
 
@@ -102,8 +116,27 @@ export default function landingPage() {
                                     />
                                     {/* {isPasswordEmpty && <p className="text-red-500">Password is required</p>} */}
                                 </div>
-                                {isPasswordEmpty && isPasswordEmpty && <div className="absolute mt-28 ml-36"><Tolkit /></div>}
                             </div>
+                            {isEmailEmpty && isPasswordEmpty && <div className="absolute mt-[120px] ml-60"><Tolkit /></div>}
+                            {/* {isEmailEmpty && password && <div className="absolute mt-[120px] ml-60"><AlertInputEmail /></div>} */}
+                            {/* {email && isPasswordEmpty && <div className="absolute mt-[120px] ml-60"><AlertInputPassword /></div>} */}
+                            {showPasswordAlert && (
+                                <div className="absolute mt-[120px] ml-60">
+                                    <AlertInputPassword />
+                                </div>
+                            )}
+
+                            {showEmailAlert && (
+                                <div className="absolute mt-[120px] ml-60">
+                                    <AlertInputEmail />
+                                </div>
+                            )}
+
+                            {showSuccesLoginAlert && (
+                                <div className="absolute mt-[120px] ml-60 w-[50%]">
+                                    <AlertLoginSucces />
+                                </div>
+                            )}
                             <Link href="/forget-password-base">
                                 <div className="flex justify-end mb-5 text-black text-[14px] opacity-50">
                                     Forget Password

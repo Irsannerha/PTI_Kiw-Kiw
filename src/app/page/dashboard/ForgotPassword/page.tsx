@@ -4,6 +4,9 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from 'next/image'
 
+import AlertInputEmail from "@/app/components/AlertInputEmail"
+import SuccessOTP from "@/app/components/SuccessOTP"
+
 interface DataFecth {
   email: string;
   password: string;
@@ -18,12 +21,29 @@ export default function ForgotPassword() {
   const [email, setEmail] = useState(initialData.email);
   const [isEmailEmpty, setIsEmailEmpty] = useState(false);
 
+  const [showEmailAlert, setShowEmailAlert] = useState(false);
+  const [showSuccessOTPSend, setshowSuccessOTPSend] = useState(false);
+
   const handleFormSubmit = async () => {
     if (!email) {
       setIsEmailEmpty(true);
     } else {
       setIsEmailEmpty(false);
     }
+
+    if (email) {
+      if (email.includes('@gmail.com')) {
+        console.log('email: ', email);
+        setshowSuccessOTPSend(true);
+        handleReset();
+      } else {
+        alert('Use @gmail.com in email');
+      }
+    }
+
+    if (isEmailEmpty) {
+      setShowEmailAlert(true);
+    } 
   };
 
   const handleReset = () => {
@@ -63,18 +83,27 @@ export default function ForgotPassword() {
                     required
                     type="email"
                   />
-                  {isEmailEmpty && <p className="text-red-500">Email is required</p>}
                 </div>
               </div>
-              <Link href="/forget-password-base">
-                <button
-                  type="button"
-                  onClick={handleFormSubmit}
-                  className="text-white w-[50%] bg-[#8B6A56] hover:bg-[#F8A849] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-[#8B6A56] dark:hover:bg-[#F8A849] focus:outline-none"
-                >
-                  Kirim Kode OTP
-                </button>
-              </Link>
+              {showEmailAlert && (
+                <div className="absolute mt-[150px] ml-64">
+                  <AlertInputEmail />
+                </div>
+              )}
+              {showSuccessOTPSend && (
+                <div className="absolute mt-[150px] ml-16 w-full">
+                  <SuccessOTP />
+                </div>
+              )}
+              {/* <Link href="/forget-password-base"> */}
+              <button
+                type="button"
+                onClick={handleFormSubmit}
+                className="text-white w-[50%] bg-[#8B6A56] hover:bg-[#F8A849] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-[#8B6A56] dark:hover:bg-[#F8A849] focus:outline-none"
+              >
+                Kirim Kode OTP
+              </button>
+              {/* </Link> */}
             </div>
           </div>
         </div>
