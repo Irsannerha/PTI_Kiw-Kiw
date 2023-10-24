@@ -1,11 +1,11 @@
-// pages/Dashboard.tsx
-import Dashboard from "@/app/components/Dashboard"
+// pages/login.tsx
 
-export default function dashboard () {
+// import FormLogin from "@/app/components/FormLogin"
+
+export default function landingPage () {
   return (
     <>
-    <Dashboard/>
-      <p>Landing Page</p>
+        <p>Dashoard</p>
     </>
   )
 }
