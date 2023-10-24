@@ -1,5 +1,5 @@
 import Image from "next/image";
-import logoCartoon from "../../img/logo-2.jpg";
+import logoCartoon from "/public/logo-2.jpg";
 
 export default function FormLogin() {
   return (
