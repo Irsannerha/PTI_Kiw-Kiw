@@ -82,7 +82,50 @@ export default function landingPage() {
 
   return (
     <>
-      <div className="m-0 box-border flex h-screen w-full bg-slate-500 p-0">
+    <nav className="flex justify-between items-center py-3 px-10 bg-[#F8A849] fixed top-0 w-full z-10">
+                <Link href="https://nextjs.org/docs/api-reference/next/link#with-url-object">
+                    <Image
+                        src="/images/logoKedai.png"
+                        alt="logo Kedai"
+                        className="drop-shadow-[0_2px_20px_rgba(0,0,0,0.5)]"
+                        width={90}
+                        height={90}
+                        priority
+                    />
+                </Link>
+
+                <ul className="flex gap-7 items-center font">
+                    <li>
+                        <Link className="text-slate-800 hover:text-gray-50" href="/">
+                            Home
+                        </Link>
+                    </li>
+                    <li>
+                        <Link className="text-slate-800 hover:text-gray-50" href="/profil">
+                            Profil
+                        </Link>
+                    </li>
+                    <li>
+                        <Link className="text-slate-800 hover:text-gray-50" href="/menu">
+                            Menu
+                        </Link>
+                    </li>
+                    <li>
+                        <Link className="text-slate-800 hover:text-gray-50" href="/kontak">
+                            Kontak
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            className="text-slate-800 hover:text-green-50 font-bold"
+                            href="/perekrutan_pegawai"
+                        >
+                            Perekrutan Pegawai
+                        </Link>
+                    </li>
+                </ul>
+            </nav>
+          <div className="m-0 box-border flex h-screen w-full bg-slate-500 p-0">
         <div className="left flex w-1/2 flex-col bg-white items-center justify-center">
           <Image
             src="/images/logo-dashboard.png"
