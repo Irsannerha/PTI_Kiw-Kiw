@@ -91,22 +91,21 @@ export default function KelolaMenuPemesanan() {
                         </div>
                     </div>
 
-
                     <div className="div">
                         <div className="flex justify-between relative ">
                             <div className="m-2 text-[24px] absolute">Makanan</div>
                             <div className="pt-12 grid grid-cols-2 md:grid-cols-3 gap-4 bg-[#EFEFFF] w-[49%] p-2">
                                 {menuMakanan.map(order => (
-                                    <div className="h-auto max-w-full rounded-lg bg-white">
-                                        <div className="w-full max-w-sm rounded-lg shadow">
-                                            <div className="flex flex-col items-center">
-                                                <div className="w-20 h-20 mt-2 mb-2 rounded-full shadow-lg">
-                                                    <Image src={order.image} alt={`order-${order.id}`} width={96} height={96} /></div>
-                                                <div className="text-[14px] font-medium text-gray-900 dark:text-white">Ayam Geprek</div>
-                                                <span className="text-[14px] text-gray-500 dark:text-gray-400">Rp. 10.000</span>
-                                                <div className="flex space-x-1 md:mt-2 w-full">
-                                                    <a href="#" className="px-4 py-2 text-sm font-medium text-center text-white rounded-lg bg-[#C79618] p-1 w-[50%] flex justify-center items-center rounded-l-lg"><SvgEditKelolaPemesanan /></a>
-                                                    <a href="#" className=" px-4 py-2 text-sm font-medium text-center text-gray-900 rounded-lg  bg-[#F30101]  w-[50%] flex justify-center items-center rounded-r-lg"><SvgDeleteKelolaPemesanan /></a>
+                                    <div className="h-auto max-w-full rounded-lg">
+                                        <div className="w-full max-w-sm rounded-lg shadow  bg-white">
+                                            <div className="div">
+                                                <div className="flex flex-col items-center justify-center m-auto w-20 h-20 mt-2 mb-2 rounded-full shadow-lg">
+                                                    <Image src={order.image} alt={`order-${order.id}`} width={120} height={120} className="m-0 mt-1" /></div>
+                                                <div className="text-[14px] ml-2  font-medium text-gray-900 dark:text-white">Ayam Geprek</div>
+                                                <span className="text-[14px] ml-2 text-gray-500 dark:text-gray-400">Rp. 10.000</span>
+                                                <div className="flex mt-1 gap-0.5  w-full">
+                                                    <a href="#" className=" px-1 py-1 text-sm font-medium text-center text-white rounded-bl-lg bg-[#C79618] w-[50%] flex justify-center items-center "><SvgEditKelolaPemesanan /></a>
+                                                    <a href="#" className=" px-1 py-1 text-sm font-medium text-center text-gray-900 bg-[#F30101]  w-[50%] flex justify-center items-center rounded-br-lg"><SvgDeleteKelolaPemesanan /></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -116,16 +115,16 @@ export default function KelolaMenuPemesanan() {
                             <div className="ml-[52%] m-2 text-[24px] absolute">Minuman</div>
                             <div className="pt-12 grid grid-cols-2 md:grid-cols-3 gap-4 bg-[#EFEFFF] w-[49%] p-2">
                                 {menuMinuman.map(order => (
-                                    <div className="h-auto max-w-full rounded-lg bg-white">
-                                        <div className="w-full max-w-sm rounded-lg shadow">
-                                            <div className="flex flex-col items-center">
-                                                <div className="w-20 h-20 mt-2 mb-2 rounded-full shadow-lg flex flex-col items-center">
-                                                    <Image src={order.image} alt={`order-${order.id}`} width={40} height={40} /></div>
-                                                <div className="text-[14px] font-medium text-gray-900 dark:text-white">Ayam Geprek</div>
-                                                <span className="text-[14px] text-gray-500 dark:text-gray-400">Rp. 10.000</span>
-                                                <div className="flex space-x-1 md:mt-2 w-full">
-                                                    <a href="#" className="px-4 py-2 text-sm font-medium text-center text-white rounded-lg bg-[#C79618] p-1 w-[50%] flex justify-center items-center rounded-l-lg"><SvgEditKelolaPemesanan /></a>
-                                                    <a href="#" className=" px-4 py-2 text-sm font-medium text-center text-gray-900 rounded-lg  bg-[#F30101]  w-[50%] flex justify-center items-center rounded-r-lg"><SvgDeleteKelolaPemesanan /></a>
+                                    <div className="h-auto max-w-full rounded-lg">
+                                        <div className="w-full max-w-sm rounded-lg shadow  bg-white">
+                                            <div className="div">
+                                                <div className=" w-20 h-20 mt-2 mb-2 rounded-full shadow-lg flex flex-col items-center m-auto">
+                                                    <Image src={order.image} alt={`order-${order.id}`} width={40} height={40} className="" /></div>
+                                                <div className="text-[14px] ml-2 font-medium text-gray-900 dark:text-white">Ayam Geprek</div>
+                                                <span className="text-[14px] ml-2 text-gray-500 dark:text-gray-400">Rp. 10.000</span>
+                                                <div className="flex mt-1 gap-0.5 w-full">
+                                                    <a href="#" className=" px-1 py-1 text-sm font-medium text-center text-white rounded-bl-lg bg-[#C79618] w-[50%] flex justify-center items-center "><SvgEditKelolaPemesanan /></a>
+                                                    <a href="#" className=" px-1 py-1 text-sm font-medium text-center text-gray-900 bg-[#F30101]  w-[50%] flex justify-center items-center rounded-br-lg"><SvgDeleteKelolaPemesanan /></a>
                                                 </div>
                                             </div>
                                         </div>
