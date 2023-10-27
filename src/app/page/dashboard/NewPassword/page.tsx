@@ -3,44 +3,33 @@ import Input from "@/app/components/Input";
 import { useState } from "react";
 import Link from "next/link";
 import Image from 'next/image'
-import Tolkit from "@/app/components/Tolkit";
-import AlertInputEmail from "@/app/components/AlertInputEmail"
 import AlertInputNewPass from "@/app/components/AlertInputNewPass"
 import AlertInputRepeatPass from "@/app/components/AlertInputRepeatPass"
-import AlertLoginajaSucces from "@/app/components/AlertLoginSucces"
+import SuccessUbahPass from "@/app/components/SuccessUbahPass"
 
 interface DataFecth {
-  // email: string;
   newPassword: string;
   reNewPassword: string;
 }
 
 export default function landingPage() {
   const initialData: DataFecth = {
-    // email: "",
     newPassword: "",
     reNewPassword: "",
   };
 
-  // const [email, setEmail] = useState(initialData.email);
   const [newPassword, setnewPassword] = useState(initialData.newPassword);
   const [reNewPassword, setreNewPassword] = useState(initialData.reNewPassword);
 
-  // const [isEmailEmpty, setIsEmailEmpty] = useState(false);
   const [isnewPasswordEmpty, setIsnewPasswordEmpty] = useState(false);
   const [isreNewPasswordEmpty, setIsreNewPasswordEmpty] = useState(false);
 
   const [shownewPasswordAlert, setShownewPasswordAlert] = useState(false);
   const [showreNewPasswordAlert, setShowreNewPasswordAlert] = useState(false);
-  // const [showEmailAlert, setShowEmailAlert] = useState(false);
-  // const [showSuccesLoginAlert, setshowSuccesLoginAlert] = useState(false);
+
+  const [showSuccesUbahPassAlert, setshowSuccesUbahPassAlert] = useState(false);
 
   const handleFormSubmit = async () => {
-    // if (!email) {
-    //   setIsEmailEmpty(true);
-    // } else {
-    //   setIsEmailEmpty(false);
-    // }
     if (!newPassword) {
       setIsnewPasswordEmpty(true);
     } else {
@@ -54,16 +43,13 @@ export default function landingPage() {
     }
 
     if (newPassword && reNewPassword) {
-      if (newPassword.includes('test')) {
-        console.log('newPassword: ', newPassword);
-        console.log('reNewPassword: ', reNewPassword);
-        if (newPassword === "test@gmail.com" && reNewPassword === "test") {
-          // setshowSuccesLoginAlert(true);
-        }
-        handleReset();
-      } else {
-        alert('Use @gmail.com in email');
+      console.log('newPassword: ', newPassword);
+      console.log('reNewPassword: ', reNewPassword);
+      if (newPassword === "test" && reNewPassword === "test") {
+        setshowSuccesUbahPassAlert(true);
+        window.location.href = '/page/dashboard/FormLogin';
       }
+      handleReset();
     }
 
     if (newPassword && isreNewPasswordEmpty) {
@@ -123,15 +109,23 @@ export default function landingPage() {
                   {/* {isPasswordEmpty && <p className="text-red-500">Password is required</p>} */}
                 </div>
               </div>
+              {isnewPasswordEmpty && isreNewPasswordEmpty && <div className="absolute mt-[120px] ml-40 w-[70%]"><AlertInputNewPass /></div>}
+
               {shownewPasswordAlert && (
-                <div className="absolute mt-[120px] ml-60">
+                <div className="absolute mt-[120px] ml-40 w-[70%]">
                   <AlertInputNewPass />
                 </div>
               )}
 
               {showreNewPasswordAlert && (
-                <div className="absolute mt-[120px] ml-60">
+                <div className="absolute mt-[120px] ml-40 w-[70%]">
                   <AlertInputRepeatPass />
+                </div>
+              )}
+
+              {showSuccesUbahPassAlert && (
+                <div className="absolute mt-[120px] ml-40 w-[70%]">
+                  <SuccessUbahPass />
                 </div>
               )}
               {/* <Link href="/forget-password-base"> */}

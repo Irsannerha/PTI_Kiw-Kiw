@@ -7,6 +7,8 @@ import SvgDashboardProfile from "@/app/components/SvgDashboardProfile"
 import SvgDashboardKalender from "@/app/components/SvgDashboardKalender"
 import SvgEditKelolaPemesanan from "@/app/components/SvgEditKelolaPemesanan"
 import SvgDeleteKelolaPemesanan from "@/app/components/SvgDeleteKelolaPemesanan"
+import AlertHapusData from "@/app/components/AlertHapusData"
+import Link from "next/link";
 
 export default function KelolaMenuPemesanan() {
     const [currentTime, setCurrentTime] = useState(new Date());
@@ -43,6 +45,16 @@ export default function KelolaMenuPemesanan() {
         { id: 8, image: '/images/ayamGeprek.png' },
         { id: 9, image: '/images/ayamGeprek.png' },
     ];
+
+
+    const [showAlertHapusData, setShowAlertHapusData] = useState(false);
+    const handleFromDelete = async () => {
+        setShowAlertHapusData(true)
+        setTimeout(() => {
+            setShowAlertHapusData(false);
+        }, 3000); // Example: Hide alert after 3 seconds
+    }
+
     return (
         <>
             <div style={{ display: 'flex' }}>
@@ -78,15 +90,17 @@ export default function KelolaMenuPemesanan() {
 
                     <div className="flex justify-between -mt-4 ">
                         <div className="text-start justify-start items-start">
-                            <div className="mt-4 mb-4 w-full bg-[#F8A849] shadow-lg rounded-lg">
-                                <div className="flex p-3 gap-5 justify-center items-center m-auto text-center text-white">
-                                    <div className="flex flex-col justify-center">
-                                        +
+                            <div className="mt-4 mb-4 w-full bg-[#F8A849] shadow-lg rounded-lg hover:bg-[#C79618]">
+                                <Link href="/page/dashboard/TambahItemMenu">
+                                    <div className=" flex p-3 gap-5 justify-center items-center m-auto text-center text-white">
+                                        <div className="flex flex-col justify-center">
+                                            +
+                                        </div>
+                                        <div className="flex items-center">
+                                            Tambah Item
+                                        </div>
                                     </div>
-                                    <div className="flex items-center">
-                                        Tambah Item
-                                    </div>
-                                </div>
+                                </Link>
                             </div>
                         </div>
                     </div>
@@ -94,7 +108,7 @@ export default function KelolaMenuPemesanan() {
                     <div className="div">
                         <div className="flex justify-between relative ">
                             <div className="m-2 text-[24px] absolute">Makanan</div>
-                            <div className="pt-12 grid grid-cols-2 md:grid-cols-3 gap-4 bg-[#EFEFFF] w-[49%] p-2">
+                            <div className="pt-12 grid grid-cols-2 md:grid-cols-3 gap-4 bg-[#EFEFFF] w-[49%] p-2 rounded-lg shadow-xl">
                                 {menuMakanan.map(order => (
                                     <div className="h-auto max-w-full rounded-lg">
                                         <div className="w-full max-w-sm rounded-lg shadow  bg-white">
@@ -104,16 +118,22 @@ export default function KelolaMenuPemesanan() {
                                                 <div className="text-[14px] ml-2  font-medium text-gray-900 dark:text-white">Ayam Geprek</div>
                                                 <span className="text-[14px] ml-2 text-gray-500 dark:text-gray-400">Rp. 10.000</span>
                                                 <div className="flex mt-1 gap-0.5  w-full">
-                                                    <a href="#" className=" px-1 py-1 text-sm font-medium text-center text-white rounded-bl-lg bg-[#C79618] w-[50%] flex justify-center items-center "><SvgEditKelolaPemesanan /></a>
-                                                    <a href="#" className=" px-1 py-1 text-sm font-medium text-center text-gray-900 bg-[#F30101]  w-[50%] flex justify-center items-center rounded-br-lg"><SvgDeleteKelolaPemesanan /></a>
+                                                    <a href="/page/dashboard/EditItemMenu" className=" px-1 py-1 text-sm font-medium text-center text-white rounded-bl-lg bg-[#C79618] hover:bg-[#F8A849]  w-[50%] flex justify-center items-center "><SvgEditKelolaPemesanan /></a>
+                                                    <a onClick={handleFromDelete} href="#" className=" px-1 py-1 text-sm font-medium text-center text-gray-900 bg-[#F30101] hover:bg-[#950000] w-[50%] flex justify-center items-center rounded-br-lg"><SvgDeleteKelolaPemesanan /></a>
+
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 ))}
                             </div>
+                            {showAlertHapusData && (
+                                <div className="absolute mt-[30%] ml-[60%] w-full">
+                                    <AlertHapusData />
+                                </div>
+                            )}
                             <div className="ml-[52%] m-2 text-[24px] absolute">Minuman</div>
-                            <div className="pt-12 grid grid-cols-2 md:grid-cols-3 gap-4 bg-[#EFEFFF] w-[49%] p-2">
+                            <div className="pt-12 grid grid-cols-2 md:grid-cols-3 gap-4 bg-[#EFEFFF] w-[49%] p-2 rounded-lg shadow-xl">
                                 {menuMinuman.map(order => (
                                     <div className="h-auto max-w-full rounded-lg">
                                         <div className="w-full max-w-sm rounded-lg shadow  bg-white">
@@ -123,14 +143,20 @@ export default function KelolaMenuPemesanan() {
                                                 <div className="text-[14px] ml-2 font-medium text-gray-900 dark:text-white">Ayam Geprek</div>
                                                 <span className="text-[14px] ml-2 text-gray-500 dark:text-gray-400">Rp. 10.000</span>
                                                 <div className="flex mt-1 gap-0.5 w-full">
-                                                    <a href="#" className=" px-1 py-1 text-sm font-medium text-center text-white rounded-bl-lg bg-[#C79618] w-[50%] flex justify-center items-center "><SvgEditKelolaPemesanan /></a>
-                                                    <a href="#" className=" px-1 py-1 text-sm font-medium text-center text-gray-900 bg-[#F30101]  w-[50%] flex justify-center items-center rounded-br-lg"><SvgDeleteKelolaPemesanan /></a>
+                                                    <a href="/page/dashboard/EditItemMenu" className=" px-1 py-1 text-sm font-medium text-center text-white rounded-bl-lg bg-[#C79618] hover:bg-[#F8A849]  w-[50%] flex justify-center items-center "><SvgEditKelolaPemesanan /></a>
+                                                    <a onClick={handleFromDelete} href="#" className=" px-1 py-1 text-sm font-medium text-center text-gray-900 bg-[#F30101] hover:bg-[#950000] w-[50%] flex justify-center items-center rounded-br-lg"><SvgDeleteKelolaPemesanan /></a>
+
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 ))}
                             </div>
+                            {showAlertHapusData && (
+                                <div className="absolute mt-[30%] ml-[60%] w-full">
+                                    <AlertHapusData />
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

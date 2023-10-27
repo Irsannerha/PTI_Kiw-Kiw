@@ -53,7 +53,7 @@ export default function Dashboard() {
           <div className="m-4 w-full text-[32px]">Selamat Datang di Dashboard</div>
           <div className="flex justify-center">
             <Link href="/page/dashboard/KelolaMenuPemesanan">
-              <div className="m-4 w-72 bg-[#BA937C] shadow-lg rounded-lg">
+              <div className="m-4 w-72 bg-[#BA937C] hover:bg-[#F8A849] shadow-lg rounded-lg">
                 <div className="rounded-t-lg text-xl p-3 pl-4 justify-center items-center flex"><svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M66.6668 8.3335L57.0835 17.9168C54.7931 20.2534 53.5103 23.3949 53.5103 26.6668C53.5103 29.9387 54.7931 33.0802 57.0835 35.4168L64.5835 42.9168C66.9201 45.2072 70.0616 46.49 73.3335 46.49C76.6054 46.49 79.7469 45.2072 82.0835 42.9168L91.6668 33.3335" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
                   <path d="M62.5001 62.5L13.7501 13.75C12.0871 15.3794 10.766 17.3242 9.86405 19.4706C8.96212 21.617 8.49756 23.9218 8.49756 26.25C8.49756 28.5782 8.96212 30.883 9.86405 33.0294C10.766 35.1758 12.0871 37.1206 13.7501 38.75L44.1668 69.1667C47.0834 72.0833 52.5001 72.0833 55.8334 69.1667L62.5001 62.5ZM62.5001 62.5L91.6668 91.6667" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
@@ -68,8 +68,8 @@ export default function Dashboard() {
                 </div>
               </div>
             </Link>
-            <Link href="#">
-              <div className="m-4 w-72 bg-[#BA937C] shadow-lg rounded-lg">
+            <Link href="/page/dashboard/PerekrutanPegawai">
+              <div className="m-4 w-72 bg-[#BA937C] hover:bg-[#F8A849] shadow-lg rounded-lg">
                 <div className="rounded-t-lg text-xl p-3 pl-4 justify-center items-center flex">
                   <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M66.6668 87.5V79.1667C66.6668 74.7464 64.9109 70.5072 61.7853 67.3816C58.6597 64.256 54.4204 62.5 50.0002 62.5H25.0002C20.5799 62.5 16.3407 64.256 13.215 67.3816C10.0894 70.5072 8.3335 74.7464 8.3335 79.1667V87.5" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
@@ -89,7 +89,7 @@ export default function Dashboard() {
           </div>
           <div className="flex justify-center">
             <Link href="#">
-              <div className="m-4 w-72 bg-[#BA937C] shadow-lg rounded-lg">
+              <div className="m-4 w-72 bg-[#BA937C] hover:bg-[#F8A849] shadow-lg rounded-lg">
                 <div className="rounded-t-lg text-xl p-3 pl-4 justify-center items-center flex">
                   <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M79.1667 12.5H20.8333C16.231 12.5 12.5 16.231 12.5 20.8333V79.1667C12.5 83.769 16.231 87.5 20.8333 87.5H79.1667C83.769 87.5 87.5 83.769 87.5 79.1667V20.8333C87.5 16.231 83.769 12.5 79.1667 12.5Z" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
@@ -106,7 +106,7 @@ export default function Dashboard() {
               </div>
             </Link>
             <Link href="#">
-              <div className="m-4 w-72 bg-[#BA937C] shadow-lg rounded-lg">
+              <div className="m-4 w-72 bg-[#BA937C] hover:bg-[#F8A849] shadow-lg rounded-lg">
                 <div className="rounded-t-lg text-xl p-3 pl-4 justify-center items-center flex">
                   <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M16.6665 81.2502V18.7502C16.6665 15.9875 17.764 13.338 19.7175 11.3845C21.671 9.43096 24.3205 8.3335 27.0832 8.3335H83.3332V91.6668H27.0832C24.3205 91.6668 21.671 90.5694 19.7175 88.6159C17.764 86.6624 16.6665 84.0128 16.6665 81.2502ZM16.6665 81.2502C16.6665 78.4875 17.764 75.838 19.7175 73.8845C21.671 71.931 24.3205 70.8335 27.0832 70.8335H83.3332" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />

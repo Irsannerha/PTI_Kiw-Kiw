@@ -27,7 +27,7 @@ export default function landingPage() {
     const [showPasswordAlert, setShowPasswordAlert] = useState(false);
     const [showEmailAlert, setShowEmailAlert] = useState(false);
     const [showSuccesLoginAlert, setshowSuccesLoginAlert] = useState(false);
-
+    const [showInputEmailPassword, setshowInputEmailPassword] = useState(false);
     const handleFormSubmit = async () => {
         if (!email) {
             setIsEmailEmpty(true);
@@ -45,6 +45,7 @@ export default function landingPage() {
                 console.log('password: ', password);
                 if (email === "test@gmail.com" && password === "test") {
                     setshowSuccesLoginAlert(true);
+                    window.location.href = '/page/dashboard';
                 }
                 handleReset();
             } else {
@@ -54,9 +55,21 @@ export default function landingPage() {
 
         if (email && isPasswordEmpty) {
             setShowPasswordAlert(true);
+            setTimeout(() => {
+                setShowPasswordAlert(false);
+            }, 3000);
         } else if (password && isEmailEmpty) {
             setShowEmailAlert(true);
+            setTimeout(() => {
+                setShowEmailAlert(false);
+            }, 3000);
+        } else if (isEmailEmpty && isPasswordEmpty) {
+            setshowInputEmailPassword(true);
+            setTimeout(() => {
+                setshowInputEmailPassword(false);
+            }, 3000);
         }
+
     };
 
     const handleReset = () => {
@@ -117,9 +130,15 @@ export default function landingPage() {
                                     {/* {isPasswordEmpty && <p className="text-red-500">Password is required</p>} */}
                                 </div>
                             </div>
-                            {isEmailEmpty && isPasswordEmpty && <div className="absolute mt-[120px] ml-60"><Tolkit /></div>}
+                            {/* {isEmailEmpty && isPasswordEmpty && <div className="absolute mt-[120px] ml-60"> <Tolkit /></div>} */}
                             {/* {isEmailEmpty && password && <div className="absolute mt-[120px] ml-60"><AlertInputEmail /></div>} */}
                             {/* {email && isPasswordEmpty && <div className="absolute mt-[120px] ml-60"><AlertInputPassword /></div>} */}
+                            {showInputEmailPassword && (
+                                <div className="absolute mt-[120px] ml-60">
+                                    <Tolkit />
+                                </div>
+                            )}
+
                             {showPasswordAlert && (
                                 <div className="absolute mt-[120px] ml-60">
                                     <AlertInputPassword />
@@ -137,12 +156,12 @@ export default function landingPage() {
                                     <AlertLoginSucces />
                                 </div>
                             )}
-                            <Link href="/forget-password-base">
+                            <Link href="/page/dashboard/ForgotPassword">
                                 <div className="flex justify-end mb-5 text-black text-[14px] opacity-50">
                                     Forget Password
                                 </div>
                             </Link>
-                            {/* <Link href="/forget-password-base"> */}
+                            {/* <Link href="/page/dashboard"> */}
                             <button
                                 type="button"
                                 onClick={handleFormSubmit}

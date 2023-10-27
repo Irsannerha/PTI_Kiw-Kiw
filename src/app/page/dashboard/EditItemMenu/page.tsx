@@ -8,7 +8,7 @@ import SvgDashboardKalender from "@/app/components/SvgDashboardKalender"
 import Input from "@/app/components/Input";
 
 
-export default function TambahItemMenu() {
+export default function EditItemMenu() {
     const [currentTime, setCurrentTime] = useState(new Date());
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -66,7 +66,7 @@ export default function TambahItemMenu() {
                         </div>
                     </div>
 
-                    <div className="mb-5 w-full text-[32px]">Tambah Pesanan</div>
+                    <div className="mb-5 w-full text-[32px]">Ubah Pesanan</div>
                     <div className="text-[24px]">Nama Item</div>
                     <Input
                         onChange={(e) => { console.log("test") }}
@@ -101,7 +101,7 @@ export default function TambahItemMenu() {
                                         />
                                         <label
                                             htmlFor="imageUpload"
-                                            className="bg-[#FA8F21] hover:bg-[#8B6A56] text-white hover:text-white inline-block mr-2 px-4 py-1.5 h-9 rounded-md cursor-pointer"
+                                            className="bg-[#FA8F21] hover:bg-dodgerblue text-white hover:text-white inline-block mr-2 px-4 py-1.5 h-9 rounded-md cursor-pointer"
                                         >
                                             Masukkan Gambar
                                         </label>

@@ -35,6 +35,7 @@ export default function ForgotPassword() {
       if (email.includes('@gmail.com')) {
         console.log('email: ', email);
         setshowSuccessOTPSend(true);
+        window.location.href = '/page/dashboard/CodeOTP';
         handleReset();
       } else {
         alert('Use @gmail.com in email');

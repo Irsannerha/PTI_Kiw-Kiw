@@ -38,6 +38,7 @@ export default function ForgotPassword() {
       if (password.includes('OTP')) {
         console.log('password: ', password);
         setshowSuccessOTPSend(true);
+        window.location.href = '/page/dashboard/NewPassword'
         handleReset();
       } else {
         setshowWrongOTP(true);
