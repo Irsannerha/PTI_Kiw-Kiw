@@ -88,7 +88,7 @@ export default function Dashboard() {
             </Link>
           </div>
           <div className="flex justify-center">
-            <Link href="#">
+            <Link href="/page/dashboard/LaporanPemesanan">
               <div className="m-4 w-72 bg-[#BA937C] hover:bg-[#F8A849] shadow-lg rounded-lg">
                 <div className="rounded-t-lg text-xl p-3 pl-4 justify-center items-center flex">
                   <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -105,7 +105,7 @@ export default function Dashboard() {
                 </div>
               </div>
             </Link>
-            <Link href="#">
+            <Link href="/page/dashboard/LaporanPerekrutan">
               <div className="m-4 w-72 bg-[#BA937C] hover:bg-[#F8A849] shadow-lg rounded-lg">
                 <div className="rounded-t-lg text-xl p-3 pl-4 justify-center items-center flex">
                   <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">

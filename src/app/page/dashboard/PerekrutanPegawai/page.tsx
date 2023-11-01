@@ -50,9 +50,9 @@ export default function PerekrutanPegawai() {
                         </div>
                     </div>
 
-                    <div className="m-4 w-full text-[32px]">PerekrutanPegawai</div>
-                    <div className="flex justify-center">
-                        <Link href="/page/dashboard/KelolaMenuPemesanan">
+                    <div className="w-full text-[32px]">PerekrutanPegawai</div>
+                    <div className="flex justify-center mt-[10%]">
+                        <Link href="/page/dashboard/PrekTahap1">
                             <div className="m-4 w-72 bg-[#BA937C] hover:bg-[#F8A849] shadow-lg rounded-lg">
                                 <div className="rounded-t-lg text-xl p-3 pl-4 justify-center items-center flex">
                                     <svg width="150" height="150" viewBox="0 0 150 150" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -68,7 +68,7 @@ export default function PerekrutanPegawai() {
                                 </div>
                             </div>
                         </Link>
-                        <Link href="/page/dashboard/PerekrutanPegawai">
+                        <Link href="/page/dashboard/PrekTahap2">
                             <div className="m-4 w-72 bg-[#BA937C] hover:bg-[#F8A849] shadow-lg rounded-lg">
                                 <div className="rounded-t-lg text-xl p-3 pl-4 justify-center items-center flex">
                                     <svg width="150" height="150" viewBox="0 0 150 150" fill="none" xmlns="http://www.w3.org/2000/svg">

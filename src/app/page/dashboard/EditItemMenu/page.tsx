@@ -8,7 +8,7 @@ import SvgDashboardKalender from "@/app/components/SvgDashboardKalender"
 import Input from "@/app/components/Input";
 
 
-export default function EditItemMenu() {
+export default function TambahItemMenu() {
     const [currentTime, setCurrentTime] = useState(new Date());
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -66,6 +66,29 @@ export default function EditItemMenu() {
                         </div>
                     </div>
 
+                    <div className="flex justify-between -mt-4 ">
+                        <div className="text-start justify-start items-start">
+                            <div className="mt-4 mb-4 w-full bg-[#F8A849] shadow-lg rounded-lg hover:bg-[#C79618]">
+                                <Link href="/page/dashboard/TambahItemMenu">
+                                    <div className=" flex p-2 gap-2 justify-center items-center m-auto text-center text-white">
+                                        <div className="flex flex-col justify-center">
+                                            <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M15 23.75L6.25 15L15 6.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M23.75 15H6.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+
+                                        </div>
+                                        <Link href="/page/dashboard/KelolaMenuPemesanan">
+                                            <div className="flex items-center text-black">
+                                                Kembali
+                                            </div>
+                                        </Link>
+                                    </div>
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+
                     <div className="mb-5 w-full text-[32px]">Ubah Pesanan</div>
                     <div className="text-[24px]">Nama Item</div>
                     <Input
@@ -74,8 +97,8 @@ export default function EditItemMenu() {
                         required
                         type="text"
                     />
-                    <div className="justify-between items-center grid grid-cols-3 md:grid-cols-3 gap-2 w-full p-2 mt-2">
-                        <div className="div">
+                    <div className="justify-between items-center grid grid-cols-3 md:grid-cols-3 gap-2 w-full mt-2">
+                        <div className="w-[175px]">
                             <div className="text-[24px]">Harga</div>
                             <div className="flex gap-3">
                                 <div className="text-center flex justify-center items-center">Rp.</div>
@@ -87,47 +110,54 @@ export default function EditItemMenu() {
                                 />
                             </div>
                         </div>
-                        <div className="-ml-[10%] w-[50%]">
-                            <div className="text-[24px]">Gambar</div>
+                        <div className="-ml-[30%] w-[100%]">
+                            <div className="text-[24px]">Kategori</div>
                             <div className="flex justify-between">
                                 <div className="flex">
-                                    <div className="inline-block text-left  w-96 relative rounded-md text-[14px]">
-                                        <input
-                                            type="file"
-                                            id="imageUpload"
-                                            name="imageFile"
-                                            className="absolute opacity-0 cursor-pointer "
-                                            onChange={handleFileChange}
-                                        />
-                                        <label
-                                            htmlFor="imageUpload"
-                                            className="bg-[#FA8F21] hover:bg-dodgerblue text-white hover:text-white inline-block mr-2 px-4 py-1.5 h-9 rounded-md cursor-pointer"
-                                        >
-                                            Masukkan Gambar
-                                        </label>
-                                        <span id="imageStatus" className="text-black">
-                                            {fileStatus}
-                                        </span>
-                                    </div>
+                                    <select id="countrssies" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                        <option selected>Pilih Kategori</option>
+                                        <option value="US">United States</option>
+                                        <option value="CA">Canada</option>
+                                        <option value="FR">France</option>
+                                        <option value="DE">Germany</option>
+                                    </select>
+
                                 </div>
                             </div>
                         </div>
-                        <div className="ml-[20%]">
-                            <div className="text-[24px]">Stok Item</div>
+                        <div className="-ml-[60%]">
+                            <div className="text-[24px]">Stok</div>
                             <div className="flex gap-3">
-                                <div className="flex p-2 rounded">
-                                    <label className="relative inline-flex items-center w-full cursor-pointer">
-                                        {/* <Input type="checkbox" value="" className="sr-only peer"> */}
-                                        <input
-                                            type="checkbox"
-                                            id="imageUpload"
-                                            name="imageFile"
-                                            className="sr-only peer"
-                                            onChange={(e) => { console.log("test") }}
-                                        />
-                                        <div className="w-12 h-5 bg-[#F30101] peer-focus:outline-none peer-focus:ring-4 rounded-full peer  peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#22EE1E]"></div>
-                                        <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Tidak Tersedia</span>
+                                <Input
+                                    onChange={(e) => { console.log("test") }}
+                                    placeholder="100"
+                                    required
+                                    type="text"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="gap-2 w-full mt-2">
+                        <div className="text-[24px]">Gambar</div>
+                        <div className="flex justify-between">
+                            <div className="flex">
+                                <div className="inline-block text-left  w-96 relative rounded-md text-[14px]">
+                                    <input
+                                        type="file"
+                                        id="imageUpload"
+                                        name="imageFile"
+                                        className="absolute opacity-0 cursor-pointer "
+                                        onChange={handleFileChange}
+                                    />
+                                    <label
+                                        htmlFor="imageUpload"
+                                        className="bg-[#FA8F21] hover:bg-[#8B6A56] text-black hover:text-black inline-block mr-2 px-4 py-2 h-9 rounded-md cursor-pointer"
+                                    >
+                                        Masukkan Gambar
                                     </label>
+                                    <span id="imageStatus" className="text-black">
+                                        {fileStatus}
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -137,9 +167,9 @@ export default function EditItemMenu() {
                     <button
                         type="button"
                         // onClick={handleFormSubmit}
-                        className="-ml-32 mt-[35%] absolute text-white w-[8%] bg-[#F8A849] hover:bg-[#8B6A56] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm py-2.5 mb-2 dark:bg-[#8B6A56] dark:hover:bg-[#F8A849] focus:outline-none flex justify-center items-center"
+                        className="-ml-32 mt-[35%] absolute text-black w-[8%] bg-[#F8A849] hover:bg-[#8B6A56] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm py-2.5 mb-2 dark:bg-[#8B6A56] dark:hover:bg-[#F8A849] focus:outline-none flex justify-center items-center shadow-lg"
                     >
-                        Simpan
+                        Ubah
                     </button>
                 </Link>
             </div >

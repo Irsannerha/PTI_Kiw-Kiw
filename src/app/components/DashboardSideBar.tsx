@@ -1,25 +1,37 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useEffect, useState } from 'react';
 
 export default function DashboardSideBar() {
+    const [currentPath, setCurrentPath] = useState('/page/dashboard/KelolaMenuPemesanan');
+
+    useEffect(() => {
+        // Mendapatkan path saat ini dari window.location
+        setCurrentPath(window.location.pathname);
+    }, []);
+
+    const isActive = (path: any) => currentPath === path;
+
     return (
         <div>
             <aside id="default-sidebar"
                 className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 "
                 aria-label="Sidebar">
                 <div className="h-full px-3 py-4 overflow-y-auto bg-[#FFE4C4]">
-                    <div className="flex items-center justify-center">
-                        <Image
-                            src="/images/logokedai.png"
-                            alt="Logo Kedai"
-                            width={150}
-                            height={150}
-                        />
-                    </div>
+                    <Link href="/page/dashboard">
+                        <div className="flex items-center justify-center">
+                            <Image
+                                src="/images/logokedai.png"
+                                alt="Logo Kedai"
+                                width={150}
+                                height={150}
+                            />
+                        </div>
+                    </Link>
                     <div className="flex items-center justify-center -mt-9">
                         <ul className='flex-col '>
-                            <li className="pl-4 absolute w-full inset-x-0 mt-16 text-gray-900 rounded-lg hover:bg-[#F8A849] hover:text-black focus:z-10 focus:ring-2 focus:ring-[#F8A849] focus:text-black dark:bg-[#F8A849] dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-[#F8A849] dark:focus:ring-blue-500 dark:focus:text-white">
+                            <li className={`pl-4 absolute w-full inset-x-0 mt-16 text-gray-900 rounded-sm ${isActive('/page/dashboard/KelolaMenuPemesanan') || isActive('/page/dashboard/TambahItemMenu') || isActive('/page/dashboard/EditItemMenu') ? 'bg-[#FBC686] text-black' : 'hover:bg-[#FBC686] hover:text-black'} focus:z-10 focus:ring-2 focus:ring-[#F8A849] focus:text-black dark:bg-[#FBC686] dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-[#FBC686] dark:focus:ring-blue-500 dark:focus:text-white`}>
                                 <Link href="/page/dashboard/KelolaMenuPemesanan">
                                     <button type="button" className="p-1 flex gap-4 text-center justify-center items-center text-sm font-medium ">
                                         <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -31,8 +43,8 @@ export default function DashboardSideBar() {
                                         Menu Pesanan
                                     </button>
                                 </Link>
-                            </li>
-                            <li className="pl-4 absolute w-full inset-x-0 mt-32  text-gray-900 rounded-lg hover:bg-[#F8A849] hover:text-black focus:z-10 focus:ring-2 focus:ring-[#F8A849] focus:text-black dark:bg-[#F8A849] dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-[#F8A849] dark:focus:ring-blue-500 dark:focus:text-white">
+                            </li> 
+                            <li className={`pl-4 absolute w-full inset-x-0 mt-28 text-gray-900 rounded-sm ${isActive('/page/dashboard/PerekrutanPegawai') || isActive('/page/dashboard/PrekTahap1') || isActive('/page/dashboard/PrekTahap2') || isActive('/page/dashboard/PrekTahap1LihatData') || isActive('/page/dashboard/PrekTahap2LihatData') ? 'bg-[#FBC686] text-black' : 'hover:bg-[#FBC686] hover:text-black'} focus:z-10 focus:ring-2 focus:ring-[#F8A849] focus:text-black dark:bg-[#FBC686] dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-[#FBC686] dark:focus:ring-blue-500 dark:focus:text-white`}>
                                 <Link href="/page/dashboard/PerekrutanPegawai">
                                     <button type="button" className="p-1 flex gap-4 text-center justify-center items-center text-sm font-medium">
                                         <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -45,8 +57,8 @@ export default function DashboardSideBar() {
                                     </button>
                                 </Link>
                             </li>
-                            <li className="pl-4 absolute w-full inset-x-0 mt-48  text-gray-900 rounded-lg hover:bg-[#F8A849] hover:text-black focus:z-10 focus:ring-2 focus:ring-[#F8A849] focus:text-black dark:bg-[#F8A849] dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-[#F8A849] dark:focus:ring-blue-500 dark:focus:text-white">
-                                <Link href="#">
+                            <li className={`pl-4 absolute w-full inset-x-0 mt-40 text-gray-900 rounded-sm ${isActive('/page/dashboard/LaporanPemesanan') || isActive('/page/dashboard/ViewLaporanPemesanan') ? 'bg-[#FBC686] text-black' : 'hover:bg-[#FBC686] hover:text-black'} focus:z-10 focus:ring-2 focus:ring-[#F8A849] focus:text-black dark:bg-[#FBC686] dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-[#FBC686] dark:focus:ring-blue-500 dark:focus:text-white`}>
+                                <Link href="/page/dashboard/LaporanPemesanan">
                                     <button type="button" className="p-1 flex gap-4 text-center justify-center items-center text-sm font-medium ">
                                         <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M23.75 3.75H6.25C4.86929 3.75 3.75 4.86929 3.75 6.25V23.75C3.75 25.1307 4.86929 26.25 6.25 26.25H23.75C25.1307 26.25 26.25 25.1307 26.25 23.75V6.25C26.25 4.86929 25.1307 3.75 23.75 3.75Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -57,8 +69,8 @@ export default function DashboardSideBar() {
                                     </button>
                                 </Link>
                             </li>
-                            <li className="pl-4 absolute w-full inset-x-0 mt-64  text-gray-900 rounded-lg hover:bg-[#F8A849] hover:text-black focus:z-10 focus:ring-2 focus:ring-[#F8A849] focus:text-black dark:bg-[#F8A849] dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-[#F8A849] dark:focus:ring-blue-500 dark:focus:text-white">
-                                <Link href="#">
+                            <li className={`pl-4 absolute w-full inset-x-0 mt-52 text-gray-900 rounded-sm ${isActive('/page/dashboard/LaporanPerekrutan') || isActive('/page/dashboard/LaporanPerekLihatData')? 'bg-[#FBC686] text-black' : 'hover:bg-[#FBC686] hover:text-black'} focus:z-10 focus:ring-2 focus:ring-[#F8A849] focus:text-black dark:bg-[#FBC686] dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-[#FBC686] dark:focus:ring-blue-500 dark:focus:text-white`}>
+                                <Link href="/page/dashboard/LaporanPerekrutan">
                                     <button type="button" className="p-1 flex gap-4 text-center justify-center items-center text-sm font-medium ">
                                         <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M5 24.375V5.625C5 4.7962 5.32924 4.00134 5.91529 3.41529C6.50134 2.82924 7.2962 2.5 8.125 2.5H25V27.5H8.125C7.2962 27.5 6.50134 27.1708 5.91529 26.5847C5.32924 25.9987 5 25.2038 5 24.375ZM5 24.375C5 23.5462 5.32924 22.7513 5.91529 22.1653C6.50134 21.5792 7.2962 21.25 8.125 21.25H25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
