@@ -61,7 +61,7 @@ export default function ForgotPassword() {
 
     return (
     <>
-      <nav className="flex justify-between items-center py-3 px-10 bg-[#F8A849] fixed top-0 w-full z-10">
+      <nav className="flex justify-between items-center py-3 px-10 bg-[#FFE4C4] fixed top-0 w-full z-10 shadow-xl">
                 <Link href="https://nextjs.org/docs/api-reference/next/link#with-url-object">
                     <Image
                         src="/images/logoKedai.png"

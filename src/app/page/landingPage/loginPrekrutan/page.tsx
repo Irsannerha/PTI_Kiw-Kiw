@@ -125,7 +125,7 @@ export default function landingPage() {
                     </li>
                 </ul>
             </nav>
-          <div className="m-0 box-border flex h-screen w-full bg-slate-500 p-0">
+          <div className="mt-12 m-0 box-border flex h-screen w-full bg-slate-500 p-0">
         <div className="left flex w-1/2 flex-col bg-white items-center justify-center">
           <Image
             src="/images/logo-dashboard.png"
@@ -145,9 +145,25 @@ export default function landingPage() {
             />
             <div className="text-center z-10 bg-white pl-7 pr-7 pt-5 pb-5 w-[70%] rounded-xl drop-shadow-2xl">
               <div className="mb-7 style={{ fontFamily: 'Montserrat' }} text-[32px] font-medium">
-                Buat Password Baru
+                Buat Akun
               </div>
               <div className="text-black">
+                <div className="mb-[20px]">
+                <Input
+                 onChange={(e) => { setName(e.target.value); }}
+                placeholder="Masukkan Nama"
+                required
+                type="email"
+                />
+                </div>
+                <div className="mb-[20px]">
+                <Input
+                 onChange={(e) => { setEmail(e.target.value); }}
+                placeholder="Masukkan Email"
+                required
+                type="email"
+                />
+                </div>
                 <div className="mb-[20px]">
                   <Input
                     onChange={(e) => { setnewPassword(e.target.value); }}

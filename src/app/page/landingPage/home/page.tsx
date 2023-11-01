@@ -7,7 +7,7 @@ const montserrat = Montserrat({ subsets: ['latin'] });
 export default function LandingPage() {
   return (
     <>
-      <nav className="flex justify-between items-center py-3 px-10 bg-[#F8A849] fixed top-0 w-full z-10">
+      <nav className="flex justify-between items-center py-3 px-10 bg-[#FFE4C4] fixed top-0 w-full z-10 shadow-xl">
   <Link href="https://nextjs.org/docs/api-reference/next/link#with-url-object">
     <Image
       src="/images/logoKedai.png"
@@ -21,28 +21,28 @@ export default function LandingPage() {
 
   <ul className="flex gap-7 items-center font">
     <li>
-      <Link className="text-slate-800 hover:text-green-50 font-bold" href="/">
+      <Link className="text-slate-800 hover:text-[#D2691E] font-bold" href="/">
         Home
       </Link>
     </li>
     <li>
-      <Link className="text-slate-800 hover:text-green-50" href="/profil">
+      <Link className="text-slate-800 hover:text-[#D2691E]" href="/profil">
         Profil
       </Link>
     </li>
     <li>
-      <Link className="text-slate-800 hover:text-green-50" href="/menu">
+      <Link className="text-slate-800 hover:text-[#D2691E]" href="/menu">
         Menu
       </Link>
     </li>
     <li>
-      <Link className="text-slate-800 hover:text-green-50" href="/kontak">
+      <Link className="text-slate-800 hover:text-[#D2691E]" href="/kontak">
         Kontak
       </Link>
     </li>
     <li>
       <Link
-        className="text-slate-800 hover:text-green-50"
+        className="text-slate-800 hover:text-[#D2691E]"
         href="/perekrutan_pegawai"
       >
         Perekrutan Pegawai
@@ -70,7 +70,7 @@ export default function LandingPage() {
 </div>
 
       {/* Tampilan Ini tengah */}
-      <div className="flex items-center justify-between bg-[#FBC98E] p-10 py-32">
+      <div className="flex items-center justify-between bg-[#FBD09C] p-10 py-32">
         <div>
           <Image src="/images/logoKedai.png" alt="Logo KEDAI Bu Titin" width={500} height={500} />
         </div>
@@ -93,7 +93,7 @@ export default function LandingPage() {
       </div>
       {/* Tampilan Ini contact section */}
       
-        <div className="flex justify-between items-center py-3 px-10 bg-[#EDC3A5]">
+        <div className="flex justify-between items-center py-3 px-10 bg-[#FBD09D]">
           <div className="grid md:grid-cols-2 items-center gap-16 sm:p-10 p-4">
             <div>
               <h1 className="text-4xl font-extrabold text-slate-800">Hubungi Kami</h1>
