@@ -45,7 +45,7 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
 
     return (
         <>
-            <div className="flex justify-between -mt-4">
+            <div className="flex justify-between -mt-4 mb-4">
                 <div className="text-start justify-start items-start">
                     <input
                         type="text"
@@ -68,7 +68,7 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
                             <div className="flex items-center">
                                 Filter
                             </div>
-                            <div className="div">
+                            {/* <div className="div">
                                 <select
                                     id="filterType"
                                     className="border rounded-md"
@@ -82,7 +82,7 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
                                     <option value="minggu">Minggu</option>
                                     <option value="bulan">Bulan</option>
                                 </select>
-                            </div>
+                            </div> */}
                         </div>
                         {/* </Link> */}
                     </div>

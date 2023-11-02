@@ -9,7 +9,7 @@ export interface Props {
     label?: string;
     type?: Type;
     placeholder?: string;
-    value?: number;
+    value?: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     name?: string;
     required?: boolean;

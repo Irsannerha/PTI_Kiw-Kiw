@@ -21,7 +21,7 @@ export default function Alert() {
                             </svg>
                             <span className="sr-only">Check icon</span>
                         </div>
-                        <div className="ml-3 text-sm font-normal">Apakah anda yakin untuk Logout?</div>
+                        <div className="ml-3 text-sm font-normal">Apakah anda yakin menerima Pegawai ini?</div>
                         <button
                             type="button"
                             className="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
@@ -35,8 +35,8 @@ export default function Alert() {
                     </div>
                     <div className="flex justify-center items-center m-auto w-full mt-2">
 
-                        <a href='/page/dashboard/FormLogin' className="bg-[#F30101] hover:bg-[#950000] w-[20%] py-1 text-white rounded-lg mx-1 text-center"> Ya</a>
-                        <button onClick={handleClose} className="bg-[#C79618] hover:bg-[#F8A849] w-[20%] py-1 text-white rounded-lg mx-1">Tidak</button>
+                        <a href='/page/FormLogin' className="bg-[#C79618] hover:bg-[#F8A849] w-[20%] py-1 text-white rounded-lg mx-1 text-center"> Ya</a>
+                        <button onClick={handleClose} className=" bg-[#F30101] hover:bg-[#950000] w-[20%] py-1 text-white rounded-lg mx-1">Tidak</button>
                     </div>
                 </div>
             )}

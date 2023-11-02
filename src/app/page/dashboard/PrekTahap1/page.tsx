@@ -8,6 +8,10 @@ import SvgDashboardKalender from "@/app/components/SvgDashboardKalender"
 import Input from "@/app/components/Input";
 
 import TablePrekPegawaiTahap1 from "@/app/components/TablePrekPegawaiTahap1"
+import AlertMenolakPegawai1 from "@/app/components/AlertMenolakPegawai1"
+import AlertMenolakPegawai2 from "@/app/components/AlertMenolakPegawai2"
+import AlertTerimaPegawai1 from "@/app/components/AlertTerimaPegawai1"
+import AlertTerimaPegawai2 from "@/app/components/AlertTerimaPegawai2"
 
 
 export default function TambahItemMenu() {

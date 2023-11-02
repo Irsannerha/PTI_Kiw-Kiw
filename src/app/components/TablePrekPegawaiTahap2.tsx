@@ -3,6 +3,11 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import PaginationTable from './PaginationTable';
 
+import AlertMenolakPegawai1 from "@/app/components/AlertMenolakPegawai1"
+import AlertMenolakPegawai2 from "@/app/components/AlertMenolakPegawai2"
+import AlertTerimaPegawai1 from "@/app/components/AlertTerimaPegawai1"
+import AlertTerimaPegawai2 from "@/app/components/AlertTerimaPegawai2"
+
 interface TableRow {
     nama: string;
     nik: string;
@@ -15,11 +20,10 @@ interface TableProps {
 
 const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
     const [currentPage, setCurrentPage] = useState(1);
+    const [filterValue, setFilterValue] = useState('');
 
-    // Calculate the total number of pages based on the itemsPerPage
     const totalPages = Math.ceil(data.length / itemsPerPage);
 
-    // Adjust currentPage if it goes beyond the total number of pages
     useEffect(() => {
         if (currentPage > totalPages) {
             setCurrentPage(totalPages);
@@ -28,13 +32,64 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+
+    const filteredData = data.filter((row) => {
+        return row.nama.toLowerCase().includes(filterValue.toLowerCase()) ||
+            row.nik.toLowerCase().includes(filterValue.toLowerCase())
+    });
+
+    const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
     const onPageChange = (page: number) => {
         setCurrentPage(page);
     };
+
+    // batas
+    const [showAlertMenolakPegawai1, setShowAlertMenolakPegawai1] = useState(false);
+    const handleFromMenolakPegawai1 = async () => {
+        setShowAlertMenolakPegawai1(true)
+        setTimeout(() => {
+            setShowAlertMenolakPegawai1(false);
+        }, 3000); // Example: Hide alert after 3 seconds
+    }
+
+    const [showAlertMenolakPegawai2, setShowAlertMenolakPegawai2] = useState(false);
+    const handleFromMenolakPegawai2 = async () => {
+        setShowAlertMenolakPegawai2(true)
+        setTimeout(() => {
+            setShowAlertMenolakPegawai2(false);
+        }, 3000); // Example: Hide alert after 3 seconds
+    }
+
+    const [showAlertTerimaPegawai1, setShowAlertTerimaPegawai1] = useState(false);
+    const handleFromTerimaPegawai1 = async () => {
+        setShowAlertTerimaPegawai1(true)
+        setTimeout(() => {
+            setShowAlertTerimaPegawai1(false);
+        }, 3000); // Example: Hide alert after 3 seconds
+    }
+
+    const [showAlertTerimaPegawai2, setShowAlertTerimaPegawai2] = useState(false);
+    const handleFromTerimaPegawai2 = async () => {
+        setShowAlertTerimaPegawai2(true)
+        setTimeout(() => {
+            setShowAlertTerimaPegawai2(false);
+        }, 3000); // Example: Hide alert after 3 seconds
+    }
+
     return (
         <>
+            <div className="flex justify-between -mt-4 mb-5">
+                <div className="text-start justify-start items-start">
+                    <input
+                        type="text"
+                        placeholder="Search..."
+                        value={filterValue}
+                        className='rounded-lg'
+                        onChange={(e) => setFilterValue(e.target.value)}
+                    />
+                </div>
+            </div>
             <table className="min-w-full divide-y-2 divide-black">
                 <thead className="bg-white">
                     <tr>
@@ -68,7 +123,7 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
                                     </svg>
 
                                 </Link>
-                                <Link href="">
+                                <Link href="" onClick={handleFromTerimaPegawai2}>
                                     <svg width="31" height="30" viewBox="0 0 31 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <rect x="0.929688" width="30" height="30" rx="5" fill="#FFA437" />
                                         <path d="M23.9297 9L12.9297 20L7.92969 15" fill="#F8A849" />
@@ -76,7 +131,7 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
                                     </svg>
 
                                 </Link>
-                                <Link href="">
+                                <Link href="" onClick={handleFromMenolakPegawai2}>
                                     <svg width="31" height="30" viewBox="0 0 31 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <rect x="0.929688" width="30" height="30" rx="5" fill="#D86514" />
                                         <path d="M21.9297 9L9.92969 21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -88,6 +143,16 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
                             </td>
                         </tr>
                     ))}
+                    {showAlertTerimaPegawai2 && (
+                        <div className="absolute w-full ml-[45%] -mt-[17%]">
+                            <AlertTerimaPegawai1 />
+                        </div>
+                    )}
+                    {showAlertMenolakPegawai2 && (
+                        <div className="absolute w-full ml-[45%] -mt-[17%]">
+                            <AlertMenolakPegawai1 />
+                        </div>
+                    )}
                 </tbody>
             </table>
             <PaginationTable currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} />

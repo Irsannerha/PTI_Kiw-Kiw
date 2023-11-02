@@ -109,7 +109,39 @@ export default function PrekTahap1LihatData() {
                             <div className="div flex-shrink-0">: Bandar Lampung</div>
                             <div className="div flex-shrink-0">: Pria</div>
                             <div className="div flex-shrink-0">: 21 Tahun</div>
-                            <div className="div ml-auto">: dffgfdf</div>
+                            <div className="div ml-auto">:
+                                <div className="-mt-10 ml-3 mb-4 w-[50%] bg-[#F8A849] shadow-lg rounded-xl hover:bg-[#C79618]">
+                                    {/* <Link href="/page/dashboard/TambahItemMenu"> */}
+                                    <div className="flex gap-2 justify-center items-center m-auto text-center text-black">
+                                        <div className="flex flex-col justify-center">
+                                            <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M12.5 17.7083V3.125" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M6.25 11.458L12.5 17.708L18.75 11.458" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M19.7913 21.875H5.20801" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </div>
+                                        <div className="flex items-center text-[16px]">
+                                            Unduh
+                                        </div>
+                                        {/* <div className="div">
+                                <select
+                                    id="filterType"
+                                    className="border rounded-md"
+                                    value={filterValue}
+                                    onChange={(e) => setFilterValue(e.target.value)}
+                                >
+                                    <option value="ando" >Ando</option>
+                                    <option value="andoy">
+                                        Andoy
+                                    </option>
+                                    <option value="minggu">Minggu</option>
+                                    <option value="bulan">Bulan</option>
+                                </select>
+                            </div> */}
+                                    </div>
+                                    {/* </Link> */}
+                                </div>
+                            </div>
                         </div>
                     </div>
 

@@ -2,6 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react';
+import AlertLogout from "@/app/components/AlertLogout"
 
 export default function DashboardSideBar() {
     const [currentPath, setCurrentPath] = useState('/page/dashboard/KelolaMenuPemesanan');
@@ -12,6 +13,14 @@ export default function DashboardSideBar() {
     }, []);
 
     const isActive = (path: any) => currentPath === path;
+
+    const [showAlertLogout, setShowAlertLogout] = useState(false);
+    const handleFromLogout = async () => {
+        setShowAlertLogout(true)
+        setTimeout(() => {
+            setShowAlertLogout(false);
+        }, 5000); // Example: Hide alert after 3 seconds
+    }
 
     return (
         <div>
@@ -43,7 +52,7 @@ export default function DashboardSideBar() {
                                         Menu Pesanan
                                     </button>
                                 </Link>
-                            </li> 
+                            </li>
                             <li className={`pl-4 absolute w-full inset-x-0 mt-28 text-gray-900 rounded-sm ${isActive('/page/dashboard/PerekrutanPegawai') || isActive('/page/dashboard/PrekTahap1') || isActive('/page/dashboard/PrekTahap2') || isActive('/page/dashboard/PrekTahap1LihatData') || isActive('/page/dashboard/PrekTahap2LihatData') ? 'bg-[#FBC686] text-black' : 'hover:bg-[#FBC686] hover:text-black'} focus:z-10 focus:ring-2 focus:ring-[#F8A849] focus:text-black dark:bg-[#FBC686] dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-[#FBC686] dark:focus:ring-blue-500 dark:focus:text-white`}>
                                 <Link href="/page/dashboard/PerekrutanPegawai">
                                     <button type="button" className="p-1 flex gap-4 text-center justify-center items-center text-sm font-medium">
@@ -69,7 +78,7 @@ export default function DashboardSideBar() {
                                     </button>
                                 </Link>
                             </li>
-                            <li className={`pl-4 absolute w-full inset-x-0 mt-52 text-gray-900 rounded-sm ${isActive('/page/dashboard/LaporanPerekrutan') || isActive('/page/dashboard/LaporanPerekLihatData')? 'bg-[#FBC686] text-black' : 'hover:bg-[#FBC686] hover:text-black'} focus:z-10 focus:ring-2 focus:ring-[#F8A849] focus:text-black dark:bg-[#FBC686] dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-[#FBC686] dark:focus:ring-blue-500 dark:focus:text-white`}>
+                            <li className={`pl-4 absolute w-full inset-x-0 mt-52 text-gray-900 rounded-sm ${isActive('/page/dashboard/LaporanPerekrutan') || isActive('/page/dashboard/LaporanPerekLihatData') ? 'bg-[#FBC686] text-black' : 'hover:bg-[#FBC686] hover:text-black'} focus:z-10 focus:ring-2 focus:ring-[#F8A849] focus:text-black dark:bg-[#FBC686] dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-[#FBC686] dark:focus:ring-blue-500 dark:focus:text-white`}>
                                 <Link href="/page/dashboard/LaporanPerekrutan">
                                     <button type="button" className="p-1 flex gap-4 text-center justify-center items-center text-sm font-medium ">
                                         <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -79,9 +88,14 @@ export default function DashboardSideBar() {
                                     </button>
                                 </Link>
                             </li>
+                            {showAlertLogout && (
+                                <div className="absolute mt-[130%] ml-[330%] w-full">
+                                    <AlertLogout />
+                                </div>
+                            )}
                             <li className="absolute w-full -inset-x-1 bottom-0">
-                                <Link href="/page/dashboard/FormLogin">
-                                    <button type="button" id="logOut"
+                                {/* <Link href="/page/dashboard/FormLogin"> */}
+                                    <button onClick={handleFromLogout} type="button" id="logOut"
                                         className="gap-3 w-52 py-1 mb-5 flex items-center justify-start m-auto rounded-md bg-[#950000] hover:bg-[#F02016] text-white p-2 pt-2 pb-2">
                                         <Image
                                             src="/images/logOut.svg"
@@ -91,7 +105,7 @@ export default function DashboardSideBar() {
                                         />
                                         Logout
                                     </button>
-                                </Link>
+                                {/* </Link> */}
                             </li>
                         </ul>
                     </div>
