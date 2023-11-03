@@ -5,7 +5,7 @@ import SvgDashboardProfile from "@/app/components/SvgDashboardProfile";
 import Input from "@/app/components/Input";
 import { useState } from 'react';
 
-export default function DaftarBerkasPage() {
+export default function DaftarBerkas() {
   const [fileStatus, setFileStatus] = useState("Tidak ada file.");
 
   const handleFileChange = (e) => {
@@ -19,7 +19,7 @@ export default function DaftarBerkasPage() {
 
   return (
     <>
-      <nav className="flex justify-between items-center py-3 px-10 bg-[#FFE4C4] fixed top-0 w-full z-10 shadow-xl">
+    <nav className="flex justify-between items-center py-3 px-10 bg-[#FFE4C4] fixed top-0 w-full z-10 shadow-xl">
         <Link href="https://nextjs.org/docs/api-reference/next/link#with-url-object">
           <Image
             src="/images/logoKedai.png"
@@ -62,25 +62,25 @@ export default function DaftarBerkasPage() {
           </li>
         </ul>
       </nav>
-
-      <div className="flex justify-start items-start mt-20">
+    <div className="w-full overflow-x-hidden pt-16">
+      <div className="flex justify-start items-start">
         <div className="text-start justify-start items-start ml-5">
           <div className="mt-16 mb-4 w-52 bg-[#FFE4C4] shadow-md rounded-lg">
             <div className="flex p-3 gap-5">
               <div className="w-[20%] flex justify-end items-end">
                 <SvgDashboardProfile />
               </div>
-              <div className="w-[80%] flex flex-col justify-start pl-2">
+              <div className="w-[70%] flex flex-col justify-start pl-2">
                 Selamat Datang, User
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div className="m-4 w-full text-[32px] ml-12">Daftar Berkas</div>
+      <div className="m-4 w-full text-[32px] ml-12 mb-0">Daftar Berkas</div>
       <div className="flex justify-center">
         <div className="border-b border-neutral-950/10 pb-12 m-4 w-full text-[32px] ml-12">
-          <h2 className="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
+        <h2 className="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
           <p className="mt-1 text-sm leading-6 text-gray-600">Use valid data for further processing for registration.</p>
           <div className="m-4 w-full flex">
             <div className="w-1/2 pr-40">
@@ -190,6 +190,7 @@ export default function DaftarBerkasPage() {
           </div>
         </div>
       </div>
+    </div>
     </>
   );
 }
