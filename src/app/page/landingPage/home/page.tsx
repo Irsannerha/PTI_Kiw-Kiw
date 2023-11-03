@@ -127,7 +127,7 @@ export default function LandingPage() {
                 <input type="text" placeholder="Name" className="w-full rounded-md py-3 px-4 text-sm outline-[#D2691E]" />
                 <input type="email" placeholder="Email" className="w-full rounded-md py-3 px-4 text-sm outline-[#D2691E]" />
                 <input type="text" placeholder="Subject" className="w-full rounded-md py-3 px-4 text-sm outline-[#D2691E]" />
-                <textarea placeholder="Message" rows="6" className="w-full rounded-md px-4 text-sm pt-3 outline-[#D2691E]" />
+                <textarea placeholder="Message" className="w-full rounded-md px-4 text-sm pt-3 outline-[#D2691E]" />
                 <button type="button" className="text-white bg-[#D2691E] hover:bg-[#D2691E] font-semibold rounded-md text-sm px-4 py-3 flex items-center justify-center w-full">
                   Send Message
                 </button>
