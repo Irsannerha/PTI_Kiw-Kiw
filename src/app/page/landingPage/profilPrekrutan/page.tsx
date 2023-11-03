@@ -31,26 +31,10 @@ export default function profilPrekrutan() {
             priority
           />
         </Link>
-
         <ul className="flex gap-7 items-center font">
           <li>
             <Link className="text-slate-800 hover:text-gray-50" href="/">
               Home
-            </Link>
-          </li>
-          <li>
-            <Link className="text-slate-800 hover:text-gray-50" href="/profil">
-              Profil
-            </Link>
-          </li>
-          <li>
-            <Link className="text-slate-800 hover:text-gray-50" href="/menu">
-              Menu
-            </Link>
-          </li>
-          <li>
-            <Link className="text-slate-800 hover:text-gray-50" href="/kontak">
-              Kontak
             </Link>
           </li>
           <li>
@@ -86,8 +70,8 @@ export default function profilPrekrutan() {
   <p className="text-gray-900 dark:text-white font-medium text-lg mt-2">Muhammad Saiful</p>
   </div>
     <div className="m-4 w-full flex" >
-      <div className="w-full sm:w-2/3 pr-36">
-        <form className="space-y-4">
+      <div className="">
+      <form className="space-y-4">
           <div>
             <label htmlFor="nama" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
               Nama
@@ -101,7 +85,7 @@ export default function profilPrekrutan() {
           </div>
           <div>
             <label htmlFor="nik" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-              NO. HP
+              NO. Hp
             </label>
             <Input
               onChange={(e) => { console.log("test") }}
@@ -112,8 +96,8 @@ export default function profilPrekrutan() {
           </div>
         </form>
       </div>
-      <div className="w-full sm:w-2/3 pr-36">
-        <form className="space-y-4">
+      <div className="ml-16">
+       <form className="space-y-4">
           <div>
             <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
               E-mail
@@ -136,21 +120,27 @@ export default function profilPrekrutan() {
               type="text"
             />
           </div>
-           <div className="flex items-center overflow-hidden">
+        </form>
+      </div>
+    </div>
+    <div className="flex justify-center items-center">
       <label
         htmlFor="ubah"
-        className="bg-[#F8A849] hover:bg-[#8B6A56] font-medium text-black hover:text-white inline-flex items-center px-6 py-1.5 cursor-pointer text-sm rounded-xl shadow-2xl"
+        className="bg-[#F8A849] hover:bg-[#D2691E] font-medium text-black hover:text-white inline-flex items-center px-6 py-1.5 cursor-pointer text-sm rounded-xl shadow-lg"
       >
         <span className="ml-1">Ubah</span>
       </label>
-    </div>
-        </form>
-      </div>
-
-    </div>
+        </div>
+        <div className="flex justify-end items-center ">
+      <label
+        htmlFor="logout"
+        className="bg-[#F8A849] hover:bg-[#D2691E] font-medium text-black hover:text-white inline-flex items-center px-6 py-1.5 cursor-pointer text-sm rounded-xl shadow-md"
+      >
+        <span className="ml-1">Log Out</span>
+      </label>
+        </div>
   </div>
-</div>
-
+  </div>
     </div>
     </>
   );

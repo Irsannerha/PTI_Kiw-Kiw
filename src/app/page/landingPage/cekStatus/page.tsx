@@ -26,21 +26,6 @@ export default function cekStatus() {
             </Link>
           </li>
           <li>
-            <Link className="text-slate-800 hover:text-gray-50" href="/profil">
-              Profil
-            </Link>
-          </li>
-          <li>
-            <Link className="text-slate-800 hover:text-gray-50" href="/menu">
-              Menu
-            </Link>
-          </li>
-          <li>
-            <Link className="text-slate-800 hover:text-gray-50" href="/kontak">
-              Kontak
-            </Link>
-          </li>
-          <li>
             <Link
               className="text-slate-800 hover:text-green-50 font-bold"
               href="/perekrutan_pegawai"
@@ -50,26 +35,34 @@ export default function cekStatus() {
           </li>
         </ul>
       </nav>
-<div className="w-full overflow-x-hidden">
+      <div className="w-full overflow-x-hidden">
       <div className="flex justify-start items-start mt-20">
-        <div className="text-start justify-start items-start ml-5">
-          <div className="mt-16 mb-4 w-52 bg-[#FFE4C4] shadow-md rounded-lg">
-            <div className="flex p-3 gap-5">
+      <div className="text-start justify-start items-start ml-5">
+        <div className="mt-16 mb-4">
+          <div className="flex p-3 gap-5">
+            <div className="flex items-center mb-4">
+            <button className=" bg-[#F8A849] rounded-lg flex items-center hover:bg-[#FBD09C] text-gray-700 dark:text-white hover:text-gray-900 dark:hover:text-gray-200">
+              <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M15 23.75L6.25 15L15 6.25" stroke="#616161" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M23.75 15H6.25" stroke="#616161" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <rect x="0.5" y="0.5" width="29" height="29" stroke="#F8A849" stroke-opacity="0.2"/>
+              </svg>
+              <span className="text-sm font-medium text-center mx-3">Kembali</span>
+            </button>
+             </div>
               <div className="w-[20%] flex justify-end items-end">
                 <SvgDashboardProfile />
               </div>
-              <div className="w-[80%] flex flex-col justify-start pl-2">
+              <div className="w-[70%] flex flex-col justify-start pl-2">
                 Selamat Datang, User
               </div>
             </div>
-          </div>
+        </div>
         </div>
       </div>
       <div className="m-4 w-full text-[32px] ml-12">Status</div>
       <div className="flex justify-center">
         <div className="border-b border-neutral-950/10 pb-12 m-4 w-full text-[32px] ml-12">
-          <h2 className="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
-          <p className="mt-1 text-sm leading-6 text-gray-600">This is monitoring employee selection status.</p>
 
             <div className="m-10 w-full ml-36">
              <ol className="flex items-center w-full mb-4 sm:mb-5">

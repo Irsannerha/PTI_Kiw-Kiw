@@ -86,35 +86,20 @@ export default function LandingPage() {
                 </Link>
 
                 <ul className="flex gap-7 items-center font">
-                    <li>
-                        <Link className="text-slate-800 hover:text-gray-50" href="/">
-                            Home
-                        </Link>
-                    </li>
-                    <li>
-                        <Link className="text-slate-800 hover:text-gray-50" href="/profil">
-                            Profil
-                        </Link>
-                    </li>
-                    <li>
-                        <Link className="text-slate-800 hover:text-gray-50" href="/menu">
-                            Menu
-                        </Link>
-                    </li>
-                    <li>
-                        <Link className="text-slate-800 hover:text-gray-50" href="/kontak">
-                            Kontak
-                        </Link>
-                    </li>
-                    <li>
-                        <Link
-                            className="text-slate-800 hover:text-green-50 font-bold"
-                            href="/perekrutan_pegawai"
-                        >
-                            Perekrutan Pegawai
-                        </Link>
-                    </li>
-                </ul>
+          <li>
+            <Link className="text-slate-800 hover:text-gray-50" href="/">
+              Home
+            </Link>
+          </li>
+          <li>
+            <Link
+              className="text-slate-800 hover:text-green-50 font-bold"
+              href="/perekrutan_pegawai"
+            >
+              Perekrutan Pegawai
+            </Link>
+          </li>
+        </ul>
             </nav>
 
             <div className="m-0 box-border flex h-screen w-full bg-slate-500 p-0">
@@ -135,14 +120,6 @@ export default function LandingPage() {
                             objectFit="cover"
                             className="h-full w-full object-cover absolute inset-0 z-0"
                         />
-                        <div className="z-20 -mt-10">
-                            <Image
-                                src="/images/logokedai.png"
-                                alt="Logo Kedai"
-                                width={150}
-                                height={150}
-                            />
-                        </div>
                         <div className="text-center z-10 bg-white pl-7 pr-7 pt-5 pb-5 w-[60%] rounded-xl drop-shadow-2xl">
                             <div className="mb-7">
                                 <div className="mb-7 text-[32px] font-medium">LOGIN</div>

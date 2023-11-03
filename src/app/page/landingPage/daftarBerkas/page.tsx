@@ -38,21 +38,6 @@ export default function DaftarBerkas() {
             </Link>
           </li>
           <li>
-            <Link className="text-slate-800 hover:text-gray-50" href="/profil">
-              Profil
-            </Link>
-          </li>
-          <li>
-            <Link className="text-slate-800 hover:text-gray-50" href="/menu">
-              Menu
-            </Link>
-          </li>
-          <li>
-            <Link className="text-slate-800 hover:text-gray-50" href="/kontak">
-              Kontak
-            </Link>
-          </li>
-          <li>
             <Link
               className="text-slate-800 hover:text-green-50 font-bold"
               href="/perekrutan_pegawai"
@@ -65,7 +50,7 @@ export default function DaftarBerkas() {
     <div className="w-full overflow-x-hidden pt-16">
       <div className="flex justify-start items-start">
         <div className="text-start justify-start items-start ml-5">
-          <div className="mt-16 mb-4 w-52 bg-[#FFE4C4] shadow-md rounded-lg">
+          <div className="mt-16 mb-4">
             <div className="flex p-3 gap-5">
               <div className="w-[20%] flex justify-end items-end">
                 <SvgDashboardProfile />
@@ -80,8 +65,6 @@ export default function DaftarBerkas() {
       <div className="m-4 w-full text-[32px] ml-12 mb-0">Daftar Berkas</div>
       <div className="flex justify-center">
         <div className="border-b border-neutral-950/10 pb-12 m-4 w-full text-[32px] ml-12">
-        <h2 className="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
-          <p className="mt-1 text-sm leading-6 text-gray-600">Use valid data for further processing for registration.</p>
           <div className="m-4 w-full flex">
             <div className="w-1/2 pr-40">
               <form className="space-y-4">
@@ -172,7 +155,7 @@ export default function DaftarBerkas() {
                   </label>
                   <label
                     htmlFor="ijazahStatus"
-                    className="bg-[#F8A849] hover:bg-[#8B6A56] text-white hover:text-white inline-flex items-center px-4 py-1.5 rounded-md cursor-pointer text-sm rounded-xl drop-shadow-2xl"
+                    className="bg-[#F8A849] hover:bg-[#D2691E] text-white hover:text-white inline-flex items-center px-4 py-1.5 cursor-pointer text-sm rounded-xl drop-shadow-2xl"
                   >
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M5 3H19" stroke="#646464" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -184,6 +167,11 @@ export default function DaftarBerkas() {
                   <span id="ijazahStatus" className="text-black text-sm w-1 text-center ml-3">
                     {fileStatus}
                   </span>
+                </div>
+                <div className="flex mt-10 justify-end items-center">
+                <label htmlFor="kirim" className="bg-[#D2691E] hover:bg-[#F8A849] font-medium text-white hover:text-white inline-flex items-center px-14 py-1.5 cursor-pointer text-sm rounded-md shadow-lg">
+                <span className="ml-1">Kirim</span>
+              </label>
                 </div>
               </form>
             </div>

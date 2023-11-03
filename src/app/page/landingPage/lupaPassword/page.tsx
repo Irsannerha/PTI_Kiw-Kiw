@@ -68,35 +68,20 @@ export default function ForgotPassword() {
                 </Link>
 
                 <ul className="flex gap-7 items-center font">
-                    <li>
-                        <Link className="text-slate-800 hover:text-gray-50" href="/">
-                            Home
-                        </Link>
-                    </li>
-                    <li>
-                        <Link className="text-slate-800 hover:text-gray-50" href="/profil">
-                            Profil
-                        </Link>
-                    </li>
-                    <li>
-                        <Link className="text-slate-800 hover:text-gray-50" href="/menu">
-                            Menu
-                        </Link>
-                    </li>
-                    <li>
-                        <Link className="text-slate-800 hover:text-gray-50" href="/kontak">
-                            Kontak
-                        </Link>
-                    </li>
-                    <li>
-                        <Link
-                            className="text-slate-800 hover:text-green-50 font-bold"
-                            href="/perekrutan_pegawai"
-                        >
-                            Perekrutan Pegawai
-                        </Link>
-                    </li>
-                </ul>
+          <li>
+            <Link className="text-slate-800 hover:text-gray-50" href="/">
+              Home
+            </Link>
+          </li>
+          <li>
+            <Link
+              className="text-slate-800 hover:text-green-50 font-bold"
+              href="/perekrutan_pegawai"
+            >
+              Perekrutan Pegawai
+            </Link>
+          </li>
+        </ul>
             </nav>
 
       <div className="m-0 box-border flex h-screen w-full bg-slate-500 p-0">
