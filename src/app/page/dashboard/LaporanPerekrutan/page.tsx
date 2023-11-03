@@ -37,13 +37,13 @@ export default function LaporanPerekrutan() {
     };
 
     const data = [
-        { nama: 'budi budi', nik: "8958945798759", status: "diterima" },
-        { nama: 'budi budi', nik: "8958945798759", status: "ditolak" },
-        { nama: 'budi budi', nik: "8958945798759", status: "diterima" },
-        { nama: 'budi budi', nik: "8958945798759", status: "ditolak" },
-        { nama: 'budi budi', nik: "8958945798759", status: "diterima" },
-        { nama: 'budi budi', nik: "8958945798759", status: "ditolak" },
-        { nama: 'budi budi', nik: "8958945798759", status: "diterima" },
+        { nama: 'budi', nik: "8958945798759", status: "diterima" },
+        { nama: 'ical', nik: "8958945798759", status: "ditolak" },
+        { nama: 'ando', nik: "8958945798759", status: "diterima" },
+        { nama: 'affan', nik: "8958945798759", status: "ditolak" },
+        { nama: 'fahmi', nik: "8958945798759", status: "diterima" },
+        { nama: 'tara', nik: "8958945798759", status: "ditolak" },
+        { nama: 'carin', nik: "8958945798759", status: "diterima" },
         { nama: 'budi budi', nik: "8958945798759", status: "ditolak" },
         { nama: 'budi budi', nik: "8958945798759", status: "diterima" },
         { nama: 'budi budi', nik: "8958945798759", status: "ditolak" },
@@ -102,7 +102,7 @@ export default function LaporanPerekrutan() {
                     <div className="flex justify-between -mt-4 ">
                         <div className="text-start justify-start items-start">
                             <div className="mt-4 mb-4 w-full bg-[#F8A849] shadow-lg rounded-lg hover:bg-[#C79618]">
-                                <Link href="/page/dashboard">
+                                {/* <Link href="/page/dashboard">
                                     <div className=" flex p-2 gap-2 justify-center items-center m-auto text-center text-white">
                                         <div className="flex flex-col justify-center">
                                             <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -117,7 +117,7 @@ export default function LaporanPerekrutan() {
                                         </div>
 
                                     </div>
-                                </Link>
+                                </Link> */}
                             </div>
                         </div>
                     </div>

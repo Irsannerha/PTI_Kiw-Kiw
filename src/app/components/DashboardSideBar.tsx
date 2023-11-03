@@ -40,7 +40,7 @@ export default function DashboardSideBar() {
                     </Link>
                     <div className="flex items-center justify-center -mt-9">
                         <ul className='flex-col '>
-                            <li className={`pl-4 absolute w-full inset-x-0 mt-16 text-gray-900 rounded-sm ${isActive('/page/dashboard/KelolaMenuPemesanan') || isActive('/page/dashboard/TambahItemMenu') || isActive('/page/dashboard/EditItemMenu') ? 'bg-[#FBC686] text-black' : 'hover:bg-[#FBC686] hover:text-black'} focus:z-10 focus:ring-2 focus:ring-[#F8A849] focus:text-black dark:bg-[#FBC686] dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-[#FBC686] dark:focus:ring-blue-500 dark:focus:text-white`}>
+                            <li className={`pl-4 absolute w-full inset-x-0 mt-16 text-gray-900 rounded-sm ${isActive('/page/dashboard/KelolaMenuPemesanan') || isActive('/page/dashboard/TambahItemMenu') || isActive('/page/dashboard/EditItemMenu') || isActive('/page/dashboard/Kategori') || isActive('/page/dashboard/TambahKategori') || isActive('/page/dashboard/UbahKategori') ? 'bg-[#FBC686] text-black' : 'hover:bg-[#FBC686] hover:text-black'} focus:z-10 focus:ring-2 focus:ring-[#F8A849] focus:text-black dark:bg-[#FBC686] dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-[#FBC686] dark:focus:ring-blue-500 dark:focus:text-white`}>
                                 <Link href="/page/dashboard/KelolaMenuPemesanan">
                                     <button type="button" className="p-1 flex gap-4 text-center justify-center items-center text-sm font-medium ">
                                         <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">

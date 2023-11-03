@@ -2,10 +2,19 @@
 import DashboardSideBar from "@/app/components/DashboardSideBar"
 import { useState, useEffect } from 'react';
 import Link from "next/link";
+
 import SvgDashboardProfile from "@/app/components/SvgDashboardProfile"
 import SvgDashboardKalender from "@/app/components/SvgDashboardKalender"
+import Input from "@/app/components/Input";
 
-export default function LaporanPerekLihatData() {
+import TableKategori from "@/app/components/TableKategori"
+import AlertMenolakPegawai1 from "@/app/components/AlertMenolakPegawai1"
+import AlertMenolakPegawai2 from "@/app/components/AlertMenolakPegawai2"
+import AlertTerimaPegawai1 from "@/app/components/AlertTerimaPegawai1"
+import AlertTerimaPegawai2 from "@/app/components/AlertTerimaPegawai2"
+
+
+export default function TambahItemMenu() {
     const [currentTime, setCurrentTime] = useState(new Date());
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -28,6 +37,23 @@ export default function LaporanPerekLihatData() {
             setFileStatus("Tidak ada gambar.");
         }
     };
+
+    const data = [
+        { nama: 'Makanan' },
+        { nama: 'Minuman' },
+        { nama: 'Makanan' },
+        { nama: 'Minuman' },
+        { nama: 'Makanan' },
+        { nama: 'Minuman' },
+        { nama: 'Makanan' },
+        { nama: 'Minuman' },
+        { nama: 'Makanan' },
+        { nama: 'Minuman' },
+        { nama: 'Minuman' },
+        { nama: 'Makanan' },
+        { nama: 'Minuman' },
+        // Tambahkan data lainnya sesuai kebutuhan
+    ];
 
     return (
         <>
@@ -65,8 +91,7 @@ export default function LaporanPerekLihatData() {
                     <div className="flex justify-between -mt-4 ">
                         <div className="text-start justify-start items-start">
                             <div className="mt-4 mb-4 w-full bg-[#F8A849] shadow-lg rounded-lg hover:bg-[#C79618]">
-                                {/* <Link href="/page/dashboard/TambahItemMenu"> */}
-                                <Link href="/page/dashboard/LaporanPerekrutan">
+                                <Link href="/page/dashboard/KelolaMenuPemesanan">
                                     <div className=" flex p-2 gap-2 justify-center items-center m-auto text-center text-white">
                                         <div className="flex flex-col justify-center">
                                             <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -81,70 +106,33 @@ export default function LaporanPerekLihatData() {
                                         </div>
                                     </div>
                                 </Link>
-                                {/* </Link> */}
+                            </div>
+                        </div>
+                        <div className="text-end justify-end items-end">
+                            <div className="mt-4 mb-4 w-full bg-[#F8A849] shadow-lg rounded-lg hover:bg-[#C79618]">
+                                <Link href="/page/dashboard/TambahKategori">
+                                    <div className=" flex p-2.5 gap-2 justify-center items-center m-auto text-center text-black">
+                                        <div className="flex flex-col justify-center">
+                                            +
+                                        </div>
+                                        <div className="flex items-center">
+                                            Tambah Kategori
+                                        </div>
+                                    </div>
+                                </Link>
                             </div>
                         </div>
                     </div>
 
-                    {/* <div className="mb-5 w-full text-[32px]">Perekrutan Pegawai Tahap 1</div> */}
-                    <div className="flex justify-start">
-                        <div className=" text-black text-xl font-normal font-['Montserrat'] leading-10">
-                            <div className="div flex-shrink-0">NIK</div>
-                            <div className="div flex-shrink-0">Nama</div>
-                            <div className="div flex-shrink-0">No. HP</div>
-                            <div className="div flex-shrink-0">Email</div>
-                            <div className="div flex-shrink-0">Alamat</div>
-                            <div className="div flex-shrink-0">Jenis Kelamin</div>
-                            <div className="div flex-shrink-0">Usia</div>
-                            <div className="div ml-auto">Ijazah</div>
-                            <div className="div ml-auto mt-4">Status</div>
-                        </div>
-                        <div className="text-black text-xl font-normal font-['Montserrat'] leading-10 ml-5">
-                            <div className="div flex-shrink-0">: 1234567890123456 </div>
-                            <div className="div flex-shrink-0">: Muhammad Saiful</div>
-                            <div className="div flex-shrink-0">: 08123456789123</div>
-                            <div className="div flex-shrink-0">: example@gmail.com</div>
-                            <div className="div flex-shrink-0">: Bandar Lampung</div>
-                            <div className="div flex-shrink-0">: Pria</div>
-                            <div className="div flex-shrink-0">: 21 Tahun</div>
-                            <div className="div ml-auto">:
-                                <div className="-mt-10 ml-3 mb-4 w-[50%] bg-[#F8A849] shadow-lg rounded-xl hover:bg-[#C79618]">
-                                    {/* <Link href="/page/dashboard/TambahItemMenu"> */}
-                                    <div className="flex gap-2 justify-center items-center m-auto text-center text-black">
-                                        <div className="flex flex-col justify-center">
-                                            <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M12.5 17.7083V3.125" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                                <path d="M6.25 11.458L12.5 17.708L18.75 11.458" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                                <path d="M19.7913 21.875H5.20801" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            </svg>
-                                        </div>
-                                        <div className="flex items-center text-[16px]">
-                                            Unduh
-                                        </div>
-                                        {/* <div className="div">
-                                <select
-                                    id="filterType"
-                                    className="border rounded-md"
-                                    value={filterValue}
-                                    onChange={(e) => setFilterValue(e.target.value)}
-                                >
-                                    <option value="ando" >Ando</option>
-                                    <option value="andoy">
-                                        Andoy
-                                    </option>
-                                    <option value="minggu">Minggu</option>
-                                    <option value="bulan">Bulan</option>
-                                </select>
-                            </div> */}
-                                    </div>
-                                    {/* </Link> */}
-                                </div>
-                            </div>
-                            <div className="mt-2">: Diterima</div>
-                        </div>
+                    <div className="mb-5 w-full text-[32px]">Kategori</div>
+                    <div className="container mx-auto mt-8 text-center">
+                        <TableKategori data={data} />
                     </div>
-                </div>
-            </div>
+                </div >
+            </div >
+
         </>
     )
 }
+
+

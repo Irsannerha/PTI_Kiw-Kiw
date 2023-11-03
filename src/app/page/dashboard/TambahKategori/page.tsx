@@ -1,18 +1,80 @@
 "use client"
 import DashboardSideBar from "@/app/components/DashboardSideBar"
 import { useState, useEffect } from 'react';
-
-import Image from "next/image";
-import SvgDashboardProfile from "@/app/components/SvgDashboardProfile"
-import SvgDashboardKalender from "@/app/components/SvgDashboardKalender"
-import SvgEditKelolaPemesanan from "@/app/components/SvgEditKelolaPemesanan"
-import SvgDeleteKelolaPemesanan from "@/app/components/SvgDeleteKelolaPemesanan"
-import AlertHapusData from "@/app/components/AlertHapusData"
 import Link from "next/link";
 
-import TableLaporanPemesanan from "@/app/components/TableLaporanPemesanan"
+import SvgDashboardProfile from "@/app/components/SvgDashboardProfile"
+import SvgDashboardKalender from "@/app/components/SvgDashboardKalender"
+import Input from "@/app/components/Input";
+import AlertInputData from "@/app/components/AlertInputData";
+import AlertSimpanData from "@/app/components/AlertSimpanData";
 
-export default function LaporanPemesanan() {
+interface DataFecth {
+    nama: string;
+    // gambar: any;
+}
+
+export default function TambahKategori() {
+
+    const initialData: DataFecth = {
+        nama: "",
+        // gambar: "",
+    };
+
+    const [nama, setnama] = useState(initialData.nama);
+    
+    const [isnamaEmpty, setIsnamaEmpty] = useState(false);
+    const [showAlertInputData, setShowAlertInputData] = useState(false);
+    const [showAlertSimpanData, setShowAlertSimpanData] = useState(false);
+
+    const handleFormSubmit = async () => {
+        if (!nama) {
+            setIsnamaEmpty(true);
+        } else {
+            setIsnamaEmpty(false);
+        }
+        if (isnamaEmpty) {
+            setShowAlertInputData(true);
+            setTimeout(() => {
+                setShowAlertInputData(false);
+            }, 5000);
+        } else if (nama) {
+            setShowAlertSimpanData(true);
+            setTimeout(() => {
+                setShowAlertSimpanData(false);
+            }, 5000);
+        }
+
+        // if (nama && ishargaEmpty) {
+        //     setShowhargaAlert(true);
+        //     setTimeout(() => {
+        //         setShowhargaAlert(false);
+        //     }, 3000);
+        // } else if (harga && isnamaItemEmpty) {
+        //     setShownamaItemAlert(true);
+        //     setTimeout(() => {
+        //         setShownamaItemAlert(false);
+        //     }, 3000);
+        // } else if (isnamaItemEmpty && ishargaEmpty) {
+        //     setshowInputnamaItemharga(true);
+        //     setTimeout(() => {
+        //         setshowInputnamaItemharga(false);
+        //     }, 3000);
+        // } else if (isnamaItemEmpty && ishargaEmpty && iskategoriEmpty && isstokEmpty) {
+        //     setShowAlertInputData(true);
+        //     setTimeout(() => {
+        //         setShowAlertInputData(false);
+        //     }, 3000);
+        // }
+
+    };
+
+    const handleReset = () => {
+        setnama("");
+        setIsnamaEmpty(false);
+    };
+
+    // Batass
     const [currentTime, setCurrentTime] = useState(new Date());
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -36,35 +98,6 @@ export default function LaporanPemesanan() {
         }
     };
 
-    const data = [
-        { uid: '0001', tanggal: "23/10/2023", namaPemesan: "ando", jumlah: "100", harga: "10.000" },
-        { uid: '0002', tanggal: "24/10/2023", namaPemesan: "andoy", jumlah: "10", harga: "20.000" },
-        { uid: '0001', tanggal: "23/10/2023", namaPemesan: "ando", jumlah: "100", harga: "10.000" },
-        { uid: '0002', tanggal: "24/10/2023", namaPemesan: "andoy", jumlah: "10", harga: "20.000" },
-        { uid: '0001', tanggal: "23/10/2023", namaPemesan: "ando", jumlah: "100", harga: "10.000" },
-        { uid: '0002', tanggal: "24/10/2023", namaPemesan: "andoy", jumlah: "10", harga: "20.000" },
-        { uid: '0001', tanggal: "23/10/2023", namaPemesan: "ando", jumlah: "100", harga: "10.000" },
-        { uid: '0002', tanggal: "24/10/2023", namaPemesan: "andoy", jumlah: "10", harga: "20.000" },
-        { uid: '0001', tanggal: "23/10/2023", namaPemesan: "ando", jumlah: "100", harga: "10.000" },
-        { uid: '0002', tanggal: "24/10/2023", namaPemesan: "andoy", jumlah: "10", harga: "20.000" },
-        { uid: '0001', tanggal: "23/10/2023", namaPemesan: "ando", jumlah: "100", harga: "10.000" },
-        { uid: '0002', tanggal: "24/10/2023", namaPemesan: "andoy", jumlah: "10", harga: "20.000" },
-        { uid: '0001', tanggal: "23/10/2023", namaPemesan: "ando", jumlah: "100", harga: "10.000" },
-        { uid: '0002', tanggal: "24/10/2023", namaPemesan: "andoy", jumlah: "10", harga: "20.000" },
-        { uid: '0001', tanggal: "23/10/2023", namaPemesan: "ando", jumlah: "100", harga: "10.000" },
-        { uid: '0002', tanggal: "24/10/2023", namaPemesan: "andoy", jumlah: "10", harga: "20.000" },
-        { uid: '0001', tanggal: "23/10/2023", namaPemesan: "ando", jumlah: "100", harga: "10.000" },
-        { uid: '0002', tanggal: "24/10/2023", namaPemesan: "andoy", jumlah: "10", harga: "20.000" },
-        { uid: '0001', tanggal: "23/10/2023", namaPemesan: "ando", jumlah: "100", harga: "10.000" },
-        { uid: '0002', tanggal: "24/10/2023", namaPemesan: "andoy", jumlah: "10", harga: "20.000" },
-        { uid: '0001', tanggal: "23/10/2023", namaPemesan: "ando", jumlah: "100", harga: "10.000" },
-        { uid: '0002', tanggal: "24/10/2023", namaPemesan: "andoy", jumlah: "10", harga: "20.000" },
-        { uid: '0001', tanggal: "23/10/2023", namaPemesan: "ando", jumlah: "100", harga: "10.000" },
-        { uid: '0002', tanggal: "24/10/2023", namaPemesan: "andoy", jumlah: "10", harga: "20.000" },
-        { uid: '0001', tanggal: "23/10/2023", namaPemesan: "ando", jumlah: "100", harga: "10.000" },
-        { uid: '0002', tanggal: "24/10/2023", namaPemesan: "andoy", jumlah: "10", harga: "20.000" },
-        // Tambahkan data lainnya sesuai kebutuhan
-    ];
 
     return (
         <>
@@ -102,7 +135,7 @@ export default function LaporanPemesanan() {
                     <div className="flex justify-between -mt-4 ">
                         <div className="text-start justify-start items-start">
                             <div className="mt-4 mb-4 w-full bg-[#F8A849] shadow-lg rounded-lg hover:bg-[#C79618]">
-                                {/* <Link href="/page/dashboard/TambahItemMenu">
+                                <Link href="/page/dashboard/Kategori">
                                     <div className=" flex p-2 gap-2 justify-center items-center m-auto text-center text-white">
                                         <div className="flex flex-col justify-center">
                                             <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -111,25 +144,52 @@ export default function LaporanPemesanan() {
                                             </svg>
 
                                         </div>
-                                        <Link href="/page/dashboard">
-                                            <div className="flex items-center text-black">
-                                                Kembali
-                                            </div>
-                                        </Link>
+
+                                        <div className="flex items-center text-black">
+                                            Kembali
+                                        </div>
                                     </div>
-                                </Link> */}
+                                </Link>
                             </div>
                         </div>
                     </div>
 
-                    <div className="div">
-                        <div className="mb-5 w-full text-[32px]">Laporan Pesanan</div>
-                        <div className="container mx-auto mt-8 text-cent0002r">
-                            <TableLaporanPemesanan data={data} />
-                        </div>
-                    </div>
+                    <div className="mb-2 w-full text-[32px]">Tambah Kategori</div>
+                    <div className="text-[24px]">Nama Kategori</div>
+                    <Input
+                        onChange={(e) => { setnama(e.target.value); }}
+                        placeholder="Makanan"
+                        required
+                        type="text"
+                    />
                 </div>
-            </div>
+                {showAlertInputData && (
+                    <div className="absolute mt-[40%] ml-[72%]">
+                        <AlertInputData />
+                    </div>
+                )}
+                {showAlertSimpanData && (
+                    <div className="absolute mt-[40%] ml-[75%]">
+                        <AlertSimpanData />
+                    </div>
+                )}
+
+                {/* <Link href="/page/dashboard"> */}
+                <div className="div">
+                    <button
+                        type="button"
+                        onClick={handleFormSubmit}
+                        // onClick={handleFormSubmit}
+                        className="-ml-32 mt-[35%] absolute text-black w-[8%] bg-[#F8A849] hover:bg-[#8B6A56] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm py-2.5 mb-2 dark:bg-[#8B6A56] dark:hover:bg-[#F8A849] focus:outline-none flex justify-center items-center shadow-lg"
+                    >
+                        Simpan
+                    </button>
+                    {/* </Link> */}
+                </div>
+            </div >
+
         </>
     )
 }
+
+
