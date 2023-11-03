@@ -13,7 +13,6 @@ export default function LaporanPerekLihatData() {
         }, 1000);
         return () => clearInterval(intervalId);
     }, []);
-
     const formattedTime = currentTime.toLocaleTimeString();
     const formattedDate = currentTime.toLocaleDateString('id-ID');
 
