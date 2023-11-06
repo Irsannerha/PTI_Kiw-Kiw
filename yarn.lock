@@ -1988,7 +1988,7 @@ queue-microtask@^1.2.2:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
 
-react-icons@^4.10.1:
+react-icons@^4.10.1, react-icons@^4.11.0:
   version "4.11.0"
   resolved "https://registry.npmjs.org/react-icons/-/react-icons-4.11.0.tgz"
   integrity sha512-V+4khzYcE5EBk/BvcuYRq6V/osf11ODUM2J8hg2FDSswRrGvqiYUYPRy4OdrWaQOBj4NcpJfmHZLNaD+VH0TyA==
@@ -2559,6 +2559,11 @@ yaml@^2.1.1:
   version "2.3.3"
   resolved "https://registry.npmjs.org/yaml/-/yaml-2.3.3.tgz"
   integrity sha512-zw0VAJxgeZ6+++/su5AFoqBbZbrEakwu+X0M5HmcwUiBL7AzcuPKjj5we4xfQLp78LkEMpD0cOnUhmgOVy3KdQ==
+
+yet-another-react-lightbox@^3.15.0:
+  version "3.15.0"
+  resolved "https://registry.npmjs.org/yet-another-react-lightbox/-/yet-another-react-lightbox-3.15.0.tgz"
+  integrity sha512-htinzxfQ7gb9csi7C+FXrBv4o6SjvbWZ3GN/X33HTGRd4dsgTdrDCIEAqAIRF7AZr35cFD5T65p5eccuNrX75w==
 
 yocto-queue@^0.1.0:
   version "0.1.0"

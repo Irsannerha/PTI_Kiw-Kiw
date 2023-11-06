@@ -144,12 +144,8 @@ export default function PrekTahap1LihatData() {
                             </div>
                         </div>
                     </div>
-
-
-
                 </div>
             </div >
-
         </>
     )
 }
