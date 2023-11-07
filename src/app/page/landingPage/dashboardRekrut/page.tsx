@@ -43,14 +43,14 @@ export default function DashboardRekrut () {
                     <SvgDashboardProfile />
                     </div>
                     <div className="w-[70%] flex flex-col justify-start pl-2">
-                    Selamat Datang, User
+                    <p className="md:text-xl">Selamat Datang, User</p>
                     </div>
                 </div>
                 </div>
             </div>
         </div>
-          <div className="m-4 w-full text-[32px] ml-12">Dashboard Perekrutan</div>
-          <div className="flex justify-center">
+          <div className="m-4 w-full text-[22px] md:text-[32px] ml-12">Dashboard Perekrutan</div>
+          <div className="flex flex-col items-center justify-center md:flex-row">
             <Link href="/page/dashboard/KelolaMenuPemesanan">
               <div className="m-4 w-72 bg-[#BA937C] hover:bg-[#F8A849] shadow-xl rounded-lg">
                 <div className="rounded-t-lg text-xl p-3 pl-4 justify-center items-center flex">

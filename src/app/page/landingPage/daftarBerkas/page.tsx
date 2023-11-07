@@ -64,10 +64,9 @@ export default function DaftarBerkas() {
       </div>
       <div className="m-4 w-full text-[32px] ml-12 mb-0">Daftar Berkas</div>
       <div className="flex justify-center">
-        <div className="border-b border-neutral-950/10 pb-12 m-4 w-full text-[32px] ml-12">
-          <div className="m-4 w-full flex">
-            <div className="w-1/2 pr-40">
-              <form className="space-y-4">
+        <div className="border-b border-neutral-950/10 pb-12 m-4 w-full text-[32px] ml-4">
+            <div>
+              <form className="md:grid md:grid-cols-2 md:gap-y-5 md:gap-x-10">
                 <div>
                   <label htmlFor="nama" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Nama
@@ -75,6 +74,17 @@ export default function DaftarBerkas() {
                   <Input
                     onChange={(e) => { console.log("test") }}
                     placeholder="Masukkan Nama"
+                    required
+                    type="text"
+                  />
+                </div>
+                 <div>
+                  <label htmlFor="alamat" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Alamat
+                  </label>
+                  <Input
+                    onChange={(e) => { console.log("test") }}
+                    placeholder="Masukkan Alamat"
                     required
                     type="text"
                   />
@@ -90,6 +100,16 @@ export default function DaftarBerkas() {
                     type="text"
                   />
                 </div>
+                 <div>
+                  <label htmlFor="jenis_kelamin" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white ">
+                    Jenis Kelamin
+                  </label>
+                  <select id="jenis_kelamin" name="jenis_kelamin" className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm">
+                    <option selected>-</option>
+                    <option value="Laki-laki">Laki-laki</option>
+                    <option value="Perempuan">Perempuan</option>
+                  </select>
+                </div>
                 <div>
                   <label htmlFor="no_hp" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     No. HP
@@ -101,6 +121,17 @@ export default function DaftarBerkas() {
                     type="text"
                   />
                 </div>
+                 <div>
+                  <label htmlFor="umur" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Umur
+                  </label>
+                  <Input
+                    onChange={(e) => { console.log("test") }}
+                    placeholder="Masukkan Umur"
+                    required
+                    type="text"
+                  />
+                </div>
                 <div>
                   <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Email
@@ -108,43 +139,6 @@ export default function DaftarBerkas() {
                   <Input
                     onChange={(e) => { console.log("test") }}
                     placeholder="Masukkan Email"
-                    required
-                    type="text"
-                  />
-                </div>
-              </form>
-            </div>
-
-            <div className="w-1/2 pr-60">
-              <form className="space-y-4">
-                <div>
-                  <label htmlFor="alamat" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Alamat
-                  </label>
-                  <Input
-                    onChange={(e) => { console.log("test") }}
-                    placeholder="Masukkan Alamat"
-                    required
-                    type="text"
-                  />
-                </div>
-                <div className="w-1/2 pr-10">
-                  <label htmlFor="jenis_kelamin" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white ">
-                    Jenis Kelamin
-                  </label>
-                  <select id="jenis_kelamin" name="jenis_kelamin" className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm">
-                    <option selected>-</option>
-                    <option value="Laki-laki">Laki-laki</option>
-                    <option value="Perempuan">Perempuan</option>
-                  </select>
-                </div>
-                <div className="w-1/2 pr-24">
-                  <label htmlFor="umur" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Umur
-                  </label>
-                  <Input
-                    onChange={(e) => { console.log("test") }}
-                    placeholder="Masukkan Umur"
                     required
                     type="text"
                   />
@@ -168,14 +162,13 @@ export default function DaftarBerkas() {
                     {fileStatus}
                   </span>
                 </div>
-                <div className="flex mt-10 justify-end items-center">
-                <label htmlFor="kirim" className="bg-[#D2691E] hover:bg-[#F8A849] font-medium text-white hover:text-white inline-flex items-center px-14 py-1.5 cursor-pointer text-sm rounded-md shadow-lg">
-                <span className="ml-1">Kirim</span>
-              </label>
-                </div>
               </form>
             </div>
-          </div>
+          <div className="flex mt-10 justify-end items-center">
+                <label htmlFor="kirim" className="bg-[#D2691E] hover:bg-[#F8A849] font-medium text-white hover:text-white inline-flex items-center px-14 py-1.5 cursor-pointer text-sm rounded-md shadow-lg">
+                <span className="ml-1">Kirim</span>
+                </label>
+                </div>
         </div>
       </div>
     </div>

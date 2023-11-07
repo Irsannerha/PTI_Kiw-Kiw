@@ -62,12 +62,12 @@ export default function cekStatus() {
       </div>
       <div className="m-4 w-full text-[32px] ml-12">Status</div>
       <div className="flex justify-center">
-        <div className="border-b border-neutral-950/10 pb-12 m-4 w-full text-[32px] ml-12">
+        <div className="border-b border-neutral-950/10 pb-12 m-4 w-full text-[32px]">
 
-            <div className="m-10 w-full ml-36">
-             <ol className="flex items-center w-full mb-4 sm:mb-5">
+            <div className="max-w-6xl mx-auto flex items-center justify-center">
+             <ol className="mb-4 flex items-center justify-center w-full sm:mb-5">
                 <li className="flex w-full items-center text-blue-600 dark:text-blue-500 after:content-[''] after:w-full after:h-1 after:border-b after:border-amber-500 after:border-4 after:inline-block dark:after:border-blue-800">
-                    <div className="flex items-center justify-center w-10 h-10 bg-[#F8A849] rounded-full lg:h-16 lg:w-16 dark:bg-[#F8A849] shrink-0 shadow-2xl">
+                    <div className="flex items-center justify-center w-16 h-16 bg-[#F8A849] rounded-full lg:h-16 lg:w-16 dark:bg-[#F8A849] shrink-0 shadow-2xl">
                         <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M26.6667 20H5" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M26.6667 30H5" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
@@ -94,7 +94,7 @@ export default function cekStatus() {
                     </svg>
                 </div>
                 </li>
-                    <li className="flex items-center w-full">
+                    <li className="flex items-center">
                     <div className="flex items-center justify-center w-10 h-10 bg-[#FFD8A9] rounded-full lg:h-16 lg:w-16 hover:bg-[#F8A849] dark:bg-gray-700 shrink-0 shadow-2xl">
                     <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M36.6673 18.4667V20C36.6653 23.594 35.5015 27.0911 33.3495 29.9697C31.1976 32.8483 28.1728 34.9541 24.7262 35.9732C21.2797 36.9922 17.5961 36.8698 14.2248 35.6243C10.8535 34.3788 7.97508 32.0768 6.01892 29.0618C4.06276 26.0467 3.13364 22.4801 3.37011 18.8939C3.60659 15.3076 4.996 11.8939 7.33112 9.16179C9.66624 6.4297 12.822 4.52564 16.3276 3.73358C19.8333 2.94152 23.5011 3.30389 26.784 4.76667" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
