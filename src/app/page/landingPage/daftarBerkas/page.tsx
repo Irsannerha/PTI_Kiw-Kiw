@@ -4,6 +4,7 @@ import Link from "next/link";
 import SvgDashboardProfile from "@/app/components/SvgDashboardProfile";
 import Input from "@/app/components/Input";
 import { useState } from 'react';
+import NavbarLandingPage from "@/app/components/NavbarLandingPage";
 
 export default function DaftarBerkas() {
   const [fileStatus, setFileStatus] = useState("Tidak ada file.");
@@ -19,34 +20,9 @@ export default function DaftarBerkas() {
 
   return (
     <>
-    <nav className="flex justify-between items-center py-3 px-10 bg-[#FFE4C4] fixed top-0 w-full z-10 shadow-xl">
-        <Link href="https://nextjs.org/docs/api-reference/next/link#with-url-object">
-          <Image
-            src="/images/logoKedai.png"
-            alt="logo Kedai"
-            className="drop-shadow-[0_2px_20px_rgba(0,0,0,0.5)]"
-            width={90}
-            height={90}
-            priority
-          />
-        </Link>
-
-        <ul className="flex gap-7 items-center font">
-          <li>
-            <Link className="text-slate-800 hover:text-gray-50" href="/">
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link
-              className="text-slate-800 hover:text-green-50 font-bold"
-              href="/perekrutan_pegawai"
-            >
-              Perekrutan Pegawai
-            </Link>
-          </li>
-        </ul>
-      </nav>
+    <div className="nav">
+                <NavbarLandingPage />
+    </div>
     <div className="w-full overflow-x-hidden pt-16">
       <div className="flex justify-start items-start">
         <div className="text-start justify-start items-start ml-5">

@@ -2,39 +2,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import SvgDashboardProfile from "@/app/components/SvgDashboardProfile";
+import NavbarLandingPage from "@/app/components/NavbarLandingPage";
 
 export default function cekStatus() {
   
   return (
     <>
-      <nav className="flex justify-between items-center py-3 px-10 bg-[#FFE4C4] fixed top-0 w-full z-10 shadow-xl">
-        <Link href="https://nextjs.org/docs/api-reference/next/link#with-url-object">
-          <Image
-            src="/images/logoKedai.png"
-            alt="logo Kedai"
-            className="drop-shadow-[0_2px_20px_rgba(0,0,0,0.5)]"
-            width={90}
-            height={90}
-            priority
-          />
-        </Link>
-
-        <ul className="flex gap-7 items-center font">
-          <li>
-            <Link className="text-slate-800 hover:text-gray-50" href="/">
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link
-              className="text-slate-800 hover:text-green-50 font-bold"
-              href="/perekrutan_pegawai"
-            >
-              Perekrutan Pegawai
-            </Link>
-          </li>
-        </ul>
-      </nav>
+      <div className="nav">
+                <NavbarLandingPage />
+    </div>
       <div className="w-full overflow-x-hidden">
       <div className="flex justify-start items-start mt-20">
       <div className="text-start justify-start items-start ml-5">
@@ -78,7 +54,7 @@ export default function cekStatus() {
                     </div>
                 </li>
                 <li className="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-amber-500 after:border-4 after:inline-block dark:after:border-gray-700">
-                <div className="flex items-center justify-center w-10 h-10 bg-[#FFD8A9] rounded-full lg:h-16 lg:w-16 hover:bg-[#F8A849] dark:bg-gray-700 shrink-0 shadow-2xl">
+                <div className="flex items-center justify-center w-16 h-16 bg-[#FFD8A9] rounded-full lg:h-16 lg:w-16 hover:bg-[#F8A849] dark:bg-gray-700 shrink-0 shadow-2xl">
                     <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M20 25L23.3333 28.3333L30 21.6667" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M33.334 13.3333H16.6673C14.8264 13.3333 13.334 14.8257 13.334 16.6667V33.3333C13.334 35.1743 14.8264 36.6667 16.6673 36.6667H33.334C35.1749 36.6667 36.6673 35.1743 36.6673 33.3333V16.6667C36.6673 14.8257 35.1749 13.3333 33.334 13.3333Z" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
@@ -87,7 +63,7 @@ export default function cekStatus() {
                 </div>
                 </li>
                 <li className="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-amber-500 after:border-4 after:inline-block dark:after:border-gray-700">
-                <div className="flex items-center justify-center w-10 h-10 bg-[#FFD8A9] rounded-full lg:h-16 lg:w-16 hover:bg-[#F8A849] dark:bg-gray-700 shrink-0 shadow-2xl">
+                <div className="flex items-center justify-center w-16 h-16 bg-[#FFD8A9] rounded-full lg:h-16 lg:w-16 hover:bg-[#F8A849] dark:bg-gray-700 shrink-0 shadow-2xl">
                     <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M33.334 13.3333H16.6673C14.8264 13.3333 13.334 14.8257 13.334 16.6667V33.3333C13.334 35.1743 14.8264 36.6667 16.6673 36.6667H33.334C35.1749 36.6667 36.6673 35.1743 36.6673 33.3333V16.6667C36.6673 14.8257 35.1749 13.3333 33.334 13.3333Z" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M6.66732 26.6667C4.83398 26.6667 3.33398 25.1667 3.33398 23.3333V6.66667C3.33398 4.83333 4.83398 3.33333 6.66732 3.33333H23.334C25.1673 3.33333 26.6673 4.83333 26.6673 6.66667" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
@@ -95,7 +71,7 @@ export default function cekStatus() {
                 </div>
                 </li>
                     <li className="flex items-center">
-                    <div className="flex items-center justify-center w-10 h-10 bg-[#FFD8A9] rounded-full lg:h-16 lg:w-16 hover:bg-[#F8A849] dark:bg-gray-700 shrink-0 shadow-2xl">
+                    <div className="flex items-center justify-center w-16 h-16 bg-[#FFD8A9] rounded-full lg:h-16 lg:w-16 hover:bg-[#F8A849] dark:bg-gray-700 shrink-0 shadow-2xl">
                     <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M36.6673 18.4667V20C36.6653 23.594 35.5015 27.0911 33.3495 29.9697C31.1976 32.8483 28.1728 34.9541 24.7262 35.9732C21.2797 36.9922 17.5961 36.8698 14.2248 35.6243C10.8535 34.3788 7.97508 32.0768 6.01892 29.0618C4.06276 26.0467 3.13364 22.4801 3.37011 18.8939C3.60659 15.3076 4.996 11.8939 7.33112 9.16179C9.66624 6.4297 12.822 4.52564 16.3276 3.73358C19.8333 2.94152 23.5011 3.30389 26.784 4.76667" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M36.6667 6.66667L20 23.35L15 18.35" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
