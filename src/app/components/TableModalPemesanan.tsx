@@ -2,18 +2,11 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import PaginationTable from './PaginationTable';
-import ModalOrder from './ModalOrder';
-import ModalCalender from './ModalCalender';
-
-import { Datepicker } from 'flowbite-react';
-
+import ModalOrderLihat from './ModalOrderLihat';
 
 interface TableRow {
     uid: string;
-    tanggal: string;
     namaPemesan: string;
-    jumlah: string;
-    harga: string;
 }
 
 interface TableProps {
@@ -21,7 +14,7 @@ interface TableProps {
     itemsPerPage?: number;
 }
 
-const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
+const TableModalPemesanan: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [filterValue, setFilterValue] = useState('');
 
@@ -38,19 +31,13 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
 
     const filteredData = data.filter((row) => {
         return row.namaPemesan.toLowerCase().includes(filterValue.toLowerCase()) ||
-            row.uid.toLowerCase().includes(filterValue.toLowerCase()) || row.tanggal.toLowerCase().includes(filterValue.toLowerCase());
+            row.uid.toLowerCase().includes(filterValue.toLowerCase());
     });
 
     const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
     const onPageChange = (page: number) => {
         setCurrentPage(page);
-    };
-
-    const [isCalendarVisible, setCalendarVisible] = useState(false);
-
-    const toggleCalendar = () => {
-        setCalendarVisible(!isCalendarVisible);
     };
 
 
@@ -62,71 +49,39 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
                         type="text"
                         placeholder="Search..."
                         value={filterValue}
-                        className='rounded-lg h-full'
+                        className='rounded-lg'
                         onChange={(e) => setFilterValue(e.target.value)}
                     />
                 </div>
-                <div className="flex-none text-end justify-end items-end ml-[50%] backdrop-blur-[5px]">
-                    <div className="w-full bg-[#F8A849] shadow-lg rounded-lg hover:bg-[#C79618] backdrop-blur-lg">
-                        <ModalOrder />
-                    </div>
-                </div>
-
-                <div className="text-end justify-end items-end relative">
-                    <div onClick={toggleCalendar} className="w-full bg-[#F8A849] shadow-lg rounded-lg hover:bg-[#C79618] cursor-pointer">
-                        <div className="flex p-1.5 gap-2 justify-center items-center m-auto text-center text-black">
-                            <div className="flex flex-col justify-center">
-                                <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M27.5 3.75H2.5L12.5 15.575V23.75L17.5 26.25V15.575L27.5 3.75Z" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                            </div>
-                            <div className="flex items-center">
-                                Filter
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
             </div>
-            {isCalendarVisible && <ModalCalender/>}
 
             <table className="min-w-full divide-y-2 divide-black">
                 <thead className="bg-white">
                     <tr>
-                        <th scope="col" className=" py-3 font-bold text-xs text-black uppercase tracking-wider ">
+                        <th scope="col" className="font-bold text-xs text-black uppercase tracking-wider ">
                             No
                         </th>
-                        <th scope="col" className=" py-3 font-bold text-xs text-black uppercase tracking-wider">
+                        <th scope="col" className="font-bold text-xs text-black uppercase tracking-wider">
                             UID
                         </th>
-                        <th scope="col" className=" py-3 font-bold text-xs text-black uppercase tracking-wider">
-                            Tanggal
-                        </th>
-                        <th scope="col" className=" py-3 font-bold text-xs text-black uppercase tracking-wider">
+                        <th scope="col" className="font-bold text-xs text-black uppercase tracking-wider">
                             Nama Pemesan
                         </th>
-                        <th scope="col" className=" py-3 font-bold text-xs text-black uppercase tracking-wider">
-                            Jumlah
-                        </th>
-                        <th scope="col" className=" py-3 font-bold text-xs text-black uppercase tracking-wider">
-                            Harga
-                        </th>
-                        <th scope="col" className=" py-3 font-bold text-xs text-black uppercase tracking-wider">
+                        <th scope="col" className="font-bold text-xs text-black uppercase tracking-wider">
                             Aksi
                         </th>
                     </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-black">
+                <tbody className="bg-white divide-y divide-black text-center">
                     {currentItems.map((row, index) => (
                         <tr key={index}>
-                            <td className="px-9 py-4 whitespace-nowrap">{index + indexOfFirstItem + 1}</td>
-                            <td className="px-9 py-4 whitespace-nowrap">{row.uid}</td>
-                            <td className="px-9 py-4 whitespace-nowrap">{row.tanggal}</td>
-                            <td className="px-9 py-4 whitespace-nowrap">{row.namaPemesan}</td>
-                            <td className="px-9 py-4 whitespace-nowrap">{row.jumlah}</td>
-                            <td className="px-9 py-4 whitespace-nowrap ">{row.harga}</td>
-                            <td className="px-9 py-4 whitespace-nowrap flex justify-center items-center gap-2">
+                            {/* <ModalOrderAccordion/> */}
+                            <td className="px-6 py-2 whitespace-nowrap"> {index + indexOfFirstItem + 1}</td>
+                            <td className="px-6 py-2 whitespace-nowrap">{row.uid}</td>
+                            <td className="px-6 py-2 whitespace-nowrap">{row.namaPemesan}</td>
+                            <td className="px-6 py-2 whitespace-nowrap flex justify-center items-center gap-2">
                                 {/* <button className="text-blue-500">Edit</button> */}
+                                <ModalOrderLihat/>
                                 <Link href="/page/dashboard/ViewLaporanPemesanan">
                                     <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <rect width="30" height="30" rx="5" fill="#F8A849" fill-opacity="0.5" />
@@ -154,4 +109,4 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
     );
 };
 
-export default Table;
+export default TableModalPemesanan;

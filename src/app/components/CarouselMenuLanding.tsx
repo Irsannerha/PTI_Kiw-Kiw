@@ -54,7 +54,7 @@ function CarouselComponent() {
             <div className="md:hidden">
                 <div className="h-40 w-full m-auto rounded-lg">
                     <div className="text-xl font-extrabold tracking-tight text-slate-900 xl:text-2xl xl:leading-[3.5rem] flex justify-center items-center text-center mt-5">Makanan</div>
-                    <Carousel pauseOnHover className="w-full h-[80%] p-2 justify-center items-center m-auto">
+                <Carousel indicators={false} pauseOnHover className="w-full h-[80%] p-2 justify-center items-center m-auto">
                         {chunkedImagesMakanan.map((imageSet, setIndex) => (
                             <div key={setIndex} className="flex">
                                 {imageSet.map((image, index) => (
@@ -76,7 +76,7 @@ function CarouselComponent() {
 
                 <div className="h-40 w-full m-auto rounded-lg">
                     <div className="text-xl font-extrabold tracking-tight text-slate-900 xl:text-2xl xl:leading-[3.5rem] flex justify-center items-center text-center mt-5">Minuman</div>
-                    <Carousel pauseOnHover className="w-full h-[80%] p-2 justify-center items-center m-auto ">
+                    <Carousel indicators={false} pauseOnHover className="w-full h-[80%] p-2 justify-center items-center m-auto ">
                         {chunkedImagesMinuman.map((imageSet, setIndex) => (
                             <div key={setIndex} className="flex">
                                 {imageSet.map((image, index) => (
@@ -101,7 +101,7 @@ function CarouselComponent() {
             <div className="hidden md:block lg:hidden">
                 <div className="h-40 w-full m-auto rounded-lg">
                     <div className="text-xl font-extrabold tracking-tight text-slate-900 xl:text-2xl xl:leading-[3.5rem] flex justify-center items-center text-center mt-5">Makanan</div>
-                    <Carousel pauseOnHover className="w-full h-[80%] p-2 justify-center items-center m-auto">
+                    <Carousel indicators={false} pauseOnHover className="w-full h-[80%] p-2 justify-center items-center m-auto">
                         {chunkedImagesMakanan.map((imageSet, setIndex) => (
                             <div key={setIndex} className="flex">
                                 {imageSet.map((image, index) => (
@@ -123,7 +123,7 @@ function CarouselComponent() {
 
                 <div className="h-40 w-full m-auto rounded-lg">
                     <div className="text-xl font-extrabold tracking-tight text-slate-900 xl:text-2xl xl:leading-[3.5rem] flex justify-center items-center text-center mt-5">Minuman</div>
-                    <Carousel pauseOnHover className="w-full h-[80%] p-2 justify-center items-center m-auto">
+                    <Carousel indicators={false} pauseOnHover className="w-full h-[80%] p-2 justify-center items-center m-auto">
                         {chunkedImagesMinuman.map((imageSet, setIndex) => (
                             <div key={setIndex} className="flex">
                                 {imageSet.map((image, index) => (
@@ -147,7 +147,7 @@ function CarouselComponent() {
             <div className="hidden lg:block">
                 <div className="h-60 sm:h-64 xl:h-80 2xl:h-96 w-[80%] m-auto">
                     <div className="text-xl font-extrabold tracking-tight text-slate-900 xl:text-2xl xl:leading-[3.5rem] flex justify-center items-center text-center mt-5">Makanan</div>
-                    <Carousel pauseOnHover className="w-full h-[80%] pl-10 pr-10 pb-10 justify-center items-center m-auto">
+                    <Carousel indicators={false} pauseOnHover className="w-full h-[80%] pl-10 pr-10 pb-10 justify-center items-center m-auto">
                         {chunkedImagesMakanan.map((imageSet, setIndex) => (
                             <div key={setIndex} className="flex">
                                 {imageSet.map((image, index) => (
@@ -169,7 +169,7 @@ function CarouselComponent() {
 
                 <div className="h-60 sm:h-64 xl:h-80 2xl:h-96 w-[80%] m-auto -mt-10">
                     <div className="text-xl font-extrabold tracking-tight text-slate-900 xl:text-2xl xl:leading-[3.5rem] flex justify-center items-center text-center mt-5">Minuman</div>
-                    <Carousel pauseOnHover className="w-full h-[80%] pl-10 pr-10 pb-10 justify-center items-center m-auto">
+                    <Carousel indicators={false} pauseOnHover className="w-full h-[80%] pl-10 pr-10 pb-10 justify-center items-center m-auto">
                         {chunkedImagesMinuman.map((imageSet, setIndex) => (
                             <div key={setIndex} className="flex">
                                 {imageSet.map((image, index) => (
