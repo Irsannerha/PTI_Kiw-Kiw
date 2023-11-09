@@ -195,7 +195,12 @@ export default function LandingPage() {
                         <div className="justify-center items-center w-full">
                             <h1 className="text-4xl font-extrabold text-slate-800 text-center mb-5">Hubungi Kami</h1>
                             <div className="w-full rounded-lg flex justify-center items-center">
-                                <Image src="/images/maps.png" className="w-[90%] h-[300px]" alt="Logo" width={200} height={150} />
+                                <div className="w-[200px] h-[150px]">
+                                    <iframe
+                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3972.430757764529!2d105.2612635087112!3d-5.351040894605239!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e40c59f1343b06b%3A0x4d4ec833dddddb8c!2sKedai%20Bu%20Titin!5e0!3m2!1sid!2sid!4v1699508956318!5m2!1sid!2sid"
+                                        scrolling="no" className="w-full h-full rounded-lg drop-shadow-[4px_4px_4px_rgba(0,0,0,0.25)]">
+                                    </iframe>
+                                </div>
                             </div>
                             <div className="w-full">
                                 <p className="text-sm mt-3 text-slate-800 text-justify pl-5 pr-5  mb-5">
@@ -223,7 +228,12 @@ export default function LandingPage() {
                         <div className="justify-center items-center w-full">
                             <h1 className="text-4xl font-extrabold text-slate-800 text-center mb-10">Hubungi Kami</h1>
                             <div className="w-full rounded-lg flex justify-center items-center">
-                                <Image src="/images/maps.png" className="w-[90%] h-[400px]" alt="Logo" width={400} height={300} />
+                                <div className="w-[400px] h-[300px]">
+                                    <iframe
+                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3972.430757764529!2d105.2612635087112!3d-5.351040894605239!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e40c59f1343b06b%3A0x4d4ec833dddddb8c!2sKedai%20Bu%20Titin!5e0!3m2!1sid!2sid!4v1699508956318!5m2!1sid!2sid"
+                                        scrolling="no" className="w-full h-full rounded-lg drop-shadow-[4px_4px_4px_rgba(0,0,0,0.25)]">
+                                    </iframe>
+                                </div>
                             </div>
                             <div className="w-full">
                                 <p className="text-sm mt-3 text-slate-800 text-justify pl-10 pr-10 mb-10">
@@ -267,7 +277,12 @@ export default function LandingPage() {
                                 </ul>
                             </div>
                             <div className="w-[55%] rounded-lg flex justify-center items-center pt-20 pb-20">
-                                <Image src="/images/maps.png" className="w-[90%] h-[400px] ml-10" alt="Logo" width={400} height={300} />
+                                <div className="w-[600px] h-[500px]">
+                                    <iframe
+                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3972.430757764529!2d105.2612635087112!3d-5.351040894605239!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e40c59f1343b06b%3A0x4d4ec833dddddb8c!2sKedai%20Bu%20Titin!5e0!3m2!1sid!2sid!4v1699508956318!5m2!1sid!2sid"
+                                        scrolling="no" className="w-full h-full rounded-lg drop-shadow-[4px_4px_4px_rgba(0,0,0,0.25)]">
+                                    </iframe>
+                                </div>
                             </div>
                         </div>
                     </div>
