@@ -8,7 +8,8 @@ import AlertInputEmail from "@/app/components/AlertInputEmail"
 import AlertInputNewPass from "@/app/components/AlertInputNewPass"
 import AlertInputRepeatPass from "@/app/components/AlertInputRepeatPass"
 import AlertLoginajaSucces from "@/app/components/AlertLoginSucces"
-import NavbarLandingPage from "@/app/components/NavbarLandingPage";
+import Navbars from "@/app/components/Navbars";
+
 
 interface DataFecth {
   // email: string;
@@ -84,7 +85,7 @@ export default function landingPage() {
   return (
     <>
           <div className="nav">
-                <NavbarLandingPage />
+                <Navbars />
           </div>
           <div className="mt-12 m-0 box-border flex h-screen w-full bg-slate-500 p-0">
         <div className="left w-full md:w-1/2 flex-col bg-white items-center justify-center hidden md:flex">

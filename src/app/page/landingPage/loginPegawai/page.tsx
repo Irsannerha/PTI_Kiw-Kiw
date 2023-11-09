@@ -8,7 +8,7 @@ import Tolkit from "@/app/components/Tolkit";
 import AlertInputEmail from "@/app/components/AlertInputEmail"
 import AlertInputPassword from "@/app/components/AlertInputPassword"
 import AlertLoginSucces from "@/app/components/AlertLoginSucces"
-import NavbarLandingPage from "@/app/components/NavbarLandingPage";
+import Navbars from "@/app/components/Navbars";
 
 // Deklarasikan tipe data terlebih dahulu
 interface DataFecth {
@@ -75,7 +75,7 @@ export default function LandingPage() {
     return (
         <>
              <div className="nav">
-                <NavbarLandingPage />
+                <Navbars />
             </div>
             <div className="m-0 box-border md:flex h-screen w-full bg-slate-500 p-0">
                 <div className="left w-full md:w-1/2 flex-col bg-white items-center justify-center hidden md:flex">

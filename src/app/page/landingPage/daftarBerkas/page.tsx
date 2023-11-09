@@ -4,7 +4,7 @@ import Link from "next/link";
 import SvgDashboardProfile from "@/app/components/SvgDashboardProfile";
 import Input from "@/app/components/Input";
 import { useState } from 'react';
-import NavbarLandingPage from "@/app/components/NavbarLandingPage";
+import Navbars from "@/app/components/Navbars";
 
 export default function DaftarBerkas() {
   const [fileStatus, setFileStatus] = useState("Tidak ada file.");
@@ -21,7 +21,7 @@ export default function DaftarBerkas() {
   return (
     <>
     <div className="nav">
-                <NavbarLandingPage />
+                <Navbars />
     </div>
     <div className="w-full overflow-x-hidden pt-16">
       <div className="flex justify-start items-start">

@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Montserrat } from "next/font/google";
-import NavbarLandingPage from "@/app/components/NavbarLandingPage";
+import Navbars from "@/app/components/Navbars";
 
 import AlertInputEmail from "@/app/components/AlertInputEmail"
 import SuccessOTP from "@/app/components/SuccessOTP"
@@ -57,7 +57,7 @@ export default function ForgotPassword() {
   return (
     <>
     <div className="nav">
-                <NavbarLandingPage />
+                <Navbars/>
     </div>
       <div className="m-0 box-border flex h-screen w-full bg-slate-500 p-0">
         <div className="left w-full md:w-1/2 flex-col bg-white items-center justify-center hidden md:flex">
