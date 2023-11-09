@@ -26,7 +26,7 @@ export default function LandingPage() {
                             <div className="font-normal text-black text-[10px]">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's</div>
                             <div className="mt-2 flex justify-end items-end">
                                 <div className=" w-[80%] bg-[#D2691E] shadow-lg rounded-lg hover:bg-[#C79618]">
-                                    <Link href="/page/dashboard/TambahItemMenu">
+                                    <Link href="#menu">
                                         <div className=" flex p-2 gap-2 justify-center items-center m-auto text-center text-white">
                                             <div className="flex items-center text-[10px]">
                                                 Lihat Selengkapnya
@@ -53,7 +53,7 @@ export default function LandingPage() {
                             <div className="font-normal text-black text-[20px]">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's</div>
                             <div className="mt-2 flex justify-end items-end">
                                 <div className=" w-[80%] bg-[#D2691E] shadow-lg rounded-lg hover:bg-[#C79618]">
-                                    <Link href="/page/dashboard/TambahItemMenu">
+                                    <Link href="#menu">
                                         <div className=" flex p-2 gap-2 justify-center items-center m-auto text-center text-white">
                                             <div className="flex items-center text-[20px]">
                                                 Lihat Selengkapnya
@@ -80,7 +80,7 @@ export default function LandingPage() {
                             <div className="font-normal text-black text-[24px] pl-24">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</div>
                             <div className="mt-5 flex justify-end items-end">
                                 <div className=" w-[30%] bg-[#D2691E] shadow-lg rounded-lg hover:bg-[#C79618]">
-                                    <Link href="/page/dashboard/TambahItemMenu">
+                                    <Link href="#menu">
                                         <div className=" flex p-2.5 gap-2 justify-center items-center m-auto text-center text-white">
                                             <div className="flex items-center">
                                                 Lihat Selengkapnya
@@ -301,7 +301,7 @@ export default function LandingPage() {
                                             <h2 className="text-base font-bold">Ingin mendaftar menjadi bagian kedai ini?</h2>
                                             <div className="flex gap-2 text-right justify-end items-end">
                                                 <div className="div">Klik </div>
-                                                <a href="#" className="text-slate-800 hover:text-[#3B10E4] font-bold">disini</a>
+                                                <a href="/page/landingPage/loginPegawai" className="text-slate-800 hover:text-[#3B10E4] font-bold">disini</a>
                                             </div>
                                         </p>
                                     </div>
@@ -310,16 +310,16 @@ export default function LandingPage() {
                                     </div>
                                     <div className="w-[30%] ">
                                         <p className="mb-4 text-left">
-                                            <a href="#!" className="text-slate-800 hover:text-[#3B10E4] font-bold">Home</a>
+                                            <a href="#home" className="text-slate-800 hover:text-[#3B10E4] font-bold">Home</a>
                                         </p>
                                         <p className="mb-4 text-left">
-                                            <a href="#!" className="text-slate-800 hover:text-[#3B10E4] font-bold">Profil</a>
+                                            <a href="#tentang" className="text-slate-800 hover:text-[#3B10E4] font-bold">Profil</a>
                                         </p>
                                         <p className="mb-4 text-left">
-                                            <a href="#!" className="text-slate-800 hover:text-[#3B10E4] font-bold">Menu</a>
+                                            <a href="#menu" className="text-slate-800 hover:text-[#3B10E4] font-bold">Menu</a>
                                         </p>
                                         <p className="text-left">
-                                            <a href="#!" className="text-slate-800 hover:text-[#3B10E4] font-bold">Kontak</a>
+                                            <a href="#kontak" className="text-slate-800 hover:text-[#3B10E4] font-bold">Kontak</a>
                                         </p>
                                     </div>
                                 </div>
@@ -341,7 +341,7 @@ export default function LandingPage() {
                                             <h2 className="text-lg font-bold">Ingin mendaftar menjadi bagian kedai ini?</h2>
                                             <div className="flex gap-2 text-right justify-end items-end">
                                                 <div className="div">Klik </div>
-                                                <a href="#" className="text-slate-800 hover:text-[#3B10E4] font-bold">disini</a>
+                                                <a href="/page/landingPage/loginPegawai" className="text-slate-800 hover:text-[#3B10E4] font-bold">disini</a>
                                             </div>
                                         </p>
                                     </div>
@@ -350,16 +350,16 @@ export default function LandingPage() {
                                     </div>
                                     <div className="w-[30%] ">
                                         <p className="mb-4 text-left">
-                                            <a href="#!" className="text-slate-800 hover:text-[#3B10E4] font-bold">Home</a>
+                                            <a href="#home" className="text-slate-800 hover:text-[#3B10E4] font-bold">Home</a>
                                         </p>
                                         <p className="mb-4 text-left">
-                                            <a href="#!" className="text-slate-800 hover:text-[#3B10E4] font-bold">Profil</a>
+                                            <a href="#tentang" className="text-slate-800 hover:text-[#3B10E4] font-bold">Profil</a>
                                         </p>
                                         <p className="mb-4 text-left">
-                                            <a href="#!" className="text-slate-800 hover:text-[#3B10E4] font-bold">Menu</a>
+                                            <a href="#menu" className="text-slate-800 hover:text-[#3B10E4] font-bold">Menu</a>
                                         </p>
                                         <p className="text-left">
-                                            <a href="#!" className="text-slate-800 hover:text-[#3B10E4] font-bold">Kontak</a>
+                                            <a href="#kontak" className="text-slate-800 hover:text-[#3B10E4] font-bold">Kontak</a>
                                         </p>
                                     </div>
                                 </div>
@@ -381,7 +381,7 @@ export default function LandingPage() {
                                             <h2 className="text-2xl font-bold mb-2">Ingin mendaftar menjadi bagian kedai ini?</h2>
                                             <div className="flex gap-2 text-right justify-end items-end">
                                                 <div className="div">Klik </div>
-                                                <a href="#" className="text-slate-800 hover:text-[#3B10E4] font-bold">disini</a>
+                                                <a href="/page/landingPage/loginPegawai" className="text-slate-800 hover:text-[#3B10E4] font-bold">disini</a>
                                             </div>
                                         </p>
                                     </div>
@@ -390,16 +390,16 @@ export default function LandingPage() {
                                     </div>
                                     <div className="pr-20">
                                         <p className="mb-4 text-left">
-                                            <a href="#!" className="text-slate-800 hover:text-[#3B10E4] font-bold">Home</a>
+                                            <a href="#home" className="text-slate-800 hover:text-[#3B10E4] font-bold">Home</a>
                                         </p>
                                         <p className="mb-4 text-left">
-                                            <a href="#!" className="text-slate-800 hover:text-[#3B10E4] font-bold">Profil</a>
+                                            <a href="#tentang" className="text-slate-800 hover:text-[#3B10E4] font-bold">Profil</a>
                                         </p>
                                         <p className="mb-4 text-left">
-                                            <a href="#!" className="text-slate-800 hover:text-[#3B10E4] font-bold">Menu</a>
+                                            <a href="#menu" className="text-slate-800 hover:text-[#3B10E4] font-bold">Menu</a>
                                         </p>
                                         <p className="text-left">
-                                            <a href="#!" className="text-slate-800 hover:text-[#3B10E4] font-bold">Kontak</a>
+                                            <a href="#kontak" className="text-slate-800 hover:text-[#3B10E4] font-bold">Kontak</a>
                                         </p>
                                     </div>
                                 </div>

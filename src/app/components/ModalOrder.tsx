@@ -33,7 +33,7 @@ function ModalOrder() {
         <>
             <Button className='p-0.5 shadow-2xl text-black' onClick={() => setOpenModal(true)}>Order Saat Ini</Button>
             <div className="w-full absolute">
-                <Modal className='w-full h-full pl-[25%] pr-[25%] pt-[5%] justify-center items-center m-auto backdrop-blur-xl' dismissible show={openModal} onClose={() => setOpenModal(false)}>
+                <Modal className='w-full h-full pl-[25%] pr-[25%] pt-[5%] justify-center items-center m-auto backdrop-blur-sm' dismissible show={openModal} onClose={() => setOpenModal(false)}>
                     <Modal.Header>Order Saat Ini</Modal.Header>
                     <Modal.Body>
                         <div className="space-y-2">
