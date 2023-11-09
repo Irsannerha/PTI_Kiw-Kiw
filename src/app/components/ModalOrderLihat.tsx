@@ -26,7 +26,7 @@ function ModalOrderLihat() {
                     <path d="M15 18C16.6569 18 18 16.6569 18 15C18 13.3431 16.6569 12 15 12C13.3431 12 12 13.3431 12 15C12 16.6569 13.3431 18 15 18Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
             </div>
-            <Modal className='w-full pl-[25%] pr-[25%] justify-center items-center m-auto backdrop-blur-md' dismissible show={openModal} onClose={() => setOpenModal(false)}>
+            <Modal className='w-full pl-[25%] pr-[25%] pt-[1%] justify-center items-center m-auto backdrop-blur-md' dismissible show={openModal} onClose={() => setOpenModal(false)}>
                 <Modal.Header>Detail Pesanan</Modal.Header>
                 <Modal.Body>
                     <div className="space-y-2">

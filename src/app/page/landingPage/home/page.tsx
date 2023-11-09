@@ -19,7 +19,7 @@ export default function LandingPage() {
                 {/* Mobile */}
                 <div className="md:hidden">
                     {/* Ini Jumbotron */}
-                    <div className="pt-28 pb-10 flex justify-center items-center text-center m-auto bg-[#FFE4C4] w-full overflow-hidden p-5">
+                    <div className="pt-28 pb-10 flex justify-center items-center text-center m-auto bg-[#FFE4C4] w-full overflow-hidden p-5" id="home">
                         <div className="w-[50%] text-right ">
                             <div className="font-bold text-black text-[40px]">KEDAI</div>
                             <div className="font-bold text-black text-[35px]">Bu Titin</div>
@@ -46,7 +46,7 @@ export default function LandingPage() {
                 {/* Tablet */}
                 <div className="hidden md:block lg:hidden">
                     {/* Jumbotron */}
-                    <div className="pt-28 pb-20 flex justify-center items-center text-center m-auto bg-[#FFE4C4] w-full overflow-hidden p-10">
+                    <div className="pt-28 pb-20 flex justify-center items-center text-center m-auto bg-[#FFE4C4] w-full overflow-hidden p-10" id="home">
                         <div className="w-[50%] text-right ">
                             <div className="font-bold text-black text-[80px]">KEDAI</div>
                             <div className="font-bold text-black text-[60px]">Bu Titin</div>
@@ -73,7 +73,7 @@ export default function LandingPage() {
                 {/* Komputer */}
                 <div className="hidden lg:block">
                     {/* Ini Jumbotron */}
-                    <div className="pt-28 pb-20 flex justify-center items-center text-center m-auto bg-[#FFE4C4] py-16 w-full overflow-hidden">
+                    <div className="pt-28 pb-20 flex justify-center items-center text-center m-auto bg-[#FFE4C4] py-16 w-full overflow-hidden" id="home">
                         <div className="w-[60%] text-right ">
                             <div className="font-bold text-black text-[120px]">KEDAI</div>
                             <div className="font-bold text-black text-[70px] -mt-10">Bu Titin</div>
@@ -103,7 +103,7 @@ export default function LandingPage() {
 
                 {/* Mobile */}
                 <div className="md:hidden">
-                    <div className="bg-[#FBD09C] p-5 py-10 w-full">
+                    <div className="bg-[#FBD09C] p-5 py-10 w-full" id="tentang">
                         <div className="w-full flex justify-center items-center">
                             <Image src="/images/TentangKedaiBuTitin.png" alt="Logo KEDAI Bu Titin" width={170} height={230} />
                         </div>
@@ -128,7 +128,7 @@ export default function LandingPage() {
                 </div>
                 {/* Tablet */}
                 <div className="hidden md:block lg:hidden">
-                    <div className="bg-[#FBD09C] p-10 py-15 w-full">
+                    <div className="bg-[#FBD09C] p-10 py-15 w-full" id="tentang">
                         <div className="w-full flex justify-center items-center">
                             <Image src="/images/TentangKedaiBuTitin.png" alt="Logo KEDAI Bu Titin" width={340} height={330} />
                         </div>
@@ -154,7 +154,7 @@ export default function LandingPage() {
                 {/* Komputer */}
                 <div className="hidden lg:block">
                     {/* Tampilan Ini tengah */}
-                    <div className="flex items-center justify-between bg-[#FBD09C] p-10 py-20 w-full">
+                    <div className="flex items-center justify-between bg-[#FBD09C] p-10 py-20 w-full" id="tentang">
                         <div className="flex items-center justify-center m-auto w-[40%] ">
                             <Image src="/images/TentangKedaiBuTitin.png" alt="Logo KEDAI Bu Titin" width={320} height={448} />
                         </div>
@@ -180,7 +180,7 @@ export default function LandingPage() {
                 {/* Ini penutup tentang */}
 
                 {/* Ini Jumbotron */}
-                <div className="pl-10 pr-10 justify-center items-center text-center m-auto bg-[#F8A849] py-8 w-full overflow-hidden">
+                <div className="pl-10 pr-10 justify-center items-center text-center m-auto bg-[#F8A849] py-8 w-full overflow-hidden" id="menu">
                     <div className="text-4xl font-extrabold tracking-tight text-slate-900 xl:text-5xl xl:leading-[3.5rem] flex justify-center items-center text-center text-[48px]">
                         Produk Kami
                     </div>
@@ -191,7 +191,7 @@ export default function LandingPage() {
                 {/* Ini Kontak HUbungi kami pembuka */}
                 {/* Mobile */}
                 <div className="md:hidden">
-                    <div className="p-5 bg-[#FBD09D]">
+                    <div className="p-5 bg-[#FBD09D]" id="kontak">
                         <div className="justify-center items-center w-full">
                             <h1 className="text-4xl font-extrabold text-slate-800 text-center mb-5">Hubungi Kami</h1>
                             <div className="w-full rounded-lg flex justify-center items-center">
@@ -219,7 +219,7 @@ export default function LandingPage() {
                 </div>
                 {/* Tablet */}
                 <div className="hidden md:block lg:hidden">
-                    <div className="p-10 bg-[#FBD09D]">
+                    <div className="p-10 bg-[#FBD09D]" id="kontak">
                         <div className="justify-center items-center w-full">
                             <h1 className="text-4xl font-extrabold text-slate-800 text-center mb-10">Hubungi Kami</h1>
                             <div className="w-full rounded-lg flex justify-center items-center">
@@ -247,7 +247,7 @@ export default function LandingPage() {
                 </div>
                 {/* Komputer */}
                 <div className="hidden lg:block">
-                    <div className="p-10 bg-[#FBD09D]">
+                    <div className="p-10 bg-[#FBD09D]" id="kontak">
                         <div className="flex justify-center items-center w-full">
                             <div className="w-[45%]">
                                 <h1 className="text-4xl font-extrabold text-slate-800">Hubungi Kami</h1>

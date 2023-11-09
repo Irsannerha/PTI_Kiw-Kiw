@@ -5,9 +5,6 @@ import PaginationTable from './PaginationTable';
 import ModalOrder from './ModalOrder';
 import ModalCalender from './ModalCalender';
 
-import { Datepicker } from 'flowbite-react';
-
-
 interface TableRow {
     uid: string;
     tanggal: string;
@@ -85,7 +82,6 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
             {isCalendarVisible && <ModalCalender/>}

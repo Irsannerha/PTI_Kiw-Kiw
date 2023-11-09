@@ -31,19 +31,19 @@ const NavbarLandingPage = () => {
                 <div className={`w-full md:block md:w-auto ${isDropdownOpen ? 'block' : 'hidden'}`} id="navbar-dropdown">
                     <ul className="mb-6 md:mt-4 lg:mb-4 font-medium flex flex-col p-4 md:p-0 mt-4 border bordbg-[#FBC380] rounded-lg lg:bg-[#FBC380] md:bg-[#FBC380] md:flex-row md:space-x-8 md:border-0 bg-white">
                         <li>
-                            <a href="#" className="block py-2 pl-3 pr-4 text-black hover:text-white rounded hover:bg-[#FBC380] md:p-0" aria-current="page">Home</a>
+                            <a href="#home"  className="block py-2 pl-3 pr-4 text-black hover:text-white rounded hover:bg-[#FBC380] md:p-0" aria-current="page">Home</a>
                         </li>
                         <li>
-                            <a href="#" className="block py-2 pl-3 pr-4 text-black hover:text-white rounded hover:bg-[#FBC380] md:p-0">Profile</a>
+                            <a href="#tentang" className="block py-2 pl-3 pr-4 text-black hover:text-white rounded hover:bg-[#FBC380] md:p-0">Profile</a>
                         </li>
                         <li>
-                            <a href="#" className="block py-2 pl-3 pr-4 text-black hover:text-white rounded hover:bg-[#FBC380] md:p-0">Menu</a>
+                            <a href="#menu" className="block py-2 pl-3 pr-4 text-black hover:text-white rounded hover:bg-[#FBC380] md:p-0">Menu</a>
                         </li>
                         <li>
-                            <a href="#" className="block py-2 pl-3 pr-4 text-black hover:text-white rounded hover:bg-[#FBC380] md:p-0">Kontak</a>
+                            <a href="#kontak" className="block py-2 pl-3 pr-4 text-black hover:text-white rounded hover:bg-[#FBC380] md:p-0">Kontak</a>
                         </li>
                         <li>
-                            <a href="#" className="block py-2 pl-3 pr-4 text-black hover:text-white rounded hover:bg-[#FBC380] md:p-0">Perekrutan Pegawai</a>
+                            <a href="/page/landingPage/loginPegawai" className="block py-2 pl-3 pr-4 text-black hover:text-white rounded hover:bg-[#FBC380] md:p-0">Perekrutan Pegawai</a>
                         </li>
                     </ul>
                 </div>

@@ -79,7 +79,7 @@ export default function LaporanPemesanan() {
                     <div className="flex justify-between -mt-4 ">
                         <div className="text-start justify-start items-start">
                             <div className="mt-4 mb-4 w-full bg-[#F8A849] shadow-lg rounded-lg hover:bg-[#C79618]">
-                                <Link href="/page/dashboard/TambahItemMenu">
+                                <Link href="/page/dashboard/LaporanPemesanan">
                                     <div className=" flex p-2 gap-2 justify-center items-center m-auto text-center text-white">
                                         <div className="flex flex-col justify-center">
                                             <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -88,11 +88,9 @@ export default function LaporanPemesanan() {
                                             </svg>
 
                                         </div>
-                                        <Link href="/page/dashboard/LaporanPemesanan">
-                                            <div className="flex items-center text-black">
-                                                Kembali
-                                            </div>
-                                        </Link>
+                                        <div className="flex items-center text-black">
+                                            Kembali
+                                        </div>
                                     </div>
                                 </Link>
                             </div>

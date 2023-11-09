@@ -73,7 +73,7 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
         setShowAlertTerimaPegawai2(true)
         setTimeout(() => {
             setShowAlertTerimaPegawai2(false);
-        }, 3000); // Example: Hide alert after 3 seconds
+        }, 3000);
     }
 
     return (
@@ -123,13 +123,13 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
 
                                 </Link>
                                 <Link href="#" onClick={handleFromTerimaPegawai1}>
-                                {/* <a href="#" onClick={handleFromTerimaPegawai1}> */}
+                                    {/* <a href="#" onClick={handleFromTerimaPegawai1}> */}
                                     <svg width="31" height="30" viewBox="0 0 31 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <rect x="0.929688" width="30" height="30" rx="5" fill="#FFA437" />
                                         <path d="M23.9297 9L12.9297 20L7.92969 15" fill="#F8A849" />
                                         <path d="M23.9297 9L12.9297 20L7.92969 15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
-                                {/* </a> */}
+                                    {/* </a> */}
                                 </Link>
                                 <Link href="" onClick={handleFromMenolakPegawai1}>
                                     <svg width="31" height="30" viewBox="0 0 31 30" fill="none" xmlns="http://www.w3.org/2000/svg">
