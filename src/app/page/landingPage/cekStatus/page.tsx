@@ -2,14 +2,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import SvgDashboardProfile from "@/app/components/SvgDashboardProfile";
-import NavbarLandingPage from "@/app/components/NavbarLandingPage";
+import Navbars from "@/app/components/Navbars";
 
 export default function cekStatus() {
   
   return (
     <>
       <div className="nav">
-                <NavbarLandingPage />
+                <Navbars />
     </div>
       <div className="w-full overflow-x-hidden">
       <div className="flex justify-start items-start mt-20">

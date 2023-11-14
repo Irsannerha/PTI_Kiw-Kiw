@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import Input from "@/app/components/Input";
-import NavbarLandingPage from "@/app/components/NavbarLandingPage";
+import Navbars from "@/app/components/Navbars";
 import { useState } from 'react';
 
 
@@ -21,7 +21,7 @@ export default function profilPrekrutan() {
   return (
     <>
     <div className="nav">
-                <NavbarLandingPage />
+                <Navbars />
     </div>
       <div className="w-full overflow-x-hidden pt-48">
         <div className="flex justify-center">

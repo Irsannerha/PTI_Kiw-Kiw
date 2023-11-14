@@ -2,14 +2,13 @@ import Image from "next/image"
 import Link from "next/link"
 
 import SvgDashboardProfile from '@/app/components/SvgDashboardProfile';
-import NavbarLandingPage from "@/app/components/NavbarLandingPage";
+import Navbars from "@/app/components/Navbars";
 export default function DashboardRekrut () {
     return (
     <>
         <div className="nav">
-                <NavbarLandingPage />
+                <Navbars />
         </div>
-
         <div className="flex justify-start items-start mt-20">
             <div className="text-start justify-start items-start ml-5">
                 <div className="mt-16 mb-4">
