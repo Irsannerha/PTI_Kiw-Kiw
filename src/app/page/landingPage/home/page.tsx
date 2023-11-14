@@ -19,7 +19,7 @@ export default function LandingPage() {
                 {/* Mobile */}
                 <div className="md:hidden">
                     {/* Ini Jumbotron */}
-                    <div className="pt-28 pb-10 flex justify-center items-center text-center m-auto bg-[#FFE4C4] w-full overflow-hidden p-5" id="home">
+                    <div className="pt-28 pb-10 flex justify-center items-center text-center m-auto bg-[#FFE4C4] w-full overflow-hidden p-5">
                         <div className="w-[50%] text-right ">
                             <div className="font-bold text-black text-[40px]">KEDAI</div>
                             <div className="font-bold text-black text-[35px]">Bu Titin</div>
@@ -46,7 +46,7 @@ export default function LandingPage() {
                 {/* Tablet */}
                 <div className="hidden md:block lg:hidden">
                     {/* Jumbotron */}
-                    <div className="pt-28 pb-20 flex justify-center items-center text-center m-auto bg-[#FFE4C4] w-full overflow-hidden p-10" id="home">
+                    <div className="pt-28 pb-20 flex justify-center items-center text-center m-auto bg-[#FFE4C4] w-full overflow-hidden p-10">
                         <div className="w-[50%] text-right ">
                             <div className="font-bold text-black text-[80px]">KEDAI</div>
                             <div className="font-bold text-black text-[60px]">Bu Titin</div>
@@ -103,7 +103,7 @@ export default function LandingPage() {
 
                 {/* Mobile */}
                 <div className="md:hidden">
-                    <div className="bg-[#FBD09C] p-5 py-10 w-full" id="tentang">
+                    <div className="bg-[#FBD09C] p-5 py-10 w-full" >
                         <div className="w-full flex justify-center items-center">
                             <Image src="/images/TentangKedaiBuTitin.png" alt="Logo KEDAI Bu Titin" width={170} height={230} />
                         </div>
@@ -128,7 +128,7 @@ export default function LandingPage() {
                 </div>
                 {/* Tablet */}
                 <div className="hidden md:block lg:hidden">
-                    <div className="bg-[#FBD09C] p-10 py-15 w-full" id="tentang">
+                    <div className="bg-[#FBD09C] p-10 py-15 w-full" >
                         <div className="w-full flex justify-center items-center">
                             <Image src="/images/TentangKedaiBuTitin.png" alt="Logo KEDAI Bu Titin" width={340} height={330} />
                         </div>
@@ -154,12 +154,12 @@ export default function LandingPage() {
                 {/* Komputer */}
                 <div className="hidden lg:block">
                     {/* Tampilan Ini tengah */}
-                    <div className="flex items-center justify-between bg-[#FBD09C] p-10 py-20 w-full" id="tentang">
+                    <div id="tentang" className="flex items-center justify-between bg-[#FBD09C] p-10 py-20 w-full">
                         <div className="flex items-center justify-center m-auto w-[40%] ">
                             <Image src="/images/TentangKedaiBuTitin.png" alt="Logo KEDAI Bu Titin" width={320} height={448} />
                         </div>
-                        <div className="w-[60%] -ml-10">
-                            <h1 className="mt-4 text-4xl font-extrabold tracking-tight text-slate-900 xl:text-5xl xl:leading-[3.5rem]">
+                        <div className="w-[60%] -ml-10" >
+                            <h1 className="mt-4 text-4xl font-extrabold tracking-tight text-slate-900 xl:text-5xl xl:leading-[3.5rem]" >
                                 Tentang Kedai Bu Titin
                             </h1>
                             <p className="text-black mt-4 max-w-3xl space-y-60 py-5 mr-5">
@@ -191,7 +191,7 @@ export default function LandingPage() {
                 {/* Ini Kontak HUbungi kami pembuka */}
                 {/* Mobile */}
                 <div className="md:hidden">
-                    <div className="p-5 bg-[#FBD09D]" id="kontak">
+                    <div className="p-5 bg-[#FBD09D]">
                         <div className="justify-center items-center w-full">
                             <h1 className="text-4xl font-extrabold text-slate-800 text-center mb-5">Hubungi Kami</h1>
                             <div className="w-full rounded-lg flex justify-center items-center">
@@ -224,7 +224,7 @@ export default function LandingPage() {
                 </div>
                 {/* Tablet */}
                 <div className="hidden md:block lg:hidden">
-                    <div className="p-10 bg-[#FBD09D]" id="kontak">
+                    <div className="p-10 bg-[#FBD09D]">
                         <div className="justify-center items-center w-full">
                             <h1 className="text-4xl font-extrabold text-slate-800 text-center mb-10">Hubungi Kami</h1>
                             <div className="w-full rounded-lg flex justify-center items-center">
