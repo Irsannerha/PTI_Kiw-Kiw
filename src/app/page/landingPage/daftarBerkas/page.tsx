@@ -26,7 +26,7 @@ export default function DaftarBerkas() {
     <div className="w-full overflow-x-hidden pt-16">
       <div className="flex justify-start items-start">
         <div className="text-start justify-start items-start ml-5">
-          <div className="mt-16 mb-4">
+          <div className="mt-8 mb-4">
             <div className="flex p-3 gap-5">
               <div className="w-[20%] flex justify-end items-end">
                 <SvgDashboardProfile />
@@ -42,7 +42,7 @@ export default function DaftarBerkas() {
       <div className="flex justify-center">
         <div className="border-b border-neutral-950/10 pb-12 m-4 w-full text-[32px] ml-4">
             <div>
-              <form className="md:grid md:grid-cols-2 md:gap-y-5 md:gap-x-10">
+              <form className="md:grid md:grid-cols-2 md:gap-y-5 md:gap-x-10 ">
                 <div>
                   <label htmlFor="nama" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Nama
