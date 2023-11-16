@@ -11,7 +11,7 @@ export default function DashboardRekrut () {
         </div>
         <div className="flex justify-start items-start mt-20">
             <div className="text-start justify-start items-start ml-5">
-                <div className="mt-16 mb-4">
+                <div className="mt-8 mb-4">
                 <div className="flex p-3 gap-5">
                     <div className="w-[20%] flex justify-end items-end">
                     <SvgDashboardProfile />

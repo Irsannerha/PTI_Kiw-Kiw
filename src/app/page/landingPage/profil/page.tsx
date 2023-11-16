@@ -23,7 +23,7 @@ export default function profilPrekrutan() {
     <div className="nav">
                 <Navbars />
     </div>
-      <div className="w-full overflow-x-hidden pt-48">
+      <div className="w-full overflow-x-hidden pt-28 md:pt-32">
         <div className="flex justify-center">
           <div className="p-6 rounded-2xl bg-[#FFF7ED] border border-amber-500 dark:border-neutral-950 shadow-md w-auto">
             <div className="flex items-center mb-4">
