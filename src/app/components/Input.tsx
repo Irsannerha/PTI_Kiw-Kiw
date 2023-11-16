@@ -58,7 +58,7 @@ const Input = ({
                 <input
                     type={type === "password" ? (isPasswordVisible ? "text" : "password") : type}
                     placeholder={!placeholder ? "input" : placeholder}
-                    className="h-[37px] px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#F8A849] focus:ring-[#8B6A56]ck w-full rounded-md sm:text-sm focus:ring-1"
+                    className="h-[37px] px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-[#F8A849] focus:ring-[#8B6A56]ck w-full rounded-md text-xs md:text-sm focus:ring-1"
                     onChange={handleChange}
                     value={value}
                     name={name}

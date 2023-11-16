@@ -59,7 +59,7 @@ export default function landingPage() {
           }, 3000);
         }
       }
-      handleReset();
+      // handleReset();
     }
 
     if (newPassword && isreNewPasswordEmpty) {
@@ -111,7 +111,7 @@ export default function landingPage() {
               className="h-full w-full object-cover absolute inset-0 z-0"
             />
             <div className="text-center z-10 bg-white pl-7 pr-7 pt-5 pb-5 w-[90%] md:w-[60%] rounded-xl drop-shadow-2xl md:mt-20">
-              <div className="mb-7 style={{ fontFamily: 'Montserrat' }} text-[32px] font-medium">
+              <div className="mb-7 style={{ fontFamily: 'Montserrat' }} text-[25px] md:text-[32px] font-medium">
                 Buat Password Baru
               </div>
               <div className="text-black">
@@ -134,31 +134,31 @@ export default function landingPage() {
                 </div>
               </div>
               {shownewPasswordAlert && (
-                <div className="fixed mt-20 ml-40 w-[70%]">
+                <div className="fixed mt-20 md:mt-20 ml-28 md:ml-40 w-[60%] md:w-[70%]">
                   <AlertInputNewPass />
                 </div>
               )}
 
               {showreNewPasswordAlert && (
-                <div className="fixed mt-20 ml-40 w-[70%]">
+                <div className="fixed mt-20 md:mt-20 ml-28 md:ml-40 w-[60%] md:w-[70%]">
                   <AlertInputRepeatPass />
                 </div>
               )}
 
               {showInputDataPerlu && (
-                <div className="fixed mt-20 ml-40 w-[70%]">
+                <div className="fixed mt-20 md:mt-20 ml-28 md:ml-40 w-[60%] md:w-[70%]">
                   <AlertInputDataPerlu />
                 </div>
               )}
 
               {showAlertSuksesBuatPasswordBaru && (
-                <div className="fixed mt-20 ml-40 w-[70%]">
+                <div className="fixed mt-20 md:mt-20 ml-28 md:ml-40 w-[60%] md:w-[70%]">
                   <AlertSuksesBuatPasswordBaru />
                 </div>
               )}
 
               {showAlertInputPasssamaRe && (
-                <div className="fixed mt-20 ml-40">
+                <div className="fixed mt-20 md:mt-20 ml-28 md:ml-60 md:w-[50%]">
                   <AlertInputPasssamaRe />
                 </div>
               )}

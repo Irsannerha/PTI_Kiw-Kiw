@@ -89,7 +89,7 @@ export default function ForgotPassword() {
               className="h-full w-full object-cover absolute inset-0 z-0"
             />
             <div className="text-center z-10 bg-white pl-7 pr-7 pt-5 pb-5 w-[90%] md:w-[60%] rounded-xl drop-shadow-2xl md:mt-20">
-              <div className="mb-7 text-[32px] font-medium">
+              <div className="mb-7 text-[25px] md:text-[32px] font-medium">
                 Kode OTP
               </div>
               <div className="text-black">
@@ -103,17 +103,17 @@ export default function ForgotPassword() {
                 </div>
               </div>
               {showInputOTP && (
-                <div className="fixed mt-20 ml-60">
+                <div className="fixed mt-20 md:mt-20 ml-20 md:ml-60">
                   <AlertInputOTP />
                 </div>
               )}
               {showSuccessOTPSend && (
-                <div className="fixed mt-20 ml-60 w-[50%]">
+                <div className="fixed mt-20 md:mt-20 ml-20 md:ml-60 md:w-[50%]">
                   <SuccessOTP />
                 </div>
               )}
               {showWrongOTP && (
-                <div className="fixed mt-20 ml-60 w-[50%]">
+                <div className="fixed mt-20 md:mt-20 ml-20 md:ml-60 md:w-[50%]">
                   <AlertWrongOTP />
                 </div>
               )}

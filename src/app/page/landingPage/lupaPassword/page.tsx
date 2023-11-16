@@ -35,9 +35,11 @@ export default function ForgotPassword() {
     if (email) {
       if (email.includes('@gmail.com')) {
         console.log('email: ', email);
-        setshowSuccessOTPSend(true);
-        window.location.href = '/page/landingPage/kodeOTP';
-        handleReset();
+        if (email) {
+          setshowSuccessOTPSend(true);
+          window.location.href = '/page/landingPage/kodeOTP';
+        }
+        // handleReset();
       } else {
         alert('Use @gmail.com in email');
       }
@@ -80,7 +82,7 @@ export default function ForgotPassword() {
               className="h-full w-full object-cover absolute inset-0 z-0"
             />
             <div className="text-center z-10 bg-white pl-7 pr-7 pt-5 pb-5 w-[90%] md:w-[60%] rounded-xl drop-shadow-2xl md:mt-20">
-              <div className="mb-7 text-[32px] font-medium">
+              <div className="mb-7 text-[25px] md:text-[32px] font-medium">
                 Lupa Password
               </div>
               <div className="text-black">
@@ -94,12 +96,12 @@ export default function ForgotPassword() {
                 </div>
               </div>
               {showEmailAlert && (
-                <div className="fixed mt-20 ml-60">
+                <div className="fixed mt-20 md:mt-20 ml-20 md:ml-60">
                   <AlertInputEmail />
                 </div>
               )}
               {showSuccessOTPSend && (
-                <div className="fixed mt-20 ml-20 w-full">
+                <div className="fixed mt-20 md:mt-20 ml-20 md:ml-40 w-[70%] md:w-[50%]">
                   <SuccessOTP />
                 </div>
               )}
@@ -107,7 +109,7 @@ export default function ForgotPassword() {
               <button
                 type="button"
                 onClick={handleFormSubmit}
-                className="text-white w-[50%] bg-[#8B6A56] hover:bg-[#F8A849] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-[#8B6A56] dark:hover:bg-[#F8A849] focus:outline-none"
+                className="text-white w-[50%] bg-[#8B6A56] hover:bg-[#F8A849] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xs md:text-sm px-5 py-2.5 mb-2 dark:bg-[#8B6A56] dark:hover:bg-[#F8A849] focus:outline-none"
               >
                 Kirim Kode OTP
               </button>
