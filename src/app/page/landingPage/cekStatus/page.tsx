@@ -56,7 +56,6 @@ export default function cekStatus() {
                 <li className="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-amber-500 after:border-4 after:inline-block dark:after:border-gray-700">
                 <div className="flex items-center justify-center w-16 h-16 bg-[#FFD8A9] rounded-full lg:h-16 lg:w-16 hover:bg-[#F8A849] dark:bg-gray-700 shrink-0 shadow-2xl">
                     <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20 25L23.3333 28.3333L30 21.6667" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M33.334 13.3333H16.6673C14.8264 13.3333 13.334 14.8257 13.334 16.6667V33.3333C13.334 35.1743 14.8264 36.6667 16.6673 36.6667H33.334C35.1749 36.6667 36.6673 35.1743 36.6673 33.3333V16.6667C36.6673 14.8257 35.1749 13.3333 33.334 13.3333Z" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M6.66732 26.6667C4.83398 26.6667 3.33398 25.1667 3.33398 23.3333V6.66667C3.33398 4.83333 4.83398 3.33333 6.66732 3.33333H23.334C25.1673 3.33333 26.6673 4.83333 26.6673 6.66667" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
@@ -65,6 +64,7 @@ export default function cekStatus() {
                 <li className="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-amber-500 after:border-4 after:inline-block dark:after:border-gray-700">
                 <div className="flex items-center justify-center w-16 h-16 bg-[#FFD8A9] rounded-full lg:h-16 lg:w-16 hover:bg-[#F8A849] dark:bg-gray-700 shrink-0 shadow-2xl">
                     <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 25L23.3333 28.3333L30 21.6667" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M33.334 13.3333H16.6673C14.8264 13.3333 13.334 14.8257 13.334 16.6667V33.3333C13.334 35.1743 14.8264 36.6667 16.6673 36.6667H33.334C35.1749 36.6667 36.6673 35.1743 36.6673 33.3333V16.6667C36.6673 14.8257 35.1749 13.3333 33.334 13.3333Z" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M6.66732 26.6667C4.83398 26.6667 3.33398 25.1667 3.33398 23.3333V6.66667C3.33398 4.83333 4.83398 3.33333 6.66732 3.33333H23.334C25.1673 3.33333 26.6673 4.83333 26.6673 6.66667" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
