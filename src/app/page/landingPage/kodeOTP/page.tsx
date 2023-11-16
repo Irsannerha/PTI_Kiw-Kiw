@@ -12,16 +12,16 @@ import AlertWrongOTP from "@/app/components/AlertWrongOTP";
 import Navbars from "@/app/components/Navbars";
 // Deklarasikan tipe data terlebih dahulu
 interface DataFecth {
-    email: string;
-    password: string;
+  email: string;
+  password: string;
 }
 
 export default function ForgotPassword() {
-    // Inisialisasi state dan variabel yang diperlukan
-    const initialData: DataFecth = {
-        email: "",
-        password: ""
-    };
+  // Inisialisasi state dan variabel yang diperlukan
+  const initialData: DataFecth = {
+    email: "",
+    password: ""
+  };
 
   const [password, setPassword] = useState(initialData.password);
   const [isPasswordEmpty, setIsPasswordEmpty] = useState(false);
@@ -41,31 +41,37 @@ export default function ForgotPassword() {
       if (password.includes('OTP')) {
         console.log('password: ', password);
         setshowSuccessOTPSend(true);
+        window.location.href = '/page/landingPage/buatPassword';
         handleReset();
       } else {
         setshowWrongOTP(true);
+        setTimeout(() => {
+          setshowWrongOTP(false);
+        }, 3000);
       }
     }
 
     if (isPasswordEmpty) {
       setshowInputOTP(true);
+      setTimeout(() => {
+        setshowInputOTP(false);
+      }, 3000);
     }
-
   };
 
-    // Fungsi untuk mereset formulir
-    const handleReset = () => {
-        setPassword("");
-        setIsPasswordEmpty(false);
-    };
+  // Fungsi untuk mereset formulir
+  const handleReset = () => {
+    setPassword("");
+    setIsPasswordEmpty(false);
+  };
 
-    return (
+  return (
     <>
       <div className="nav">
-                <Navbars />
-    </div>
+        <Navbars />
+      </div>
       <div className="m-0 box-border flex h-screen w-full bg-slate-500 p-0">
-        <div className="left w-full md:w-1/2 flex-col bg-white items-center justify-center hidden md:flex">
+        <div className="left w-full md:w-1/2 flex-col bg-white items-center justify-center hidden md:flex md:mt-20">
           <Image
             src="/images/logo-dashboard.png"
             alt="logo-dashboard"
@@ -82,7 +88,7 @@ export default function ForgotPassword() {
               objectFit="cover"
               className="h-full w-full object-cover absolute inset-0 z-0"
             />
-            <div className="text-center z-10 bg-white pl-7 pr-7 pt-5 pb-5 w-[90%] md:w-[60%] rounded-xl drop-shadow-2xl">
+            <div className="text-center z-10 bg-white pl-7 pr-7 pt-5 pb-5 w-[90%] md:w-[60%] rounded-xl drop-shadow-2xl md:mt-20">
               <div className="mb-7 text-[32px] font-medium">
                 Kode OTP
               </div>
@@ -97,17 +103,17 @@ export default function ForgotPassword() {
                 </div>
               </div>
               {showInputOTP && (
-                <div className="absolute mt-[150px] ml-64">
+                <div className="fixed mt-20 ml-60">
                   <AlertInputOTP />
                 </div>
               )}
               {showSuccessOTPSend && (
-                <div className="absolute mt-[150px] ml-64 w-[50%]">
+                <div className="fixed mt-20 ml-60 w-[50%]">
                   <SuccessOTP />
                 </div>
               )}
               {showWrongOTP && (
-                <div className="absolute mt-[150px] ml-64 w-[50%]">
+                <div className="fixed mt-20 ml-60 w-[50%]">
                   <AlertWrongOTP />
                 </div>
               )}

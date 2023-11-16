@@ -11,14 +11,12 @@ import SuccessOTP from "@/app/components/SuccessOTP"
 
 // Deklarasikan tipe data terlebih dahulu
 interface DataFecth {
-    email: string;
-    password: string;
+  email: string;
 }
 
 export default function ForgotPassword() {
   const initialData: DataFecth = {
     email: "",
-    password: ""
   };
 
   const [email, setEmail] = useState(initialData.email);
@@ -38,6 +36,7 @@ export default function ForgotPassword() {
       if (email.includes('@gmail.com')) {
         console.log('email: ', email);
         setshowSuccessOTPSend(true);
+        window.location.href = '/page/landingPage/kodeOTP';
         handleReset();
       } else {
         alert('Use @gmail.com in email');
@@ -46,7 +45,10 @@ export default function ForgotPassword() {
 
     if (isEmailEmpty) {
       setShowEmailAlert(true);
-    } 
+      setTimeout(() => {
+        setShowEmailAlert(false);
+      }, 3000);
+    }
   };
 
   const handleReset = () => {
@@ -56,11 +58,11 @@ export default function ForgotPassword() {
 
   return (
     <>
-    <div className="nav">
-                <Navbars/>
-    </div>
+      <div className="nav">
+        <Navbars />
+      </div>
       <div className="m-0 box-border flex h-screen w-full bg-slate-500 p-0">
-        <div className="left w-full md:w-1/2 flex-col bg-white items-center justify-center hidden md:flex">
+        <div className="left w-full md:w-1/2 flex-col bg-white items-center justify-center hidden md:flex md:mt-20">
           <Image
             src="/images/logo-dashboard.png"
             alt="logo-dashboard"
@@ -77,7 +79,7 @@ export default function ForgotPassword() {
               objectFit="cover"
               className="h-full w-full object-cover absolute inset-0 z-0"
             />
-            <div className="text-center z-10 bg-white pl-7 pr-7 pt-5 pb-5 w-[90%] md:w-[60%] rounded-xl drop-shadow-2xl">
+            <div className="text-center z-10 bg-white pl-7 pr-7 pt-5 pb-5 w-[90%] md:w-[60%] rounded-xl drop-shadow-2xl md:mt-20">
               <div className="mb-7 text-[32px] font-medium">
                 Lupa Password
               </div>
@@ -92,12 +94,12 @@ export default function ForgotPassword() {
                 </div>
               </div>
               {showEmailAlert && (
-                <div className="absolute mt-[150px] ml-64">
+                <div className="fixed mt-20 ml-60">
                   <AlertInputEmail />
                 </div>
               )}
               {showSuccessOTPSend && (
-                <div className="absolute mt-[150px] ml-16 w-full">
+                <div className="fixed mt-20 ml-20 w-full">
                   <SuccessOTP />
                 </div>
               )}

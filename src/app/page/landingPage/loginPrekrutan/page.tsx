@@ -9,40 +9,56 @@ import AlertInputNewPass from "@/app/components/AlertInputNewPass"
 import AlertInputRepeatPass from "@/app/components/AlertInputRepeatPass"
 import AlertLoginajaSucces from "@/app/components/AlertLoginSucces"
 import Navbars from "@/app/components/Navbars";
+import AlertInputNama from "@/app/components/AlertInputNama"
+import AlertInputDataPerlu from "@/app/components/AlertInputDataPerlu"
+import AlertRegistrasiSukses from "@/app/components/AlertRegistrasiSukses"
+import AlertInputPasssamaRe from "@/app/components/AlertInputPasssamaRe"
 
 
 interface DataFecth {
-  // email: string;
-  newPassword: string;
-  reNewPassword: string;
+  nama?: string;
+  email?: string;
+  newPassword?: string;
+  reNewPassword?: string;
 }
 
 export default function landingPage() {
   const initialData: DataFecth = {
-    // email: "",
+    nama: "",
+    email: "",
     newPassword: "",
     reNewPassword: "",
   };
 
-  // const [email, setEmail] = useState(initialData.email);
+  const [nama, setName] = useState(initialData.nama);
+  const [email, setEmail] = useState(initialData.email);
   const [newPassword, setnewPassword] = useState(initialData.newPassword);
   const [reNewPassword, setreNewPassword] = useState(initialData.reNewPassword);
 
-  // const [isEmailEmpty, setIsEmailEmpty] = useState(false);
+  const [isNamaEmpty, setIsNamaEmpty] = useState(false);
+  const [isEmailEmpty, setIsEmailEmpty] = useState(false);
   const [isnewPasswordEmpty, setIsnewPasswordEmpty] = useState(false);
   const [isreNewPasswordEmpty, setIsreNewPasswordEmpty] = useState(false);
 
+  const [showNamaAlert, setShowNamaAlert] = useState(false);
+  const [showEmailAlert, setShowEmailAlert] = useState(false);
   const [shownewPasswordAlert, setShownewPasswordAlert] = useState(false);
   const [showreNewPasswordAlert, setShowreNewPasswordAlert] = useState(false);
-  // const [showEmailAlert, setShowEmailAlert] = useState(false);
-  // const [showSuccesLoginAlert, setshowSuccesLoginAlert] = useState(false);
+  const [showInputDataPerlu, setshowInputDataPerlu] = useState(false);
+  const [showSuccesRegistrasiAlert, setshowSuccesRegistrasiAlert] = useState(false);
+  const [showAlertInputPasssamaRe, setShowAlertInputPasssamaRe] = useState(false);
 
   const handleFormSubmit = async () => {
-    // if (!email) {
-    //   setIsEmailEmpty(true);
-    // } else {
-    //   setIsEmailEmpty(false);
-    // }
+    if (!nama) {
+      setIsNamaEmpty(true);
+    } else {
+      setIsNamaEmpty(false);
+    }
+    if (!email) {
+      setIsEmailEmpty(true);
+    } else {
+      setIsEmailEmpty(false);
+    }
     if (!newPassword) {
       setIsnewPasswordEmpty(true);
     } else {
@@ -55,12 +71,19 @@ export default function landingPage() {
       setIsreNewPasswordEmpty(false);
     }
 
-    if (newPassword && reNewPassword) {
-      if (newPassword.includes('test')) {
-        console.log('newPassword: ', newPassword);
-        console.log('reNewPassword: ', reNewPassword);
-        if (newPassword === "test@gmail.com" && reNewPassword === "test") {
-          // setshowSuccesLoginAlert(true);
+    if (nama && email && newPassword && reNewPassword) {
+      if (email.includes('@gmail.com')) {
+        console.log('email: ', email);
+        if (nama && email && newPassword && reNewPassword) {
+          if (newPassword == reNewPassword) {
+            setshowSuccesRegistrasiAlert(true);
+            window.location.href = '/page/landingPage/loginPegawai';
+          } else {
+            setShowAlertInputPasssamaRe(true);
+            setTimeout(() => {
+              setShowAlertInputPasssamaRe(false);
+            }, 3000);
+          }
         }
         handleReset();
       } else {
@@ -68,10 +91,11 @@ export default function landingPage() {
       }
     }
 
-    if (newPassword && isreNewPasswordEmpty) {
-      setShowreNewPasswordAlert(true);
-    } else if (reNewPassword && isnewPasswordEmpty) {
-      setShownewPasswordAlert(true);
+    if (isNamaEmpty && isEmailEmpty && isnewPasswordEmpty && isreNewPasswordEmpty) {
+      setshowInputDataPerlu(true);
+      setTimeout(() => {
+        setshowInputDataPerlu(false);
+      }, 3000);
     }
   };
 
@@ -84,11 +108,11 @@ export default function landingPage() {
 
   return (
     <>
-          <div className="nav">
-                <Navbars />
-          </div>
-          <div className="mt-12 m-0 box-border flex h-screen w-full bg-slate-500 p-0">
-        <div className="left w-full md:w-1/2 flex-col bg-white items-center justify-center hidden md:flex">
+      <div className="nav">
+        <Navbars />
+      </div>
+      <div className="m-0 box-border flex h-screen w-full bg-slate-500 p-0">
+        <div className="left w-full md:w-1/2 flex-col bg-white items-center justify-center hidden md:flex md:mt-20">
           <Image
             src="/images/logo-dashboard.png"
             alt="logo-dashboard"
@@ -105,26 +129,26 @@ export default function landingPage() {
               objectFit="cover"
               className="h-full w-full object-cover absolute inset-0 z-0"
             />
-            <div className="text-center z-10 bg-white pl-7 pr-7 pt-5 pb-5 w-[90%] md:w-[60%] rounded-xl drop-shadow-2xl">
+            <div className="text-center z-10 bg-white pl-7 pr-7 pt-5 pb-5 w-[90%] md:w-[60%] rounded-xl drop-shadow-2xl md:mt-20">
               <div className="mb-7 style={{ fontFamily: 'Montserrat' }} text-[32px] font-medium">
                 Buat Akun
               </div>
               <div className="text-black">
                 <div className="mb-[20px]">
-                <Input
-                 onChange={(e) => { setName(e.target.value); }}
-                placeholder="Masukkan Nama"
-                required
-                type="email"
-                />
+                  <Input
+                    onChange={(e) => { setName(e.target.value); }}
+                    placeholder="Masukkan Nama"
+                    required
+                    type="text"
+                  />
                 </div>
                 <div className="mb-[20px]">
-                <Input
-                 onChange={(e) => { setEmail(e.target.value); }}
-                placeholder="Masukkan Email"
-                required
-                type="email"
-                />
+                  <Input
+                    onChange={(e) => { setEmail(e.target.value); }}
+                    placeholder="Masukkan Email"
+                    required
+                    type="email"
+                  />
                 </div>
                 <div className="mb-[20px]">
                   <Input
@@ -144,15 +168,19 @@ export default function landingPage() {
                   {/* {isPasswordEmpty && <p className="text-red-500">Password is required</p>} */}
                 </div>
               </div>
-              {shownewPasswordAlert && (
-                <div className="absolute mt-[120px] ml-60">
-                  <AlertInputNewPass />
+              {showSuccesRegistrasiAlert && (
+                <div className="fixed mt-5 ml-60">
+                  <AlertRegistrasiSukses />
                 </div>
               )}
-
-              {showreNewPasswordAlert && (
-                <div className="absolute mt-[120px] ml-60">
-                  <AlertInputRepeatPass />
+              {showInputDataPerlu && (
+                <div className="fixed mt-5 ml-60">
+                  <AlertInputDataPerlu />
+                </div>
+              )}
+              {showAlertInputPasssamaRe && (
+                <div className="fixed mt-5 ml-60">
+                  <AlertInputPasssamaRe />
                 </div>
               )}
               {/* <Link href="/forget-password-base"> */}

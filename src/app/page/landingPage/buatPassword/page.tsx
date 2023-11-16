@@ -1,47 +1,38 @@
 "use client";
 import Input from "@/app/components/Input";
 import { useState } from "react";
-import Link from "next/link";
 import Image from 'next/image'
-import Tolkit from "@/app/components/Tolkit";
-import AlertInputEmail from "@/app/components/AlertInputEmail"
 import AlertInputNewPass from "@/app/components/AlertInputNewPass"
 import AlertInputRepeatPass from "@/app/components/AlertInputRepeatPass"
-import AlertLoginajaSucces from "@/app/components/AlertLoginSucces"
 import Navbars from "@/app/components/Navbars";
+import AlertSuksesBuatPasswordBaru from "@/app/components/AlertSuksesBuatPasswordBaru"
+import AlertInputDataPerlu from "@/app/components/AlertInputDataPerlu"
+import AlertInputPasssamaRe from "@/app/components/AlertInputPasssamaRe"
 
 interface DataFecth {
-  // email: string;
   newPassword: string;
   reNewPassword: string;
 }
 
 export default function landingPage() {
   const initialData: DataFecth = {
-    // email: "",
     newPassword: "",
     reNewPassword: "",
   };
 
-  // const [email, setEmail] = useState(initialData.email);
   const [newPassword, setnewPassword] = useState(initialData.newPassword);
   const [reNewPassword, setreNewPassword] = useState(initialData.reNewPassword);
 
-  // const [isEmailEmpty, setIsEmailEmpty] = useState(false);
   const [isnewPasswordEmpty, setIsnewPasswordEmpty] = useState(false);
   const [isreNewPasswordEmpty, setIsreNewPasswordEmpty] = useState(false);
 
   const [shownewPasswordAlert, setShownewPasswordAlert] = useState(false);
   const [showreNewPasswordAlert, setShowreNewPasswordAlert] = useState(false);
-  // const [showEmailAlert, setShowEmailAlert] = useState(false);
-  // const [showSuccesLoginAlert, setshowSuccesLoginAlert] = useState(false);
+  const [showAlertSuksesBuatPasswordBaru, setShowAlertSuksesBuatPasswordBaru] = useState(false);
+  const [showInputDataPerlu, setshowInputDataPerlu] = useState(false);
+  const [showAlertInputPasssamaRe, setShowAlertInputPasssamaRe] = useState(false);
 
   const handleFormSubmit = async () => {
-    // if (!email) {
-    //   setIsEmailEmpty(true);
-    // } else {
-    //   setIsEmailEmpty(false);
-    // }
     if (!newPassword) {
       setIsnewPasswordEmpty(true);
     } else {
@@ -55,22 +46,37 @@ export default function landingPage() {
     }
 
     if (newPassword && reNewPassword) {
-      if (newPassword.includes('test')) {
-        console.log('newPassword: ', newPassword);
-        console.log('reNewPassword: ', reNewPassword);
-        if (newPassword === "test@gmail.com" && reNewPassword === "test") {
-          // setshowSuccesLoginAlert(true);
+      console.log('newPassword: ', newPassword);
+      console.log('reNewPassword: ', reNewPassword);
+      if (newPassword && reNewPassword) {
+        if (newPassword == reNewPassword) {
+          setShowAlertSuksesBuatPasswordBaru(true);
+          window.location.href = '/page/landingPage/loginPegawai';
+        } else {
+          setShowAlertInputPasssamaRe(true);
+          setTimeout(() => {
+            setShowAlertInputPasssamaRe(false);
+          }, 3000);
         }
-        handleReset();
-      } else {
-        alert('Use @gmail.com in email');
       }
+      handleReset();
     }
 
     if (newPassword && isreNewPasswordEmpty) {
       setShowreNewPasswordAlert(true);
+      setTimeout(() => {
+        setShowreNewPasswordAlert(false);
+      }, 3000);
     } else if (reNewPassword && isnewPasswordEmpty) {
       setShownewPasswordAlert(true);
+      setTimeout(() => {
+        setShownewPasswordAlert(false);
+      }, 3000);
+    } else if (isnewPasswordEmpty && isreNewPasswordEmpty) {
+      setshowInputDataPerlu(true);
+      setTimeout(() => {
+        setshowInputDataPerlu(false);
+      }, 3000);
     }
   };
 
@@ -84,10 +90,10 @@ export default function landingPage() {
   return (
     <>
       <div className="nav">
-                <Navbars />
-        </div>
-          <div className="m-0 box-border flex h-screen w-full bg-slate-500 p-0">
-        <div className="left w-full md:w-1/2 flex-col bg-white items-center justify-center hidden md:flex">
+        <Navbars />
+      </div>
+      <div className="m-0 box-border flex h-screen w-full bg-slate-500 p-0">
+        <div className="left w-full md:w-1/2 flex-col bg-white items-center justify-center hidden md:flex md:mt-20">
           <Image
             src="/images/logo-dashboard.png"
             alt="logo-dashboard"
@@ -104,7 +110,7 @@ export default function landingPage() {
               objectFit="cover"
               className="h-full w-full object-cover absolute inset-0 z-0"
             />
-            <div className="text-center z-10 bg-white pl-7 pr-7 pt-5 pb-5 w-[90%] md:w-[60%] rounded-xl drop-shadow-2xl">
+            <div className="text-center z-10 bg-white pl-7 pr-7 pt-5 pb-5 w-[90%] md:w-[60%] rounded-xl drop-shadow-2xl md:mt-20">
               <div className="mb-7 style={{ fontFamily: 'Montserrat' }} text-[32px] font-medium">
                 Buat Password Baru
               </div>
@@ -128,14 +134,32 @@ export default function landingPage() {
                 </div>
               </div>
               {shownewPasswordAlert && (
-                <div className="absolute mt-[120px] ml-60">
+                <div className="fixed mt-20 ml-40 w-[70%]">
                   <AlertInputNewPass />
                 </div>
               )}
 
               {showreNewPasswordAlert && (
-                <div className="absolute mt-[120px] ml-60">
+                <div className="fixed mt-20 ml-40 w-[70%]">
                   <AlertInputRepeatPass />
+                </div>
+              )}
+
+              {showInputDataPerlu && (
+                <div className="fixed mt-20 ml-40 w-[70%]">
+                  <AlertInputDataPerlu />
+                </div>
+              )}
+
+              {showAlertSuksesBuatPasswordBaru && (
+                <div className="fixed mt-20 ml-40 w-[70%]">
+                  <AlertSuksesBuatPasswordBaru />
+                </div>
+              )}
+
+              {showAlertInputPasssamaRe && (
+                <div className="fixed mt-20 ml-40">
+                  <AlertInputPasssamaRe />
                 </div>
               )}
               {/* <Link href="/forget-password-base"> */}

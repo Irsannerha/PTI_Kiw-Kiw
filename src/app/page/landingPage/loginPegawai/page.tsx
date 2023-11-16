@@ -31,6 +31,7 @@ export default function LandingPage() {
     const [showPasswordAlert, setShowPasswordAlert] = useState(false);
     const [showEmailAlert, setShowEmailAlert] = useState(false);
     const [showSuccesLoginAlert, setshowSuccesLoginAlert] = useState(false);
+    const [showInputEmailPassword, setshowInputEmailPassword] = useState(false);
 
     // Fungsi untuk menangani pengiriman formulir
     const handleFormSubmit = async () => {
@@ -48,10 +49,13 @@ export default function LandingPage() {
             if (email.includes('@gmail.com')) {
                 console.log('email: ', email);
                 console.log('password: ', password);
-                if (email === "test@gmail.com" && password === "test") {
+                if (email === "kiwkiw@gmail.com" && password === "kiwkiw") {
                     setshowSuccesLoginAlert(true);
+                    window.location.href = '/page/landingPage/dashboardRekrut';
+                } else {
+                    alert('Login Gagal')
                 }
-                handleReset();
+                // handleReset();
             } else {
                 alert('Use @gmail.com in email');
             }
@@ -59,8 +63,19 @@ export default function LandingPage() {
 
         if (email && isPasswordEmpty) {
             setShowPasswordAlert(true);
+            setTimeout(() => {
+                setShowPasswordAlert(false);
+            }, 3000);
         } else if (password && isEmailEmpty) {
             setShowEmailAlert(true);
+            setTimeout(() => {
+                setShowEmailAlert(false);
+            }, 3000);
+        } else if (isEmailEmpty && isPasswordEmpty) {
+            setshowInputEmailPassword(true);
+            setTimeout(() => {
+                setshowInputEmailPassword(false);
+            }, 3000);
         }
     };
 
@@ -74,11 +89,11 @@ export default function LandingPage() {
 
     return (
         <>
-             <div className="nav">
+            <div className="nav">
                 <Navbars />
             </div>
-            <div className="m-0 box-border md:flex h-screen w-full bg-slate-500 p-0">
-                <div className="left w-full md:w-1/2 flex-col bg-white items-center justify-center hidden md:flex">
+            <div className="m-0 box-border md:flex h-screen w-full bg-slate-500">
+                <div className="left w-full md:w-1/2 flex-col bg-white items-center justify-center hidden md:flex md:mt-20">
                     <Image
                         src="/images/logo-dashboard.png"
                         alt="logo-dashboard"
@@ -95,7 +110,7 @@ export default function LandingPage() {
                             objectFit="cover"
                             className="h-full w-full object-cover absolute inset-0 z-0"
                         />
-                        <div className="text-center z-10 bg-white pl-7 pr-7 pt-5 pb-5 w-[90%] md:w-[70%] rounded-xl drop-shadow-2xl">
+                        <div className="text-center z-10 bg-white pl-7 pr-7 pt-5 pb-5 w-[90%] md:w-[70%] rounded-xl drop-shadow-2xl md:mt-20">
                             <div className="mb-7">
                                 <div className="mb-7 text-[32px] font-medium">LOGIN</div>
                             </div>
@@ -117,29 +132,31 @@ export default function LandingPage() {
                                     />
                                 </div>
                             </div>
-                            {isEmailEmpty && isPasswordEmpty && <div className="absolute mt-[120px] ml-60"><Tolkit /></div>}
+                            {showInputEmailPassword && <div className="fixed mt-40 ml-60"><Tolkit /></div>}
                             {showPasswordAlert && (
-                                <div className="absolute mt-[120px] ml-60">
+                                <div className="fixed mt-40 ml-60">
                                     <AlertInputPassword />
                                 </div>
                             )}
 
                             {showEmailAlert && (
-                                <div className="absolute mt-[120px] ml-60">
+                                <div className="fixed mt-40 ml-60">
                                     <AlertInputEmail />
                                 </div>
                             )}
 
                             {showSuccesLoginAlert && (
-                                <div className="absolute mt-[120px] ml-60 w-[50%]">
+                                <div className="fixed mt-40 ml-60">
                                     <AlertLoginSucces />
                                 </div>
                             )}
-                            <Link href="/forget-password-base">
-                                <div className="flex justify-end mb-5 text-black text-[14px] opacity-50">
-                                    Forget Password
+                            <Link href="/page/landingPage/lupaPassword">
+                                <div className="flex justify-end mb-2 text-black text-[14px] opacity-50">
+                                    Lupa Password?
                                 </div>
                             </Link>
+                            <div className="mb-3 text-[14px]">Belum punya akun? <Link href={"/page/landingPage/loginPrekrutan"} className="text-[14px]">Buat baru</Link></div>
+
                             <button
                                 type="button"
                                 onClick={handleFormSubmit}
