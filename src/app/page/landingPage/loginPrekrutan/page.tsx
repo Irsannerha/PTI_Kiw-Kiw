@@ -3,13 +3,7 @@ import Input from "@/app/components/Input";
 import { useState } from "react";
 import Link from "next/link";
 import Image from 'next/image'
-import Tolkit from "@/app/components/Tolkit";
-import AlertInputEmail from "@/app/components/AlertInputEmail"
-import AlertInputNewPass from "@/app/components/AlertInputNewPass"
-import AlertInputRepeatPass from "@/app/components/AlertInputRepeatPass"
-import AlertLoginajaSucces from "@/app/components/AlertLoginSucces"
 import Navbars from "@/app/components/Navbars";
-import AlertInputNama from "@/app/components/AlertInputNama"
 import AlertInputDataPerlu from "@/app/components/AlertInputDataPerlu"
 import AlertRegistrasiSukses from "@/app/components/AlertRegistrasiSukses"
 import AlertInputPasssamaRe from "@/app/components/AlertInputPasssamaRe"
@@ -40,10 +34,6 @@ export default function landingPage() {
   const [isnewPasswordEmpty, setIsnewPasswordEmpty] = useState(false);
   const [isreNewPasswordEmpty, setIsreNewPasswordEmpty] = useState(false);
 
-  const [showNamaAlert, setShowNamaAlert] = useState(false);
-  const [showEmailAlert, setShowEmailAlert] = useState(false);
-  const [shownewPasswordAlert, setShownewPasswordAlert] = useState(false);
-  const [showreNewPasswordAlert, setShowreNewPasswordAlert] = useState(false);
   const [showInputDataPerlu, setshowInputDataPerlu] = useState(false);
   const [showSuccesRegistrasiAlert, setshowSuccesRegistrasiAlert] = useState(false);
   const [showAlertInputPasssamaRe, setShowAlertInputPasssamaRe] = useState(false);
@@ -130,7 +120,7 @@ export default function landingPage() {
               className="h-full w-full object-cover absolute inset-0 z-0"
             />
             <div className="text-center z-10 bg-white pl-7 pr-7 pt-5 pb-5 w-[90%] md:w-[60%] rounded-xl drop-shadow-2xl md:mt-20">
-              <div className="mb-7 style={{ fontFamily: 'Montserrat' }} text-[32px] font-medium">
+              <div className="mb-7 style={{ fontFamily: 'Montserrat' }} text-[25px] md:text-[32px] font-medium">
                 Buat Akun
               </div>
               <div className="text-black">
@@ -169,17 +159,17 @@ export default function landingPage() {
                 </div>
               </div>
               {showSuccesRegistrasiAlert && (
-                <div className="fixed mt-5 ml-60">
+                <div className="fixed mt-20 md:mt-5 ml-24 md:ml-60">
                   <AlertRegistrasiSukses />
                 </div>
               )}
               {showInputDataPerlu && (
-                <div className="fixed mt-5 ml-60">
+                <div className="fixed mt-20 md:mt-5 ml-24 md:ml-60">
                   <AlertInputDataPerlu />
                 </div>
               )}
               {showAlertInputPasssamaRe && (
-                <div className="fixed mt-5 ml-60">
+                <div className="fixed mt-20 md:mt-5 ml-24 md:ml-60">
                   <AlertInputPasssamaRe />
                 </div>
               )}

@@ -132,21 +132,21 @@ export default function LandingPage() {
                                     />
                                 </div>
                             </div>
-                            {showInputEmailPassword && <div className="fixed mt-40 ml-60"><Tolkit /></div>}
+                            {showInputEmailPassword && <div className="fixed mt-40 md:mt-40 ml-24 md:ml-60"><Tolkit /></div>}
                             {showPasswordAlert && (
-                                <div className="fixed mt-40 ml-60">
+                                <div className="fixed mt-40 md:mt-40 ml-24 md:ml-60">
                                     <AlertInputPassword />
                                 </div>
                             )}
 
                             {showEmailAlert && (
-                                <div className="fixed mt-40 ml-60">
+                                <div className="fixed mt-40 md:mt-40 ml-24 md:ml-60">
                                     <AlertInputEmail />
                                 </div>
                             )}
 
                             {showSuccesLoginAlert && (
-                                <div className="fixed mt-40 ml-60">
+                                <div className="fixed mt-40 md:mt-40 ml-24 md:ml-60">
                                     <AlertLoginSucces />
                                 </div>
                             )}
