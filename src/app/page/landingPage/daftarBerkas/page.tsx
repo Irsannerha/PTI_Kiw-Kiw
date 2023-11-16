@@ -150,7 +150,9 @@ export default function DaftarBerkas() {
             <div className="mt-8 mb-2">
               <div className="flex p-3 gap-5">
                 <div className="w-[20%] flex justify-end items-end">
-                  <SvgDashboardProfile />
+                  <Link href={"/page/landingPage/profil"}>
+                    <SvgDashboardProfile />
+                  </Link> 
                 </div>
                 <div className="w-[70%] flex flex-col justify-start pl-2">
                   Selamat Datang, User

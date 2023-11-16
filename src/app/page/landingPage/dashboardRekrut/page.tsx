@@ -9,16 +9,20 @@ export default function DashboardRekrut() {
       <div className="nav">
         <Navbars />
       </div>
-      <div className="flex justify-start items-start mt-20">
-        <div className="text-start justify-start items-start ml-5">
-          <div className="mt-8 mb-4">
-            <div className="flex p-3 gap-5">
-              <div className="w-[20%] flex justify-end items-end">
-                <SvgDashboardProfile />
-              </div>
-              <div className="w-[70%] flex flex-col justify-start pl-2">
-                <p className="md:text-xl">Selamat Datang, User</p>
-              </div>
+      <div className="w-full overflow-x-hidden pt-14">
+        <div className="flex justify-start items-start">
+          <div className="text-start justify-start items-start ml-5">
+            <div className="mt-8 mb-2">
+              <Link href={"/page/landingPage/profil"}>
+                <div className="flex p-3 gap-5">
+                  <div className="w-[20%] flex justify-end items-end">
+                    <SvgDashboardProfile />
+                  </div>
+                  <div className="w-[70%] flex flex-col justify-start pl-2">
+                    Selamat Datang, User
+                  </div>
+                </div>
+              </Link>
             </div>
           </div>
         </div>
