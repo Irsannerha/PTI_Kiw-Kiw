@@ -9,42 +9,42 @@ import Navbars from "@/app/components/Navbars";
 export default function DaftarBerkas() {
   const [fileStatus, setFileStatus] = useState("Tidak ada file.");
 
-  const handleFileChange = (e) => {
+  const handleFileChange = (e: any) => {
     const input = e.target;
     if (input.files.length > 0) {
       setFileStatus(input.files[0].name);
     } else {
-      setFileStatus("Tidak ada file.");
+      setFileStatus("Tidak ada gambar.");
     }
   };
 
   return (
     <>
-    <div className="nav">
-                <Navbars />
-    </div>
-    <div className="w-full overflow-x-hidden pt-16">
-      <div className="flex justify-start items-start">
-        <div className="text-start justify-start items-start ml-5">
-          <div className="mt-8 mb-4">
-            <div className="flex p-3 gap-5">
-              <div className="w-[20%] flex justify-end items-end">
-                <SvgDashboardProfile />
-              </div>
-              <div className="w-[70%] flex flex-col justify-start pl-2">
-                Selamat Datang, User
+      <div className="nav">
+        <Navbars />
+      </div>
+      <div className="w-full overflow-x-hidden pt-14">
+        <div className="flex justify-start items-start">
+          <div className="text-start justify-start items-start ml-5">
+            <div className="mt-8 mb-2">
+              <div className="flex p-3 gap-5">
+                <div className="w-[20%] flex justify-end items-end">
+                  <SvgDashboardProfile />
+                </div>
+                <div className="w-[70%] flex flex-col justify-start pl-2">
+                  Selamat Datang, User
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="m-4 w-full text-[32px] ml-12 mb-0">Daftar Berkas</div>
-      <div className="flex justify-center">
-        <div className="border-b border-neutral-950/10 pb-12 m-4 w-full text-[32px] ml-4">
+        <div className="w-full text-[32px] ml-4 md:ml-12 mb-0">Daftar Berkas</div>
+        <div className="flex justify-center">
+          <div className="border-b border-neutral-950/10 pb-12 m-4 w-full text-[32px] ml-4">
             <div>
-              <form className="md:grid md:grid-cols-2 md:gap-y-5 md:gap-x-10 ">
-                <div>
-                  <label htmlFor="nama" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              <form className="md:grid md:grid-cols-2 md:gap-y-2 md:gap-x-5 md:pl-8 md:pr-8">
+                <div className="">
+                  <label htmlFor="nama" className="block mb-2 mt-2 text-sm font-medium text-gray-900 dark:text-white">
                     Nama
                   </label>
                   <Input
@@ -54,8 +54,8 @@ export default function DaftarBerkas() {
                     type="text"
                   />
                 </div>
-                 <div>
-                  <label htmlFor="alamat" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <div>
+                  <label htmlFor="alamat" className="block mb-2 mt-2 text-sm font-medium text-gray-900 dark:text-white">
                     Alamat
                   </label>
                   <Input
@@ -66,7 +66,7 @@ export default function DaftarBerkas() {
                   />
                 </div>
                 <div>
-                  <label htmlFor="nik" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  <label htmlFor="nik" className="block mb-2 mt-2 text-sm font-medium text-gray-900 dark:text-white">
                     NIK
                   </label>
                   <Input
@@ -76,8 +76,8 @@ export default function DaftarBerkas() {
                     type="text"
                   />
                 </div>
-                 <div>
-                  <label htmlFor="jenis_kelamin" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white ">
+                <div className="md:w-[40%]">
+                  <label htmlFor="jenis_kelamin" className="block mb-2 mt-2 text-sm font-medium text-gray-900 dark:text-white ">
                     Jenis Kelamin
                   </label>
                   <select id="jenis_kelamin" name="jenis_kelamin" className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm">
@@ -87,7 +87,7 @@ export default function DaftarBerkas() {
                   </select>
                 </div>
                 <div>
-                  <label htmlFor="no_hp" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  <label htmlFor="no_hp" className="block mb-2 mt-2 md:mt-0 text-sm font-medium text-gray-900 dark:text-white">
                     No. HP
                   </label>
                   <Input
@@ -97,8 +97,8 @@ export default function DaftarBerkas() {
                     type="text"
                   />
                 </div>
-                 <div>
-                  <label htmlFor="umur" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                <div className="md:w-[30%]">
+                  <label htmlFor="umur" className="block mb-2 mt-2 md:mt-0 text-sm font-medium text-gray-900 dark:text-white">
                     Umur
                   </label>
                   <Input
@@ -109,7 +109,7 @@ export default function DaftarBerkas() {
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  <label htmlFor="email" className="block mb-2 mt-2 md:mt-0 text-sm font-medium text-gray-900 dark:text-white">
                     Email
                   </label>
                   <Input
@@ -120,11 +120,18 @@ export default function DaftarBerkas() {
                   />
                 </div>
                 <div className="w-1/1 pr-1">
-                  <label htmlFor="ijazah" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  <input
+                    type="file"
+                    id="imageUpload"
+                    name="imageFile"
+                    className="absolute opacity-0 cursor-pointer bg-green-300 w-[10%]"
+                    onChange={handleFileChange}
+                  />
+                  <label htmlFor="ijazah" className="block mb-2 mt-2 md:mt-0 text-sm font-medium text-gray-900 dark:text-white">
                     Ijazah
                   </label>
                   <label
-                    htmlFor="ijazahStatus"
+                    htmlFor="imageUpload"
                     className="bg-[#F8A849] hover:bg-[#D2691E] text-white hover:text-white inline-flex items-center px-4 py-1.5 cursor-pointer text-sm rounded-xl drop-shadow-2xl"
                   >
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -134,20 +141,20 @@ export default function DaftarBerkas() {
                     </svg>
                     <span className="ml-1">Unggah File</span>
                   </label>
-                  <span id="ijazahStatus" className="text-black text-sm w-1 text-center ml-3">
+                  <span id="imageStatus" className="text-black text-sm w-1 text-center ml-3">
                     {fileStatus}
                   </span>
                 </div>
               </form>
             </div>
-          <div className="flex mt-10 justify-end items-center">
-                <label htmlFor="kirim" className="bg-[#D2691E] hover:bg-[#F8A849] font-medium text-white hover:text-white inline-flex items-center px-14 py-1.5 cursor-pointer text-sm rounded-md shadow-lg">
+            <div className="flex mt-5 justify-end items-center">
+              <label htmlFor="kirim" className="bg-[#D2691E] hover:bg-[#F8A849] font-medium text-white hover:text-white inline-flex items-center px-14 py-1.5 cursor-pointer text-sm rounded-md shadow-lg">
                 <span className="ml-1">Kirim</span>
-                </label>
-                </div>
+              </label>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 }
