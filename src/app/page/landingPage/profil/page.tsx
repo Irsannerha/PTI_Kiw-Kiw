@@ -20,20 +20,22 @@ export default function profilPrekrutan() {
 
   return (
     <>
-    <div className="nav">
-                <Navbars />
-    </div>
-      <div className="w-full overflow-x-hidden pt-28 md:pt-32">
+      <div className="nav">
+        <Navbars />
+      </div>
+      <div className="w-full overflow-x-hidden pt-28 md:pt-28">
         <div className="flex justify-center">
           <div className="p-6 rounded-2xl bg-[#FFF7ED] border border-amber-500 dark:border-neutral-950 shadow-md w-auto">
             <div className="flex items-center mb-4">
-              <button className=" bg-[#F8A849] rounded-lg flex items-center text-gray-700 dark:text-white hover:text-gray-900 dark:hover:text-gray-200">
-                <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M15 23.75L6.25 15L15 6.25" stroke="#616161" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M23.75 15H6.25" stroke="#616161" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  <rect x="0.5" y="0.5" width="29" height="29" stroke="#F8A849" strokeOpacity="0.2" />
-                </svg> 
-              </button>
+              <Link href={"/page/landingPage/dashboardRekrut"}>
+                <button className=" bg-[#F8A849] rounded-lg flex items-center text-gray-700 dark:text-white hover:text-gray-900 dark:hover:text-gray-200">
+                  <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 23.75L6.25 15L15 6.25" stroke="#616161" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M23.75 15H6.25" stroke="#616161" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    <rect x="0.5" y="0.5" width="29" height="29" stroke="#F8A849" strokeOpacity="0.2" />
+                  </svg>
+                </button>
+              </Link>
               <div className="text-sm font-medium text-center ml-3">User Profile</div>
             </div>
             <div className="flex items-center flex-col mb-4">
@@ -70,7 +72,7 @@ export default function profilPrekrutan() {
                       readOnly
                     />
                   </div>
-                   <div>
+                  <div>
                     <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                       E-mail
                     </label>

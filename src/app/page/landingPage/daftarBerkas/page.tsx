@@ -5,8 +5,129 @@ import SvgDashboardProfile from "@/app/components/SvgDashboardProfile";
 import Input from "@/app/components/Input";
 import { useState } from 'react';
 import Navbars from "@/app/components/Navbars";
+import AlertInputDataPerlu from "@/app/components/AlertInputDataPerlu"
+import AlertDaftarSukses from "@/app/components/AlertDaftarSukses"
+
+interface DataFecth {
+  nama?: string;
+  alamat?: string;
+  nik?: string;
+  jenisKelamin?: string;
+  noHp?: string;
+  email?: string;
+  umur?: string;
+  // ijazah?: string;
+}
 
 export default function DaftarBerkas() {
+  const initialData: DataFecth = {
+    nama: "",
+    alamat: "",
+    nik: "",
+    jenisKelamin: "",
+    noHp: "",
+    email: "",
+    umur: "",
+  }
+
+  const [nama, setNama] = useState(initialData.nama);
+  const [alamat, setAlamat] = useState(initialData.alamat);
+  const [nik, setNik] = useState(initialData.nik);
+  const [jenisKelamin, setJenisKelamin] = useState(initialData.jenisKelamin);
+  const [noHp, setNoHp] = useState(initialData.noHp);
+  const [email, setEmail] = useState(initialData.email);
+  const [umur, setUmur] = useState(initialData.umur);
+
+
+  const [isNamaEmpty, setIsNamaEmpty] = useState(false);
+  const [isAlamatEmpty, setIsAlamatEmpty] = useState(false);
+  const [isNikEmpty, setIsNikEmpty] = useState(false);
+  const [isJenisKelaminEmpty, setIsJenisKelaminEmpty] = useState(false);
+  const [isNoHpEmpty, setIsNoHpEmpty] = useState(false);
+  const [isEmailEmpty, setIsEmailEmpty] = useState(false);
+  const [isUmurEmpty, setIsUmurEmpty] = useState(false);
+
+  const [showAlertDaftarSukses, setshowAlertDaftarSukses] = useState(false);
+
+  const [showInputDataPerlu, setshowInputDataPerlu] = useState(false);
+
+  const handleFormSubmit = async () => {
+    if (!nama) {
+      setIsNamaEmpty(true);
+    } else {
+      setIsNamaEmpty(false);
+    }
+    if (!alamat) {
+      setIsAlamatEmpty(true);
+    } else {
+      setIsAlamatEmpty(false);
+    }
+    if (!nik) {
+      setIsNikEmpty(true);
+    } else {
+      setIsNikEmpty(false);
+    }
+    if (!jenisKelamin) {
+      setIsJenisKelaminEmpty(true);
+    } else {
+      setIsJenisKelaminEmpty(false);
+    }
+    if (!noHp) {
+      setIsNoHpEmpty(true);
+    } else {
+      setIsNoHpEmpty(false);
+    }
+    if (!email) {
+      setIsEmailEmpty(true);
+    } else {
+      setIsEmailEmpty(false);
+    }
+    if (!umur) {
+      setIsUmurEmpty(true);
+    } else {
+      setIsUmurEmpty(false);
+    }
+
+
+    if (nama && alamat && nik && jenisKelamin && noHp && email && umur) {
+      if (email.includes('@gmail.com')) {
+        console.log('email: ', email);
+        if (nama && alamat && nik && jenisKelamin && noHp && email && umur) {
+          setshowAlertDaftarSukses(true);
+          window.location.href = '/page/landingPage/loginPegawai';
+        }
+        handleReset();
+      } else {
+        alert('Use @gmail.com in email');
+      }
+    }
+
+    if (isNamaEmpty && isAlamatEmpty && isJenisKelaminEmpty && isNikEmpty && isNoHpEmpty && isEmailEmpty && isUmurEmpty) {
+      setshowInputDataPerlu(true);
+      setTimeout(() => {
+        setshowInputDataPerlu(false);
+      }, 3000);
+    }
+  };
+
+  const handleReset = () => {
+    setNama("");
+    setAlamat("");
+    setJenisKelamin("");
+    setNoHp("");
+    setNik("");
+    setEmail("");
+    setUmur("");
+
+    setIsNamaEmpty(false);
+    setIsAlamatEmpty(false);
+    setIsJenisKelaminEmpty(false);
+    setIsNoHpEmpty(false);
+    setIsNikEmpty(false);
+    setIsEmailEmpty(false);
+    setIsUmurEmpty(false);
+  };
+
   const [fileStatus, setFileStatus] = useState("Tidak ada file.");
 
   const handleFileChange = (e: any) => {
@@ -48,7 +169,7 @@ export default function DaftarBerkas() {
                     Nama
                   </label>
                   <Input
-                    onChange={(e) => { console.log("test") }}
+                    onChange={(e) => { setNama(e.target.value); }}
                     placeholder="Masukkan Nama"
                     required
                     type="text"
@@ -59,7 +180,7 @@ export default function DaftarBerkas() {
                     Alamat
                   </label>
                   <Input
-                    onChange={(e) => { console.log("test") }}
+                    onChange={(e) => { setEmail(e.target.value); }}
                     placeholder="Masukkan Alamat"
                     required
                     type="text"
@@ -70,7 +191,7 @@ export default function DaftarBerkas() {
                     NIK
                   </label>
                   <Input
-                    onChange={(e) => { console.log("test") }}
+                    onChange={(e) => { setNik(e.target.value); }}
                     placeholder="Masukkan NIK"
                     required
                     type="text"
@@ -80,7 +201,7 @@ export default function DaftarBerkas() {
                   <label htmlFor="jenis_kelamin" className="block mb-2 mt-2 text-sm font-medium text-gray-900 dark:text-white ">
                     Jenis Kelamin
                   </label>
-                  <select id="jenis_kelamin" name="jenis_kelamin" className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm">
+                  <select id="jenis_kelamin" name="jenis_kelamin" className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm" onChange={(e) => { setJenisKelamin(e.target.value); }}>
                     <option selected>-</option>
                     <option value="Laki-laki">Laki-laki</option>
                     <option value="Perempuan">Perempuan</option>
@@ -91,7 +212,7 @@ export default function DaftarBerkas() {
                     No. HP
                   </label>
                   <Input
-                    onChange={(e) => { console.log("test") }}
+                    onChange={(e) => { setNoHp(e.target.value); }}
                     placeholder="Masukkan No. HP"
                     required
                     type="text"
@@ -102,7 +223,7 @@ export default function DaftarBerkas() {
                     Umur
                   </label>
                   <Input
-                    onChange={(e) => { console.log("test") }}
+                    onChange={(e) => { setUmur(e.target.value); }}
                     placeholder="Masukkan Umur"
                     required
                     type="text"
@@ -113,7 +234,7 @@ export default function DaftarBerkas() {
                     Email
                   </label>
                   <Input
-                    onChange={(e) => { console.log("test") }}
+                    onChange={(e) => { setEmail(e.target.value); }}
                     placeholder="Masukkan Email"
                     required
                     type="text"
@@ -147,8 +268,18 @@ export default function DaftarBerkas() {
                 </div>
               </form>
             </div>
+            {showInputDataPerlu && (
+              <div className="md:fixed  md:ml-[70%]">
+                <AlertInputDataPerlu />
+              </div>
+            )}
+            {showAlertDaftarSukses && (
+              <div className="md:fixed  md:ml-[70%]">
+                <AlertDaftarSukses />
+              </div>
+            )}
             <div className="flex mt-5 justify-end items-center">
-              <label htmlFor="kirim" className="bg-[#D2691E] hover:bg-[#F8A849] font-medium text-white hover:text-white inline-flex items-center px-14 py-1.5 cursor-pointer text-sm rounded-md shadow-lg">
+              <label htmlFor="kirim" onClick={handleFormSubmit} className="bg-[#D2691E] hover:bg-[#F8A849] font-medium text-white hover:text-white inline-flex items-center px-14 py-1.5 cursor-pointer text-sm rounded-md shadow-lg">
                 <span className="ml-1">Kirim</span>
               </label>
             </div>
