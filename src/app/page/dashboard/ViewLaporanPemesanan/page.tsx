@@ -5,13 +5,10 @@ import { useState, useEffect } from 'react';
 import Image from "next/image";
 import SvgDashboardProfile from "@/app/components/SvgDashboardProfile"
 import SvgDashboardKalender from "@/app/components/SvgDashboardKalender"
-import SvgEditKelolaPemesanan from "@/app/components/SvgEditKelolaPemesanan"
-import SvgDeleteKelolaPemesanan from "@/app/components/SvgDeleteKelolaPemesanan"
-import AlertHapusData from "@/app/components/AlertHapusData"
 import Link from "next/link";
-
 import TableLaporanPemesanan from "@/app/components/TableLaporanPemesanan"
 import TableLihatLaporanPemesanan from "@/app/components/TableLihatLaporanPemesanan"
+import axios from 'axios';
 
 export default function LaporanPemesanan() {
     const [currentTime, setCurrentTime] = useState(new Date());
@@ -27,6 +24,11 @@ export default function LaporanPemesanan() {
 
 
     const [fileStatus, setFileStatus] = useState("Tidak ada gambar.");
+    const [invoiceData, setInvoiceData] = useState({
+        noInvoice: '',
+        namaPemesan: '',
+        tanggal: '',
+    });
 
     const handleFileChange = (e: any) => {
         const input = e.target;
@@ -38,10 +40,27 @@ export default function LaporanPemesanan() {
     };
 
     const data = [
-        { produk: 'Ayam Geprek', jumlah: "1 Qty", harga: "Rp. 10.000" },
-        { produk: 'Es Teh Manis', jumlah: "1 Qty", harga: "Rp. 20.000" },
+        { produk: 'Ayam Geprek', jumlah: "1", harga: "10000" },
+        { produk: 'Es Teh Manis', jumlah: "1", harga: "20000" },
+        { produk: 'Es Teh Manis', jumlah: "1", harga: "20000" },
+        { produk: 'Es Teh Manis', jumlah: "1", harga: "20000" },
+        { produk: 'Es Teh Manis', jumlah: "1", harga: "20000" },
         // Tambahkan data lainnya sesuai kebutuhan
     ];
+
+    const fetchData = async () => {
+        try {
+            const response = await axios.get('/api/laporanPemesanan');
+            // Assuming your backend response structure has keys like noInvoice, namaPemesan, tanggal
+            setInvoiceData(response.data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
 
     return (
         <>
@@ -97,15 +116,15 @@ export default function LaporanPemesanan() {
                         </div>
                     </div>
                     <div className="flex justify-start">
-                        <div className=" text-black text-xl font-normal font-['Montserrat'] leading-10">
+                        <div className="text-black text-xl font-normal font-['Montserrat'] leading-10">
                             <div className="div flex-shrink-0">No Invoice</div>
                             <div className="div flex-shrink-0">Nama Pemesan</div>
                             <div className="div flex-shrink-0">Tanggal</div>
                         </div>
                         <div className="text-black text-xl font-normal font-['Montserrat'] leading-10 ml-5">
-                            <div className="div flex-shrink-0">: 001 </div>
-                            <div className="div flex-shrink-0">: Hasan</div>
-                            <div className="div flex-shrink-0">: 23/10/2023</div>
+                            <div className="flex-shrink-0">: {invoiceData.noInvoice || 'Loading...'}  </div>
+                            <div className="flex-shrink-0">: {invoiceData.namaPemesan || 'Loading...'}</div>
+                            <div className="flex-shrink-0">: {invoiceData.tanggal || 'Loading...'}</div>
                         </div>
                     </div>
                     <TableLihatLaporanPemesanan data={data} />

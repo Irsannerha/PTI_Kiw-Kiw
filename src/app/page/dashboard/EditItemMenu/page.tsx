@@ -7,13 +7,14 @@ import SvgDashboardProfile from "@/app/components/SvgDashboardProfile"
 import SvgDashboardKalender from "@/app/components/SvgDashboardKalender"
 import Input from "@/app/components/Input";
 import AlertUbahData from "@/app/components/AlertUbahData"
+import axios from "axios";
 
 interface DataFecth {
     namaItem: string;
     harga: string;
     kategori: string;
     stok: string;
-    // gambar: any;
+    gambar: File | string;
 }
 
 export default function TambahItemMenu() {
@@ -22,7 +23,7 @@ export default function TambahItemMenu() {
         harga: "",
         kategori: "",
         stok: "",
-        // gambar: "",
+        gambar: "",
     };
 
     const [namaItem, setnamaItem] = useState(initialData.namaItem);
@@ -30,15 +31,15 @@ export default function TambahItemMenu() {
     const [kategori, setkategori] = useState(initialData.kategori);
     const [stok, setstok] = useState(initialData.stok);
     // const [gambar, setgambar] = useState(initialData.gambar);
+    const [gambar, setgambar] = useState<string | File | undefined>(/* initial value */);
 
     const [isnamaItemEmpty, setIsnamaItemEmpty] = useState(false);
     const [ishargaEmpty, setIshargaEmpty] = useState(false);
     const [iskategoriEmpty, setIskategoriEmpty] = useState(false);
     const [isstokEmpty, setIsstokEmpty] = useState(false);
-    // const [isgambarEmpty, setIsgambarEmpty] = useState(false);
+    const [isgambarEmpty, setIsgambarEmpty] = useState(false);
 
     const [showAlertInputData, setShowAlertInputData] = useState(false);
-    const [showAlertSimpanData, setShowAlertSimpanData] = useState(false);
     const [showAlertUbahData, setShowAlertUbahData] = useState(false);
 
     const handleFormSubmit = async () => {
@@ -62,60 +63,81 @@ export default function TambahItemMenu() {
         } else {
             setIsstokEmpty(false);
         }
-        // if (!gambar) {
-        //     setIsgambarEmpty(true);
-        // } else {
-        //     setIsgambarEmpty(false);
-        // }
+        if (!gambar) {
+            setIsgambarEmpty(true);
+        } else {
+            setIsgambarEmpty(false);
+        }
 
-        // if (namaItem && harga) {
-        //     if (namaItem.includes('@gmail.com')) {
-        //         console.log('namaItem: ', namaItem);
-        //         console.log('harga: ', harga);
-        //         if (namaItem === "test@gmail.com" && harga === "test") {
-        //             setshowSuccesLoginAlert(true);
-        //             window.location.href = '/page/dashboard';
-        //         }
-        //         handleReset();
-        //     } else {
-        //         alert('Use @gmail.com in namaItem');
-        //     }
-        // }
-
-        if (isnamaItemEmpty || ishargaEmpty || iskategoriEmpty || isstokEmpty) {
+        if (isnamaItemEmpty || ishargaEmpty || iskategoriEmpty || isstokEmpty || isgambarEmpty) {
             setShowAlertInputData(true);
             setTimeout(() => {
                 setShowAlertInputData(false);
             }, 5000);
-        } else if (namaItem && harga && kategori && stok) {
-            setShowAlertUbahData(true);
-            setTimeout(() => {
-                setShowAlertUbahData(false);
-            }, 5000);
+
+        } else if (namaItem && harga && kategori && stok && gambar) {
+            const namaItemRegex = /^[A-Za-z\s]{1,20}(\s[A-Za-z\s]{1,20}){0,3}$/;
+            if (!namaItemRegex.test(namaItem)) {
+                alert('Nama item harus berupa huruf, tidak lebih dari 20 karakter, dan maksimal 4 kalimat');
+                return;
+            }
+
+            if (parseInt(stok) > 1000) {
+                alert('Stok tidak boleh lebih dari 1000');
+                return;
+            }
+            if (isNaN(parseInt(stok))) {
+                alert('Stok harus berupa angka');
+                return;
+            }
+            if (isNaN(parseInt(harga))) {
+                alert('Inputan Harga harus berupa angka');
+                return;
+            }
+            if (parseInt(harga) > 1000000) {
+                alert('Inputan Harga tidak boleh lebih dari Rp. 100.000');
+                return;
+            }
+            let userData;
+
+            if (typeof gambar === 'string') {
+                userData = { namaItem, harga, kategori, stok, gambar };
+                // console.log('User Data:', JSON.stringify(userData));
+            } else if (gambar instanceof File) {
+                userData = { namaItem, harga, kategori, stok, gambar: gambar.name };
+                console.log('User Data:', JSON.stringify(userData));
+
+                const formData = new FormData();
+                formData.append('namaItem', namaItem);
+                formData.append('harga', harga);
+                formData.append('kategori', kategori);
+                formData.append('stok', stok);
+                formData.append('gambar', gambar, gambar.name);
+
+                try {
+                    const response = await axios.post('/api/menu', formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        },
+                    });
+                    if (response.status === 200) {
+                        const responseData = response.data;
+                        console.log('Data has been sent successfully:', responseData);
+                        setShowAlertUbahData(true);
+                        setTimeout(() => {
+                            setShowAlertUbahData(false);
+                        }, 5000);
+                    } else {
+                        console.error('Failed to send data. Status:', response.status);
+                        alert('Gagal menyimpan data');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Tidak Dapat Data API');
+                }
+            }
+            // console.log('User Data:', JSON.stringify(userData));
         }
-
-        // if (namaItem && ishargaEmpty) {
-        //     setShowhargaAlert(true);
-        //     setTimeout(() => {
-        //         setShowhargaAlert(false);
-        //     }, 3000);
-        // } else if (harga && isnamaItemEmpty) {
-        //     setShownamaItemAlert(true);
-        //     setTimeout(() => {
-        //         setShownamaItemAlert(false);
-        //     }, 3000);
-        // } else if (isnamaItemEmpty && ishargaEmpty) {
-        //     setshowInputnamaItemharga(true);
-        //     setTimeout(() => {
-        //         setshowInputnamaItemharga(false);
-        //     }, 3000);
-        // } else if (isnamaItemEmpty && ishargaEmpty && iskategoriEmpty && isstokEmpty) {
-        //     setShowAlertInputData(true);
-        //     setTimeout(() => {
-        //         setShowAlertInputData(false);
-        //     }, 3000);
-        // }
-
     };
 
     const handleReset = () => {
@@ -123,12 +145,12 @@ export default function TambahItemMenu() {
         setharga("");
         setkategori("");
         setstok("");
-        // setgambar("");
+        setgambar("");
         setIsnamaItemEmpty(false);
         setIshargaEmpty(false);
         setIskategoriEmpty(false);
         setIsstokEmpty(false);
-        // setIsgambarEmpty(false);
+        setIsgambarEmpty(false);
     };
 
     // Batass
@@ -146,12 +168,28 @@ export default function TambahItemMenu() {
 
     const [fileStatus, setFileStatus] = useState("Tidak ada gambar.");
 
-    const handleFileChange = (e: any) => {
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const input = e.target;
-        if (input.files.length > 0) {
-            setFileStatus(input.files[0].name);
+        if (input.files && input.files.length > 0) {
+            const file = input.files[0];
+
+            // Check if the file has a valid extension
+            const allowedExtensions = ['.png', '.jpg', '.jpeg'];
+            const fileExtension = file.name.split('.').pop()?.toLowerCase() || '';
+
+            if (allowedExtensions.includes(`.${fileExtension}`)) {
+                setFileStatus(file.name);
+                setgambar(file);
+                // Log the file name
+                console.log('Selected Image File:', file);
+            } else {
+                // Invalid file type
+                setFileStatus("Hanya file .png atau .jpg yang diizinkan.");
+                setgambar(undefined); // or setgambar('') depending on your use case
+            }
         } else {
             setFileStatus("Tidak ada gambar.");
+            setgambar(undefined); // or setgambar('') depending on your use case
         }
     };
 
@@ -219,7 +257,7 @@ export default function TambahItemMenu() {
                         placeholder="Masukkan nama item"
                         required
                         type="text"
-                        value="Ayam Geprek"
+                        value={namaItem}
                     />
                     <div className="justify-between items-center grid grid-cols-3 md:grid-cols-3 gap-2 w-full mt-2">
                         <div className="w-[175px]">
@@ -231,7 +269,7 @@ export default function TambahItemMenu() {
                                     placeholder="10.000"
                                     required
                                     type="text"
-                                    value="10000"
+                                    value={harga}
                                 />
                             </div>
                         </div>
@@ -256,7 +294,7 @@ export default function TambahItemMenu() {
                                     placeholder="100"
                                     required
                                     type="text"
-                                    value="100"
+                                    value={stok}
                                 />
                             </div>
                         </div>
@@ -272,6 +310,7 @@ export default function TambahItemMenu() {
                                         name="imageFile"
                                         className="absolute opacity-0 cursor-pointer "
                                         onChange={handleFileChange}
+                                        value={""}
                                     />
                                     <label
                                         htmlFor="imageUpload"

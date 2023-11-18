@@ -2,13 +2,34 @@
 'use client';
 
 import { Button, Modal } from 'flowbite-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import TableModalPemesanan from './TableModalPemesanan';
+
+import axios from 'axios';
 
 function ModalOrder() {
     const [openModal, setOpenModal] = useState(false);
 
-    const data = [
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('/api/pegawai'); // Adjust the endpoint as needed
+                if (response.status === 200) {
+                    setData(response.data);
+                } else {
+                    console.error('Error fetching data:', response.status);
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    const datadumy = [
         { uid: '0001', namaPemesan: "ando1" },
         { uid: '0002', namaPemesan: "ando2" },
         { uid: '0003', namaPemesan: "ando3" },
@@ -37,7 +58,7 @@ function ModalOrder() {
                     <Modal.Header>Order Saat Ini</Modal.Header>
                     <Modal.Body>
                         <div className="space-y-2">
-                            <TableModalPemesanan data={data} />
+                            <TableModalPemesanan data={datadumy} />
                         </div>
                     </Modal.Body>
                 </Modal>

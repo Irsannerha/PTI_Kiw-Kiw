@@ -8,19 +8,33 @@ import SvgDashboardKalender from "@/app/components/SvgDashboardKalender"
 import Input from "@/app/components/Input";
 
 import TablePrekPegawaiTahap1 from "@/app/components/TablePrekPegawaiTahap1"
-import AlertMenolakPegawai1 from "@/app/components/AlertMenolakPegawai1"
-import AlertMenolakPegawai2 from "@/app/components/AlertMenolakPegawai2"
-import AlertTerimaPegawai1 from "@/app/components/AlertTerimaPegawai1"
-import AlertTerimaPegawai2 from "@/app/components/AlertTerimaPegawai2"
+import axios from 'axios';
 
 
 export default function TambahItemMenu() {
     const [currentTime, setCurrentTime] = useState(new Date());
+    const [data, setData] = useState([]);
     useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('/api/pegawai'); // Adjust the endpoint as needed
+                if (response.status === 200) {
+                    setData(response.data);
+                } else {
+                    console.error('Error fetching data:', response.status);
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
         const intervalId = setInterval(() => {
             setCurrentTime(new Date());
         }, 1000);
-        return () => clearInterval(intervalId);
+        return () => {
+            clearInterval(intervalId);
+        };
     }, []);
 
     const formattedTime = currentTime.toLocaleTimeString();
@@ -38,7 +52,7 @@ export default function TambahItemMenu() {
         }
     };
 
-    const data = [
+    const datadumy = [
         { nama: 'Test1', nik: '1234567890' },
         { nama: 'Test2', nik: '0987654321' },
         { nama: 'Test3', nik: '1234567890' },
@@ -125,7 +139,7 @@ export default function TambahItemMenu() {
 
                     <div className="mb-5 w-full text-[32px]">Perekrutan Pegawai Tahap 1</div>
                     <div className="container mx-auto mt-8 text-center">
-                        <TablePrekPegawaiTahap1 data={data} />
+                        <TablePrekPegawaiTahap1 data={datadumy} />
                     </div>
                 </div >
             </div >

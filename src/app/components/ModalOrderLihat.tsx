@@ -4,17 +4,37 @@
 import { Button, Modal } from 'flowbite-react';
 import { useState } from 'react';
 import ModalTabelOrderLihat from './ModalTabelOrderLihat';
-
+import axios from 'axios';
 
 
 function ModalOrderLihat() {
     const [openModal, setOpenModal] = useState(false);
 
+    const [invoiceData, setInvoiceData] = useState({
+        noInvoice: '',
+        namaPemesan: '',
+        tanggal: '',
+    });
+
+
     const data = [
-        { produk: 'Ayam Geprek', jumlah: "1 Qty", harga: "Rp. 10.000" },
-        { produk: 'Es Teh Manis', jumlah: "1 Qty", harga: "Rp. 20.000" },
-        { produk: 'Ayam Geprek', jumlah: "1 Qty", harga: "Rp. 10.000" },
+        { produk: 'Ayam Geprek', jumlah: "1", harga: "10000" },
+        { produk: 'Es Teh Manis', jumlah: "1", harga: "20000" },
+        { produk: 'Ayam Geprek', jumlah: "1", harga: "10000" },
+        { produk: 'Ayam Geprek', jumlah: "1", harga: "10000" },
+        { produk: 'Ayam Geprek', jumlah: "1", harga: "10000" },
     ];
+
+    const fetchData = async () => {
+        try {
+            const response = await axios.get('/api/laporanPemesanan');
+            // Assuming your backend response structure has keys like noInvoice, namaPemesan, tanggal
+            setInvoiceData(response.data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
 
     return (
         <>
@@ -35,10 +55,10 @@ function ModalOrderLihat() {
                                 <div className="flex-shrink-0">Nama Pemesan</div>
                                 <div className="flex-shrink-0">Tanggal</div>
                             </div>
-                            <div className="text-black text-md font-normal font-['Montserrat'] leading-10 ml-5">
-                                <div className="flex-shrink-0">: 001 </div>
-                                <div className="flex-shrink-0">: Hasan</div>
-                                <div className="flex-shrink-0">: 23/10/2023</div>
+                            <div className="text-black text-xl font-normal font-['Montserrat'] leading-10 ml-5">
+                                <div className="flex-shrink-0">: {invoiceData.noInvoice || 'Loading...'}  </div>
+                                <div className="flex-shrink-0">: {invoiceData.namaPemesan || 'Loading...'}</div>
+                                <div className="flex-shrink-0">: {invoiceData.tanggal || 'Loading...'}</div>
                             </div>
                         </div>
                         <ModalTabelOrderLihat data={data} />

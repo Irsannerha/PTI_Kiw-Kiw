@@ -15,7 +15,7 @@ interface TableProps {
 }
 
 const Table: React.FC<TableProps> = ({ data, itemsPerPage = 3 }) => {
-    const [currentPage, setCurrentPage] = useState(2);
+    const [currentPage, setCurrentPage] = useState(1);
 
     // Calculate the total number of pages based on the itemsPerPage
     const totalPages = Math.ceil(data.length / itemsPerPage);
@@ -30,6 +30,9 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 3 }) => {
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+
+    // Calculate the total price of all products
+    const totalPrice = data.reduce((acc, row) => acc + parseInt(row.harga), 0);
 
     const onPageChange = (page: number) => {
         setCurrentPage(page);
@@ -54,8 +57,8 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 3 }) => {
                     {currentItems.map((row, index) => (
                         <tr key={index} className='text-center text-sm'>
                             <td className="px-6 py-2 whitespace-nowrap">{row.produk}</td>
-                            <td className="px-6 py-2 whitespace-nowrap ">{row.jumlah}</td>
-                            <td className="px-6 whitespace-nowrap ">{row.harga}</td>
+                            <td className="px-6 py-2 whitespace-nowrap ">{row.jumlah} Qty</td>
+                            <td className="px-6 whitespace-nowrap ">Rp. {row.harga}</td>
                         </tr>
                     ))}
                 </tbody>
@@ -66,7 +69,7 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 3 }) => {
             </div>
             <div className="text-sm flex justify-end items-end gap-24 mr-[10%]">
                 <div className="font-bold">TOTAL</div>
-                <div className="font-bold">Rp. 15.000</div>
+                <div className="font-bold">Rp. {totalPrice}</div>
             </div>
             <div className="">
                 <PaginationTable currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} />

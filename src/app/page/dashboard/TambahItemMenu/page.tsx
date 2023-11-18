@@ -31,7 +31,8 @@ export default function TambahItemMenu() {
     const [harga, setharga] = useState(initialData.harga);
     const [kategori, setkategori] = useState(initialData.kategori);
     const [stok, setstok] = useState(initialData.stok);
-    const [gambar, setgambar] = useState(initialData.gambar);
+    // const [gambar, setgambar] = useState(initialData.gambar);
+    const [gambar, setgambar] = useState<string | File | undefined>(/* initial value */);
 
     const [isnamaItemEmpty, setIsnamaItemEmpty] = useState(false);
     const [ishargaEmpty, setIshargaEmpty] = useState(false);
@@ -41,6 +42,8 @@ export default function TambahItemMenu() {
 
     const [showAlertInputData, setShowAlertInputData] = useState(false);
     const [showAlertSimpanData, setShowAlertSimpanData] = useState(false);
+
+
 
     const handleFormSubmit = async () => {
         if (!namaItem) {
@@ -74,16 +77,43 @@ export default function TambahItemMenu() {
                 setShowAlertInputData(false);
             }, 5000);
         } else if (namaItem && harga && kategori && stok && gambar) {
-            const userData = { namaItem, harga, kategori, stok, gambar };
-            console.log('User Data:', JSON.stringify(userData));
+            const namaItemRegex = /^[A-Za-z\s]{1,20}(\s[A-Za-z\s]{1,20}){0,3}$/;
+            if (!namaItemRegex.test(namaItem)) {
+                alert('Nama item harus berupa huruf, tidak lebih dari 20 karakter, dan maksimal 4 kalimat');
+                return;
+            }
 
-            if (gambar instanceof File) {
+            if (parseInt(stok) > 1000) {
+                alert('Stok tidak boleh lebih dari 1000');
+                return;
+            }
+            if (isNaN(parseInt(stok))) {
+                alert('Stok harus berupa angka');
+                return;
+            }
+            if (isNaN(parseInt(harga))) {
+                alert('Inputan Harga harus berupa angka');
+                return;
+            }
+            if (parseInt(harga) > 1000000) {
+                alert('Inputan Harga tidak boleh lebih dari Rp. 100.000');
+                return;
+            }
+            let userData;
+
+            if (typeof gambar === 'string') {
+                userData = { namaItem, harga, kategori, stok, gambar };
+                // console.log('User Data:', JSON.stringify(userData));
+            } else if (gambar instanceof File) {
+                userData = { namaItem, harga, kategori, stok, gambar: gambar.name };
+                console.log('User Data:', JSON.stringify(userData));
+
                 const formData = new FormData();
                 formData.append('namaItem', namaItem);
                 formData.append('harga', harga);
                 formData.append('kategori', kategori);
                 formData.append('stok', stok);
-                formData.append('gambar', gambar); // Append the File object directly
+                formData.append('gambar', gambar, gambar.name);
 
                 try {
                     const response = await axios.post('/api/menu', formData, {
@@ -107,9 +137,9 @@ export default function TambahItemMenu() {
                     alert('Tidak Dapat Data API');
                 }
             }
+            // console.log('User Data:', JSON.stringify(userData));
         }
     };
-
     const handleReset = () => {
         setnamaItem("");
         setharga("");
@@ -140,16 +170,26 @@ export default function TambahItemMenu() {
         const input = e.target;
         if (input.files && input.files.length > 0) {
             const file = input.files[0];
-            setFileStatus(file.name);
-            setgambar(file);
 
-            // Log the file name
-            console.log('Selected Image File:', file);
+            // Check if the file has a valid extension
+            const allowedExtensions = ['.png', '.jpg', '.jpeg'];
+            const fileExtension = file.name.split('.').pop()?.toLowerCase() || '';
+
+            if (allowedExtensions.includes(`.${fileExtension}`)) {
+                setFileStatus(file.name);
+                setgambar(file);
+                // Log the file name
+                console.log('Selected Image File:', file);
+            } else {
+                // Invalid file type
+                setFileStatus("Hanya file .png atau .jpg yang diizinkan.");
+                setgambar(undefined); // or setgambar('') depending on your use case
+            }
         } else {
             setFileStatus("Tidak ada gambar.");
+            setgambar(undefined); // or setgambar('') depending on your use case
         }
     };
-
     return (
         <>
             <div style={{ display: 'flex' }}>
@@ -182,7 +222,6 @@ export default function TambahItemMenu() {
                             </div>
                         </div>
                     </div>
-
                     <div className="flex justify-between -mt-4 ">
                         <div className="text-start justify-start items-start">
                             <div className="mt-4 mb-4 w-full bg-[#F8A849] shadow-lg rounded-lg hover:bg-[#C79618]">
@@ -193,9 +232,7 @@ export default function TambahItemMenu() {
                                                 <path d="M15 23.75L6.25 15L15 6.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                                 <path d="M23.75 15H6.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                             </svg>
-
                                         </div>
-
                                         <div className="flex items-center text-black">
                                             Kembali
                                         </div>
@@ -204,7 +241,6 @@ export default function TambahItemMenu() {
                             </div>
                         </div>
                     </div>
-
                     <div className="mb-5 w-full text-[32px]">Tambah Pesanan</div>
                     <div className="text-[24px]">Nama Item</div>
                     <Input
@@ -231,12 +267,10 @@ export default function TambahItemMenu() {
                             <div className="flex justify-between">
                                 <div className="flex">
                                     <select onChange={(e) => { setkategori(e.target.value); }} id="countrssies" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-
                                         <option selected>Pilih Kategori</option>
                                         <option value="Makanan">Makanan</option>
                                         <option value="Minuman">Minuman</option>
                                     </select>
-
                                 </div>
                             </div>
                         </div>
@@ -300,7 +334,6 @@ export default function TambahItemMenu() {
                     {/* </Link> */}
                 </div>
             </div >
-
         </>
     )
 }

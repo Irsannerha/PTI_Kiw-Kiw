@@ -5,14 +5,35 @@ import SvgDashboardProfile from "@/app/components/SvgDashboardProfile"
 import SvgDashboardKalender from "@/app/components/SvgDashboardKalender"
 import TableLaporanPemesanan from "@/app/components/TableLaporanPemesanan"
 
+import axios from 'axios';
+
 export default function LaporanPemesanan() {
     const [currentTime, setCurrentTime] = useState(new Date());
+    const [data, setData] = useState([]);
+
     useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('/api/pegawai'); // Adjust the endpoint as needed
+                if (response.status === 200) {
+                    setData(response.data);
+                } else {
+                    console.error('Error fetching data:', response.status);
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
         const intervalId = setInterval(() => {
             setCurrentTime(new Date());
         }, 1000);
-        return () => clearInterval(intervalId);
+        return () => {
+            clearInterval(intervalId);
+        };
     }, []);
+
 
     const formattedTime = currentTime.toLocaleTimeString();
     const formattedDate = currentTime.toLocaleDateString('id-ID');
@@ -28,8 +49,8 @@ export default function LaporanPemesanan() {
         }
     };
 
-    const data = [
-        { uid: '0001', tanggal: "23/10/2023", namaPemesan: "ando1", jumlah: "100", harga: "10.000" },
+    const datadumy = [
+        { uid: '0001', tanggal: "23/11/2023", namaPemesan: "ando1", jumlah: "100", harga: "10.000" },
         { uid: '0002', tanggal: "23/10/2023", namaPemesan: "ando2", jumlah: "100", harga: "10.000" },
         { uid: '0003', tanggal: "23/10/2023", namaPemesan: "ando3", jumlah: "100", harga: "10.000" },
         { uid: '0004', tanggal: "23/10/2023", namaPemesan: "ando4", jumlah: "100", harga: "10.000" },
@@ -82,7 +103,7 @@ export default function LaporanPemesanan() {
                     <div className="div">
                         <div className="mb-5 w-full text-[32px]">Laporan Pesanan</div>
                         <div className="container mx-auto mt-8 text-cent0002r">
-                            <TableLaporanPemesanan data={data} />
+                            <TableLaporanPemesanan data={datadumy} />
                         </div>
                     </div>
                 </div>
