@@ -8,36 +8,36 @@ import SvgDashboardKalender from "@/app/components/SvgDashboardKalender"
 import Input from "@/app/components/Input";
 import AlertInputData from "@/app/components/AlertInputData";
 import AlertSimpanData from "@/app/components/AlertSimpanData";
+import axios from "axios";
 
 interface DataFecth {
     namaItem: string;
     harga: string;
     kategori: string;
     stok: string;
-    // gambar: any;
+    gambar: File | string;
 }
 
 export default function TambahItemMenu() {
-
     const initialData: DataFecth = {
         namaItem: "",
         harga: "",
         kategori: "",
         stok: "",
-        // gambar: "",
+        gambar: "",
     };
 
     const [namaItem, setnamaItem] = useState(initialData.namaItem);
     const [harga, setharga] = useState(initialData.harga);
     const [kategori, setkategori] = useState(initialData.kategori);
     const [stok, setstok] = useState(initialData.stok);
-    // const [gambar, setgambar] = useState(initialData.gambar);
+    const [gambar, setgambar] = useState(initialData.gambar);
 
     const [isnamaItemEmpty, setIsnamaItemEmpty] = useState(false);
     const [ishargaEmpty, setIshargaEmpty] = useState(false);
     const [iskategoriEmpty, setIskategoriEmpty] = useState(false);
     const [isstokEmpty, setIsstokEmpty] = useState(false);
-    // const [isgambarEmpty, setIsgambarEmpty] = useState(false);
+    const [isgambarEmpty, setIsgambarEmpty] = useState(false);
 
     const [showAlertInputData, setShowAlertInputData] = useState(false);
     const [showAlertSimpanData, setShowAlertSimpanData] = useState(false);
@@ -63,60 +63,51 @@ export default function TambahItemMenu() {
         } else {
             setIsstokEmpty(false);
         }
-        // if (!gambar) {
-        //     setIsgambarEmpty(true);
-        // } else {
-        //     setIsgambarEmpty(false);
-        // }
-
-        // if (namaItem && harga) {
-        //     if (namaItem.includes('@gmail.com')) {
-        //         console.log('namaItem: ', namaItem);
-        //         console.log('harga: ', harga);
-        //         if (namaItem === "test@gmail.com" && harga === "test") {
-        //             setshowSuccesLoginAlert(true);
-        //             window.location.href = '/page/dashboard';
-        //         }
-        //         handleReset();
-        //     } else {
-        //         alert('Use @gmail.com in namaItem');
-        //     }
-        // }
-
-        if (isnamaItemEmpty || ishargaEmpty || iskategoriEmpty || isstokEmpty) {
+        if (!gambar) {
+            setIsgambarEmpty(true);
+        } else {
+            setIsgambarEmpty(false);
+        }
+        if (isnamaItemEmpty || ishargaEmpty || iskategoriEmpty || isstokEmpty || isgambarEmpty) {
             setShowAlertInputData(true);
             setTimeout(() => {
                 setShowAlertInputData(false);
             }, 5000);
-        } else if (namaItem && harga && kategori && stok) {
-            setShowAlertSimpanData(true);
-            setTimeout(() => {
-                setShowAlertSimpanData(false);
-            }, 5000);
+        } else if (namaItem && harga && kategori && stok && gambar) {
+            const userData = { namaItem, harga, kategori, stok, gambar };
+            console.log('User Data:', JSON.stringify(userData));
+
+            if (gambar instanceof File) {
+                const formData = new FormData();
+                formData.append('namaItem', namaItem);
+                formData.append('harga', harga);
+                formData.append('kategori', kategori);
+                formData.append('stok', stok);
+                formData.append('gambar', gambar); // Append the File object directly
+
+                try {
+                    const response = await axios.post('/api/menu', formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        },
+                    });
+                    if (response.status === 200) {
+                        const responseData = response.data;
+                        console.log('Data has been sent successfully:', responseData);
+                        setShowAlertSimpanData(true);
+                        setTimeout(() => {
+                            setShowAlertSimpanData(false);
+                        }, 5000);
+                    } else {
+                        console.error('Failed to send data. Status:', response.status);
+                        alert('Gagal menyimpan data');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Tidak Dapat Data API');
+                }
+            }
         }
-
-        // if (namaItem && ishargaEmpty) {
-        //     setShowhargaAlert(true);
-        //     setTimeout(() => {
-        //         setShowhargaAlert(false);
-        //     }, 3000);
-        // } else if (harga && isnamaItemEmpty) {
-        //     setShownamaItemAlert(true);
-        //     setTimeout(() => {
-        //         setShownamaItemAlert(false);
-        //     }, 3000);
-        // } else if (isnamaItemEmpty && ishargaEmpty) {
-        //     setshowInputnamaItemharga(true);
-        //     setTimeout(() => {
-        //         setshowInputnamaItemharga(false);
-        //     }, 3000);
-        // } else if (isnamaItemEmpty && ishargaEmpty && iskategoriEmpty && isstokEmpty) {
-        //     setShowAlertInputData(true);
-        //     setTimeout(() => {
-        //         setShowAlertInputData(false);
-        //     }, 3000);
-        // }
-
     };
 
     const handleReset = () => {
@@ -124,15 +115,14 @@ export default function TambahItemMenu() {
         setharga("");
         setkategori("");
         setstok("");
-        // setgambar("");
+        setgambar("");
         setIsnamaItemEmpty(false);
         setIshargaEmpty(false);
         setIskategoriEmpty(false);
         setIsstokEmpty(false);
-        // setIsgambarEmpty(false);
+        setIsgambarEmpty(false);
     };
 
-    // Batass
     const [currentTime, setCurrentTime] = useState(new Date());
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -144,18 +134,21 @@ export default function TambahItemMenu() {
     const formattedTime = currentTime.toLocaleTimeString();
     const formattedDate = currentTime.toLocaleDateString('id-ID');
 
-
     const [fileStatus, setFileStatus] = useState("Tidak ada gambar.");
 
-    const handleFileChange = (e: any) => {
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const input = e.target;
-        if (input.files.length > 0) {
-            setFileStatus(input.files[0].name);
+        if (input.files && input.files.length > 0) {
+            const file = input.files[0];
+            setFileStatus(file.name);
+            setgambar(file);
+
+            // Log the file name
+            console.log('Selected Image File:', file);
         } else {
             setFileStatus("Tidak ada gambar.");
         }
     };
-
 
     return (
         <>
@@ -240,10 +233,8 @@ export default function TambahItemMenu() {
                                     <select onChange={(e) => { setkategori(e.target.value); }} id="countrssies" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
                                         <option selected>Pilih Kategori</option>
-                                        <option value="US">United States</option>
-                                        <option value="CA">Canada</option>
-                                        <option value="FR">France</option>
-                                        <option value="DE">Germany</option>
+                                        <option value="Makanan">Makanan</option>
+                                        <option value="Minuman">Minuman</option>
                                     </select>
 
                                 </div>
@@ -297,8 +288,6 @@ export default function TambahItemMenu() {
                         <AlertSimpanData />
                     </div>
                 )}
-
-                {/* <Link href="/page/dashboard"> */}
                 <div className="div">
                     <button
                         type="button"

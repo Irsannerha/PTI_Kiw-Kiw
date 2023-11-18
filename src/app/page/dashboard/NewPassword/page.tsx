@@ -6,6 +6,7 @@ import Image from 'next/image'
 import AlertInputNewPass from "@/app/components/AlertInputNewPass"
 import AlertInputRepeatPass from "@/app/components/AlertInputRepeatPass"
 import SuccessUbahPass from "@/app/components/SuccessUbahPass"
+import axios from 'axios';
 
 interface DataFecth {
   newPassword: string;
@@ -42,20 +43,54 @@ export default function landingPage() {
       setIsreNewPasswordEmpty(false);
     }
 
+    if (newPassword.length > 12 || reNewPassword.length > 12) {
+      console.error('Password Tidak Boleh Lebih dari 6 Angka');
+      alert('Password Tidak Boleh Lebih dari 6 Angka');
+      return;
+    }
+
     if (newPassword && reNewPassword) {
-      console.log('newPassword: ', newPassword);
-      console.log('reNewPassword: ', reNewPassword);
-      if (newPassword === "test" && reNewPassword === "test") {
-        setshowSuccesUbahPassAlert(true);
-        window.location.href = '/page/dashboard/FormLogin';
+      if (newPassword === reNewPassword) {
+        const userData = { newPassword, reNewPassword };
+        console.log('User Data:', JSON.stringify(userData));
+        try {
+          const response = await axios.post('/api/login', { newPassword, reNewPassword });
+          if (response.status === 200) {
+            const data = response.data;
+            console.log('Successful:', data);
+            setshowSuccesUbahPassAlert(true);
+            setTimeout(() => {
+              setshowSuccesUbahPassAlert(false);
+            }, 3000);
+            window.location.href = '/page/dashboard/FormLogin';
+          } else {
+            console.error('Gagal:', response.status);
+            alert('Gagal');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('Tidak Dapat Data API');
+        }
+      } else {
+        alert('Password Harus Sama, Maksimal 12 Terdiri dari huruf dan angka.');
       }
-      handleReset();
     }
 
     if (newPassword && isreNewPasswordEmpty) {
       setShowreNewPasswordAlert(true);
+      setTimeout(() => {
+        setShowreNewPasswordAlert(false);
+      }, 3000);
     } else if (reNewPassword && isnewPasswordEmpty) {
       setShownewPasswordAlert(true);
+      setTimeout(() => {
+        setShownewPasswordAlert(false);
+      }, 3000);
+    } else if (isnewPasswordEmpty && isnewPasswordEmpty) {
+      setShownewPasswordAlert(true);
+      setTimeout(() => {
+        setShownewPasswordAlert(false);
+      }, 3000);
     }
   };
 

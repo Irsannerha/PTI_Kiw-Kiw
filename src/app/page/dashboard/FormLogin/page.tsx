@@ -7,6 +7,7 @@ import Tolkit from "@/app/components/Tolkit";
 import AlertInputEmail from "@/app/components/AlertInputEmail"
 import AlertInputPassword from "@/app/components/AlertInputPassword"
 import AlertLoginSucces from "@/app/components/AlertLoginSucces"
+import axios from 'axios';
 
 interface DataFecth {
     email: string;
@@ -39,19 +40,42 @@ export default function landingPage() {
         } else {
             setIsPasswordEmpty(false);
         }
+
+        if (password.length > 8) {
+            console.error('Password length should not exceed 8 characters');
+            alert('Password Tidak Boleh Lebih dari 8');
+            return;
+        }
+
         if (email && password) {
             if (email.includes('@gmail.com')) {
-                console.log('email: ', email);
-                console.log('password: ', password);
-                if (email === "test@gmail.com" && password === "test") {
-                    setshowSuccesLoginAlert(true);
-                    window.location.href = '/page/dashboard';
+                // if (email === "kiwkiw@gmail.com" && password === "kiwkiw") {
+                //     setshowSuccesLoginAlert(true);
+                //     window.location.href = '/page/dashboard';
+                // }
+                // Log email and password as JSON for backend readability
+                const userData = { email, password };
+                console.log('User Data:', JSON.stringify(userData));
+                try {
+                    const response = await axios.post('/api/login', { email, password });
+                    if (response.status === 200) {
+                        const data = response.data;
+                        console.log('Login successful:', data);
+                        setshowSuccesLoginAlert(true);
+                        window.location.href = '/page/dashboard';
+                    } else {
+                        console.error('Login Gagal:', response.status);
+                        alert('Login Gagal');
+                    }
+                } catch (error) {
+                    console.error('Error Login:', error);
+                    alert('Tidak Dapat Data API');
                 }
-                handleReset();
             } else {
                 alert('Use @gmail.com in email');
             }
         }
+
 
         if (email && isPasswordEmpty) {
             setShowPasswordAlert(true);

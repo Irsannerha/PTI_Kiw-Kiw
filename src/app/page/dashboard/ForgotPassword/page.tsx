@@ -1,21 +1,18 @@
 "use client";
 import Input from "@/app/components/Input";
 import { useState } from "react";
-import Link from "next/link";
 import Image from 'next/image'
-
 import AlertInputEmail from "@/app/components/AlertInputEmail"
 import SuccessOTP from "@/app/components/SuccessOTP"
+import axios from 'axios';
 
 interface DataFecth {
   email: string;
-  password: string;
 }
 
 export default function ForgotPassword() {
   const initialData: DataFecth = {
     email: "",
-    password: ""
   };
 
   const [email, setEmail] = useState(initialData.email);
@@ -33,10 +30,27 @@ export default function ForgotPassword() {
 
     if (email) {
       if (email.includes('@gmail.com')) {
-        console.log('email: ', email);
-        setshowSuccessOTPSend(true);
-        window.location.href = '/page/dashboard/CodeOTP';
-        handleReset();
+        const userData = { email };
+        console.log('User Data:', JSON.stringify(userData));
+        try {
+          const response = await axios.post('/api/login', { email });
+
+          if (response.status === 200) {
+            const data = response.data;
+            console.log('Login successful:', data);
+            setshowSuccessOTPSend(true);
+            setTimeout(() => {
+              setshowSuccessOTPSend(false);
+            }, 3000);
+            window.location.href = '/page/dashboard/CodeOTP';
+          } else {
+            console.error('Gagal:', response.status);
+            alert('Gagal');
+          }
+        } catch (error) {
+          console.error('Error Login:', error);
+          alert('Tidak Dapat Data API');
+        }
       } else {
         alert('Use @gmail.com in email');
       }
@@ -44,14 +58,15 @@ export default function ForgotPassword() {
 
     if (isEmailEmpty) {
       setShowEmailAlert(true);
-    } 
+      setTimeout(() => {
+        setShowEmailAlert(false);
+      }, 3000);
+    }
   };
-
-  const handleReset = () => {
-    setEmail("");
-    setIsEmailEmpty(false);
-  };
-
+  // const handleReset = () => {
+  //   setEmail("");
+  //   setIsEmailEmpty(false);
+  // };
   return (
     <>
       <div className="m-0 box-border flex h-screen w-full bg-slate-500 p-0">
