@@ -5,7 +5,7 @@ import Link from "next/link";
 import SvgDashboardProfile from "@/app/components/SvgDashboardProfile";
 import Navbars from "@/app/components/Navbars";
 import axios from "axios";
-
+ 
 interface UserData {
   nama?: string;
   nik?: string;
