@@ -35,14 +35,28 @@ export default function PrekTahap1LihatData() {
         return () => clearInterval(intervalId);
     }, []);
 
+    const [userData, setUserData] = useState({
+    // Inisialisasi data pengguna di sini atau ambil dari suatu tempat
+    id: "0012",
+    nik: "12345067777",
+    nama: "Bre Jabenkk",
+    noHp: "089577778222",
+    email: "inibre@gmail.com",
+    alamat: "Ini Jalan Bre",
+    jenisKelamin: "Lanankk",
+    usia: "100",
+    ijazah: "https://www.w3schools.com/w3css/img_lights.jpg",
+  });
+
     const formattedTime = currentTime.toLocaleTimeString();
     const formattedDate = currentTime.toLocaleDateString('id-ID');
 
 
     const [fileStatus, setFileStatus] = useState("Tidak ada gambar.");
-    const [userData, setUserData] = useState<UserData>(initialUserData);
-
+    // const [userData, setUserData] = useState<UserData>(initialUserData);
+    
     useEffect(() => {
+         console.log('Data Pengguna:', JSON.stringify(userData));
         // Fetch data from the backend API endpoint using Axios
         axios.get('http://localhost:3001/api/fetchData')
             .then(response => {
