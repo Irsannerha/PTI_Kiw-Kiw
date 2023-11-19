@@ -53,7 +53,7 @@ export default function ForgotPassword() {
             setshowWrongOTP(true);
             setTimeout(() => {
               setshowWrongOTP(false);
-            }, 3000);
+            }, 3000)
           }
         } catch (error) {
           console.error('Error OTP:', error);

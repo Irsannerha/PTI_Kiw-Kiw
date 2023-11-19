@@ -4,65 +4,87 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Montserrat } from "next/font/google";
-
 import SuccessOTP from "@/app/components/SuccessOTP"
-
 import AlertInputOTP from "@/app/components/AlertInputOTP"
 import AlertWrongOTP from "@/app/components/AlertWrongOTP";
 import Navbars from "@/app/components/Navbars";
 // Deklarasikan tipe data terlebih dahulu
+import axios from 'axios';
+
 interface DataFecth {
-  email: string;
-  password: string;
+  otp?: number;
 }
 
 export default function ForgotPassword() {
-  // Inisialisasi state dan variabel yang diperlukan
   const initialData: DataFecth = {
-    email: "",
-    password: ""
+    otp: 0,
   };
 
-  const [password, setPassword] = useState(initialData.password);
-  const [isPasswordEmpty, setIsPasswordEmpty] = useState(false);
+  // const [otp, setotp] = useState(initialData.otp);
+  const [isotpEmpty, setIsotpEmpty] = useState(false);
+  const [otp, setotp] = useState<number | string>(0);
 
   const [showSuccessOTPSend, setshowSuccessOTPSend] = useState(false);
   const [showInputOTP, setshowInputOTP] = useState(false);
   const [showWrongOTP, setshowWrongOTP] = useState(false);
 
   const handleFormSubmit = async () => {
-    if (!password) {
-      setIsPasswordEmpty(true);
+    if (!otp) {
+      setIsotpEmpty(true);
     } else {
-      setIsPasswordEmpty(false);
+      setIsotpEmpty(false);
     }
 
-    if (password) {
-      if (password.includes('OTP')) {
-        console.log('password: ', password);
-        setshowSuccessOTPSend(true);
-        window.location.href = '/page/landingPage/buatPassword';
-        handleReset();
+    if (otp) {
+      if (typeof otp === 'number' && /^\d{6}$/.test(otp.toString())) {
+        // Rest of your code remains unchanged
+        const userData = { otp };
+        console.log('User Data:', JSON.stringify(userData));
+        try {
+          const response = await axios.post('/api/login', { otp });
+
+          if (response.status === 200) {
+            const data = response.data;
+            console.log('OTP successfully:', data);
+            setshowSuccessOTPSend(true);
+            setTimeout(() => {
+              setshowWrongOTP(false);
+            }, 3000);
+            // window.location.href = '/page/landingPage/buatPassword';
+          } else {
+            console.error('OTP Gagal:', response.status);
+            setshowWrongOTP(true);
+            setTimeout(() => {
+              setshowWrongOTP(false);
+            }, 3000)
+          }
+        } catch (error) {
+          console.error('Error OTP:', error);
+          alert('Tidak Dapat Data API');
+          setshowWrongOTP(true);
+          setTimeout(() => {
+            setshowWrongOTP(false);
+          }, 3000);
+        }
       } else {
-        setshowWrongOTP(true);
+        alert('OTP harus berupa number angka dengan panjang 6.');
+      }
+    } else {
+      if (isotpEmpty) {
+        setshowInputOTP(true);
         setTimeout(() => {
-          setshowWrongOTP(false);
+          setshowInputOTP(false);
         }, 3000);
       }
-    }
+      alert('OTP Tidak Boleh Kosong dan Harus Angka.');
 
-    if (isPasswordEmpty) {
-      setshowInputOTP(true);
-      setTimeout(() => {
-        setshowInputOTP(false);
-      }, 3000);
     }
   };
 
-  // Fungsi untuk mereset formulir
+
   const handleReset = () => {
-    setPassword("");
-    setIsPasswordEmpty(false);
+    setotp(456789);
+    setIsotpEmpty(false);
   };
 
   return (
@@ -95,7 +117,7 @@ export default function ForgotPassword() {
               <div className="text-black">
                 <div className="mb-[30px]">
                   <Input
-                    onChange={(e) => { setPassword(e.target.value); }}
+                    onChange={(e) => { setotp(Number(e.target.value)); }}
                     placeholder="Masukkan Kode OTP"
                     required
                     type="password"

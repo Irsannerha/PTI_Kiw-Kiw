@@ -5,9 +5,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { Montserrat } from "next/font/google";
 import Navbars from "@/app/components/Navbars";
-
 import AlertInputEmail from "@/app/components/AlertInputEmail"
-import SuccessOTP from "@/app/components/SuccessOTP"
+import SuccessOTP from "@/app/components/SuccessOTP";
+import axios from "axios";
 
 // Deklarasikan tipe data terlebih dahulu
 interface DataFecth {
@@ -34,12 +34,27 @@ export default function ForgotPassword() {
 
     if (email) {
       if (email.includes('@gmail.com')) {
-        console.log('email: ', email);
-        if (email) {
-          setshowSuccessOTPSend(true);
-          window.location.href = '/page/landingPage/kodeOTP';
+        const userData = { email };
+        console.log('User Data:', JSON.stringify(userData));
+        try {
+          const response = await axios.post('/api/login', { email });
+
+          if (response.status === 200) {
+            const data = response.data;
+            console.log('Login successful:', data);
+            setshowSuccessOTPSend(true);
+            setTimeout(() => {
+              setshowSuccessOTPSend(false);
+            }, 3000);
+            // window.location.href = '/page/dashboard/CodeOTP';
+          } else {
+            console.error('Gagal:', response.status);
+            alert('Gagal');
+          }
+        } catch (error) {
+          console.error('Error Login:', error);
+          alert('Tidak Dapat Data API');
         }
-        // handleReset();
       } else {
         alert('Use @gmail.com in email');
       }
@@ -51,11 +66,6 @@ export default function ForgotPassword() {
         setShowEmailAlert(false);
       }, 3000);
     }
-  };
-
-  const handleReset = () => {
-    setEmail("");
-    setIsEmailEmpty(false);
   };
 
   return (

@@ -7,8 +7,9 @@ import { useState } from 'react';
 import Navbars from "@/app/components/Navbars";
 import AlertInputDataPerlu from "@/app/components/AlertInputDataPerlu"
 import AlertDaftarSukses from "@/app/components/AlertDaftarSukses"
+import axios from "axios";
 
-interface DataFecth {
+interface DataFetch {
   nama?: string;
   alamat?: string;
   nik?: string;
@@ -16,11 +17,11 @@ interface DataFecth {
   noHp?: string;
   email?: string;
   umur?: string;
-  // ijazah?: string;
+  ijazah?: string; // Added ijazah property
 }
 
 export default function DaftarBerkas() {
-  const initialData: DataFecth = {
+  const initialData: DataFetch = {
     nama: "",
     alamat: "",
     nik: "",
@@ -28,6 +29,7 @@ export default function DaftarBerkas() {
     noHp: "",
     email: "",
     umur: "",
+    ijazah: "", // Initialize ijazah property
   }
 
   const [nama, setNama] = useState(initialData.nama);
@@ -38,7 +40,6 @@ export default function DaftarBerkas() {
   const [email, setEmail] = useState(initialData.email);
   const [umur, setUmur] = useState(initialData.umur);
 
-
   const [isNamaEmpty, setIsNamaEmpty] = useState(false);
   const [isAlamatEmpty, setIsAlamatEmpty] = useState(false);
   const [isNikEmpty, setIsNikEmpty] = useState(false);
@@ -48,60 +49,60 @@ export default function DaftarBerkas() {
   const [isUmurEmpty, setIsUmurEmpty] = useState(false);
 
   const [showAlertDaftarSukses, setshowAlertDaftarSukses] = useState(false);
-
   const [showInputDataPerlu, setshowInputDataPerlu] = useState(false);
 
-  const handleFormSubmit = async () => {
-    if (!nama) {
-      setIsNamaEmpty(true);
-    } else {
-      setIsNamaEmpty(false);
-    }
-    if (!alamat) {
-      setIsAlamatEmpty(true);
-    } else {
-      setIsAlamatEmpty(false);
-    }
-    if (!nik) {
-      setIsNikEmpty(true);
-    } else {
-      setIsNikEmpty(false);
-    }
-    if (!jenisKelamin) {
-      setIsJenisKelaminEmpty(true);
-    } else {
-      setIsJenisKelaminEmpty(false);
-    }
-    if (!noHp) {
-      setIsNoHpEmpty(true);
-    } else {
-      setIsNoHpEmpty(false);
-    }
-    if (!email) {
-      setIsEmailEmpty(true);
-    } else {
-      setIsEmailEmpty(false);
-    }
-    if (!umur) {
-      setIsUmurEmpty(true);
-    } else {
-      setIsUmurEmpty(false);
-    }
+  const [fileStatus, setFileStatus] = useState("Tidak ada file.");
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target;
+    if (input.files && input.files.length > 0) {
+      const allowedFileTypes = ["image/png", "image/jpg"];
+      const selectedFile = input.files[0];
 
-    if (nama && alamat && nik && jenisKelamin && noHp && email && umur) {
-      if (email.includes('@gmail.com')) {
-        console.log('email: ', email);
-        if (nama && alamat && nik && jenisKelamin && noHp && email && umur) {
-          setshowAlertDaftarSukses(true);
-          window.location.href = '/page/landingPage/loginPegawai';
-        }
-        handleReset();
+      if (allowedFileTypes.includes(selectedFile.type)) {
+        setFileStatus(selectedFile.name);
       } else {
-        alert('Use @gmail.com in email');
+        setFileStatus("File harus berformat PNG atau JPG.");
       }
+    } else {
+      setFileStatus("Tidak ada gambar.");
+    }
+  };
+
+  const handleFormSubmit = async () => {
+    
+    const userData: DataFetch = {
+      nama,
+      alamat,
+      nik,
+      jenisKelamin,
+      noHp,
+      email,
+      umur,
+      ijazah: fileStatus,
+    };
+
+    // Mencetak data pengguna ke konsol
+     console.log('User Data:', JSON.stringify(userData));
+
+    try {
+      // Permintaan API
+      const response = await axios.post('/api/submit-data', userData);
+
+      if (response.status === 200) {
+        setshowAlertDaftarSukses(true);
+      } else {
+        console.error('Gagal mengirimkan data:', response.status);
+      }
+    } catch (error) {
+      console.error('Error mengirimkan data:', error);
+      alert('Tidak dapat mengirimkan data');
     }
 
+    // Reset formulir
+    handleReset();
+
+    // Tampilkan peringatan jika semua input kosong
     if (isNamaEmpty && isAlamatEmpty && isJenisKelaminEmpty && isNikEmpty && isNoHpEmpty && isEmailEmpty && isUmurEmpty) {
       setshowInputDataPerlu(true);
       setTimeout(() => {
@@ -111,6 +112,7 @@ export default function DaftarBerkas() {
   };
 
   const handleReset = () => {
+    // Mereset semua input dan status kosong
     setNama("");
     setAlamat("");
     setJenisKelamin("");
@@ -128,16 +130,6 @@ export default function DaftarBerkas() {
     setIsUmurEmpty(false);
   };
 
-  const [fileStatus, setFileStatus] = useState("Tidak ada file.");
-
-  const handleFileChange = (e: any) => {
-    const input = e.target;
-    if (input.files.length > 0) {
-      setFileStatus(input.files[0].name);
-    } else {
-      setFileStatus("Tidak ada gambar.");
-    }
-  };
 
   return (
     <>
@@ -182,7 +174,7 @@ export default function DaftarBerkas() {
                     Alamat
                   </label>
                   <Input
-                    onChange={(e) => { setEmail(e.target.value); }}
+                    onChange={(e) => { setAlamat(e.target.value); }}
                     placeholder="Masukkan Alamat"
                     required
                     type="text"

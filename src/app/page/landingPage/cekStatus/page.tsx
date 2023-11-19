@@ -4,6 +4,8 @@ import Link from "next/link";
 import SvgDashboardProfile from "@/app/components/SvgDashboardProfile";
 import Navbars from "@/app/components/Navbars";
 
+import axios from "axios";
+
 export default function cekStatus() {
 
   return (

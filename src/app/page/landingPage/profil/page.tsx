@@ -104,7 +104,7 @@ export default function profilPrekrutan() {
                 htmlFor="ubah"
                 className="bg-[#F8A849] hover:bg-[#D2691E] font-medium text-black hover:text-white inline-flex items-center px-6 py-1.5 cursor-pointer text-sm rounded-xl shadow-lg"
               >
-                <span className="ml-1">Ubah</span>
+                <span className="ml-1">Simpan</span>
               </label>
             </div>
             <div className="flex justify-end items-center mt-5">
