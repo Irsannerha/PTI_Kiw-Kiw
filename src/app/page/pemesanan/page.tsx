@@ -132,7 +132,7 @@ export default function Pemesanan() {
                         </div>
                         <div className="rounded-lg grid grid-cols-2 md:grid-cols-3 lg:flex flex-wrap justify-center lg:justify-center gap-5 md:gap-5 mx-5 my-5 max-h-[400px] md:max-h-[700px] lg:max-h-[350px] overflow-y-auto overscroll-auto md:pl-10 md:pr-10">
                             {filteredFoodData().map((food) => (
-                                <Foo dCard
+                                <FoodCard
                                     key={food.id}
                                     id={food.id}
                                     name={food.name}
