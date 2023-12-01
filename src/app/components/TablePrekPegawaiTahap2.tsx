@@ -4,9 +4,7 @@ import Link from 'next/link';
 import PaginationTable from './PaginationTable';
 
 import AlertMenolakPegawai1 from "@/app/components/AlertMenolakPegawai1"
-import AlertMenolakPegawai2 from "@/app/components/AlertMenolakPegawai2"
 import AlertTerimaPegawai1 from "@/app/components/AlertTerimaPegawai1"
-import AlertTerimaPegawai2 from "@/app/components/AlertTerimaPegawai2"
 
 interface TableRow {
     nama: string;
@@ -115,7 +113,8 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
                             <td className="px-6 py-4 whitespace-nowrap">{row.nik}</td>
                             <td className="px-6 py-4 whitespace-nowrap flex justify-center items-center gap-2">
                                 {/* <button className="text-blue-500">Edit</button> */}
-                                <Link href="/page/dashboard/PrekTahap2LihatData">
+                                {/* <Link href="/page/dashboard/PrekTahap2LihatData"> */}
+                                <Link href="/[PrekTahap2LihatData]" as={`/page/dashboard/PrekTahap2/${row.nama}`}>
                                     <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <rect width="30" height="30" rx="5" fill="#F8A849" fill-opacity="0.5" />
                                         <path d="M5 15C5 15 8 8 15 8C22 8 25 15 25 15C25 15 22 22 15 22C8 22 5 15 5 15Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />

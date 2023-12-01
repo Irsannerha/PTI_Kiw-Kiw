@@ -46,7 +46,6 @@ export default function KelolaMenuPemesanan() {
         const intervalId = setInterval(() => {
             setCurrentTime(new Date());
         }, 1000);
-
         return () => {
             clearInterval(intervalId);
         };
@@ -56,29 +55,33 @@ export default function KelolaMenuPemesanan() {
     const formattedDate = currentTime.toLocaleDateString('id-ID');
 
     const menuMinumandumy = [
-        { id: 1, nama: "Es Teh", harga: "10000", stok: "10", image: '/images/esTeh.png' },
-        { id: 2, nama: "Es Teh", harga: "10000", stok: "100", image: '/images/esTeh.png' },
-        { id: 3, nama: "Es Teh", harga: "10000", stok: "100", image: '/images/esTeh.png' },
-        { id: 4, nama: "Es Teh", harga: "10000", stok: "100", image: '/images/esTeh.png' },
-        { id: 5, nama: "Es Teh", harga: "10000", stok: "100", image: '/images/esTeh.png' },
-        { id: 6, nama: "Es Teh", harga: "10000", stok: "100", image: '/images/esTeh.png' },
-        { id: 7, nama: "Es Teh", harga: "10000", stok: "100", image: '/images/esTeh.png' },
-        { id: 8, nama: "Es Teh", harga: "10000", stok: "100", image: '/images/esTeh.png' },
-        { id: 9, nama: "Es Teh", harga: "10000", stok: "100", image: '/images/esTeh.png' },
+        { id: 1, nama: "Es Teh", harga: "5000", stok: "10", image: '/images/esTeh.png' },
+        { id: 2, nama: "Es Jeruk", harga: "5000", stok: "100", image: '/images/esTeh.png' },
+        { id: 3, nama: "Kopi", harga: "5000", stok: "100", image: '/images/esTeh.png' },
+        { id: 4, nama: "Teh Anget", harga: "5000", stok: "100", image: '/images/esTeh.png' },
+        { id: 5, nama: "Jus Buah Naga", harga: "5000", stok: "100", image: '/images/esTeh.png' },
+        { id: 6, nama: "Jus Melon", harga: "5000", stok: "100", image: '/images/esTeh.png' },
+        { id: 7, nama: "Jus Mangga", harga: "5000", stok: "100", image: '/images/esTeh.png' },
+        { id: 8, nama: "Es Tawar", harga: "3000", stok: "100", image: '/images/esTeh.png' },
     ];
 
     const menuMakanandumy = [
-        { id: 1, nama: "Ayam Geprek", harga: "10000", stok: "100", image: '/images/ayamGeprek.png' },
-        { id: 2, nama: "Ayam Geprek", harga: "10000", stok: "100", image: '/images/ayamGeprek.png' },
-        { id: 3, nama: "Ayam Geprek", harga: "10000", stok: "100", image: '/images/ayamGeprek.png' },
-        { id: 4, nama: "Ayam Geprek", harga: "10000", stok: "100", image: '/images/ayamGeprek.png' },
-        { id: 5, nama: "Ayam Geprek", harga: "10000", stok: "100", image: '/images/ayamGeprek.png' },
-        { id: 6, nama: "Ayam Geprek", harga: "10000", stok: "100", image: '/images/ayamGeprek.png' },
+        { id: 1, nama: "Ayam Bakar", harga: "13000", stok: "100", image: '/images/menu/ayamBakar.jpeg' },
+        { id: 2, nama: "Ayam Geprek ", harga: "12000", stok: "100", image: '/images/menu/ayamGeprek2.jpeg' },
+        { id: 3, nama: "Kwetiaw", harga: "13000", stok: "100", image: '/images/menu/ayamBakar.jpeg' },
+        { id: 4, nama: "Nasi Kotak", harga: "12000", stok: "100", image: '/images/menu/nasiKotakPaketLengkap.jpeg' },
+        { id: 5, nama: "Nasi Urap", harga: "6000", stok: "100", image: '/images/menu/nasiUrapTelor.jpeg' },
+        { id: 6, nama: "Nasi Urap + Telor", harga: "10000", stok: "100", image: '/images/menu/nasiUrapTelor.jpeg' },
         { id: 7, nama: "Ayam Geprek", harga: "10000", stok: "100", image: '/images/ayamGeprek.png' },
-        { id: 8, nama: "Ayam Geprek", harga: "10000", stok: "100", image: '/images/ayamGeprek.png' },
-        { id: 9, nama: "Ayam Geprek", harga: "10000", stok: "100", image: '/images/ayamGeprek.png' },
+        { id: 8, nama: "Seblak", harga: "10000", stok: "100", image: '/images/menu/seblak.jpeg' },
+        { id: 9, nama: "Nila Bakar", harga: "13000", stok: "100", image: '/images/ayamGeprek.png' },
+        { id: 10, nama: "Nila Goreng", harga: "13000", stok: "100", image: '/images/ayamGeprek.png' },
+        { id: 11, nama: "Rice Bowl Cumi", harga: "10000", stok: "100", image: '/images/ayamGeprek.png' },
+        { id: 12, nama: "Rice Ayam Mentega", harga: "10000", stok: "100", image: '/images/ayamGeprek.png' },
+        { id: 13, nama: "Rice Bowl Udang Saos", harga: "10000", stok: "100", image: '/images/ayamGeprek.png' },
+        { id: 14, nama: "Paket Bento Nasi Goreng", harga: "10000", stok: "100", image: '/images/menu/paketBentoNasgor.jpeg' },
+        { id: 15, nama: "Ayam Penyet Cabe Ijo", harga: "13000", stok: "100", image: '/images/menu/ayamPenyet.jpeg' },
     ];
-
 
     const [showAlertHapusData, setShowAlertHapusData] = useState(false);
     const handleFromDelete = async () => {
@@ -122,7 +125,7 @@ export default function KelolaMenuPemesanan() {
                     </div>
 
                     <div className="flex justify-end -mt-4 gap-4">
-                        <div className="text-end justify-end items-end">
+                        {/* <div className="text-end justify-end items-end">
                             <div className="mt-4 mb-4 w-full bg-[#F8A849] shadow-lg rounded-lg hover:bg-[#C79618]">
                                 <Link href="/page/dashboard/Kategori">
                                     <div className=" flex p-2.5 gap-2 justify-center items-center m-auto text-center text-black">
@@ -132,7 +135,7 @@ export default function KelolaMenuPemesanan() {
                                     </div>
                                 </Link>
                             </div>
-                        </div>
+                        </div> */}
                         <div className="text-end justify-end items-end">
                             <div className="mt-4 mb-4 w-full bg-[#F8A849] shadow-lg rounded-lg hover:bg-[#C79618]">
                                 <Link href="/page/dashboard/TambahItemMenu">
@@ -148,24 +151,22 @@ export default function KelolaMenuPemesanan() {
                             </div>
                         </div>
                     </div>
-
                     <div className="div">
                         <div className="flex justify-between relative ">
                             <div className="m-2 text-[24px] absolute">Makanan</div>
                             <div className="pt-12 grid grid-cols-2 md:grid-cols-3 gap-4 bg-[#EFEFFF] w-[49%] p-2 rounded-lg shadow-xl">
                                 {menuMakanandumy.map(order => (
-                                    <div className="h-auto max-w-full rounded-lg">
+                                    <div className="max-w-full rounded-lg">
                                         <div className="w-full max-w-sm rounded-lg shadow  bg-white">
                                             <div className="div">
                                                 <div className="flex flex-col items-center justify-center m-auto w-20 h-20 mt-2 mb-2 rounded-full shadow-lg">
-                                                    <Image src={order.image} alt={`order-${order.id}`} width={120} height={120} className="m-0 mt-1" /></div>
+                                                    <Image src={order.image} alt={`order-${order.id}`} width={120} height={120} className="m-0 mt-4 rounded-full" /></div>
                                                 <div className="text-[14px] ml-2  font-medium text-gray-900 dark:text-white">{order.nama}</div>
                                                 <span className="text-[14px] ml-2 text-gray-500 dark:text-gray-400">Rp. {order.harga}</span>
                                                 <div className="text-[10px] ml-2 text-gray-500 dark:text-gray-400">Stok : <span> {order.stok}</span></div>
                                                 <div className="flex mt-1 gap-0.5  w-full">
-                                                    <a href="/page/dashboard/EditItemMenu" className=" px-1 py-1 text-sm font-medium text-center text-white rounded-bl-lg bg-[#C79618] hover:bg-[#F8A849]  w-[50%] flex justify-center items-center "><SvgEditKelolaPemesanan /></a>
-                                                    <a onClick={handleFromDelete} href="#" className=" px-1 py-1 text-sm font-medium text-center text-gray-900 bg-[#F30101] hover:bg-[#950000] w-[50%] flex justify-center items-center rounded-br-lg"><SvgDeleteKelolaPemesanan /></a>
-
+                                                    <Link href="/[EditItemMenu]" as={`/page/dashboard/KelolaMenuPemesanan/${order.id}`} className=" px-1 py-1 text-sm font-medium text-center text-white rounded-bl-lg bg-[#C79618] hover:bg-[#F8A849]  w-[50%] flex justify-center items-center "><SvgEditKelolaPemesanan /></Link>
+                                                    <Link onClick={handleFromDelete} href="#" className=" px-1 py-1 text-sm font-medium text-center text-gray-900 bg-[#F30101] hover:bg-[#950000] w-[50%] flex justify-center items-center rounded-br-lg"><SvgDeleteKelolaPemesanan /></Link>
                                                 </div>
                                             </div>
                                         </div>
@@ -178,9 +179,9 @@ export default function KelolaMenuPemesanan() {
                                 </div>
                             )}
                             <div className="ml-[52%] m-2 text-[24px] absolute">Minuman</div>
-                            <div className="pt-12 grid grid-cols-2 md:grid-cols-3 gap-4 bg-[#EFEFFF] w-[49%] p-2 rounded-lg shadow-xl">
+                            <div className="pt-12 grid grid-cols-2 md:grid-cols-3 gap-4 bg-[#EFEFFF] w-[49%] p-2 rounded-lg shadow-xl h-full">
                                 {menuMinumandumy.map(order => (
-                                    <div className="h-auto max-w-full rounded-lg">
+                                    <div className="max-w-full rounded-lg">
                                         <div className="w-full max-w-sm rounded-lg shadow  bg-white">
                                             <div className="div">
                                                 <div className=" w-20 h-20 mt-2 mb-2 rounded-full shadow-lg flex flex-col items-center m-auto">
@@ -189,9 +190,10 @@ export default function KelolaMenuPemesanan() {
                                                 <span className="text-[14px] ml-2 text-gray-500 dark:text-gray-400">Rp. {order.harga}</span>
                                                 <div className="text-[10px] ml-2 text-gray-500 dark:text-gray-400">Stok : <span> {order.stok}</span></div>
                                                 <div className="flex mt-1 gap-0.5 w-full">
-                                                    <a href="/page/dashboard/EditItemMenu" className=" px-1 py-1 text-sm font-medium text-center text-white rounded-bl-lg bg-[#C79618] hover:bg-[#F8A849]  w-[50%] flex justify-center items-center "><SvgEditKelolaPemesanan /></a>
-                                                    <a onClick={handleFromDelete} href="#" className=" px-1 py-1 text-sm font-medium text-center text-gray-900 bg-[#F30101] hover:bg-[#950000] w-[50%] flex justify-center items-center rounded-br-lg"><SvgDeleteKelolaPemesanan /></a>
-
+                                                    {/* <a href="/page/dashboard/EditItemMenu" className=" px-1 py-1 text-sm font-medium text-center text-white rounded-bl-lg bg-[#C79618] hover:bg-[#F8A849]  w-[50%] flex justify-center items-center "><SvgEditKelolaPemesanan /></a> */}
+                                                    <Link href="/[EditItemMenu]" as={`/page/dashboard/KelolaMenuPemesanan/${order.id}`} className=" px-1 py-1 text-sm font-medium text-center text-white rounded-bl-lg bg-[#C79618] hover:bg-[#F8A849]  w-[50%] flex justify-center items-center "><SvgEditKelolaPemesanan /></Link>
+                                                    {/* <a onClick={handleFromDelete} href="#" className=" px-1 py-1 text-sm font-medium text-center text-gray-900 bg-[#F30101] hover:bg-[#950000] w-[50%] flex justify-center items-center rounded-br-lg"><SvgDeleteKelolaPemesanan /></a> */}
+                                                    <Link onClick={handleFromDelete} href="#" className=" px-1 py-1 text-sm font-medium text-center text-gray-900 bg-[#F30101] hover:bg-[#950000] w-[50%] flex justify-center items-center rounded-br-lg"><SvgDeleteKelolaPemesanan /></Link>
                                                 </div>
                                             </div>
                                         </div>

@@ -1,50 +1,34 @@
 "use client"
 import DashboardSideBar from "@/app/components/DashboardSideBar"
 import { useState, useEffect } from 'react';
-import Link from "next/link";
 
 import SvgDashboardProfile from "@/app/components/SvgDashboardProfile"
 import SvgDashboardKalender from "@/app/components/SvgDashboardKalender"
-import Input from "@/app/components/Input";
-
-import TablePrekPegawaiTahap2 from "@/app/components/TablePrekPegawaiTahap2"
-
+import Link from "next/link";
+import TableLihatLaporanPemesanan from "@/app/components/TableLihatLaporanPemesanan"
 import axios from 'axios';
 
+import { useRouter } from 'next/router'
 
-export default function TambahItemMenu() {
+export default function LaporanPemesanan({ params }: { params: { ViewLaporanPemesanan: string } }) {
     const [currentTime, setCurrentTime] = useState(new Date());
-    const [data, setData] = useState([]);
-
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get('/api/pegawai'); // Adjust the endpoint as needed
-                if (response.status === 200) {
-                    setData(response.data);
-                } else {
-                    console.error('Error fetching data:', response.status);
-                }
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-
-        fetchData();
         const intervalId = setInterval(() => {
             setCurrentTime(new Date());
         }, 1000);
-        return () => {
-            clearInterval(intervalId);
-        };
+        return () => clearInterval(intervalId);
     }, []);
-
 
     const formattedTime = currentTime.toLocaleTimeString();
     const formattedDate = currentTime.toLocaleDateString('id-ID');
 
 
     const [fileStatus, setFileStatus] = useState("Tidak ada gambar.");
+    const [invoiceData, setInvoiceData] = useState({
+        noInvoice: '',
+        namaPemesan: '',
+        tanggal: '',
+    });
 
     const handleFileChange = (e: any) => {
         const input = e.target;
@@ -55,35 +39,28 @@ export default function TambahItemMenu() {
         }
     };
 
-    const datadumy = [
-        { nama: 'John Doe1', nik: '1234567890' },
-        { nama: 'Jane Doe2', nik: '0987654321' },
-        { nama: 'John Doe3', nik: '1234567890' },
-        { nama: 'Jane Doe4', nik: '0987654321' },
-        { nama: 'John Doe5', nik: '1234567890' },
-        { nama: 'Jane Doe6', nik: '0987654321' },
-        { nama: 'John Doe7', nik: '1234567890' },
-        { nama: 'Jane Doe8', nik: '0987654321' },
-        { nama: 'John Doe9', nik: '1234567890' },
-        { nama: 'Jane Doe10', nik: '0987654321' },
-        { nama: 'John Doe11', nik: '1234567890' },
-        { nama: 'Jane Doe12', nik: '0987654321' },
-        { nama: 'John Doe13', nik: '1234567890' },
-        { nama: 'Jane Doe14', nik: '0987654321' },
-        { nama: 'John Doe15', nik: '1234567890' },
-        { nama: 'Jane Doe16', nik: '0987654321' },
-        { nama: 'John Doe17', nik: '1234567890' },
-        { nama: 'Jane Doe18', nik: '0987654321' },
-        { nama: 'John Doe19', nik: '1234567890' },
-        { nama: 'Jane Doe20', nik: '0987654321' },
-        { nama: 'John Doe21', nik: '1234567890' },
-        { nama: 'Jane Doe22', nik: '0987654321' },
-        { nama: 'John Doe23', nik: '1234567890' },
-        { nama: 'Jane Doe24', nik: '0987654321' },
-        { nama: 'John Doe25', nik: '1234567890' },
-        { nama: 'Jane Doe26', nik: '0987654321' },
+    const data = [
+        { produk: 'Ayam Geprek', jumlah: "1", harga: "10000" },
+        { produk: 'Es Teh Manis', jumlah: "1", harga: "20000" },
+        { produk: 'Es Teh Manis', jumlah: "1", harga: "20000" },
+        { produk: 'Es Teh Manis', jumlah: "1", harga: "20000" },
+        { produk: 'Es Teh Manis', jumlah: "1", harga: "20000" },
         // Tambahkan data lainnya sesuai kebutuhan
     ];
+
+    const fetchData = async () => {
+        try {
+            const response = await axios.get('/api/laporanPemesanan');
+            // Assuming your backend response structure has keys like noInvoice, namaPemesan, tanggal
+            setInvoiceData(response.data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
 
     return (
         <>
@@ -121,7 +98,7 @@ export default function TambahItemMenu() {
                     <div className="flex justify-between -mt-4 ">
                         <div className="text-start justify-start items-start">
                             <div className="mt-4 mb-4 w-full bg-[#F8A849] shadow-lg rounded-lg hover:bg-[#C79618]">
-                                <Link href="/page/dashboard/PerekrutanPegawai">
+                                <Link href="/page/dashboard/LaporanPemesanan">
                                     <div className=" flex p-2 gap-2 justify-center items-center m-auto text-center text-white">
                                         <div className="flex flex-col justify-center">
                                             <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -130,7 +107,6 @@ export default function TambahItemMenu() {
                                             </svg>
 
                                         </div>
-
                                         <div className="flex items-center text-black">
                                             Kembali
                                         </div>
@@ -139,16 +115,21 @@ export default function TambahItemMenu() {
                             </div>
                         </div>
                     </div>
-
-                    <div className="mb-5 w-full text-[32px]">Perekrutan Pegawai Tahap 2</div>
-                    <div className="container mx-auto mt-8 text-center">
-                        <TablePrekPegawaiTahap2 data={datadumy} />
+                    <div className="flex justify-start">
+                        <div className="text-black text-xl font-normal font-['Montserrat'] leading-10">
+                            <div className="div flex-shrink-0">No Invoice</div>
+                            <div className="div flex-shrink-0">Nama Pemesan</div>
+                            <div className="div flex-shrink-0">Tanggal</div>
+                        </div>
+                        <div className="text-black text-xl font-normal font-['Montserrat'] leading-10 ml-5">
+                            <div className="flex-shrink-0">: {invoiceData.noInvoice || 'Loading...'}  </div>
+                            <div className="flex-shrink-0">: {invoiceData.namaPemesan || 'Loading...'}</div>
+                            <div className="flex-shrink-0">: {invoiceData.tanggal || 'Loading...'}</div>
+                        </div>
                     </div>
-                </div >
-            </div >
-
+                    <TableLihatLaporanPemesanan data={data} />
+                </div>
+            </div>
         </>
     )
 }
-
-

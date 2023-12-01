@@ -1,9 +1,9 @@
 "use client";
 import Input from "@/app/components/Input";
 import { useState } from "react";
-import Link from "next/link";
+// import Link from "next/link";
 import Image from "next/image";
-import { Montserrat } from "next/font/google";
+// import { Montserrat } from "next/font/google";
 import Navbars from "@/app/components/Navbars";
 import AlertInputEmail from "@/app/components/AlertInputEmail"
 import SuccessOTP from "@/app/components/SuccessOTP";
@@ -37,23 +37,20 @@ export default function ForgotPassword() {
         const userData = { email };
         console.log('User Data:', JSON.stringify(userData));
         try {
-          const response = await axios.post('/api/login', { email });
-
+          const response = await axios.post('/api/send-email', { email });
           if (response.status === 200) {
-            const data = response.data;
-            console.log('Login successful:', data);
+            console.log('Email sent successfully:', response.data);
             setshowSuccessOTPSend(true);
             setTimeout(() => {
               setshowSuccessOTPSend(false);
             }, 3000);
-            // window.location.href = '/page/dashboard/CodeOTP';
           } else {
-            console.error('Gagal:', response.status);
-            alert('Gagal');
+            console.error('Failed to send email:', response.status);
+            alert('Failed to send email');
           }
         } catch (error) {
-          console.error('Error Login:', error);
-          alert('Tidak Dapat Data API');
+          console.error('Error sending email:', error);
+          alert('Unable to send email');
         }
       } else {
         alert('Use @gmail.com in email');
@@ -115,7 +112,6 @@ export default function ForgotPassword() {
                   <SuccessOTP />
                 </div>
               )}
-              {/* <Link href="/forget-password-base"> */}
               <button
                 type="button"
                 onClick={handleFormSubmit}
@@ -123,7 +119,6 @@ export default function ForgotPassword() {
               >
                 Kirim Kode OTP
               </button>
-              {/* </Link> */}
             </div>
           </div>
         </div>

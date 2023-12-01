@@ -50,21 +50,21 @@ export default function LaporanPemesanan() {
     };
 
     const datadumy = [
-        { uid: '0001', tanggal: "23/11/2023", namaPemesan: "ando1", jumlah: "100", harga: "10.000" },
-        { uid: '0002', tanggal: "23/10/2023", namaPemesan: "ando2", jumlah: "100", harga: "10.000" },
-        { uid: '0003', tanggal: "23/10/2023", namaPemesan: "ando3", jumlah: "100", harga: "10.000" },
-        { uid: '0004', tanggal: "23/10/2023", namaPemesan: "ando4", jumlah: "100", harga: "10.000" },
-        { uid: '0005', tanggal: "23/10/2023", namaPemesan: "ando5", jumlah: "100", harga: "10.000" },
-        { uid: '0001', tanggal: "24/10/2023", namaPemesan: "ando1", jumlah: "100", harga: "10.000" },
-        { uid: '0002', tanggal: "24/10/2023", namaPemesan: "ando2", jumlah: "100", harga: "10.000" },
-        { uid: '0003', tanggal: "24/10/2023", namaPemesan: "ando3", jumlah: "100", harga: "10.000" },
-        { uid: '0004', tanggal: "24/10/2023", namaPemesan: "ando4", jumlah: "100", harga: "10.000" },
-        { uid: '0005', tanggal: "24/10/2023", namaPemesan: "ando5", jumlah: "100", harga: "10.000" },
-        { uid: '0001', tanggal: "25/10/2023", namaPemesan: "ando1", jumlah: "100", harga: "10.000" },
-        { uid: '0002', tanggal: "25/10/2023", namaPemesan: "ando2", jumlah: "100", harga: "10.000" },
-        { uid: '0003', tanggal: "25/10/2023", namaPemesan: "ando3", jumlah: "100", harga: "10.000" },
-        { uid: '0004', tanggal: "25/10/2023", namaPemesan: "ando4", jumlah: "100", harga: "10.000" },
-        { uid: '0005', tanggal: "25/10/2023", namaPemesan: "ando5", jumlah: "100", harga: "10.000" },
+        { uid: '0001', tanggal: "23/11/2023", namaPemesan: "ando1", jumlah: "100", harga: "10000" },
+        { uid: '0002', tanggal: "24/10/2023", namaPemesan: "ando2", jumlah: "100", harga: "10000" },
+        { uid: '0003', tanggal: "25/10/2023", namaPemesan: "ando3", jumlah: "100", harga: "10000" },
+        { uid: '0004', tanggal: "26/10/2023", namaPemesan: "ando4", jumlah: "100", harga: "10000" },
+        { uid: '0005', tanggal: "27/10/2023", namaPemesan: "ando5", jumlah: "100", harga: "10000" },
+        { uid: '0006', tanggal: "28/10/2023", namaPemesan: "ando6", jumlah: "100", harga: "10000" },
+        { uid: '0007', tanggal: "29/10/2023", namaPemesan: "ando7", jumlah: "100", harga: "10000" },
+        { uid: '0008', tanggal: "30/10/2023", namaPemesan: "ando8", jumlah: "100", harga: "10000" },
+        { uid: '0009', tanggal: "1/10/2023", namaPemesan: "ando9", jumlah: "100", harga: "10000" },
+        { uid: '0010', tanggal: "2/10/2023", namaPemesan: "ando10", jumlah: "100", harga: "10000" },
+        { uid: '0011', tanggal: "3/10/2023", namaPemesan: "ando11", jumlah: "100", harga: "10000" },
+        { uid: '0012', tanggal: "4/10/2023", namaPemesan: "ando12", jumlah: "100", harga: "10000" },
+        { uid: '0013', tanggal: "5/10/2023", namaPemesan: "ando13", jumlah: "100", harga: "10000" },
+        { uid: '0014', tanggal: "6/10/2023", namaPemesan: "ando14", jumlah: "100", harga: "10000" },
+        { uid: '0015', tanggal: "7/10/2023", namaPemesan: "ando15", jumlah: "100", harga: "10000" },
 
     ];
 
