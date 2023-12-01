@@ -1,22 +1,18 @@
 "use client"
 import DashboardSideBar from "@/app/components/DashboardSideBar"
 import { useState, useEffect } from 'react';
-
 import SvgDashboardProfile from "@/app/components/SvgDashboardProfile"
 import SvgDashboardKalender from "@/app/components/SvgDashboardKalender"
-
 import TableLaporanPerekrutan from "@/app/components/TableLaporanPerekrutan"
-
 import axios from 'axios';
 
 export default function LaporanPerekrutan() {
     const [currentTime, setCurrentTime] = useState(new Date());
     const [data, setData] = useState([]);
-
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('/api/pegawai'); // Adjust the endpoint as needed
+                const response = await axios.get('/api/pegawai'); 
                 if (response.status === 200) {
                     setData(response.data);
                 } else {
@@ -26,7 +22,6 @@ export default function LaporanPerekrutan() {
                 console.error('Error fetching data:', error);
             }
         };
-
         fetchData();
         const intervalId = setInterval(() => {
             setCurrentTime(new Date());
@@ -35,7 +30,6 @@ export default function LaporanPerekrutan() {
             clearInterval(intervalId);
         };
     }, []);
-
 
     const formattedTime = currentTime.toLocaleTimeString();
     const formattedDate = currentTime.toLocaleDateString('id-ID');
@@ -50,33 +44,31 @@ export default function LaporanPerekrutan() {
     };
 
     const datadumy = [
-        { nama: 'budi', nik: "8958945798759", status: "diterima" },
-        { nama: 'ical', nik: "8958945798759", status: "ditolak" },
-        { nama: 'ando', nik: "8958945798759", status: "diterima" },
-        { nama: 'affan', nik: "8958945798759", status: "ditolak" },
-        { nama: 'fahmi', nik: "8958945798759", status: "diterima" },
-        { nama: 'tara', nik: "8958945798759", status: "ditolak" },
-        { nama: 'carin', nik: "8958945798759", status: "diterima" },
-        { nama: 'budi budi', nik: "8958945798759", status: "ditolak" },
-        { nama: 'budi budi', nik: "8958945798759", status: "diterima" },
-        { nama: 'budi budi', nik: "8958945798759", status: "ditolak" },
-        { nama: 'budi budi', nik: "8958945798759", status: "diterima" },
-        { nama: 'budi budi', nik: "8958945798759", status: "ditolak" },
-        { nama: 'budi budi', nik: "8958945798759", status: "diterima" },
-        { nama: 'budi budi', nik: "8958945798759", status: "ditolak" },
-        { nama: 'budi budi', nik: "8958945798759", status: "diterima" },
-        { nama: 'budi budi', nik: "8958945798759", status: "ditolak" },
-        { nama: 'budi budi', nik: "8958945798759", status: "diterima" },
-        { nama: 'budi budi', nik: "8958945798759", status: "ditolak" },
-        { nama: 'budi budi', nik: "8958945798759", status: "diterima" },
-        { nama: 'budi budi', nik: "8958945798759", status: "ditolak" },
-        { nama: 'budi budi', nik: "8958945798759", status: "diterima" },
-        { nama: 'budi budi', nik: "8958945798759", status: "ditolak" },
-        { nama: 'budi budi', nik: "8958945798759", status: "diterima" },
-        { nama: 'budi budi', nik: "8958945798759", status: "ditolak" },
-        { nama: 'budi budi', nik: "8958945798759", status: "diterima" },
-        { nama: 'budi budi', nik: "8958945798759", status: "ditolak" },
-        // Tambahkan data lainnya sesuai kebutuhan
+        { id: "1", nama: 'budi', nik: "8958945798759", status: "diterima" },
+        { id: "2", nama: 'ando', nik: "8958945798759", status: "diterima" },
+        { id: "3", nama: 'affan', nik: "8958945798759", status: "ditolak" },
+        { id: "4", nama: 'fahmi', nik: "8958945798759", status: "diterima" },
+        { id: "5", nama: 'tara', nik: "8958945798759", status: "ditolak" },
+        { id: "6", nama: 'carin', nik: "8958945798759", status: "diterima" },
+        { id: "7", nama: 'budi budi', nik: "8958945798759", status: "ditolak" },
+        { id: "8", nama: 'budi budi', nik: "8958945798759", status: "diterima" },
+        { id: "9", nama: 'budi budi', nik: "8958945798759", status: "ditolak" },
+        { id: "10", nama: 'budi budi', nik: "8958945798759", status: "diterima" },
+        { id: "11", nama: 'budi budi', nik: "8958945798759", status: "ditolak" },
+        { id: "12", nama: 'budi budi', nik: "8958945798759", status: "diterima" },
+        { id: "13", nama: 'budi budi', nik: "8958945798759", status: "ditolak" },
+        { id: "14", nama: 'budi budi', nik: "8958945798759", status: "diterima" },
+        { id: "15", nama: 'budi budi', nik: "8958945798759", status: "ditolak" },
+        { id: "16", nama: 'budi budi', nik: "8958945798759", status: "diterima" },
+        { id: "17", nama: 'budi budi', nik: "8958945798759", status: "ditolak" },
+        { id: "18", nama: 'budi budi', nik: "8958945798759", status: "diterima" },
+        { id: "19", nama: 'budi budi', nik: "8958945798759", status: "ditolak" },
+        { id: "20", nama: 'budi budi', nik: "8958945798759", status: "diterima" },
+        { id: "21", nama: 'budi budi', nik: "8958945798759", status: "ditolak" },
+        { id: "22", nama: 'budi budi', nik: "8958945798759", status: "diterima" },
+        { id: "23", nama: 'budi budi', nik: "8958945798759", status: "ditolak" },
+        { id: "24", nama: 'budi budi', nik: "8958945798759", status: "diterima" },
+        { id: "25", nama: 'budi budi', nik: "8958945798759", status: "ditolak" },
     ];
 
     return (

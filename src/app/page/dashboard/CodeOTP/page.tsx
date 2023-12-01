@@ -77,8 +77,6 @@ export default function ForgotPassword() {
 
     }
   };
-
-
   const handleReset = () => {
     setotp(45678);
     setIsotpEmpty(false);

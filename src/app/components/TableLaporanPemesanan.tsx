@@ -2,8 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import PaginationTable from './PaginationTable';
-import ModalOrder from './ModalOrder';
-import ModalCalender from './ModalCalender';
 
 interface TableRow {
     uid: string;
@@ -44,20 +42,12 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
         setCurrentPage(page);
     };
 
-    const [isCalendarVisible, setCalendarVisible] = useState(false);
-
-    const toggleCalendar = () => {
-        setCalendarVisible(!isCalendarVisible);
-    };
-
     const handlePrint = (selectedUid: string) => {
         const selectedData = data.find((row) => row.uid === selectedUid);
-
         if (!selectedData) {
             console.error(`Data with UID ${selectedUid} not found.`);
             return;
         }
-
         const printableData = {
             UID: selectedData.uid,
             Tanggal: selectedData.tanggal,
@@ -65,7 +55,6 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
             Jumlah: selectedData.jumlah,
             Harga: selectedData.harga,
         };
-
         const printContent = `
     <img src="/images/logoNavbar.png" width="80" height="80" className="justify-center" alt="Logo Kedai Bu Titin" />
     <div className="text-[18px] font-bold">Kedai Bu Titin</div>
@@ -74,9 +63,7 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
                 .map(([key, value]) => `<div className="mb-4"><span class="font-bold">${key}:</span> ${value}</div>`)
                 .join('')}
   `;
-
         const printWindow = window.open('', '_blank');
-        
         if (printWindow) {
             printWindow.document.write(`
       <html>
@@ -102,7 +89,6 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
       </html>
     `);
             printWindow.document.close();
-
             printWindow.print();
             printWindow.onafterprint = () => {
                 printWindow.close();
@@ -111,8 +97,6 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
             console.error('Window for printing is null.');
         }
     };
-
-
 
     return (
         <>
@@ -126,28 +110,18 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
                         onChange={(e) => setFilterValue(e.target.value)}
                     />
                 </div>
-                <div className="flex-none text-end justify-end items-end ml-[50%] backdrop-blur-[5px]">
-                    <div className="w-full bg-[#F8A849] shadow-lg rounded-lg hover:bg-[#C79618] backdrop-blur-lg">
-                        <ModalOrder />
-                    </div>
-                </div>
-
                 <div className="text-end justify-end items-end relative">
-                    <div onClick={toggleCalendar} className="w-full bg-[#F8A849] shadow-lg rounded-lg hover:bg-[#C79618] cursor-pointer">
-                        <div className="flex p-1.5 gap-2 justify-center items-center m-auto text-center text-black">
-                            <div className="flex flex-col justify-center">
-                                <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M27.5 3.75H2.5L12.5 15.575V23.75L17.5 26.25V15.575L27.5 3.75Z" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                            </div>
-                            <div className="flex items-center">
-                                Filter
+                    <Link href={"/page/dashboard/LaporanPemesanan/OrderSaatIni"}>
+                        <div className="w-full bg-[#F8A849] shadow-lg rounded-lg hover:bg-[#C79618] cursor-pointer">
+                            <div className="flex p-2 gap-2 justify-center items-center m-auto text-center text-black">
+                                <div className="flex items-center">
+                                    Order Saat Ini
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </Link>
                 </div>
             </div>
-            {isCalendarVisible && <ModalCalender />}
 
             <table className="min-w-full divide-y-2 divide-black">
                 <thead className="bg-white">
@@ -197,7 +171,7 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
                                 </Link>
                                 <Link href="/" passHref>
                                     <div onClick={(e) => {
-                                        e.preventDefault(); // Mencegah navigasi default
+                                        e.preventDefault(); 
                                         handlePrint(row.uid);
                                     }}>
                                         <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -208,7 +182,6 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
                                         </svg>
                                     </div>
                                 </Link>
-                                {/* <button className="text-red-500 ml-2">Hapus</button> */}
                             </td>
                         </tr>
                     ))}

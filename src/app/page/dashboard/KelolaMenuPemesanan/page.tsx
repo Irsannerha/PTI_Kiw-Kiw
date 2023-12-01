@@ -40,9 +40,7 @@ export default function KelolaMenuPemesanan() {
                 console.error('Error fetching menu data:', error);
             }
         };
-
         fetchData();
-
         const intervalId = setInterval(() => {
             setCurrentTime(new Date());
         }, 1000);
@@ -125,17 +123,6 @@ export default function KelolaMenuPemesanan() {
                     </div>
 
                     <div className="flex justify-end -mt-4 gap-4">
-                        {/* <div className="text-end justify-end items-end">
-                            <div className="mt-4 mb-4 w-full bg-[#F8A849] shadow-lg rounded-lg hover:bg-[#C79618]">
-                                <Link href="/page/dashboard/Kategori">
-                                    <div className=" flex p-2.5 gap-2 justify-center items-center m-auto text-center text-black">
-                                        <div className="flex items-center">
-                                            Kategori
-                                        </div>
-                                    </div>
-                                </Link>
-                            </div>
-                        </div> */}
                         <div className="text-end justify-end items-end">
                             <div className="mt-4 mb-4 w-full bg-[#F8A849] shadow-lg rounded-lg hover:bg-[#C79618]">
                                 <Link href="/page/dashboard/TambahItemMenu">

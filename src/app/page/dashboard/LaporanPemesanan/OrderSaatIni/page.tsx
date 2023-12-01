@@ -3,7 +3,9 @@ import DashboardSideBar from "@/app/components/DashboardSideBar"
 import { useState, useEffect } from 'react';
 import SvgDashboardProfile from "@/app/components/SvgDashboardProfile"
 import SvgDashboardKalender from "@/app/components/SvgDashboardKalender"
-import TableLaporanPemesanan from "@/app/components/TableLaporanPemesanan"
+import TableOrderSaatIni from "@/app/components/TableOrderSaatIni"
+import Link from "next/link";
+
 import axios from 'axios';
 
 export default function LaporanPemesanan() {
@@ -23,7 +25,6 @@ export default function LaporanPemesanan() {
                 console.error('Error fetching data:', error);
             }
         };
-
         fetchData();
         const intervalId = setInterval(() => {
             setCurrentTime(new Date());
@@ -32,6 +33,7 @@ export default function LaporanPemesanan() {
             clearInterval(intervalId);
         };
     }, []);
+
 
     const formattedTime = currentTime.toLocaleTimeString();
     const formattedDate = currentTime.toLocaleDateString('id-ID');
@@ -44,7 +46,6 @@ export default function LaporanPemesanan() {
             setFileStatus("Tidak ada gambar.");
         }
     };
-
     const datadumy = [
         { uid: '0001', tanggal: "23/11/2023", namaPemesan: "ando1", jumlah: "100", harga: "10000" },
         { uid: '0002', tanggal: "24/10/2023", namaPemesan: "ando2", jumlah: "100", harga: "10000" },
@@ -94,10 +95,29 @@ export default function LaporanPemesanan() {
                             </div>
                         </div>
                     </div>
+                    <div className="flex justify-between -mt-4 ">
+                        <div className="text-start justify-start items-start">
+                            <div className="mt-4 mb-4 w-full bg-[#F8A849] shadow-lg rounded-lg hover:bg-[#C79618]">
+                                <Link href="/page/dashboard/LaporanPemesanan">
+                                    <div className=" flex p-2 gap-2 justify-center items-center m-auto text-center text-white">
+                                        <div className="flex flex-col justify-center">
+                                            <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M15 23.75L6.25 15L15 6.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M23.75 15H6.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </div>
+                                        <div className="flex items-center text-black">
+                                            Kembali
+                                        </div>
+                                    </div>
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
                     <div className="div">
-                        <div className="mb-5 w-full text-[32px]">Laporan Pesanan</div>
+                        <div className="mb-5 w-full text-[32px]">Order Saat Ini</div>
                         <div className="container mx-auto mt-8 text-cent0002r">
-                            <TableLaporanPemesanan data={datadumy} />
+                            <TableOrderSaatIni data={datadumy} />
                         </div>
                     </div>
                 </div>

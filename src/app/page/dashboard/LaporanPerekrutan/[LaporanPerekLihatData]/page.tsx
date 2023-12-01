@@ -1,5 +1,4 @@
 "use client"
-// Frontend (LaporanPerekLihatData.jsx)
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import DashboardSideBar from "@/app/components/DashboardSideBar";
@@ -32,7 +31,6 @@ export default function LaporanPerekLihatData({ params }: { params: { LaporanPer
     }, []);
 
     const [userData, setUserData] = useState({
-        // Inisialisasi data pengguna di sini atau ambil dari suatu tempat
         id: "",
         nik: "",
         nama: "",

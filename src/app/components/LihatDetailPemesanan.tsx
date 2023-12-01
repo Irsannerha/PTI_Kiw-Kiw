@@ -14,7 +14,7 @@ interface TableProps {
     itemsPerPage?: number;
 }
 
-const Table: React.FC<TableProps> = ({ data, itemsPerPage = 3 }) => {
+const LihatDetailPemesanan: React.FC<TableProps> = ({ data, itemsPerPage = 3 }) => {
     const [currentPage, setCurrentPage] = useState(1);
 
     // Calculate the total number of pages based on the itemsPerPage
@@ -37,6 +37,7 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 3 }) => {
     const onPageChange = (page: number) => {
         setCurrentPage(page);
     };
+
     return (
         <>
             <table className="w-full relative divide-y-2 divide-black">
@@ -63,7 +64,9 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 3 }) => {
                     ))}
                 </tbody>
             </table>
+            {/* <hr className=' divide-y divide-black   w-full font-bold text-black' /> */}
             <div className='border-b-2 border-black w-full font-bold text-black'>
+                {/* Isi elemen di sini */}
             </div>
             <div className="text-sm flex justify-end items-end gap-24 mr-[10%]">
                 <div className="font-bold">TOTAL</div>
@@ -73,7 +76,7 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 3 }) => {
                 <PaginationTable currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} />
             </div>
         </>
-    );
-};
+    )
+}
 
-export default Table;
+export default LihatDetailPemesanan
