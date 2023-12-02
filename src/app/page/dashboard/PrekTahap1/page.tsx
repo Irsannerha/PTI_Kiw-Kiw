@@ -5,13 +5,12 @@ import Link from "next/link";
 
 import SvgDashboardProfile from "@/app/components/SvgDashboardProfile"
 import SvgDashboardKalender from "@/app/components/SvgDashboardKalender"
-import Input from "@/app/components/Input";
 
 import TablePrekPegawaiTahap1 from "@/app/components/TablePrekPegawaiTahap1"
-import AlertMenolakPegawai1 from "@/app/components/AlertMenolakPegawai1"
-import AlertMenolakPegawai2 from "@/app/components/AlertMenolakPegawai2"
-import AlertTerimaPegawai1 from "@/app/components/AlertTerimaPegawai1"
-import AlertTerimaPegawai2 from "@/app/components/AlertTerimaPegawai2"
+import { useAxiosAuth } from "@/app/hooks/useAxiosAuth";
+import useSWR from "swr";
+import { axiosInstance } from "@/app/utils/axios";
+import { useLocalStorage } from "usehooks-ts";
 
 
 export default function TambahItemMenu() {
@@ -38,34 +37,54 @@ export default function TambahItemMenu() {
         }
     };
 
-    const data = [
-        { nama: 'Test1', nik: '1234567890' },
-        { nama: 'Test2', nik: '0987654321' },
-        { nama: 'Test3', nik: '1234567890' },
-        { nama: 'Test4', nik: '0987654321' },
-        { nama: 'Test5', nik: '1234567890' },
-        { nama: 'Test6', nik: '0987654321' },
-        { nama: 'Test7', nik: '1234567890' },
-        { nama: 'Test8', nik: '0987654321' },
-        { nama: 'Test9', nik: '1234567890' },
-        { nama: 'Test10', nik: '0987654321' },
-        { nama: 'Test11', nik: '1234567890' },
-        { nama: 'Test12', nik: '0987654321' },
-        { nama: 'Test13', nik: '1234567890' },
-        { nama: 'Test14', nik: '0987654321' },
-        { nama: 'Test15', nik: '1234567890' },
-        { nama: 'Test16', nik: '0987654321' },
-        { nama: 'Test17', nik: '1234567890' },
-        { nama: 'Test18', nik: '0987654321' },
-        { nama: 'Test19', nik: '1234567890' },
-        { nama: 'Test20', nik: '0987654321' },
-        { nama: 'Test21', nik: '1234567890' },
-        { nama: 'Test22', nik: '0987654321' },
-        { nama: 'Test23', nik: '1234567890' },
-        { nama: 'Test24', nik: '0987654321' },
-        { nama: 'Test25', nik: '1234567890' },
-        { nama: 'Test26', nik: '0987654321' },
-        // Tambahkan data lainnya sesuai kebutuhan
+    const axiosAuth = useAxiosAuth();
+    const [accessToken, _] = useLocalStorage("accessToken", "");
+
+
+    // cara pake swr buat fetch data yang butuh header
+    const {data: datatest, isLoading, error} = useSWR("/applicant/all/statusPending", async (url) => {
+        const res = await axiosAuth.get(url, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        })
+        const filterData = res.data.map((e: any) => {
+            return {
+                id: e?.id,
+                nama: e?.name,
+                nik: e?.nik
+            }
+        })
+        return filterData;
+    });
+
+    const dataLoading = [
+        { id: '-1', nama: 'loading...', nik: 'loading...' },
+        // { nama: 'Test2', nik: '0987654321' },
+        // { nama: 'Test3', nik: '1234567890' },
+        // { nama: 'Test4', nik: '0987654321' },
+        // { nama: 'Test5', nik: '1234567890' },
+        // { nama: 'Test6', nik: '0987654321' },
+        // { nama: 'Test7', nik: '1234567890' },
+        // { nama: 'Test8', nik: '0987654321' },
+        // { nama: 'Test9', nik: '1234567890' },
+        // { nama: 'Test10', nik: '0987654321' },
+        // { nama: 'Test11', nik: '1234567890' },
+        // { nama: 'Test12', nik: '0987654321' },
+        // { nama: 'Test13', nik: '1234567890' },
+        // { nama: 'Test14', nik: '0987654321' },
+        // { nama: 'Test15', nik: '1234567890' },
+        // { nama: 'Test16', nik: '0987654321' },
+        // { nama: 'Test17', nik: '1234567890' },
+        // { nama: 'Test18', nik: '0987654321' },
+        // { nama: 'Test19', nik: '1234567890' },
+        // { nama: 'Test20', nik: '0987654321' },
+        // { nama: 'Test21', nik: '1234567890' },
+        // { nama: 'Test22', nik: '0987654321' },
+        // { nama: 'Test23', nik: '1234567890' },
+        // { nama: 'Test24', nik: '0987654321' },
+        // { nama: 'Test25', nik: '1234567890' },
+        // { nama: 'Test26', nik: '0987654321' },
     ];
 
     return (
@@ -125,7 +144,9 @@ export default function TambahItemMenu() {
 
                     <div className="mb-5 w-full text-[32px]">Perekrutan Pegawai Tahap 1</div>
                     <div className="container mx-auto mt-8 text-center">
-                        <TablePrekPegawaiTahap1 data={data} />
+                        {
+                            isLoading ? <TablePrekPegawaiTahap1 data={dataLoading} /> : error ? <TablePrekPegawaiTahap1 data={dataLoading} /> : <TablePrekPegawaiTahap1 data={datatest} />
+                        }
                     </div>
                 </div >
             </div >
