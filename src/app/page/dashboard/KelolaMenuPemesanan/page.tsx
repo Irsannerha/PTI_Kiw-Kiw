@@ -1,4 +1,8 @@
-"use client"
+'use client';
+
+import { HiEye } from 'react-icons/hi';
+import { RiErrorWarningLine } from "react-icons/ri";
+import { Alert } from 'flowbite-react';
 import DashboardSideBar from "@/app/components/DashboardSideBar"
 import { useState, useEffect } from 'react';
 
@@ -89,6 +93,22 @@ export default function KelolaMenuPemesanan() {
         }, 3000);
     }
 
+    function ExampleAdditionalContent() {
+        const [isVisible, setIsVisible] = useState(true);
+
+        const handleClose = () => {
+            setIsVisible(false);
+        };
+        return (
+            <>
+                <div className="flex justify-center items-center m-auto w-full mt-2">
+                    <Link href='/page/dashboard' className="bg-[#F30101] hover:bg-[#950000] w-[20%] py-1 text-white rounded-lg mx-1 text-center"> Ya</Link>
+                    <button onClick={handleClose} className="bg-[#C79618] hover:bg-[#F8A849] w-[20%] py-1 text-white rounded-lg mx-1">Tidak</button>
+                </div>
+            </>
+        );
+    }
+
     return (
         <>
             <div style={{ display: 'flex' }}>
@@ -161,8 +181,10 @@ export default function KelolaMenuPemesanan() {
                                 ))}
                             </div>
                             {showAlertHapusData && (
-                                <div className="absolute mt-[30%] ml-[70%]">
-                                    <AlertHapusData />
+                                <div className="absolute mt-[30%] ml-[70%] bg-white">
+                                    <Alert additionalContent={<ExampleAdditionalContent />} color="warning" icon={RiErrorWarningLine} className='text-[#F8A849]'>
+                                        <span className="font-medium">Apakah anda yakin untuk menghapus data ini?</span>
+                                    </Alert>
                                 </div>
                             )}
                             <div className="ml-[52%] m-2 text-[24px] absolute">Minuman</div>
