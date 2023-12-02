@@ -78,7 +78,6 @@ export default function TambahItemMenu() {
         } else {
             setIsgambarEmpty(false);
         }
-        // If any field is empty, show the alert and return
         if (isnamaItemEmpty || ishargaEmpty || iskategoriEmpty || isstokEmpty) {
             setShowAlertInputData(true);
             setTimeout(() => {
