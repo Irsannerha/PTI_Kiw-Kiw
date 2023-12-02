@@ -10,9 +10,10 @@ export default function DashboardSideBar() {
     const router = useRouter();
     const [check, setCheck] = useState(false);
     const [accessToken, setAccessToken] = useLocalStorage('accessToken', '');
+    const [refreshToken, setRefreshToken] = useLocalStorage('refreshToken', '');
 
 
-    
+
     const [currentPath, setCurrentPath] = useState('/page/dashboard/KelolaMenuPemesanan');
 
     useEffect(() => {
@@ -40,8 +41,9 @@ export default function DashboardSideBar() {
 
     const [showAlertLogout, setShowAlertLogout] = useState(false);
     const handleFromLogout = async () => {
-         // Example: Hide alert after 3 seconds
-         setAccessToken('')
+        // Example: Hide alert after 3 seconds
+        setAccessToken('')
+        setRefreshToken('')
     }
 
     if (!check) {

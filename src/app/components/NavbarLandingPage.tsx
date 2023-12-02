@@ -40,7 +40,7 @@ const NavbarLandingPage = () => {
                             <a href="#kontak" className="block py-2 pl-3 pr-4 text-black hover:text-white rounded hover:bg-[#FBC380] md:p-0">Kontak</a>
                         </li>
                         <li>
-                            <a href="/page/landingPage/loginPegawai" className="block py-2 pl-3 pr-4 text-black hover:text-white rounded hover:bg-[#FBC380] md:p-0">Perekrutan Pegawai</a>
+                            <a href="/page/landingPage/dashboardRekrut" className="block py-2 pl-3 pr-4 text-black hover:text-white rounded hover:bg-[#FBC380] md:p-0">Perekrutan Pegawai</a>
                         </li>
                     </ul>
                 </div>

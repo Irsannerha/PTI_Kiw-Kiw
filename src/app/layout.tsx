@@ -24,17 +24,23 @@ export default function RootLayout({
   const router = useRouter();
   const [check, setCheck] = useState(false);
   const [accessToken, _] = useLocalStorage('accessToken', '');
+  const [refreshToken, __] = useLocalStorage('refreshToken', '');
   const pathname = usePathname()
   
 
   useEffect(() => {
-    if (pathname === '/page/dashboard/FormLogin') {
+    console.log(pathname);
+    if (pathname === '/page/dashboard/FormLogin' || pathname === '/page/pemesanan' || pathname === '/page/landingPage' || pathname === '/page/pemesanan/DetailPemesanan' || pathname === '/page/landingPage' || pathname === '/page/landingPage/loginPegawai' || pathname === '/page/landingPage/home' || pathname === '/page/landingPage/buatPassword' || pathname === '/page/landingPage/kodeOTP' || pathname === '/page/landingPage/lupaPassword') {
       setCheck(true);
       return
     }
     if (!accessToken) {
       setCheck(false);
-      router.push('/page/dashboard/FormLogin'); 
+      if(pathname === '/page/landingPage/dashboardRekrut'){
+        router.push('/page/landingPage/loginPegawai');
+      }else{
+        router.push('/page/dashboard/FormLogin'); 
+      }
     } else {
       // MAU TAMBAH KONDISI LAGI
       setCheck(true);
@@ -43,7 +49,7 @@ export default function RootLayout({
     return () => {
       
     }
-  }, [pathname, accessToken]);
+  }, [pathname, accessToken,refreshToken]);
   return (
     <html lang="en">
       <body className={montserrat.className}>{check ? children : <div className='h-screen flex justify-center items-center'>Loading...</div>}</body>
