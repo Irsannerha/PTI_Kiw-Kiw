@@ -79,7 +79,6 @@ export default function TambahItemMenu() {
         { nama: 'Test24', nik: '0987654321' },
         { nama: 'Test25', nik: '1234567890' },
         { nama: 'Test26', nik: '0987654321' },
-        // Tambahkan data lainnya sesuai kebutuhan
     ];
 
     return (
@@ -114,7 +113,6 @@ export default function TambahItemMenu() {
                             </div>
                         </div>
                     </div>
-
                     <div className="flex justify-between -mt-4 ">
                         <div className="text-start justify-start items-start">
                             <div className="mt-4 mb-4 w-full bg-[#F8A849] shadow-lg rounded-lg hover:bg-[#C79618]">
@@ -125,9 +123,7 @@ export default function TambahItemMenu() {
                                                 <path d="M15 23.75L6.25 15L15 6.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                                 <path d="M23.75 15H6.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                             </svg>
-
                                         </div>
-
                                         <div className="flex items-center text-black">
                                             Kembali
                                         </div>
@@ -136,7 +132,6 @@ export default function TambahItemMenu() {
                             </div>
                         </div>
                     </div>
-
                     <div className="mb-5 w-full text-[32px]">Perekrutan Pegawai Tahap 1</div>
                     <div className="container mx-auto mt-8 text-center">
                         <TablePrekPegawaiTahap1 data={datadumy} />

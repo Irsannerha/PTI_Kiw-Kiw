@@ -1,3 +1,5 @@
+'use client';
+import { Tooltip } from 'flowbite-react';
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import PaginationTable from './PaginationTable';
@@ -18,7 +20,6 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [filterValue, setFilterValue] = useState('');
     const totalPages = Math.ceil(data.length / itemsPerPage);
-
     useEffect(() => {
         if (currentPage > totalPages) {
             setCurrentPage(totalPages);
@@ -31,9 +32,7 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
         return row.nama.toLowerCase().includes(filterValue.toLowerCase()) ||
             row.nik.toLowerCase().includes(filterValue.toLowerCase()) || row.status.toLowerCase().includes(filterValue.toLowerCase());
     });
-
     const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-
     const onPageChange = (page: number) => {
         setCurrentPage(page);
     };
@@ -81,15 +80,15 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
                             <td className="px-14 py-4 whitespace-nowrap flex justify-center items-center gap-2">
                                 {/* <button className="text-blue-500">Edit</button> */}
                                 {/* <Link href="/page/dashboard/LaporanPerekLihatData"> */}
-                                <Link href="/[LaporanPerekLihatData]" as={`/page/dashboard/LaporanPerekrutan/${row.id}`}>
-                                    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <rect width="30" height="30" rx="5" fill="#F8A849" fill-opacity="0.5" />
-                                        <path d="M5 15C5 15 8 8 15 8C22 8 25 15 25 15C25 15 22 22 15 22C8 22 5 15 5 15Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M15 18C16.6569 18 18 16.6569 18 15C18 13.3431 16.6569 12 15 12C13.3431 12 12 13.3431 12 15C12 16.6569 13.3431 18 15 18Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-
-                                </Link>
-                                {/* <button className="text-red-500 ml-2">Hapus</button> */}
+                                <Tooltip content="Lihat Detail" style="dark" className='bg-black'>
+                                    <Link href="/[LaporanPerekLihatData]" as={`/page/dashboard/LaporanPerekrutan/${row.id}`}>
+                                        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect width="30" height="30" rx="5" fill="#F8A849" fill-opacity="0.5" />
+                                            <path d="M5 15C5 15 8 8 15 8C22 8 25 15 25 15C25 15 22 22 15 22C8 22 5 15 5 15Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M15 18C16.6569 18 18 16.6569 18 15C18 13.3431 16.6569 12 15 12C13.3431 12 12 13.3431 12 15C12 16.6569 13.3431 18 15 18Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </Link>
+                                </Tooltip>
                             </td>
                         </tr>
                     ))}
