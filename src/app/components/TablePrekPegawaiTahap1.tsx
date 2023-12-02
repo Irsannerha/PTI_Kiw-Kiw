@@ -5,8 +5,14 @@ import Link from 'next/link';
 import PaginationTable from './PaginationTable';
 import AlertMenolakPegawai1 from "@/app/components/AlertMenolakPegawai1"
 import AlertTerimaPegawai1 from "@/app/components/AlertTerimaPegawai1"
+import { useAxiosAuth } from '../hooks/useAxiosAuth';
+import { useLocalStorage } from 'usehooks-ts';
+import { log } from 'console';
+import { Rowdies } from 'next/font/google';
+import { mutate } from 'swr';
 
 interface TableRow {
+    id: string;
     nama: string;
     nik: string;
 }
@@ -40,35 +46,65 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
 
     // batas
     const [showAlertMenolakPegawai1, setShowAlertMenolakPegawai1] = useState(false);
-    const handleFromMenolakPegawai1 = async () => {
-        setShowAlertMenolakPegawai1(true)
-        setTimeout(() => {
-            setShowAlertMenolakPegawai1(false);
-        }, 3000);
+    const handleFromMenolakPegawai1 = async (id:string) => {
+        try{
+            await axiosAuth.put(`/api/applicant/setStatusRejected`,{id:id},{
+                headers:{
+                    Authorization : `Bearer ${accessToken}`
+                }
+            })
+            mutate('/api/applicant/all/statusPending')
+        }catch(e){
+            console.log(e);
+        }
     }
 
     const [showAlertMenolakPegawai2, setShowAlertMenolakPegawai2] = useState(false);
-    const handleFromMenolakPegawai2 = async () => {
-        setShowAlertMenolakPegawai2(true)
-        setTimeout(() => {
-            setShowAlertMenolakPegawai2(false);
-        }, 3000);
+    const handleFromMenolakPegawai2 = async (id:string) => {
+        try{
+            await axiosAuth.put(`/api/applicant/setStatusRejected`,{id:id},{
+                headers:{
+                    Authorization : `Bearer ${accessToken}`
+                }
+            })
+            mutate('/api/applicant/all/statusPending')
+        }catch(e){
+            console.log(e);
+        }
     }
+    const axiosAuth = useAxiosAuth();
+    const [accessToken, _] = useLocalStorage("accessToken", "");
 
     const [showAlertTerimaPegawai1, setShowAlertTerimaPegawai1] = useState(false);
-    const handleFromTerimaPegawai1 = async () => {
-        setShowAlertTerimaPegawai1(true)
-        setTimeout(() => {
-            setShowAlertTerimaPegawai1(false);
-        }, 3000);
+    const handleFromTerimaPegawai1 = async (id: string) => {
+        try {
+            await axiosAuth.put(`/api/applicant/setStatusInterview`, { id: id }, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+            mutate('/api/applicant/all/statusPending')
+        } catch (e) {
+            console.log(e);
+        }
+        // setShowAlertTerimaPegawai1(true)
+        // setTimeout(() => {
+        //     setShowAlertTerimaPegawai1(false);
+        // }, 3000);
     }
 
     const [showAlertTerimaPegawai2, setShowAlertTerimaPegawai2] = useState(false);
-    const handleFromTerimaPegawai2 = async () => {
-        setShowAlertTerimaPegawai2(true)
-        setTimeout(() => {
-            setShowAlertTerimaPegawai2(false);
-        }, 3000);
+    const handleFromTerimaPegawai2 = async (id:string) => {
+        try{
+            await axiosAuth.put(`/api/applicant/setStatusRejected`,{id:id},{
+                headers:{
+                    Authorization : `Bearer ${accessToken}`
+                }
+            })
+            mutate('/api/applicant/all/statusPending')
+        }catch(e){
+            console.log(e);
+        }
     }
 
     return (
@@ -111,7 +147,7 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
                                 {/* <button className="text-blue-500">Edit</button> */}
                                 {/* <Link href="/page/dashboard/PrekTahap1LihatData"> */}
                                 <Tooltip content="Lihat Detail" style="dark" className='bg-black'>
-                                    <Link href="/[PrekTahap1LihatData]" as={`/page/dashboard/PrekTahap1/${row.nama}`}>
+                                    <Link href={`/page/dashboard/PrekTahap1/detail/${row.id}`}>
                                         <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <rect width="30" height="30" rx="5" fill="#F8A849" fill-opacity="0.5" />
                                             <path d="M5 15C5 15 8 8 15 8C22 8 25 15 25 15C25 15 22 22 15 22C8 22 5 15 5 15Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -120,7 +156,7 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
                                     </Link>
                                 </Tooltip>
                                 <Tooltip content="Terima Tahap1" style="dark" className='bg-black'>
-                                    <Link href="#" onClick={handleFromTerimaPegawai1}>
+                                    <Link href="#" onClick={() => handleFromTerimaPegawai1(row.id)}>
                                         <svg width="31" height="30" viewBox="0 0 31 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <rect x="0.929688" width="30" height="30" rx="5" fill="#FFA437" />
                                             <path d="M23.9297 9L12.9297 20L7.92969 15" fill="#F8A849" />
@@ -129,7 +165,7 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
                                     </Link>
                                 </Tooltip>
                                 <Tooltip content="Tolak Tahap1" style="dark" className='bg-black'>
-                                    <Link href="" onClick={handleFromMenolakPegawai1}>
+                                    <Link href="" onClick={() => handleFromMenolakPegawai1(row.id)}>
                                         <svg width="31" height="30" viewBox="0 0 31 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <rect x="0.929688" width="30" height="30" rx="5" fill="#D86514" />
                                             <path d="M21.9297 9L9.92969 21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />

@@ -9,32 +9,19 @@ import Input from "@/app/components/Input";
 
 import TablePrekPegawaiTahap1 from "@/app/components/TablePrekPegawaiTahap1"
 import axios from 'axios';
+import { useAxiosAuth } from "@/app/hooks/useAxiosAuth";
+import { useLocalStorage } from "usehooks-ts";
+import useSWR from "swr";
 
 
 export default function TambahItemMenu() {
     const [currentTime, setCurrentTime] = useState(new Date());
     const [data, setData] = useState([]);
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get('/api/pegawai'); // Adjust the endpoint as needed
-                if (response.status === 200) {
-                    setData(response.data);
-                } else {
-                    console.error('Error fetching data:', response.status);
-                }
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-
-        fetchData();
         const intervalId = setInterval(() => {
             setCurrentTime(new Date());
         }, 1000);
-        return () => {
-            clearInterval(intervalId);
-        };
+        return () => clearInterval(intervalId);
     }, []);
 
     const formattedTime = currentTime.toLocaleTimeString();
@@ -52,33 +39,33 @@ export default function TambahItemMenu() {
         }
     };
 
-    const datadumy = [
-        { nama: 'Test1', nik: '1234567890' },
-        { nama: 'Test2', nik: '0987654321' },
-        { nama: 'Test3', nik: '1234567890' },
-        { nama: 'Test4', nik: '0987654321' },
-        { nama: 'Test5', nik: '1234567890' },
-        { nama: 'Test6', nik: '0987654321' },
-        { nama: 'Test7', nik: '1234567890' },
-        { nama: 'Test8', nik: '0987654321' },
-        { nama: 'Test9', nik: '1234567890' },
-        { nama: 'Test10', nik: '0987654321' },
-        { nama: 'Test11', nik: '1234567890' },
-        { nama: 'Test12', nik: '0987654321' },
-        { nama: 'Test13', nik: '1234567890' },
-        { nama: 'Test14', nik: '0987654321' },
-        { nama: 'Test15', nik: '1234567890' },
-        { nama: 'Test16', nik: '0987654321' },
-        { nama: 'Test17', nik: '1234567890' },
-        { nama: 'Test18', nik: '0987654321' },
-        { nama: 'Test19', nik: '1234567890' },
-        { nama: 'Test20', nik: '0987654321' },
-        { nama: 'Test21', nik: '1234567890' },
-        { nama: 'Test22', nik: '0987654321' },
-        { nama: 'Test23', nik: '1234567890' },
-        { nama: 'Test24', nik: '0987654321' },
-        { nama: 'Test25', nik: '1234567890' },
-        { nama: 'Test26', nik: '0987654321' },
+    const axiosAuth = useAxiosAuth();
+    const [accessToken, _] = useLocalStorage("accessToken", "");
+
+
+    // cara pake swr buat fetch data yang butuh header
+    const { data: datatest, isLoading, error } = useSWR("/api/applicant/all/statusPending", async (url) => {
+        const res = await axiosAuth.get(url, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        })
+        const filterData = res.data.map((e: any) => {
+            return {
+                id: e?.id,
+                nama: e?.name,
+                nik: e?.nik
+            }
+        })
+        return filterData;
+    });
+
+    const dataLoading = [
+        { id: '-1', nama: 'loading...', nik: 'loading...' },
+    ];
+
+    const noData = [
+        { id: '-1', nama: 'No Data', nik: 'No Data' },
     ];
 
     return (
@@ -134,7 +121,9 @@ export default function TambahItemMenu() {
                     </div>
                     <div className="mb-5 w-full text-[32px]">Perekrutan Pegawai Tahap 1</div>
                     <div className="container mx-auto mt-8 text-center">
-                        <TablePrekPegawaiTahap1 data={datadumy} />
+                        {
+                            isLoading ? <TablePrekPegawaiTahap1 data={dataLoading} /> : error ? <TablePrekPegawaiTahap1 data={dataLoading} /> : <TablePrekPegawaiTahap1 data={datatest.length !== 0 ? datatest : noData } />
+                        }
                     </div>
                 </div >
             </div >

@@ -8,6 +8,10 @@ export default function Alert() {
         setIsVisible(false);
     };
 
+    const handleClick = () => {
+        
+    }
+
     return (
         <>
             {isVisible && (
@@ -35,7 +39,7 @@ export default function Alert() {
                     </div>
                     <div className="flex justify-center items-center m-auto w-full mt-2">
 
-                        <a href='/page/FormLogin' className="bg-[#C79618] hover:bg-[#F8A849] w-[20%] py-1 text-white rounded-lg mx-1 text-center"> Ya</a>
+                        <button onClick={() => handleClick()} className="bg-[#C79618] hover:bg-[#F8A849] w-[20%] py-1 text-white rounded-lg mx-1 text-center"> Ya</button>
                         <button onClick={handleClose} className=" bg-[#F30101] hover:bg-[#950000] w-[20%] py-1 text-white rounded-lg mx-1">Tidak</button>
                     </div>
                 </div>

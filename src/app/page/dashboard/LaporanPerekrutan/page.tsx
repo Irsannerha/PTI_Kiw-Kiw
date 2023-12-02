@@ -5,30 +5,18 @@ import SvgDashboardProfile from "@/app/components/SvgDashboardProfile"
 import SvgDashboardKalender from "@/app/components/SvgDashboardKalender"
 import TableLaporanPerekrutan from "@/app/components/TableLaporanPerekrutan"
 import axios from 'axios';
+import { useAxiosAuth } from "@/app/hooks/useAxiosAuth";
+import { useLocalStorage } from "usehooks-ts";
+import useSWR from "swr";
 
 export default function LaporanPerekrutan() {
     const [currentTime, setCurrentTime] = useState(new Date());
     const [data, setData] = useState([]);
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get('/api/pegawai'); 
-                if (response.status === 200) {
-                    setData(response.data);
-                } else {
-                    console.error('Error fetching data:', response.status);
-                }
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-        fetchData();
         const intervalId = setInterval(() => {
             setCurrentTime(new Date());
         }, 1000);
-        return () => {
-            clearInterval(intervalId);
-        };
+        return () => clearInterval(intervalId);
     }, []);
 
     const formattedTime = currentTime.toLocaleTimeString();
@@ -43,33 +31,36 @@ export default function LaporanPerekrutan() {
         }
     };
 
-    const datadumy = [
-        { id: "1", nama: 'budi', nik: "8958945798759", status: "diterima" },
-        { id: "2", nama: 'ando', nik: "8958945798759", status: "diterima" },
-        { id: "3", nama: 'affan', nik: "8958945798759", status: "ditolak" },
-        { id: "4", nama: 'fahmi', nik: "8958945798759", status: "diterima" },
-        { id: "5", nama: 'tara', nik: "8958945798759", status: "ditolak" },
-        { id: "6", nama: 'carin', nik: "8958945798759", status: "diterima" },
-        { id: "7", nama: 'budi budi', nik: "8958945798759", status: "ditolak" },
-        { id: "8", nama: 'budi budi', nik: "8958945798759", status: "diterima" },
-        { id: "9", nama: 'budi budi', nik: "8958945798759", status: "ditolak" },
-        { id: "10", nama: 'budi budi', nik: "8958945798759", status: "diterima" },
-        { id: "11", nama: 'budi budi', nik: "8958945798759", status: "ditolak" },
-        { id: "12", nama: 'budi budi', nik: "8958945798759", status: "diterima" },
-        { id: "13", nama: 'budi budi', nik: "8958945798759", status: "ditolak" },
-        { id: "14", nama: 'budi budi', nik: "8958945798759", status: "diterima" },
-        { id: "15", nama: 'budi budi', nik: "8958945798759", status: "ditolak" },
-        { id: "16", nama: 'budi budi', nik: "8958945798759", status: "diterima" },
-        { id: "17", nama: 'budi budi', nik: "8958945798759", status: "ditolak" },
-        { id: "18", nama: 'budi budi', nik: "8958945798759", status: "diterima" },
-        { id: "19", nama: 'budi budi', nik: "8958945798759", status: "ditolak" },
-        { id: "20", nama: 'budi budi', nik: "8958945798759", status: "diterima" },
-        { id: "21", nama: 'budi budi', nik: "8958945798759", status: "ditolak" },
-        { id: "22", nama: 'budi budi', nik: "8958945798759", status: "diterima" },
-        { id: "23", nama: 'budi budi', nik: "8958945798759", status: "ditolak" },
-        { id: "24", nama: 'budi budi', nik: "8958945798759", status: "diterima" },
-        { id: "25", nama: 'budi budi', nik: "8958945798759", status: "ditolak" },
+    const axiosAuth = useAxiosAuth();
+    const [accessToken, _] = useLocalStorage("accessToken", "");
+
+
+    // cara pake swr buat fetch data yang butuh header
+    const { data: datatest, isLoading, error } = useSWR("/api/applicant/all", async (url) => {
+        const res = await axiosAuth.get(url, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        })
+        const filterData = res.data.map((e: any) => {
+            return {
+                id: e?.id,
+                nama: e?.name,
+                nik: e?.nik,
+                status: e?.status
+            }
+        })
+        return filterData;
+    });
+
+    const dataLoading = [
+        { id: '-1', nama: 'loading...', nik: 'loading...' , status: 'loading...' },
     ];
+
+    const noData = [
+        { id: '-1', nama: 'No Data', nik: 'No Data', status: 'No Data' },
+    ];
+
 
     return (
         <>
@@ -106,7 +97,9 @@ export default function LaporanPerekrutan() {
                     <div className="div">
                         <div className="mb-5 w-full text-[32px]">Laporan Perekrutan</div>
                         <div className="container mx-auto mt-8 text-cent0002r">
-                            <TableLaporanPerekrutan data={datadumy} />
+                        {
+                            isLoading ? <TableLaporanPerekrutan data={dataLoading} /> : error ? <TableLaporanPerekrutan data={dataLoading} /> : <TableLaporanPerekrutan data={datatest.length !== 0 ? datatest : noData } />
+                        }
                         </div>
                     </div>
                 </div>

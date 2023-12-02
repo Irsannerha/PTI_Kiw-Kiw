@@ -10,6 +10,9 @@ import Input from "@/app/components/Input";
 import TablePrekPegawaiTahap2 from "@/app/components/TablePrekPegawaiTahap2"
 
 import axios from 'axios';
+import { useAxiosAuth } from "@/app/hooks/useAxiosAuth";
+import { useLocalStorage } from "usehooks-ts";
+import useSWR from "swr";
 
 
 export default function TambahItemMenu() {
@@ -17,26 +20,10 @@ export default function TambahItemMenu() {
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get('/api/pegawai'); // Adjust the endpoint as needed
-                if (response.status === 200) {
-                    setData(response.data);
-                } else {
-                    console.error('Error fetching data:', response.status);
-                }
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-
-        fetchData();
         const intervalId = setInterval(() => {
             setCurrentTime(new Date());
         }, 1000);
-        return () => {
-            clearInterval(intervalId);
-        };
+        return () => clearInterval(intervalId);
     }, []);
 
 
@@ -55,34 +42,33 @@ export default function TambahItemMenu() {
         }
     };
 
-    const datadumy = [
-        { nama: 'John Doe1', nik: '1234567890' },
-        { nama: 'Jane Doe2', nik: '0987654321' },
-        { nama: 'John Doe3', nik: '1234567890' },
-        { nama: 'Jane Doe4', nik: '0987654321' },
-        { nama: 'John Doe5', nik: '1234567890' },
-        { nama: 'Jane Doe6', nik: '0987654321' },
-        { nama: 'John Doe7', nik: '1234567890' },
-        { nama: 'Jane Doe8', nik: '0987654321' },
-        { nama: 'John Doe9', nik: '1234567890' },
-        { nama: 'Jane Doe10', nik: '0987654321' },
-        { nama: 'John Doe11', nik: '1234567890' },
-        { nama: 'Jane Doe12', nik: '0987654321' },
-        { nama: 'John Doe13', nik: '1234567890' },
-        { nama: 'Jane Doe14', nik: '0987654321' },
-        { nama: 'John Doe15', nik: '1234567890' },
-        { nama: 'Jane Doe16', nik: '0987654321' },
-        { nama: 'John Doe17', nik: '1234567890' },
-        { nama: 'Jane Doe18', nik: '0987654321' },
-        { nama: 'John Doe19', nik: '1234567890' },
-        { nama: 'Jane Doe20', nik: '0987654321' },
-        { nama: 'John Doe21', nik: '1234567890' },
-        { nama: 'Jane Doe22', nik: '0987654321' },
-        { nama: 'John Doe23', nik: '1234567890' },
-        { nama: 'Jane Doe24', nik: '0987654321' },
-        { nama: 'John Doe25', nik: '1234567890' },
-        { nama: 'Jane Doe26', nik: '0987654321' },
-        // Tambahkan data lainnya sesuai kebutuhan
+    const axiosAuth = useAxiosAuth();
+    const [accessToken, _] = useLocalStorage("accessToken", "");
+
+
+    // cara pake swr buat fetch data yang butuh header
+    const {data: datatest, isLoading, error} = useSWR("/api/applicant/all/statusInterview", async (url) => {
+        const res = await axiosAuth.get(url, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        })
+        const filterData = res.data.map((e: any) => {
+            return {
+                id: e?.id,
+                nama: e?.name,
+                nik: e?.nik
+            }
+        })
+        return filterData;
+    });
+
+    const dataLoading = [
+        { id: '-1', nama: 'loading...', nik: 'loading...' },
+    ];
+
+    const noData = [
+        { id: '-1', nama: 'No Data', nik: 'No Data' },
     ];
 
     return (
@@ -142,7 +128,9 @@ export default function TambahItemMenu() {
 
                     <div className="mb-5 w-full text-[32px]">Perekrutan Pegawai Tahap 2</div>
                     <div className="container mx-auto mt-8 text-center">
-                        <TablePrekPegawaiTahap2 data={datadumy} />
+                        {
+                            isLoading ? <TablePrekPegawaiTahap2 data={dataLoading} /> : error ? <TablePrekPegawaiTahap2 data={dataLoading} /> : <TablePrekPegawaiTahap2 data={datatest.length !== 0 ? datatest : noData} />
+                        }
                     </div>
                 </div >
             </div >

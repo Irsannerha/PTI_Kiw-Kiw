@@ -3,11 +3,26 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react';
 import AlertLogout from "@/app/components/AlertLogout"
+import { useRouter } from 'next/navigation';
+import { useLocalStorage } from 'usehooks-ts';
 
 export default function DashboardSideBar() {
+    const router = useRouter();
+    const [check, setCheck] = useState(false);
+    const [accessToken, setAccessToken] = useLocalStorage('accessToken', '');
+    const [refreshToken, setRefreshToken] = useLocalStorage('refreshToken', '');
+
+
+
     const [currentPath, setCurrentPath] = useState('/page/dashboard/KelolaMenuPemesanan');
 
     useEffect(() => {
+        if (!accessToken) {
+            setCheck(false);
+        } else {
+            // MAU TAMBAH KONDISI LAGI
+            setCheck(true);
+        }
         // Mendapatkan path saat ini dari window.location
         setCurrentPath(window.location.pathname);
     }, []);
@@ -26,10 +41,13 @@ export default function DashboardSideBar() {
 
     const [showAlertLogout, setShowAlertLogout] = useState(false);
     const handleFromLogout = async () => {
-        setShowAlertLogout(true)
-        setTimeout(() => {
-            setShowAlertLogout(false);
-        }, 5000); // Example: Hide alert after 3 seconds
+        // Example: Hide alert after 3 seconds
+        setAccessToken('')
+        setRefreshToken('')
+    }
+
+    if (!check) {
+        return (<div>Loading...</div>);
     }
 
     return (
