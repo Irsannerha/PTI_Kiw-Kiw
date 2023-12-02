@@ -9,6 +9,9 @@ import Input from "@/app/components/Input";
 
 import TablePrekPegawai from "@/app/components/TablePrekPegawaiTahap1"
 import axios from 'axios';
+import { useAxiosAuth } from "@/app/hooks/useAxiosAuth";
+import { useLocalStorage } from "usehooks-ts";
+import useSWR from "swr";
 
 
 interface UserData {
@@ -26,27 +29,28 @@ interface UserData {
 
 const initialUserData: UserData = {};
 
-export default function PrekTahap1LihatData({ params }: { params: { PrekTahap1LihatData: string } }) {
+export default function Page({ params }: { params: { slug: string } }) {
     const [currentTime, setCurrentTime] = useState(new Date());
     useEffect(() => {
+        
         const intervalId = setInterval(() => {
             setCurrentTime(new Date());
         }, 1000);
         return () => clearInterval(intervalId);
     }, []);
 
-    const [userData, setUserData] = useState({
-        // Inisialisasi data pengguna di sini atau ambil dari suatu tempat
-        id: "0012",
-        nik: "12345067777",
-        nama: "Bre Jabenkk",
-        noHp: "089577778222",
-        email: "inibre@gmail.com",
-        alamat: "Ini Jalan Bre",
-        jenisKelamin: "Lanankk",
-        usia: "100",
-        ijazah: "https://www.w3schools.com/w3css/img_lights.jpg",
-    });
+    // const [userData, setUserData] = useState({
+    //     // Inisialisasi data pengguna di sini atau ambil dari suatu tempat
+    //     id: "0012",
+    //     nik: "12345067777",
+    //     nama: "Bre Jabenkk",
+    //     noHp: "089577778222",
+    //     email: "inibre@gmail.com",
+    //     alamat: "Ini Jalan Bre",
+    //     jenisKelamin: "Lanankk",
+    //     usia: "100",
+    //     ijazah: "https://www.w3schools.com/w3css/img_lights.jpg",
+    // });
 
     const formattedTime = currentTime.toLocaleTimeString();
     const formattedDate = currentTime.toLocaleDateString('id-ID');
@@ -55,17 +59,17 @@ export default function PrekTahap1LihatData({ params }: { params: { PrekTahap1Li
     const [fileStatus, setFileStatus] = useState("Tidak ada gambar.");
     // const [userData, setUserData] = useState<UserData>(initialUserData);
 
-    useEffect(() => {
-        console.log('Data Pengguna:', JSON.stringify(userData));
-        // Fetch data from the backend API endpoint using Axios
-        axios.get('http://localhost:3001/api/fetchData')
-            .then(response => {
-                setUserData(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
-    }, []);
+    // useEffect(() => {
+    //     console.log('Data Pengguna:', JSON.stringify(userData));
+    //     // Fetch data from the backend API endpoint using Axios
+    //     axios.get('http://localhost:3001/api/fetchData')
+    //         .then(response => {
+    //             setUserData(response.data);
+    //         })
+    //         .catch(error => {
+    //             console.error('Error fetching data:', error);
+    //         });
+    // }, []);
 
     const handleFileChange = (e: any) => {
         const input = e.target;
@@ -76,8 +80,25 @@ export default function PrekTahap1LihatData({ params }: { params: { PrekTahap1Li
         }
     };
 
+    const axiosAuth = useAxiosAuth();
+    const [accessToken, _] = useLocalStorage("accessToken", "");
+
+
+    // cara pake swr buat fetch data yang butuh header
+    const {data: userData, isLoading, error} = useSWR(`/api/applicant/one/${params.slug}`, async (url) => {
+        const res = await axiosAuth.get(url, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        })
+        return res.data
+    });
+
     return (
         <>
+        {isLoading && <div>Loading...</div>}
+        {error && <div>Error...</div>}
+        {userData && (
             <div style={{ display: 'flex' }}>
                 <DashboardSideBar />
                 <div style={{ marginLeft: '280px', padding: '20px' }} className="w-[77%]">
@@ -145,29 +166,29 @@ export default function PrekTahap1LihatData({ params }: { params: { PrekTahap1Li
                             <div className="div ml-auto">Ijazah</div>
                         </div>
                         <div className="text-black text-xl font-normal font-['Montserrat'] leading-10 ml-5">
-                            <div className="flex-shrink-0">: {userData.nik || 'Loading...'} </div>
-                            <div className="flex-shrink-0">: {userData.nama || 'Loading...'}</div>
-                            <div className="flex-shrink-0">: {userData.noHp || 'Loading...'}</div>
-                            <div className="flex-shrink-0">: {userData.email || 'Loading...'}</div>
-                            <div className="flex-shrink-0">: {userData.alamat || 'Loading...'}</div>
-                            <div className="flex-shrink-0">: {userData.jenisKelamin || 'Loading...'}</div>
-                            <div className="flex-shrink-0">: {userData.usia || 'Loading...'}</div>
+                            <div className="flex-shrink-0">: {userData?.nik } </div>
+                            <div className="flex-shrink-0">: {userData?.name }</div>
+                            <div className="flex-shrink-0">: {userData?.noHp }</div>
+                            <div className="flex-shrink-0">: {userData?.email }</div>
+                            <div className="flex-shrink-0">: {userData?.alamat }</div>
+                            <div className="flex-shrink-0">: {userData?.jenisKelamin }</div>
+                            <div className="flex-shrink-0">: {userData?.usia }</div>
 
                             <div className="ml-auto">:
-                                <div className={`-mt-10 ml-3 mb-4 w-full bg-[#F8A849] shadow-lg rounded-xl hover:bg-[#C79618] ${userData.ijazah ? 'cursor-pointer' : 'cursor-not-allowed'}`}>
+                                <div className={`-mt-10 ml-3 mb-4 w-full bg-[#F8A849] shadow-lg rounded-xl hover:bg-[#C79618] ${userData?.url_berkasrl_berkas ? 'cursor-pointer' : 'cursor-not-allowed'}`}>
                                     <div className="flex justify-center gap-2 text-center m-auto">
-                                        <svg className='flex items-center text-[16px] w-full mt-2' width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        {/* <svg className='flex items-center text-[16px] w-full mt-2' width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M12.5 17.7083V3.125" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                             <path d="M6.25 11.458L12.5 17.708L18.75 11.458" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                             <path d="M19.7913 21.875H5.20801" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                        <div className={`text-[16px] w-full pr-4 ${userData.ijazah ? 'text-black' : 'text-black opacity-50'}`}>
-                                            {userData.ijazah ? (
-                                                <a href={userData.ijazah} download className='cursor-pointer'>
-                                                    Unduh
+                                        </svg> */}
+                                        <div className={`text-[16px] w-full pr-4 ${userData?.url_berkas ? 'text-black' : 'text-black opacity-50'}`}>
+                                            {userData?.url_berkas ? (
+                                                <a href={userData?.url_berkas} download className='cursor-pointer'>
+                                                    Lihat
                                                 </a>
                                             ) : (
-                                                'Unduh'
+                                                'Lihat'
                                             )}
                                         </div>
                                     </div>
@@ -179,6 +200,7 @@ export default function PrekTahap1LihatData({ params }: { params: { PrekTahap1Li
                     </div>
                 </div>
             </div>
+        )}
         </>
     )
 }
