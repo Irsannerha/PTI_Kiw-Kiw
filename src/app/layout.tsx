@@ -29,7 +29,7 @@ export default function RootLayout({
   
 
   useEffect(() => {
-    console.log(pathname);
+    // console.log(pathname);
     if (pathname === '/page/dashboard/FormLogin' || pathname === '/page/pemesanan' || pathname === '/page/landingPage' || pathname === '/page/pemesanan/DetailPemesanan' || pathname === '/page/landingPage' || pathname === '/page/landingPage/loginPegawai' || pathname === '/page/landingPage/home' || pathname === '/page/landingPage/buatPassword' || pathname === '/page/landingPage/kodeOTP' || pathname === '/page/landingPage/lupaPassword') {
       setCheck(true);
       return
