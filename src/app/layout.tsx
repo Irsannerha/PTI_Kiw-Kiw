@@ -7,6 +7,8 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useLocalStorage } from 'usehooks-ts'
 import { usePathname } from 'next/navigation'
+import { PacmanLoader } from "react-spinners";
+import Image from 'next/image'
 
 const inter = Inter({ subsets: ['latin'] })
 const montserrat = Montserrat({ subsets: ['latin'] })
@@ -26,7 +28,7 @@ export default function RootLayout({
   const [accessToken, _] = useLocalStorage('accessToken', '');
   const [refreshToken, __] = useLocalStorage('refreshToken', '');
   const pathname = usePathname()
-  
+
 
   useEffect(() => {
     // console.log(pathname);
@@ -36,23 +38,52 @@ export default function RootLayout({
     }
     if (!accessToken) {
       setCheck(false);
-      if(pathname === '/page/landingPage/dashboardRekrut'){
+      if (pathname === '/page/landingPage/dashboardRekrut') {
         router.push('/page/landingPage/loginPegawai');
-      }else{
-        router.push('/page/dashboard/FormLogin'); 
+      } else {
+        router.push('/page/dashboard/FormLogin');
       }
     } else {
-      // MAU TAMBAH KONDISI LAGI
       setCheck(true);
     }
-    
     return () => {
-      
     }
-  }, [pathname, accessToken,refreshToken]);
+  }, [pathname, accessToken, refreshToken]);
+
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  }, []);
+
   return (
     <html lang="en">
-      <body className={montserrat.className}>{check ? children : <div className='h-screen flex justify-center items-center'>Loading...</div>}</body>
+      <head>
+        <title>KiwKiw</title>
+        <link rel="icon" href="/public/logoNavbar.ico" />
+      </head>
+      <body className={montserrat.className}>
+        {loading ? (
+          <>
+            <div className='h-screen flex flex-col justify-center items-center ' style={{ backgroundImage: 'url("/images/bg-loading.png")' }}>
+              <div className="ml-10 mb-4">
+                <Image
+                  src="/images/logokedai.png"
+                  alt="Logo Kedai"
+                  width={150}
+                  height={150}
+                />
+              </div>
+              <div className="mb-4 mr-6">
+                <PacmanLoader color="#965A36" />
+              </div>
+            </div>
+          </>
+        ) : (
+          check && children
+        )}
+      </body>
     </html>
   )
 }

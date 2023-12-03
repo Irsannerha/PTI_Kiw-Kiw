@@ -11,6 +11,7 @@ import { FiPlusSquare } from "react-icons/fi";
 import { PiMinusSquare } from "react-icons/pi";
 import Link from "next/link";
 import axios from 'axios';
+import Image from "next/image";
 
 export interface Product {
     id: number;
@@ -88,16 +89,31 @@ export default function Pemesanan() {
     useEffect(() => {
         setTimeout(() => {
             setLoading(false);
-        }, 3000);
+        }, 1000);
     }, []);
 
     return (
-        <div className="relative bg-[#E2E2E2] h-screen flex items-center justify-center">
+        <>
             {loading ? (
-                <PacmanLoader color="#F8A849" />
+                <>
+                    <div className='h-screen flex flex-col justify-center items-center ' style={{ backgroundImage: 'url("/images/bg-loading.png")' }}>
+                        <div className="ml-10 mb-4">
+                            <Image
+                                src="/images/logokedai.png"
+                                alt="Logo Kedai"
+                                width={150}
+                                height={150}
+                            />
+                        </div>
+                        <div className="mb-4 mr-6">
+                            {/* color="#F8A849" */}
+                            <PacmanLoader color="#965A36" />
+                        </div>
+                    </div>
+                </>
             ) : (
                 <>
-                    <div className="bg-[#E8E8E8] h-screen max-h-max w-full">
+                    <div className=" bg-[#E2E2E2] h-screen max-h-max w-full">
                         <NavbarPemesanan />
                         <div className="">
                             <div className="my-5 flex gap-3 overflow-x-scroll scroll-smooth lg:overflow-x-hidden justify-center md:justify-center lg:justify-center">
@@ -130,7 +146,7 @@ export default function Pemesanan() {
                                 className='rounded-lg w-full md:w-[80%] lg:w-[40%]'
                             />
                         </div>
-                        <div className="rounded-lg grid grid-cols-2 md:grid-cols-3 lg:flex flex-wrap justify-center lg:justify-center gap-5 md:gap-5 mx-5 my-5 max-h-[400px] md:max-h-[700px] lg:max-h-[350px] overflow-y-auto overscroll-auto md:pl-10 md:pr-10">
+                        <div className="rounded-lg grid grid-cols-2 md:grid-cols-3 lg:flex flex-wrap justify-center lg:justify-center gap-5 md:gap-5 mx-5 my-5 max-h-[400px] md:max-h-[700px] lg:max-h-[400px] overflow-y-auto overscroll-auto md:pl-10 md:pr-10 mb-10">
                             {filteredFoodData().map((food) => (
                                 <FoodCard
                                     key={food.id}
@@ -221,6 +237,6 @@ export default function Pemesanan() {
                     </div>
                 </>
             )}
-        </div>
+        </>
     );
 }
