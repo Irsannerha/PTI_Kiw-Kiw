@@ -1,9 +1,8 @@
-// components/Table.js
+'use client';
+import { Tooltip } from 'flowbite-react';
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import PaginationTable from './PaginationTable';
-import ModalOrder from './ModalOrder';
-import ModalCalender from './ModalCalender';
 
 interface TableRow {
     uid: string;
@@ -21,35 +20,79 @@ interface TableProps {
 const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [filterValue, setFilterValue] = useState('');
-
     const totalPages = Math.ceil(data.length / itemsPerPage);
-
     useEffect(() => {
         if (currentPage > totalPages) {
             setCurrentPage(totalPages);
         }
     }, [currentPage, totalPages]);
-
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-
     const filteredData = data.filter((row) => {
         return row.namaPemesan.toLowerCase().includes(filterValue.toLowerCase()) ||
             row.uid.toLowerCase().includes(filterValue.toLowerCase()) || row.tanggal.toLowerCase().includes(filterValue.toLowerCase());
     });
 
     const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-
     const onPageChange = (page: number) => {
         setCurrentPage(page);
     };
 
-    const [isCalendarVisible, setCalendarVisible] = useState(false);
-
-    const toggleCalendar = () => {
-        setCalendarVisible(!isCalendarVisible);
+    const handlePrint = (selectedUid: string) => {
+        const selectedData = data.find((row) => row.uid === selectedUid);
+        if (!selectedData) {
+            console.error(`Data with UID ${selectedUid} not found.`);
+            return;
+        }
+        const printableData = {
+            UID: selectedData.uid,
+            Tanggal: selectedData.tanggal,
+            'Nama Pemesan': selectedData.namaPemesan,
+            Jumlah: selectedData.jumlah,
+            Harga: selectedData.harga,
+        };
+        const printContent = `
+    <img src="/images/logoNavbar.png" width="80" height="80" className="justify-center" alt="Logo Kedai Bu Titin" />
+    <div className="text-[18px] font-bold">Kedai Bu Titin</div>
+    <h2 className="mb-6 text-2xl font-bold">Laporan Pemesanan</h2>
+    ${Object.entries(printableData)
+                .map(([key, value]) => `<div className="mb-4"><span class="font-bold">${key}:</span> ${value}</div>`)
+                .join('')}
+  `;
+        const printWindow = window.open('', '_blank');
+        if (printWindow) {
+            printWindow.document.write(`
+      <html>
+        <head>
+          <title>Print Document</title>
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+          <style>
+            body {
+              font-family: 'Arial', sans-serif;
+              padding: 20px;
+            }
+            .mb-4 {
+              margin-bottom: 1rem;
+            }
+            .font-bold {
+              font-weight: bold;
+            }
+          </style>
+        </head>
+        <body>
+          ${printContent}
+        </body>
+      </html>
+    `);
+            printWindow.document.close();
+            printWindow.print();
+            printWindow.onafterprint = () => {
+                printWindow.close();
+            };
+        } else {
+            console.error('Window for printing is null.');
+        }
     };
-
 
     return (
         <>
@@ -63,29 +106,18 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
                         onChange={(e) => setFilterValue(e.target.value)}
                     />
                 </div>
-                <div className="flex-none text-end justify-end items-end ml-[50%] backdrop-blur-[5px]">
-                    <div className="w-full bg-[#F8A849] shadow-lg rounded-lg hover:bg-[#C79618] backdrop-blur-lg">
-                        <ModalOrder />
-                    </div>
-                </div>
-
                 <div className="text-end justify-end items-end relative">
-                    <div onClick={toggleCalendar} className="w-full bg-[#F8A849] shadow-lg rounded-lg hover:bg-[#C79618] cursor-pointer">
-                        <div className="flex p-1.5 gap-2 justify-center items-center m-auto text-center text-black">
-                            <div className="flex flex-col justify-center">
-                                <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M27.5 3.75H2.5L12.5 15.575V23.75L17.5 26.25V15.575L27.5 3.75Z" stroke="black" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                            </div>
-                            <div className="flex items-center">
-                                Filter
+                    <Link href={"/page/dashboard/LaporanPemesanan/OrderSaatIni"}>
+                        <div className="w-full bg-[#F8A849] shadow-lg rounded-lg hover:bg-[#C79618] cursor-pointer">
+                            <div className="flex p-2 gap-2 justify-center items-center m-auto text-center text-black">
+                                <div className="flex items-center">
+                                    Order Saat Ini
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </Link>
                 </div>
             </div>
-            {isCalendarVisible && <ModalCalender/>}
-
             <table className="min-w-full divide-y-2 divide-black">
                 <thead className="bg-white">
                     <tr>
@@ -123,23 +155,31 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
                             <td className="px-9 py-4 whitespace-nowrap ">{row.harga}</td>
                             <td className="px-9 py-4 whitespace-nowrap flex justify-center items-center gap-2">
                                 {/* <button className="text-blue-500">Edit</button> */}
-                                <Link href="/page/dashboard/ViewLaporanPemesanan">
-                                    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <rect width="30" height="30" rx="5" fill="#F8A849" fill-opacity="0.5" />
-                                        <path d="M5 15C5 15 8 8 15 8C22 8 25 15 25 15C25 15 22 22 15 22C8 22 5 15 5 15Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M15 18C16.6569 18 18 16.6569 18 15C18 13.3431 16.6569 12 15 12C13.3431 12 12 13.3431 12 15C12 16.6569 13.3431 18 15 18Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-
-                                </Link>
-                                <Link href="/page/dashboard/PrekTahap1LihatData">
-                                    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <rect width="30" height="30" rx="5" fill="#F8A849" />
-                                        <path d="M9 12V5H21V12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M9 21H7C6.46957 21 5.96086 20.7893 5.58579 20.4142C5.21071 20.0391 5 19.5304 5 19V14C5 13.4696 5.21071 12.9609 5.58579 12.5858C5.96086 12.2107 6.46957 12 7 12H23C23.5304 12 24.0391 12.2107 24.4142 12.5858C24.7893 12.9609 25 13.4696 25 14V19C25 19.5304 24.7893 20.0391 24.4142 20.4142C24.0391 20.7893 23.5304 21 23 21H21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        <path d="M21 17H9V25H21V17Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                </Link>
-                                {/* <button className="text-red-500 ml-2">Hapus</button> */}
+                                {/* <Link href="/page/dashboard/LaporanPemesanan/"> */}
+                                <Tooltip content="Lihat Detail" style="dark" className='bg-black'>
+                                    <Link href="/[ViewLaporanPemesanan]" as={`/page/dashboard/LaporanPemesanan/${row.uid}`}>
+                                        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect width="30" height="30" rx="5" fill="#F8A849" fill-opacity="0.5" />
+                                            <path d="M5 15C5 15 8 8 15 8C22 8 25 15 25 15C25 15 22 22 15 22C8 22 5 15 5 15Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M15 18C16.6569 18 18 16.6569 18 15C18 13.3431 16.6569 12 15 12C13.3431 12 12 13.3431 12 15C12 16.6569 13.3431 18 15 18Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </Link>
+                                </Tooltip>
+                                <Tooltip content="Print/Cetak" style="dark" className='bg-black'>
+                                    <Link href="/" passHref>
+                                        <div onClick={(e) => {
+                                            e.preventDefault();
+                                            handlePrint(row.uid);
+                                        }}>
+                                            <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <rect width="30" height="30" rx="5" fill="#F8A849" />
+                                                <path d="M9 12V5H21V12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M9 21H7C6.46957 21 5.96086 20.7893 5.58579 20.4142C5.21071 20.0391 5 19.5304 5 19V14C5 13.4696 5.21071 12.9609 5.58579 12.5858C5.96086 12.2107 6.46957 12 7 12H23C23.5304 12 24.0391 12.2107 24.4142 12.5858C24.7893 12.9609 25 13.4696 25 14V19C25 19.5304 24.7893 20.0391 24.4142 20.4142C24.0391 20.7893 23.5304 21 23 21H21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M21 17H9V25H21V17Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </div>
+                                    </Link>
+                                </Tooltip>
                             </td>
                         </tr>
                     ))}

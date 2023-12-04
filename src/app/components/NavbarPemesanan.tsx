@@ -1,12 +1,12 @@
 import Image from 'next/image'
 
-// import { useDispatch } from "react-redux";
-// import { setSearch } from "../redux/slices/SearchSlice";
-
 export default function NavbarPemesanan() {
     return (
         <>
-            <p>Navbar Pemesanan</p>
+            <div className="bg-[#F8A849] pt-2 pb-3 z-50">
+                <Image src="/images/logoNavbar.png" width={80} height={80} className="m-auto items-center justify-center text-center" alt="Logo Kedai Bu Titin" />
+                <div className="text-center text-white font--[18px] text-base -mt-3">Kedai Bu Titin</div>
+            </div>
         </>
     )
 }

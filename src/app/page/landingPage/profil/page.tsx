@@ -1,22 +1,46 @@
+// Di file profilRekrutan.js
+
 "use client";
-import Image from "next/image";
 import Link from "next/link";
-import Input from "@/app/components/Input";
-import Navbars from "@/app/components/Navbars";
 import { useState } from 'react';
+import Navbars from "../../../components/Navbars";
+import axios from "axios";
 
+export default function ProfilRekrutan() {
+  const [formData, setFormData] = useState({
+    nama: "Muhammad Saiful",
+    no_hp: "08742747172",
+    email: "saiful@example.com",
+    alamat: "Bandar Lampung",
+  });
 
-export default function profilPrekrutan() {
-  // const [fileStatus, setFileStatus] = useState("Tidak ada file.");
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
-  // const handleFileChange = (e) => {
-  //   const input = e.target;
-  //   if (input.files.length > 0) {
-  //     setFileStatus(input.files[0].name);
-  //   } else {
-  //     setFileStatus("Tidak ada file.");
-  //   }
-  // };
+  const handleSubmit = async () => {
+    try {
+      // Permintaan API
+      const response = await axios.post('/api/submit-data', formData);
+
+      if (response.status === 200) {
+        // Tambahkan logika atau pembaruan state yang diperlukan setelah berhasil
+        console.log('Data berhasil disimpan:', response.data);
+      } else {
+        console.error('Gagal mengirimkan data:', response.status);
+      }
+    } catch (error) {
+      console.error('Error mengirimkan data:', error);
+      alert('Tidak dapat mengirimkan data');
+    }
+
+    // Tampilkan data yang akan dikirim ke API di console
+    console.log('User Data:', JSON.stringify(formData));
+  };
 
   return (
     <>
@@ -54,10 +78,13 @@ export default function profilPrekrutan() {
                       Nama
                     </label>
                     <input
+                      name="nama"
                       placeholder="Muhammad Saiful"
                       required
                       type="text"
                       className="border border-1 border-yellow-600 rounded-md"
+                      value={formData.nama}
+                      onChange={handleChange}
                     />
                   </div>
                   <div>
@@ -65,11 +92,13 @@ export default function profilPrekrutan() {
                       No hp
                     </label>
                     <input
+                      name="no_hp"
                       placeholder="08742747172"
                       required
                       type="text"
                       className="border border-1 border-yellow-600 rounded-md"
                       readOnly
+                      value={formData.no_hp}
                     />
                   </div>
                   <div>
@@ -77,11 +106,13 @@ export default function profilPrekrutan() {
                       E-mail
                     </label>
                     <input
+                      name="email"
                       placeholder="saiful@example.com"
                       required
                       type="text"
                       className="border border-1 border-yellow-600 rounded-md"
                       readOnly
+                      value={formData.email}
                     />
                   </div>
                   <div>
@@ -89,11 +120,13 @@ export default function profilPrekrutan() {
                       Alamat
                     </label>
                     <input
+                      name="alamat"
                       placeholder="Bandar Lampung"
                       required
                       type="text"
                       className="border border-1 border-yellow-600 rounded-md"
                       readOnly
+                      value={formData.alamat}
                     />
                   </div>
                 </form>
@@ -103,8 +136,9 @@ export default function profilPrekrutan() {
               <label
                 htmlFor="ubah"
                 className="bg-[#F8A849] hover:bg-[#D2691E] font-medium text-black hover:text-white inline-flex items-center px-6 py-1.5 cursor-pointer text-sm rounded-xl shadow-lg"
+                onClick={handleSubmit}
               >
-                <span className="ml-1">Ubah</span>
+                <span className="ml-1">Simpan</span>
               </label>
             </div>
             <div className="flex justify-end items-center mt-5">

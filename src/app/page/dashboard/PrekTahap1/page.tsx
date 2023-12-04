@@ -7,14 +7,15 @@ import SvgDashboardProfile from "@/app/components/SvgDashboardProfile"
 import SvgDashboardKalender from "@/app/components/SvgDashboardKalender"
 
 import TablePrekPegawaiTahap1 from "@/app/components/TablePrekPegawaiTahap1"
+import axios from 'axios';
 import { useAxiosAuth } from "@/app/hooks/useAxiosAuth";
-import useSWR from "swr";
-import { axiosInstance } from "@/app/utils/axios";
 import { useLocalStorage } from "usehooks-ts";
+import useSWR from "swr";
 
 
 export default function TambahItemMenu() {
     const [currentTime, setCurrentTime] = useState(new Date());
+    const [data, setData] = useState([]);
     useEffect(() => {
         const intervalId = setInterval(() => {
             setCurrentTime(new Date());
@@ -42,7 +43,7 @@ export default function TambahItemMenu() {
 
 
     // cara pake swr buat fetch data yang butuh header
-    const {data: datatest, isLoading, error} = useSWR("/applicant/all/statusPending", async (url) => {
+    const { data: datatest, isLoading, error } = useSWR("/api/applicant/all/statusPending", async (url) => {
         const res = await axiosAuth.get(url, {
             headers: {
                 Authorization: `Bearer ${accessToken}`
@@ -60,6 +61,10 @@ export default function TambahItemMenu() {
 
     const dataLoading = [
         { id: '-1', nama: 'loading...', nik: 'loading...' },
+    ];
+
+    const noData = [
+        { id: '-1', nama: 'No Data', nik: 'No Data' },
     ];
 
     return (
@@ -94,7 +99,6 @@ export default function TambahItemMenu() {
                             </div>
                         </div>
                     </div>
-
                     <div className="flex justify-between -mt-4 ">
                         <div className="text-start justify-start items-start">
                             <div className="mt-4 mb-4 w-full bg-[#F8A849] shadow-lg rounded-lg hover:bg-[#C79618]">
@@ -105,9 +109,7 @@ export default function TambahItemMenu() {
                                                 <path d="M15 23.75L6.25 15L15 6.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                                 <path d="M23.75 15H6.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                             </svg>
-
                                         </div>
-
                                         <div className="flex items-center text-black">
                                             Kembali
                                         </div>
@@ -116,11 +118,10 @@ export default function TambahItemMenu() {
                             </div>
                         </div>
                     </div>
-
                     <div className="mb-5 w-full text-[32px]">Perekrutan Pegawai Tahap 1</div>
                     <div className="container mx-auto mt-8 text-center">
                         {
-                            isLoading ? <TablePrekPegawaiTahap1 data={dataLoading} /> : error ? <TablePrekPegawaiTahap1 data={dataLoading} /> : <TablePrekPegawaiTahap1 data={datatest} />
+                            isLoading ? <TablePrekPegawaiTahap1 data={dataLoading} /> : error ? <TablePrekPegawaiTahap1 data={dataLoading} /> : <TablePrekPegawaiTahap1 data={datatest.length !== 0 ? datatest : noData } />
                         }
                     </div>
                 </div >

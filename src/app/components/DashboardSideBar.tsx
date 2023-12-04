@@ -3,28 +3,56 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react';
 import AlertLogout from "@/app/components/AlertLogout"
+import { useRouter } from 'next/navigation';
+import { useLocalStorage } from 'usehooks-ts';
 
 export default function DashboardSideBar() {
+    const router = useRouter();
+    const [check, setCheck] = useState(false);
+    const [accessToken, setAccessToken] = useLocalStorage('accessToken', '');
+    const [refreshToken, setRefreshToken] = useLocalStorage('refreshToken', '');
+
+
+
     const [currentPath, setCurrentPath] = useState('/page/dashboard/KelolaMenuPemesanan');
 
     useEffect(() => {
+        if (!accessToken) {
+            setCheck(false);
+        } else {
+            // MAU TAMBAH KONDISI LAGI
+            setCheck(true);
+        }
         // Mendapatkan path saat ini dari window.location
         setCurrentPath(window.location.pathname);
     }, []);
 
-    const isActive = (path: any) => currentPath === path;
+    const isActive = (path: string) => {
+        if (currentPath.startsWith(path)) {
+            return true;
+        }
+
+        // Additional check for dynamic routes
+        const dynamicPathRegex = new RegExp(`^${path}\/[^/]+`);
+        return dynamicPathRegex.test(currentPath);
+    };
+
+
 
     const [showAlertLogout, setShowAlertLogout] = useState(false);
     const handleFromLogout = async () => {
-        setShowAlertLogout(true)
-        setTimeout(() => {
-            setShowAlertLogout(false);
-        }, 5000); // Example: Hide alert after 3 seconds
+        // Example: Hide alert after 3 seconds
+        setAccessToken('')
+        setRefreshToken('')
+    }
+
+    if (!check) {
+        return (<div>Loading...</div>);
     }
 
     return (
-        <div>
-            <aside id="default-sidebar"
+        <>
+            <div
                 className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 "
                 aria-label="Sidebar">
                 <div className="h-full px-3 py-4 overflow-y-auto bg-[#FFE4C4]">
@@ -38,9 +66,10 @@ export default function DashboardSideBar() {
                             />
                         </div>
                     </Link>
+                    {/* <Link href="/[PrekTahap1LihatData]" as={`/page/dashboard/PrekTahap1/${row.nama}`}></Link> */}
                     <div className="flex items-center justify-center -mt-9">
                         <ul className='flex-col '>
-                            <li className={`pl-4 absolute w-full inset-x-0 mt-16 text-gray-900 rounded-sm ${isActive('/page/dashboard/KelolaMenuPemesanan') || isActive('/page/dashboard/TambahItemMenu') || isActive('/page/dashboard/EditItemMenu') || isActive('/page/dashboard/Kategori') || isActive('/page/dashboard/TambahKategori') || isActive('/page/dashboard/UbahKategori') ? 'bg-[#FBC686] text-black' : 'hover:bg-[#FBC686] hover:text-black'} focus:z-10 focus:ring-2 focus:ring-[#F8A849] focus:text-black dark:bg-[#FBC686] dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-[#FBC686] dark:focus:ring-blue-500 dark:focus:text-white`}>
+                            <li className={`pl-4 absolute w-full inset-x-0 mt-16 text-gray-900 rounded-sm ${isActive('/page/dashboard/KelolaMenuPemesanan') || isActive('/page/dashboard/TambahItemMenu') || isActive('/page/dashboard/EditItemMenu') || isActive('/page/dashboard/Kategori') || isActive('/page/dashboard/TambahKategori') || isActive('/page/dashboard/UbahKategori') || isActive('/page/dashboard/KelolaMenuPemesanan/[EditItemMenu]') ? 'bg-[#FBC686] text-black' : 'hover:bg-[#FBC686] hover:text-black'} focus:z-10 focus:ring-2 focus:ring-[#F8A849] focus:text-black dark:bg-[#FBC686] dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-[#FBC686] dark:focus:ring-blue-500 dark:focus:text-white`}>
                                 <Link href="/page/dashboard/KelolaMenuPemesanan">
                                     <button type="button" className="p-1 flex gap-4 text-center justify-center items-center text-sm font-medium ">
                                         <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -95,23 +124,23 @@ export default function DashboardSideBar() {
                             )}
                             <li className="absolute w-full -inset-x-1 bottom-0">
                                 {/* <Link href="/page/dashboard/FormLogin"> */}
-                                    <button onClick={handleFromLogout} type="button" id="logOut"
-                                        className="gap-3 w-52 py-1 mb-5 flex items-center justify-start m-auto rounded-md bg-[#950000] hover:bg-[#F02016] text-white p-2 pt-2 pb-2">
-                                        <Image
-                                            src="/images/logOut.svg"
-                                            alt="Logo LogOut"
-                                            width={30}
-                                            height={30}
-                                        />
-                                        Logout
-                                    </button>
+                                <button onClick={handleFromLogout} type="button" id="logOut"
+                                    className="gap-3 w-52 py-1 mb-5 flex items-center justify-start m-auto rounded-md bg-[#950000] hover:bg-[#F02016] text-white p-2 pt-2 pb-2">
+                                    <Image
+                                        src="/images/logOut.svg"
+                                        alt="Logo LogOut"
+                                        width={30}
+                                        height={30}
+                                    />
+                                    Logout
+                                </button>
                                 {/* </Link> */}
                             </li>
                         </ul>
                     </div>
 
                 </div>
-            </aside>
-        </div>
+            </div>
+        </>
     )
 }

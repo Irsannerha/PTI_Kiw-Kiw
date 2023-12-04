@@ -1,13 +1,13 @@
 "use client";
 import Input from "@/app/components/Input";
 import { useState } from "react";
-import Link from "next/link";
+// import Link from "next/link";
 import Image from "next/image";
-import { Montserrat } from "next/font/google";
+// import { Montserrat } from "next/font/google";
 import Navbars from "@/app/components/Navbars";
-
 import AlertInputEmail from "@/app/components/AlertInputEmail"
-import SuccessOTP from "@/app/components/SuccessOTP"
+import SuccessOTP from "@/app/components/SuccessOTP";
+import axios from "axios";
 
 // Deklarasikan tipe data terlebih dahulu
 interface DataFecth {
@@ -34,12 +34,24 @@ export default function ForgotPassword() {
 
     if (email) {
       if (email.includes('@gmail.com')) {
-        console.log('email: ', email);
-        if (email) {
-          setshowSuccessOTPSend(true);
-          window.location.href = '/page/landingPage/kodeOTP';
+        const userData = { email };
+        console.log('User Data:', JSON.stringify(userData));
+        try {
+          const response = await axios.post('/api/send-email', { email });
+          if (response.status === 200) {
+            console.log('Email sent successfully:', response.data);
+            setshowSuccessOTPSend(true);
+            setTimeout(() => {
+              setshowSuccessOTPSend(false);
+            }, 3000);
+          } else {
+            console.error('Failed to send email:', response.status);
+            alert('Failed to send email');
+          }
+        } catch (error) {
+          console.error('Error sending email:', error);
+          alert('Unable to send email');
         }
-        // handleReset();
       } else {
         alert('Use @gmail.com in email');
       }
@@ -51,11 +63,6 @@ export default function ForgotPassword() {
         setShowEmailAlert(false);
       }, 3000);
     }
-  };
-
-  const handleReset = () => {
-    setEmail("");
-    setIsEmailEmpty(false);
   };
 
   return (
@@ -105,7 +112,6 @@ export default function ForgotPassword() {
                   <SuccessOTP />
                 </div>
               )}
-              {/* <Link href="/forget-password-base"> */}
               <button
                 type="button"
                 onClick={handleFormSubmit}
@@ -113,7 +119,6 @@ export default function ForgotPassword() {
               >
                 Kirim Kode OTP
               </button>
-              {/* </Link> */}
             </div>
           </div>
         </div>

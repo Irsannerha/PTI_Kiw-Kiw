@@ -8,21 +8,20 @@ import SvgDashboardKalender from "@/app/components/SvgDashboardKalender"
 import Input from "@/app/components/Input";
 import AlertInputData from "@/app/components/AlertInputData";
 import AlertSimpanData from "@/app/components/AlertSimpanData";
+import axios from "axios";
 
 interface DataFecth {
     nama: string;
-    // gambar: any;
 }
 
 export default function TambahKategori() {
 
     const initialData: DataFecth = {
         nama: "",
-        // gambar: "",
     };
 
     const [nama, setnama] = useState(initialData.nama);
-    
+
     const [isnamaEmpty, setIsnamaEmpty] = useState(false);
     const [showAlertInputData, setShowAlertInputData] = useState(false);
     const [showAlertSimpanData, setShowAlertSimpanData] = useState(false);
@@ -45,34 +44,34 @@ export default function TambahKategori() {
             }, 5000);
         }
 
-        // if (nama && ishargaEmpty) {
-        //     setShowhargaAlert(true);
-        //     setTimeout(() => {
-        //         setShowhargaAlert(false);
-        //     }, 3000);
-        // } else if (harga && isnamaItemEmpty) {
-        //     setShownamaItemAlert(true);
-        //     setTimeout(() => {
-        //         setShownamaItemAlert(false);
-        //     }, 3000);
-        // } else if (isnamaItemEmpty && ishargaEmpty) {
-        //     setshowInputnamaItemharga(true);
-        //     setTimeout(() => {
-        //         setshowInputnamaItemharga(false);
-        //     }, 3000);
-        // } else if (isnamaItemEmpty && ishargaEmpty && iskategoriEmpty && isstokEmpty) {
-        //     setShowAlertInputData(true);
-        //     setTimeout(() => {
-        //         setShowAlertInputData(false);
-        //     }, 3000);
-        // }
-
+        if (nama) {
+            const userData = { nama };
+            console.log('User Data:', JSON.stringify(userData));
+            try {
+                const response = await axios.post('/api/login', { nama });
+                if (response.status === 200) {
+                    const data = response.data;
+                    console.log('successful:', data);
+                    setShowAlertSimpanData(true);
+                    setTimeout(() => {
+                        setShowAlertSimpanData(false);
+                    }, 5000);
+                    window.location.href = '/page/dashboard';
+                } else {
+                    console.error('Gagal:', response.status);
+                    alert('Login Gagal');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Tidak Dapat Data API');
+            }
+        }
     };
 
-    const handleReset = () => {
-        setnama("");
-        setIsnamaEmpty(false);
-    };
+    // const handleReset = () => {
+    //     setnama("");
+    //     setIsnamaEmpty(false);
+    // };
 
     // Batass
     const [currentTime, setCurrentTime] = useState(new Date());
@@ -161,7 +160,7 @@ export default function TambahKategori() {
                         placeholder="Makanan"
                         required
                         type="text"
-                        value="Makanan"
+                        value={nama} // Use the fetched value from the backend
                     />
                 </div>
                 {showAlertInputData && (

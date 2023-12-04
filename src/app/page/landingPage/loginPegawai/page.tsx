@@ -9,6 +9,7 @@ import AlertInputEmail from "@/app/components/AlertInputEmail"
 import AlertInputPassword from "@/app/components/AlertInputPassword"
 import AlertLoginSucces from "@/app/components/AlertLoginSucces"
 import Navbars from "@/app/components/Navbars";
+import axios from 'axios';
 
 // Deklarasikan tipe data terlebih dahulu
 interface DataFecth {
@@ -16,7 +17,7 @@ interface DataFecth {
     password: string;
 }
 
-export default function LandingPage() {
+export default function landingPage() {
     // Inisialisasi state dan variabel yang diperlukan
     const initialData: DataFecth = {
         email: "",
@@ -45,17 +46,32 @@ export default function LandingPage() {
         } else {
             setIsPasswordEmpty(false);
         }
+
+        if (password.length > 8) {
+            console.error('Password length should not exceed 8 characters');
+            alert('Password Tidak Boleh Lebih dari 8');
+            return;
+        }
+
         if (email && password) {
             if (email.includes('@gmail.com')) {
-                console.log('email: ', email);
-                console.log('password: ', password);
-                if (email === "kiwkiw@gmail.com" && password === "kiwkiw") {
-                    setshowSuccesLoginAlert(true);
-                    window.location.href = '/page/landingPage/dashboardRekrut';
-                } else {
-                    alert('Login Gagal')
+                const userData = { email, password };
+                console.log('User Data:', JSON.stringify(userData));
+                try {
+                    const response = await axios.post('/api/login', { email, password });
+                    if (response.status === 200) {
+                        const data = response.data;
+                        console.log('Login successful:', data);
+                        setshowSuccesLoginAlert(true);
+                        window.location.href = '/page/landingPage/dashboardRekrut';
+                    } else {
+                        console.error('Login Gagal:', response.status);
+                        alert('Login Gagal');
+                    }
+                } catch (error) {
+                    console.error('Error Login:', error);
+                    alert('Tidak Dapat Data API');
                 }
-                // handleReset();
             } else {
                 alert('Use @gmail.com in email');
             }
@@ -86,6 +102,7 @@ export default function LandingPage() {
         setIsEmailEmpty(false);
         setIsPasswordEmpty(false);
     };
+
 
     return (
         <>

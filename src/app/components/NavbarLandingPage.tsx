@@ -3,13 +3,10 @@ import Image from "next/image";
 import { useState } from 'react';
 
 const NavbarLandingPage = () => {
-
     const [isDropdownOpen, setDropdownOpen] = useState(false);
-
     const toggleDropdown = () => {
         setDropdownOpen(!isDropdownOpen);
     };
-
     return (
         <nav className="bg-[#FBC380] border-gray-200 dark:bg-gray-900 drop-shadow-lg fixed top-0 left-0 right-0 z-50">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto ml-5 mr-5">
@@ -43,7 +40,7 @@ const NavbarLandingPage = () => {
                             <a href="#kontak" className="block py-2 pl-3 pr-4 text-black hover:text-white rounded hover:bg-[#FBC380] md:p-0">Kontak</a>
                         </li>
                         <li>
-                            <a href="/page/landingPage/loginPegawai" className="block py-2 pl-3 pr-4 text-black hover:text-white rounded hover:bg-[#FBC380] md:p-0">Perekrutan Pegawai</a>
+                            <a href="/page/landingPage/dashboardRekrut" className="block py-2 pl-3 pr-4 text-black hover:text-white rounded hover:bg-[#FBC380] md:p-0">Perekrutan Pegawai</a>
                         </li>
                     </ul>
                 </div>

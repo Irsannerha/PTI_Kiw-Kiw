@@ -1,14 +1,79 @@
 "use client";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import SvgDashboardProfile from "@/app/components/SvgDashboardProfile";
 import Navbars from "@/app/components/Navbars";
+import axios from "axios";
+ 
+interface UserData {
+  nama?: string;
+  nik?: string;
+  status?: string;
+}
+const initialUserData: UserData = {};
 
-export default function cekStatus() {
+export default function CekStatus() {
+  const [userData, setUserData] = useState({
+    // Inisialisasi data pengguna di sini atau ambil dari suatu tempat
+    nama: "Bre Jabenkk",
+    nik: "12345067777",
+    status: "Belum Diterima",
+  });
+  
+
+  const [currentStep, setCurrentStep] = useState(1); // Inisialisasi dengan langkah pertama
+  const [showAlertDaftarSukses, setShowAlertDaftarSukses] = useState(false);
+
+  const logUserData = () => {
+    console.log('Data Pengguna:', JSON.stringify(userData));
+  };
+
+  useEffect(() => {
+    // Melakukan permintaan API saat komponen dimuat
+    const fetchData = async () => {
+      try {
+        // Permintaan API
+        const response = await axios.post('/api/submit-data', userData);
+
+        if (response.status === 200) {
+          // Perbarui langkah saat ini ke langkah berikutnya
+          setCurrentStep((prevStep) => prevStep + 1);
+
+          // Perbarui variabel showAlertDaftarSukses menjadi true
+          setShowAlertDaftarSukses(true);
+        } else {
+          console.error('Gagal mengirimkan data:', response.status);
+        }
+      } catch (error) {
+        console.error('Error mengirimkan data:', error);
+        alert('Tidak dapat mengirimkan data');
+      }
+    };
+
+    // Panggil fungsi fetchData
+    fetchData();
+
+    // Catat data pengguna setelah permintaan API
+    logUserData();
+  }, []); // Larik dependensi kosong memastikan bahwa efek berjalan hanya sekali saat komponen dimuat
+
+  // Fungsi untuk menentukan warna latar belakang berdasarkan langkah saat ini
+  const getBackgroundColor = () => {
+    switch (currentStep) {
+      case 1:
+        return "#F8A849"; // Warna langkah pertama
+      case 2:
+        return "#FFD8A9"; // Warna langkah kedua
+      // Tambahkan lebih banyak kasus untuk langkah-langkah tambahan
+      default:
+        return "#FFD8A9"; // Warna default
+    }
+  };
 
   return (
     <>
-      <div className="nav">
+      <div className="flex w-full items-center" style={{ backgroundColor: getBackgroundColor() }}>
         <Navbars />
       </div>
       <div className="w-full overflow-x-hidden">
@@ -94,11 +159,11 @@ export default function cekStatus() {
                   </div>
                   <div className="grid grid-cols-2">
                     <span className="text-base font-semibold leading-7 text-gray-900">NAMA</span>
-                    <span className="text-base font-medium leading-7 text-gray-900">: Hasan</span>
+                    <span className="text-base font-medium leading-7 text-gray-900">: {userData.nama || 'Loading...'}</span>
                     <span className="text-base font-semibold leading-7 text-gray-900">NIK</span>
-                    <span className="text-base font-medium leading-7 text-gray-900">: 12345067777</span>
+                    <span className="text-base font-medium leading-7 text-gray-900">: {userData.nik || 'Loading...'}</span>
                     <span className="text-base font-semibold leading-7 text-gray-900">Status</span>
-                    <span className="text-base font-medium leading-7 text-gray-900">: Belum Diterima</span>
+                    <span className="text-base font-medium leading-7 text-gray-900">: {userData.status || 'Loading...'}</span>
                   </div>
                 </div>
               </div>

@@ -34,6 +34,8 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
     const onPageChange = (page: number) => {
         setCurrentPage(page);
     };
+
+    const totalPrice = data.reduce((acc, row) => acc + parseInt(row.harga), 0);
     return (
         <>
             <table className="min-w-full divide-y-2 divide-black">
@@ -54,8 +56,8 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
                     {currentItems.map((row, index) => (
                         <tr key={index}>
                             <td className="px-28 py-4 whitespace-nowrap">{row.produk}</td>
-                            <td className="px-28 py-4 whitespace-nowrap ">{row.jumlah}</td>
-                            <td className="px-28 py-4 whitespace-nowrap ">{row.harga}</td>
+                            <td className="px-28 py-4 whitespace-nowrap ">{row.jumlah} Qty</td>
+                            <td className="px-28 py-4 whitespace-nowrap ">Rp. {row.harga}</td>
                         </tr>
                     ))}
                 </tbody>
@@ -64,9 +66,9 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
             <div className='border-b-2 border-black w-full font-bold text-black'>
                 {/* Isi elemen di sini */}
             </div>
-            <div className="flex justify-end items-end gap-28 mr-[14%] mt-2">
+            <div className="flex justify-end items-end gap-28 mr-[13%] mt-2">
                 <div className="font-semibold">TOTAL</div>
-                <div className="font-[18px]">Rp. 15.000</div>
+                <div className="font-[18px]">Rp. {totalPrice}</div>
             </div>
             <PaginationTable currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} />
         </>

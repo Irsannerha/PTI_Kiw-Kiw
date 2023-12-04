@@ -81,7 +81,9 @@ const TableModalPemesanan: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) =
                             <td className="px-6 py-2 whitespace-nowrap">{row.namaPemesan}</td>
                             <td className="px-6 py-2 whitespace-nowrap flex justify-center items-center ">
                                 {/* <button className="text-blue-500">Edit</button> */}
-                                <ModalOrderLihat />
+                                {/* <Link href="/[LaporanPerekLihatData]" as={`/components/ModalOrderLihat/${row.uid}`}> */}
+                                    <ModalOrderLihat />
+                                {/* </Link> */}
                                 {/* <button className="text-red-500 ml-2">Hapus</button> */}
                             </td>
                         </tr>

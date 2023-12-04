@@ -163,7 +163,6 @@ export default function landingPage() {
                   <SuccessUbahPass />
                 </div>
               )}
-              {/* <Link href="/forget-password-base"> */}
               <button
                 type="button"
                 onClick={handleFormSubmit}
@@ -171,7 +170,6 @@ export default function landingPage() {
               >
                 Kirim
               </button>
-              {/* </Link> */}
             </div>
           </div>
         </div>

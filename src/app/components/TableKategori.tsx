@@ -2,10 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import PaginationTable from './PaginationTable';
-import AlertMenolakPegawai1 from "@/app/components/AlertMenolakPegawai1"
-import AlertMenolakPegawai2 from "@/app/components/AlertMenolakPegawai2"
 import AlertHapusDataKategori from "@/app/components/AlertHapusDataKategori"
-import AlertTerimaPegawai2 from "@/app/components/AlertTerimaPegawai2"
 
 interface TableRow {
     nama: string;

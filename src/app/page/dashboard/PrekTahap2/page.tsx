@@ -9,15 +9,23 @@ import Input from "@/app/components/Input";
 
 import TablePrekPegawaiTahap2 from "@/app/components/TablePrekPegawaiTahap2"
 
+import axios from 'axios';
+import { useAxiosAuth } from "@/app/hooks/useAxiosAuth";
+import { useLocalStorage } from "usehooks-ts";
+import useSWR from "swr";
+
 
 export default function TambahItemMenu() {
     const [currentTime, setCurrentTime] = useState(new Date());
+    const [data, setData] = useState([]);
+
     useEffect(() => {
         const intervalId = setInterval(() => {
             setCurrentTime(new Date());
         }, 1000);
         return () => clearInterval(intervalId);
     }, []);
+
 
     const formattedTime = currentTime.toLocaleTimeString();
     const formattedDate = currentTime.toLocaleDateString('id-ID');
@@ -34,34 +42,33 @@ export default function TambahItemMenu() {
         }
     };
 
-    const data = [
-        { nama: 'John Doe', nik: '1234567890' },
-        { nama: 'Jane Doe', nik: '0987654321' },
-        { nama: 'John Doe', nik: '1234567890' },
-        { nama: 'Jane Doe', nik: '0987654321' },
-        { nama: 'John Doe', nik: '1234567890' },
-        { nama: 'Jane Doe', nik: '0987654321' },
-        { nama: 'John Doe', nik: '1234567890' },
-        { nama: 'Jane Doe', nik: '0987654321' },
-        { nama: 'John Doe', nik: '1234567890' },
-        { nama: 'Jane Doe', nik: '0987654321' },
-        { nama: 'John Doe', nik: '1234567890' },
-        { nama: 'Jane Doe', nik: '0987654321' },
-        { nama: 'John Doe', nik: '1234567890' },
-        { nama: 'Jane Doe', nik: '0987654321' },
-        { nama: 'John Doe', nik: '1234567890' },
-        { nama: 'Jane Doe', nik: '0987654321' },
-        { nama: 'John Doe', nik: '1234567890' },
-        { nama: 'Jane Doe', nik: '0987654321' },
-        { nama: 'John Doe', nik: '1234567890' },
-        { nama: 'Jane Doe', nik: '0987654321' },
-        { nama: 'John Doe', nik: '1234567890' },
-        { nama: 'Jane Doe', nik: '0987654321' },
-        { nama: 'John Doe', nik: '1234567890' },
-        { nama: 'Jane Doe', nik: '0987654321' },
-        { nama: 'John Doe', nik: '1234567890' },
-        { nama: 'Jane Doe', nik: '0987654321' },
-        // Tambahkan data lainnya sesuai kebutuhan
+    const axiosAuth = useAxiosAuth();
+    const [accessToken, _] = useLocalStorage("accessToken", "");
+
+
+    // cara pake swr buat fetch data yang butuh header
+    const {data: datatest, isLoading, error} = useSWR("/api/applicant/all/statusInterview", async (url) => {
+        const res = await axiosAuth.get(url, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        })
+        const filterData = res.data.map((e: any) => {
+            return {
+                id: e?.id,
+                nama: e?.name,
+                nik: e?.nik
+            }
+        })
+        return filterData;
+    });
+
+    const dataLoading = [
+        { id: '-1', nama: 'loading...', nik: 'loading...' },
+    ];
+
+    const noData = [
+        { id: '-1', nama: 'No Data', nik: 'No Data' },
     ];
 
     return (
@@ -121,7 +128,9 @@ export default function TambahItemMenu() {
 
                     <div className="mb-5 w-full text-[32px]">Perekrutan Pegawai Tahap 2</div>
                     <div className="container mx-auto mt-8 text-center">
-                        <TablePrekPegawaiTahap2 data={data} />
+                        {
+                            isLoading ? <TablePrekPegawaiTahap2 data={dataLoading} /> : error ? <TablePrekPegawaiTahap2 data={dataLoading} /> : <TablePrekPegawaiTahap2 data={datatest.length !== 0 ? datatest : noData} />
+                        }
                     </div>
                 </div >
             </div >

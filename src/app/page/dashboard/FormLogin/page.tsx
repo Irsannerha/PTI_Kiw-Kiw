@@ -68,7 +68,7 @@ export default function landingPage() {
                 // Log email and password as JSON for backend readability
                 const userData = { email, password };
                 try {
-                    const response = await axiosInstance.post('/auth/login', { email, password });
+                    const response = await axiosInstance.post('/api/auth/login', { email, password });
                     const data = response.data;
                     console.log('Login successful:', data);
                     setAccessToken(data?.data.access_token);

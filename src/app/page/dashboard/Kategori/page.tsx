@@ -1,25 +1,34 @@
 "use client"
-import DashboardSideBar from "@/app/components/DashboardSideBar"
+import axios from 'axios';
+import DashboardSideBar from "@/app/components/DashboardSideBar";
 import { useState, useEffect } from 'react';
 import Link from "next/link";
+import SvgDashboardProfile from "@/app/components/SvgDashboardProfile";
+import SvgDashboardKalender from "@/app/components/SvgDashboardKalender";
+import TableKategori from "@/app/components/TableKategori";
 
-import SvgDashboardProfile from "@/app/components/SvgDashboardProfile"
-import SvgDashboardKalender from "@/app/components/SvgDashboardKalender"
-import Input from "@/app/components/Input";
-
-import TableKategori from "@/app/components/TableKategori"
-import AlertMenolakPegawai1 from "@/app/components/AlertMenolakPegawai1"
-import AlertMenolakPegawai2 from "@/app/components/AlertMenolakPegawai2"
-import AlertTerimaPegawai1 from "@/app/components/AlertTerimaPegawai1"
-import AlertTerimaPegawai2 from "@/app/components/AlertTerimaPegawai2"
-
+const fetchData = async () => {
+    try {
+        const response = await axios.get('https://dummy-backend-url.com/categories'); // Replace with your actual backend URL
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return [];
+    }
+};
 
 export default function TambahItemMenu() {
     const [currentTime, setCurrentTime] = useState(new Date());
+    const [fileStatus, setFileStatus] = useState("Tidak ada gambar.");
+    const [categories, setCategories] = useState([]);
+
     useEffect(() => {
         const intervalId = setInterval(() => {
             setCurrentTime(new Date());
         }, 1000);
+        fetchData().then((data) => {
+            setCategories(data);
+        });
         return () => clearInterval(intervalId);
     }, []);
 
@@ -27,31 +36,20 @@ export default function TambahItemMenu() {
     const formattedDate = currentTime.toLocaleDateString('id-ID');
 
 
-    const [fileStatus, setFileStatus] = useState("Tidak ada gambar.");
-
-    const handleFileChange = (e: any) => {
-        const input = e.target;
-        if (input.files.length > 0) {
-            setFileStatus(input.files[0].name);
-        } else {
-            setFileStatus("Tidak ada gambar.");
-        }
-    };
-
     const data = [
-        { nama: 'Makanan' },
-        { nama: 'Minuman' },
-        { nama: 'Makanan' },
-        { nama: 'Minuman' },
-        { nama: 'Makanan' },
-        { nama: 'Minuman' },
-        { nama: 'Makanan' },
-        { nama: 'Minuman' },
-        { nama: 'Makanan' },
-        { nama: 'Minuman' },
-        { nama: 'Minuman' },
-        { nama: 'Makanan' },
-        { nama: 'Minuman' },
+        { id: "", nama: 'Makanan' },
+        { id: "", nama: 'Minuman' },
+        { id: "", nama: 'Makanan' },
+        { id: "", nama: 'Minuman' },
+        { id: "", nama: 'Makanan' },
+        { id: "", nama: 'Minuman' },
+        { id: "", nama: 'Makanan' },
+        { id: "", nama: 'Minuman' },
+        { id: "", nama: 'Makanan' },
+        { id: "", nama: 'Minuman' },
+        { id: "", nama: 'Minuman' },
+        { id: "", nama: 'Makanan' },
+        { id: "", nama: 'Minuman' },
         // Tambahkan data lainnya sesuai kebutuhan
     ];
 
@@ -127,6 +125,7 @@ export default function TambahItemMenu() {
                     <div className="mb-5 w-full text-[32px]">Kategori</div>
                     <div className="container mx-auto mt-8 text-center">
                         <TableKategori data={data} />
+                        {/* <TableKategori data={categories} /> */}
                     </div>
                 </div >
             </div >

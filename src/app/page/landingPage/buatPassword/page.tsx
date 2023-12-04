@@ -8,6 +8,7 @@ import Navbars from "@/app/components/Navbars";
 import AlertSuksesBuatPasswordBaru from "@/app/components/AlertSuksesBuatPasswordBaru"
 import AlertInputDataPerlu from "@/app/components/AlertInputDataPerlu"
 import AlertInputPasssamaRe from "@/app/components/AlertInputPasssamaRe"
+import axios from 'axios';
 
 interface DataFecth {
   newPassword: string;
@@ -28,9 +29,8 @@ export default function landingPage() {
 
   const [shownewPasswordAlert, setShownewPasswordAlert] = useState(false);
   const [showreNewPasswordAlert, setShowreNewPasswordAlert] = useState(false);
-  const [showAlertSuksesBuatPasswordBaru, setShowAlertSuksesBuatPasswordBaru] = useState(false);
-  const [showInputDataPerlu, setshowInputDataPerlu] = useState(false);
-  const [showAlertInputPasssamaRe, setShowAlertInputPasssamaRe] = useState(false);
+
+  const [showSuccesUbahPassAlert, setshowSuccesUbahPassAlert] = useState(false);
 
   const handleFormSubmit = async () => {
     if (!newPassword) {
@@ -45,21 +45,37 @@ export default function landingPage() {
       setIsreNewPasswordEmpty(false);
     }
 
+    if (newPassword.length > 12 || reNewPassword.length > 12) {
+      console.error('Password Tidak Boleh Lebih dari 6 Angka');
+      alert('Password Tidak Boleh Lebih dari 6 Angka');
+      return;
+    }
+
     if (newPassword && reNewPassword) {
-      console.log('newPassword: ', newPassword);
-      console.log('reNewPassword: ', reNewPassword);
-      if (newPassword && reNewPassword) {
-        if (newPassword == reNewPassword) {
-          setShowAlertSuksesBuatPasswordBaru(true);
-          window.location.href = '/page/landingPage/loginPegawai';
-        } else {
-          setShowAlertInputPasssamaRe(true);
-          setTimeout(() => {
-            setShowAlertInputPasssamaRe(false);
-          }, 3000);
+      if (newPassword === reNewPassword) {
+        const userData = { newPassword, reNewPassword };
+        console.log('User Data:', JSON.stringify(userData));
+        try {
+          const response = await axios.post('/api/login', { newPassword, reNewPassword });
+          if (response.status === 200) {
+            const data = response.data;
+            console.log('Successful:', data);
+            setshowSuccesUbahPassAlert(true);
+            setTimeout(() => {
+              setshowSuccesUbahPassAlert(false);
+            }, 3000);
+            window.location.href = '/page/dashboard/FormLogin';
+          } else {
+            console.error('Gagal:', response.status);
+            alert('Gagal');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('Tidak Dapat Data API');
         }
+      } else {
+        alert('Password Harus Sama, Maksimal 12 Terdiri dari huruf dan angka.');
       }
-      // handleReset();
     }
 
     if (newPassword && isreNewPasswordEmpty) {
@@ -72,10 +88,10 @@ export default function landingPage() {
       setTimeout(() => {
         setShownewPasswordAlert(false);
       }, 3000);
-    } else if (isnewPasswordEmpty && isreNewPasswordEmpty) {
-      setshowInputDataPerlu(true);
+    } else if (isnewPasswordEmpty && isnewPasswordEmpty) {
+      setShownewPasswordAlert(true);
       setTimeout(() => {
-        setshowInputDataPerlu(false);
+        setShownewPasswordAlert(false);
       }, 3000);
     }
   };
@@ -145,19 +161,19 @@ export default function landingPage() {
                 </div>
               )}
 
-              {showInputDataPerlu && (
+               {showreNewPasswordAlert && (
                 <div className="fixed mt-20 md:mt-20 ml-28 md:ml-40 w-[60%] md:w-[70%]">
                   <AlertInputDataPerlu />
                 </div>
               )}
 
-              {showAlertSuksesBuatPasswordBaru && (
+              {showreNewPasswordAlert && (
                 <div className="fixed mt-20 md:mt-20 ml-28 md:ml-40 w-[60%] md:w-[70%]">
                   <AlertSuksesBuatPasswordBaru />
                 </div>
               )}
 
-              {showAlertInputPasssamaRe && (
+               {showSuccesUbahPassAlert && (
                 <div className="fixed mt-20 md:mt-20 ml-28 md:ml-60 md:w-[50%]">
                   <AlertInputPasssamaRe />
                 </div>

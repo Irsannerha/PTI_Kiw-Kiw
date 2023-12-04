@@ -49,28 +49,6 @@ export default function PerekrutanPegawai() {
                             </div>
                         </div>
                     </div>
-
-                    <div className="flex justify-between -mt-4 ">
-                        <div className="text-start justify-start items-start">
-                            <div className="mt-4 mb-4 w-full bg-[#F8A849] shadow-lg rounded-lg hover:bg-[#C79618]">
-                                {/* <Link href="/page/dashboard">
-                                    <div className=" flex p-2 gap-2 justify-center items-center m-auto text-center text-white">
-                                        <div className="flex flex-col justify-center">
-                                            <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M15 23.75L6.25 15L15 6.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                                <path d="M23.75 15H6.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            </svg>
-
-                                        </div>
-
-                                        <div className="flex items-center text-black">
-                                            Kembali
-                                        </div>
-                                    </div>
-                                </Link> */}
-                            </div>
-                        </div>
-                    </div>
                     <div className="w-full text-[32px]">Perekrutan Pegawai</div>
                     <div className="flex justify-center mt-[5%]">
                         <Link href="/page/dashboard/PrekTahap1">

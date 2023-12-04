@@ -10,6 +10,10 @@ import AlertInputData from "@/app/components/AlertInputData";
 import AlertSimpanData from "@/app/components/AlertSimpanData";
 import axios from "axios";
 
+import { Button, Card, List, message, Image, Progress } from 'antd'
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
+import { storage } from "../../../../../firebaseConfig"
+
 interface DataFecth {
     namaItem: string;
     harga: string;
@@ -26,12 +30,11 @@ export default function TambahItemMenu() {
         stok: "",
         gambar: "",
     };
-
     const [namaItem, setnamaItem] = useState(initialData.namaItem);
     const [harga, setharga] = useState(initialData.harga);
     const [kategori, setkategori] = useState(initialData.kategori);
     const [stok, setstok] = useState(initialData.stok);
-    const [gambar, setgambar] = useState(initialData.gambar);
+    const [gambar, setgambar] = useState<string | File | undefined>(/* initial value */);
 
     const [isnamaItemEmpty, setIsnamaItemEmpty] = useState(false);
     const [ishargaEmpty, setIshargaEmpty] = useState(false);
@@ -43,22 +46,27 @@ export default function TambahItemMenu() {
     const [showAlertSimpanData, setShowAlertSimpanData] = useState(false);
 
     const handleFormSubmit = async () => {
-        if (!namaItem) {
+        setIsnamaItemEmpty(false);
+        setIshargaEmpty(false);
+        setIskategoriEmpty(false);
+        setIsstokEmpty(false);
+        setIsgambarEmpty(false);
+        if (!namaItem.trim()) {
             setIsnamaItemEmpty(true);
         } else {
             setIsnamaItemEmpty(false);
         }
-        if (!harga) {
+        if (!harga.trim()) {
             setIshargaEmpty(true);
         } else {
             setIshargaEmpty(false);
         }
-        if (!kategori) {
+        if (!kategori.trim()) {
             setIskategoriEmpty(true);
         } else {
             setIskategoriEmpty(false);
         }
-        if (!stok) {
+        if (!stok.trim()) {
             setIsstokEmpty(true);
         } else {
             setIsstokEmpty(false);
@@ -68,48 +76,81 @@ export default function TambahItemMenu() {
         } else {
             setIsgambarEmpty(false);
         }
-        if (isnamaItemEmpty || ishargaEmpty || iskategoriEmpty || isstokEmpty || isgambarEmpty) {
+        if (isnamaItemEmpty || ishargaEmpty || iskategoriEmpty || isstokEmpty) {
             setShowAlertInputData(true);
             setTimeout(() => {
                 setShowAlertInputData(false);
             }, 5000);
-        } else if (namaItem && harga && kategori && stok && gambar) {
-            const userData = { namaItem, harga, kategori, stok, gambar };
-            console.log('User Data:', JSON.stringify(userData));
-
-            if (gambar instanceof File) {
-                const formData = new FormData();
-                formData.append('namaItem', namaItem);
-                formData.append('harga', harga);
-                formData.append('kategori', kategori);
-                formData.append('stok', stok);
-                formData.append('gambar', gambar); // Append the File object directly
-
-                try {
-                    const response = await axios.post('/api/menu', formData, {
-                        headers: {
-                            'Content-Type': 'multipart/form-data',
-                        },
-                    });
-                    if (response.status === 200) {
-                        const responseData = response.data;
-                        console.log('Data has been sent successfully:', responseData);
-                        setShowAlertSimpanData(true);
-                        setTimeout(() => {
-                            setShowAlertSimpanData(false);
-                        }, 5000);
-                    } else {
-                        console.error('Failed to send data. Status:', response.status);
-                        alert('Gagal menyimpan data');
-                    }
-                } catch (error) {
-                    console.error('Error:', error);
-                    alert('Tidak Dapat Data API');
+        } else if (namaItem && harga && kategori && stok) {
+            try {
+                const namaItemRegex = /^[A-Za-z\s]{1,20}(\s[A-Za-z\s]{1,20}){0,3}$/;
+                if (!namaItemRegex.test(namaItem)) {
+                    alert('Nama item harus berupa huruf, tidak lebih dari 20 karakter, dan maksimal 4 kalimat');
+                    return;
                 }
+                if (parseInt(stok) > 1000) {
+                    alert('Stok tidak boleh lebih dari 1000');
+                    return;
+                }
+                if (isNaN(parseInt(stok))) {
+                    alert('Stok harus berupa angka');
+                    return;
+                }
+                if (isNaN(parseInt(harga))) {
+                    alert('Inputan Harga harus berupa angka');
+                    return;
+                }
+                if (parseInt(harga) > 1000000) {
+                    alert('Inputan Harga tidak boleh lebih dari Rp. 100.000');
+                    return;
+                }
+                if (imageFile) {
+                    await handleUploadFile();
+                }
+                // Log input data to console
+                console.log('Input Data:', {
+                    namaItem,
+                    harga,
+                    kategori,
+                    stok,
+                    gambar: downloadURL,
+                });
+                // Send data to backend
+                const response = await axios.post('YOUR_BACKEND_API/menu', {
+                    namaItem,
+                    harga,
+                    kategori,
+                    stok,
+                    gambar: downloadURL,
+                });
+                if (response.status === 200) {
+                    setShowAlertSimpanData(true);
+                    setTimeout(() => {
+                        setShowAlertSimpanData(false);
+                    }, 5000);
+                    // Log input data to console
+                    console.log('Input Data:', {
+                        namaItem,
+                        harga,
+                        kategori,
+                        stok,
+                        gambar: downloadURL,
+                    });
+                    // Reset form fields
+                    setnamaItem("");
+                    setharga("");
+                    setkategori("");
+                    setstok("");
+                    setgambar("");
+                } else {
+                    // Handle other response statuses or errors
+                }
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                // Handle error scenarios
             }
         }
     };
-
     const handleReset = () => {
         setnamaItem("");
         setharga("");
@@ -133,21 +174,61 @@ export default function TambahItemMenu() {
 
     const formattedTime = currentTime.toLocaleTimeString();
     const formattedDate = currentTime.toLocaleDateString('id-ID');
+    // Batas
 
+    const [imageFile, setImageFile] = useState<File>()
+    const [downloadURL, setDownloadURL] = useState('')
+    const [isUploading, setIsUploading] = useState(false)
+    const [progressUpload, setProgressUpload] = useState(0)
     const [fileStatus, setFileStatus] = useState("Tidak ada gambar.");
-
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const input = e.target;
-        if (input.files && input.files.length > 0) {
-            const file = input.files[0];
-            setFileStatus(file.name);
-            setgambar(file);
-
-            // Log the file name
-            console.log('Selected Image File:', file);
+    const handleSelectedFile = (files: any) => {
+        if (files && files[0].size < 10000000) {
+            setImageFile(files[0]);
+            setFileStatus(files[0].name); // Set file name as file status
+            console.log(files[0]);
         } else {
-            setFileStatus("Tidak ada gambar.");
+            message.error('File size too large');
         }
+    };
+    const handleUploadFile = async () => {
+        if (imageFile) {
+            const name = imageFile.name;
+            const storageRef = ref(storage, `image/${name}`);
+            const uploadTask = uploadBytesResumable(storageRef, imageFile);
+            uploadTask.on(
+                'state_changed',
+                (snapshot) => {
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    setProgressUpload(progress);
+                    switch (snapshot.state) {
+                        case 'paused':
+                            console.log('Upload is paused');
+                            break;
+                        case 'running':
+                            console.log('Upload is running');
+                            break;
+                    }
+                },
+                (error) => {
+                    message.error(error.message);
+                },
+                async () => {
+                    try {
+                        const url = await getDownloadURL(uploadTask.snapshot.ref);
+                        setDownloadURL(url);
+                        setFileStatus(imageFile.name);
+                    } catch (error) {
+                        console.error('Error getting download URL:', error);
+                    }
+                },
+            );
+        } else {
+            message.error('File not found');
+        }
+    };
+    const handleRemoveFile = () => {
+        setImageFile(undefined);
+        setFileStatus("Tidak ada gambar");
     };
 
     return (
@@ -182,7 +263,6 @@ export default function TambahItemMenu() {
                             </div>
                         </div>
                     </div>
-
                     <div className="flex justify-between -mt-4 ">
                         <div className="text-start justify-start items-start">
                             <div className="mt-4 mb-4 w-full bg-[#F8A849] shadow-lg rounded-lg hover:bg-[#C79618]">
@@ -193,9 +273,7 @@ export default function TambahItemMenu() {
                                                 <path d="M15 23.75L6.25 15L15 6.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                                 <path d="M23.75 15H6.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                             </svg>
-
                                         </div>
-
                                         <div className="flex items-center text-black">
                                             Kembali
                                         </div>
@@ -204,7 +282,6 @@ export default function TambahItemMenu() {
                             </div>
                         </div>
                     </div>
-
                     <div className="mb-5 w-full text-[32px]">Tambah Pesanan</div>
                     <div className="text-[24px]">Nama Item</div>
                     <Input
@@ -231,12 +308,10 @@ export default function TambahItemMenu() {
                             <div className="flex justify-between">
                                 <div className="flex">
                                     <select onChange={(e) => { setkategori(e.target.value); }} id="countrssies" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-
                                         <option selected>Pilih Kategori</option>
                                         <option value="Makanan">Makanan</option>
                                         <option value="Minuman">Minuman</option>
                                     </select>
-
                                 </div>
                             </div>
                         </div>
@@ -254,29 +329,79 @@ export default function TambahItemMenu() {
                     </div>
                     <div className="gap-2 w-full mt-2">
                         <div className="text-[24px]">Gambar</div>
-                        <div className="flex justify-between">
-                            <div className="flex">
-                                <div className="inline-block text-left  w-96 relative rounded-md text-[14px]">
-                                    <input
-                                        type="file"
-                                        id="imageUpload"
-                                        name="imageFile"
-                                        className="absolute opacity-0 cursor-pointer "
-                                        onChange={handleFileChange}
-                                    />
-                                    <label
-                                        htmlFor="imageUpload"
-                                        className="bg-[#FA8F21] hover:bg-[#8B6A56] text-black hover:text-black inline-block mr-2 px-4 py-2 h-9 rounded-md cursor-pointer"
-                                    >
-                                        Masukkan Gambar
-                                    </label>
-                                    <span id="imageStatus" className="text-black">
-                                        {fileStatus}
-                                    </span>
+                        <div className="col-lg-8 offset-lg-2">
+                            <div className="flex justify-between">
+                                <div className="flex">
+                                    <div className="inline-block text-left w-96 relative rounded-md text-[14px]">
+                                        <input
+                                            type="file"
+                                            id="imageUpload"
+                                            name="imageFile"
+                                            className="absolute opacity-0 cursor-pointer "
+                                            onChange={(files) => handleSelectedFile(files.target.files)}
+                                            placeholder="Select file to upload"
+                                            accept="image/png"
+                                        />
+                                        <label
+                                            htmlFor="imageUpload"
+                                            className="bg-[#FA8F21] hover:bg-[#8B6A56] text-black hover:text-black inline-block mr-2 px-4 py-2 h-9 rounded-md cursor-pointer"
+                                        >
+                                            Masukkan Gambar
+                                        </label>
+                                        <span id="imageStatus" className="text-black">
+                                            {fileStatus}
+                                        </span>
+                                    </div>
                                 </div>
+                            </div>
+                            <div className="mt-5">
+                                <Card>
+                                    {imageFile && (
+                                        <>
+                                            <List.Item
+                                                extra={[
+                                                    <Button
+                                                        key="btnRemoveFile"
+                                                        onClick={handleRemoveFile}
+                                                        type="text"
+                                                        icon={<i className="fas fa-times text-black"></i>}
+                                                    />,
+                                                ]}
+                                            >
+                                                <List.Item.Meta
+                                                    title={imageFile.name}
+                                                    description={`Size: ${imageFile.size}`}
+                                                />
+                                            </List.Item>
+                                            <div className="text-right mt-3">
+                                                <Button
+                                                    loading={isUploading}
+                                                    // type="primary"
+                                                    onClick={handleUploadFile}
+                                                    className="opacity-50 bg-white"
+                                                >
+                                                    Upload
+                                                </Button>
+                                                <Progress percent={progressUpload} />
+                                            </div>
+                                        </>
+                                    )}
+                                    {downloadURL && (
+                                        <>
+                                            <Image
+                                                src={downloadURL}
+                                                alt={downloadURL}
+                                                style={{ width: 200, height: 200, objectFit: 'cover' }}
+                                            />
+                                            <p>{downloadURL}</p>
+                                        </>
+                                    )}
+                                    <p></p>
+                                </Card>
                             </div>
                         </div>
                     </div>
+                    {/* Batas */}
                 </div>
                 {showAlertInputData && (
                     <div className="absolute mt-[40%] ml-[72%]">
@@ -300,7 +425,6 @@ export default function TambahItemMenu() {
                     {/* </Link> */}
                 </div>
             </div >
-
         </>
     )
 }
