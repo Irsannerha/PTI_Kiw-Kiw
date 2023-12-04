@@ -30,7 +30,6 @@ export default function TambahItemMenu() {
         stok: "",
         gambar: "",
     };
-
     const [namaItem, setnamaItem] = useState(initialData.namaItem);
     const [harga, setharga] = useState(initialData.harga);
     const [kategori, setkategori] = useState(initialData.kategori);
@@ -52,7 +51,6 @@ export default function TambahItemMenu() {
         setIskategoriEmpty(false);
         setIsstokEmpty(false);
         setIsgambarEmpty(false);
-        // Check for empty fields
         if (!namaItem.trim()) {
             setIsnamaItemEmpty(true);
         } else {
@@ -106,6 +104,9 @@ export default function TambahItemMenu() {
                     alert('Inputan Harga tidak boleh lebih dari Rp. 100.000');
                     return;
                 }
+                if (imageFile) {
+                    await handleUploadFile();
+                }
                 // Log input data to console
                 console.log('Input Data:', {
                     namaItem,
@@ -149,7 +150,6 @@ export default function TambahItemMenu() {
                 // Handle error scenarios
             }
         }
-
     };
     const handleReset = () => {
         setnamaItem("");
@@ -195,7 +195,6 @@ export default function TambahItemMenu() {
             const name = imageFile.name;
             const storageRef = ref(storage, `image/${name}`);
             const uploadTask = uploadBytesResumable(storageRef, imageFile);
-
             uploadTask.on(
                 'state_changed',
                 (snapshot) => {
@@ -217,6 +216,7 @@ export default function TambahItemMenu() {
                     try {
                         const url = await getDownloadURL(uploadTask.snapshot.ref);
                         setDownloadURL(url);
+                        setFileStatus(imageFile.name);
                     } catch (error) {
                         console.error('Error getting download URL:', error);
                     }
@@ -376,8 +376,9 @@ export default function TambahItemMenu() {
                                             <div className="text-right mt-3">
                                                 <Button
                                                     loading={isUploading}
-                                                    type="primary"
+                                                    // type="primary"
                                                     onClick={handleUploadFile}
+                                                    className="opacity-50 bg-white"
                                                 >
                                                     Upload
                                                 </Button>

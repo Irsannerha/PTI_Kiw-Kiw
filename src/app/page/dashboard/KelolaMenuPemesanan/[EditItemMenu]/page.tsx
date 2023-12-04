@@ -10,7 +10,7 @@ import AlertUbahData from "@/app/components/AlertUbahData"
 import axios from "axios";
 
 import { Button, Card, List, message, Image, Progress } from 'antd'
-import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
+import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from 'firebase/storage'
 import { storage } from "../../../../../../firebaseConfig"
 
 interface DataFecth {
@@ -27,15 +27,13 @@ export default function TambahItemMenu({ params }: { params: { TambahItemMenu: s
         harga: "50000",
         kategori: "Makanan",
         stok: "100",
-        gambar: "/path/to/sample-image.jpg",
+        gambar: "https://firebasestorage.googleapis.com/v0/b/kiwkiw-upload-image.appspot.com/o/image%2FOmah_Akas-removebg-preview.png?alt=media&token=f51c7449-38e8-44ca-a0ee-f26e83dde58a",
     };
-
 
     const [namaItem, setnamaItem] = useState(initialData.namaItem);
     const [harga, setharga] = useState(initialData.harga);
     const [kategori, setkategori] = useState(initialData.kategori);
     const [stok, setstok] = useState(initialData.stok);
-    // const [gambar, setgambar] = useState(initialData.gambar);
     const [gambar, setgambar] = useState<string | File | undefined>(initialData.gambar);
 
     const [isnamaItemEmpty, setIsnamaItemEmpty] = useState(false);
@@ -108,6 +106,11 @@ export default function TambahItemMenu({ params }: { params: { TambahItemMenu: s
                     alert('Inputan Harga tidak boleh lebih dari Rp. 100.000');
                     return;
                 }
+                // Upload the file if it exists
+                if (imageFile) {
+                    await handleUploadFile();
+                }
+
                 // Log input data to console
                 console.log('Input Data:', {
                     namaItem,
@@ -151,7 +154,6 @@ export default function TambahItemMenu({ params }: { params: { TambahItemMenu: s
                 // Handle error scenarios
             }
         }
-
     };
 
     const handleReset = () => {
@@ -166,7 +168,6 @@ export default function TambahItemMenu({ params }: { params: { TambahItemMenu: s
         setIsstokEmpty(false);
         setIsgambarEmpty(false);
     };
-
     // Batass
     const [currentTime, setCurrentTime] = useState(new Date());
     useEffect(() => {
@@ -175,21 +176,54 @@ export default function TambahItemMenu({ params }: { params: { TambahItemMenu: s
         }, 1000);
         return () => clearInterval(intervalId);
     }, []);
-
     const formattedTime = currentTime.toLocaleTimeString();
     const formattedDate = currentTime.toLocaleDateString('id-ID');
     // Batas
-
     const [imageFile, setImageFile] = useState<File>()
     const [downloadURL, setDownloadURL] = useState<string>(initialData.gambar as string)
     const [isUploading, setIsUploading] = useState(false)
     const [progressUpload, setProgressUpload] = useState(0)
-    const [fileStatus, setFileStatus] = useState("Tidak ada gambar.");
+
+
+    // Extract the image name from the URL or use a default value
+    const imageName = typeof initialData.gambar === 'string' ? initialData.gambar.split('/').pop() : "Tidak ada gambar.";
+
+    // Set the initial file status
+    const [fileStatus, setFileStatus] = useState(imageName);
+
+    // Function to delete the existing image from Firebase Storage
+    const deleteExistingImage = async (imageUrl: string) => {
+        try {
+            const existingImageRef = ref(storage, imageUrl);
+            await deleteObject(existingImageRef);
+            console.log('Existing image deleted successfully');
+        } catch (error) {
+            console.error('Error deleting existing image:', error);
+            // Handle error (e.g., display an error message to the user)
+        }
+    };
+    // Function to upload a new image to Firebase Storage
+    const uploadNewImage = async (imageFile: File) => {
+        const name = imageFile.name;
+        const storageRef = ref(storage, `image/${name}`);
+        const uploadTask = uploadBytesResumable(storageRef, imageFile);
+
+        // Handle upload progress, errors, and completion
+        // (similar to your existing handleUploadFile function)
+    };
     const handleSelectedFile = (files: any) => {
         if (files && files[0].size < 10000000) {
+            if (typeof initialData.gambar === 'string') {
+                // Delete existing image first if it's a string (URL)
+                deleteExistingImage(initialData.gambar);
+            }
+
+            // Upload the new image
+            uploadNewImage(files[0]);
+
+            // Update your component state accordingly
             setImageFile(files[0]);
-            setFileStatus(files[0].name); // Set file name as file status
-            console.log(files[0]);
+            setFileStatus(files[0].name);
         } else {
             message.error('File size too large');
         }
@@ -199,7 +233,6 @@ export default function TambahItemMenu({ params }: { params: { TambahItemMenu: s
             const name = imageFile.name;
             const storageRef = ref(storage, `image/${name}`);
             const uploadTask = uploadBytesResumable(storageRef, imageFile);
-
             uploadTask.on(
                 'state_changed',
                 (snapshot) => {
@@ -221,6 +254,8 @@ export default function TambahItemMenu({ params }: { params: { TambahItemMenu: s
                     try {
                         const url = await getDownloadURL(uploadTask.snapshot.ref);
                         setDownloadURL(url);
+                        // Set the file status here
+                        setFileStatus(imageFile.name);
                     } catch (error) {
                         console.error('Error getting download URL:', error);
                     }
@@ -229,12 +264,14 @@ export default function TambahItemMenu({ params }: { params: { TambahItemMenu: s
         } else {
             message.error('File not found');
         }
+        // Set the file status to the new image name
+        setFileStatus(imageFile?.name || "Tidak ada gambar");
     };
+    // Similarly, when removing the file, you can reset the file status
     const handleRemoveFile = () => {
         setImageFile(undefined);
         setFileStatus("Tidak ada gambar");
     };
-
 
     return (
         <>
@@ -268,7 +305,6 @@ export default function TambahItemMenu({ params }: { params: { TambahItemMenu: s
                             </div>
                         </div>
                     </div>
-
                     <div className="flex justify-between -mt-4 ">
                         <div className="text-start justify-start items-start">
                             <div className="mt-4 mb-4 w-full bg-[#F8A849] shadow-lg rounded-lg hover:bg-[#C79618]">
@@ -288,7 +324,6 @@ export default function TambahItemMenu({ params }: { params: { TambahItemMenu: s
                             </div>
                         </div>
                     </div>
-
                     <div className="mb-5 w-full text-[32px]">Ubah Pesanan</div>
                     <div className="text-[24px]">Nama Item</div>
                     <Input
@@ -321,7 +356,6 @@ export default function TambahItemMenu({ params }: { params: { TambahItemMenu: s
                                         <option value="Makanan">Makanan</option>
                                         <option value="Minuman">Minuman</option>
                                     </select>
-
                                 </div>
                             </div>
                         </div>
@@ -387,8 +421,9 @@ export default function TambahItemMenu({ params }: { params: { TambahItemMenu: s
                                             <div className="text-right mt-3">
                                                 <Button
                                                     loading={isUploading}
-                                                    type="primary"
+                                                    // type="primary"
                                                     onClick={handleUploadFile}
+                                                    className="opacity-50 bg-white"
                                                 >
                                                     Upload
                                                 </Button>
@@ -417,19 +452,18 @@ export default function TambahItemMenu({ params }: { params: { TambahItemMenu: s
                         <AlertUbahData />
                     </div>
                 )}
-
                 {/* <Link href="/page/dashboard"> */}
-                <div className="div">                <button
-                    type="button"
-                    onClick={handleFormSubmit}
-                    className="-ml-32 mt-[35%] absolute text-black w-[8%] bg-[#F8A849] hover:bg-[#8B6A56] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm py-2.5 mb-2 dark:bg-[#8B6A56] dark:hover:bg-[#F8A849] focus:outline-none flex justify-center items-center shadow-lg"
-                >
-                    Ubah
-                </button>
+                <div className="div">
+                    <button
+                        type="button"
+                        onClick={handleFormSubmit}
+                        className="-ml-32 mt-[35%] absolute text-black w-[8%] bg-[#F8A849] hover:bg-[#8B6A56] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm py-2.5 mb-2 dark:bg-[#8B6A56] dark:hover:bg-[#F8A849] focus:outline-none flex justify-center items-center shadow-lg"
+                    >
+                        Ubah
+                    </button>
                     {/* </Link> */}
                 </div >
             </div>
-
         </>
     )
 }

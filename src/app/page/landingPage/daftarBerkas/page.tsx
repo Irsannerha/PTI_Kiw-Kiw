@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import Link from "next/link";
 import SvgDashboardProfile from "@/app/components/SvgDashboardProfile";
 import Input from "@/app/components/Input";
@@ -9,15 +8,19 @@ import AlertInputDataPerlu from "@/app/components/AlertInputDataPerlu"
 import AlertDaftarSukses from "@/app/components/AlertDaftarSukses"
 import axios from "axios";
 
+import { Button, Card, List, message, Image, Progress } from 'antd'
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
+import { storage } from "../../../../../firebaseConfig"
+
 interface DataFetch {
-  nama?: string;
-  alamat?: string;
-  nik?: string;
-  jenisKelamin?: string;
-  noHp?: string;
-  email?: string;
-  umur?: string;
-  ijazah?: string; // Added ijazah property
+  nama: string;
+  alamat: string;
+  nik: string;
+  jenisKelamin: string;
+  noHp: string;
+  email: string;
+  umur: string;
+  ijazah: File | string;
 }
 
 export default function DaftarBerkas() {
@@ -39,6 +42,7 @@ export default function DaftarBerkas() {
   const [noHp, setNoHp] = useState(initialData.noHp);
   const [email, setEmail] = useState(initialData.email);
   const [umur, setUmur] = useState(initialData.umur);
+  const [ijazah, setijazah] = useState<string | File | undefined>(/* initial value */);
 
   const [isNamaEmpty, setIsNamaEmpty] = useState(false);
   const [isAlamatEmpty, setIsAlamatEmpty] = useState(false);
@@ -47,67 +51,138 @@ export default function DaftarBerkas() {
   const [isNoHpEmpty, setIsNoHpEmpty] = useState(false);
   const [isEmailEmpty, setIsEmailEmpty] = useState(false);
   const [isUmurEmpty, setIsUmurEmpty] = useState(false);
+  const [isijazahEmpty, setIsijazahEmpty] = useState(false);
 
   const [showAlertDaftarSukses, setshowAlertDaftarSukses] = useState(false);
   const [showInputDataPerlu, setshowInputDataPerlu] = useState(false);
 
-  const [fileStatus, setFileStatus] = useState("Tidak ada file.");
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const input = e.target;
-    if (input.files && input.files.length > 0) {
-      const allowedFileTypes = ["image/png", "image/jpg"];
-      const selectedFile = input.files[0];
-
-      if (allowedFileTypes.includes(selectedFile.type)) {
-        setFileStatus(selectedFile.name);
-      } else {
-        setFileStatus("File harus berformat PNG atau JPG.");
-      }
-    } else {
-      setFileStatus("Tidak ada gambar.");
-    }
-  };
-
   const handleFormSubmit = async () => {
-    
-    const userData: DataFetch = {
-      nama,
-      alamat,
-      nik,
-      jenisKelamin,
-      noHp,
-      email,
-      umur,
-      ijazah: fileStatus,
-    };
-
-    // Mencetak data pengguna ke konsol
-     console.log('User Data:', JSON.stringify(userData));
-
-    try {
-      // Permintaan API
-      const response = await axios.post('/api/submit-data', userData);
-
-      if (response.status === 200) {
-        setshowAlertDaftarSukses(true);
-      } else {
-        console.error('Gagal mengirimkan data:', response.status);
-      }
-    } catch (error) {
-      console.error('Error mengirimkan data:', error);
-      alert('Tidak dapat mengirimkan data');
+    setIsNamaEmpty(false);
+    setIsAlamatEmpty(false);
+    setIsNikEmpty(false);
+    setIsJenisKelaminEmpty(false);
+    setIsNoHpEmpty(false);
+    setIsEmailEmpty(false);
+    setIsUmurEmpty(false);
+    setIsijazahEmpty(false);
+    if (!nama.trim()) {
+      setIsNamaEmpty(true);
+    } else {
+      setIsNamaEmpty(false);
     }
-
-    // Reset formulir
-    handleReset();
-
+    if (!alamat.trim()) {
+      setIsAlamatEmpty(true);
+    } else {
+      setIsAlamatEmpty(false);
+    }
+    if (!nik.trim()) {
+      setIsNikEmpty(true);
+    } else {
+      setIsNikEmpty(false);
+    }
+    if (!jenisKelamin.trim()) {
+      setIsJenisKelaminEmpty(true);
+    } else {
+      setIsJenisKelaminEmpty(false);
+    }
+    if (!noHp.trim()) {
+      setIsNoHpEmpty(true);
+    } else {
+      setIsNoHpEmpty(false);
+    }
+    if (!email.trim()) {
+      setIsEmailEmpty(true);
+    } else {
+      setIsEmailEmpty(false);
+    }
+    if (!umur.trim()) {
+      setIsUmurEmpty(true);
+    } else {
+      setIsUmurEmpty(false);
+    }
+    if (!ijazah) {
+      setIsijazahEmpty(true);
+    } else {
+      setIsijazahEmpty(false);
+    }
     // Tampilkan peringatan jika semua input kosong
     if (isNamaEmpty && isAlamatEmpty && isJenisKelaminEmpty && isNikEmpty && isNoHpEmpty && isEmailEmpty && isUmurEmpty) {
       setshowInputDataPerlu(true);
       setTimeout(() => {
         setshowInputDataPerlu(false);
       }, 3000);
+    } else if (nama && alamat && jenisKelamin && nik && noHp && email && umur) {
+      try {
+        const namaRegex = /^[A-Za-z\s]{1,20}(\s[A-Za-z\s]{1,20}){0,3}$/;
+        if (!namaRegex.test(nama)) {
+          alert('Nama harus berupa huruf, tidak lebih dari 20 karakter, dan maksimal 4 kalimat');
+          return;
+        }
+        if (isNaN(parseInt(noHp))) {
+          alert('NoHP harus berupa angka');
+          return;
+        }
+        if (email.includes('@gmail.com')) {
+          if (imageFile) {
+            await handleUploadFile();
+          }
+          // Log input data to console
+          console.log('Input Data:', {
+            nama,
+            alamat,
+            jenisKelamin,
+            nik,
+            noHp,
+            email,
+            umur,
+            ijazah: downloadURL,
+          });
+          // Send data to backend
+          const response = await axios.post('YOUR_BACKEND_API/menu', {
+            nama,
+            alamat,
+            jenisKelamin,
+            nik,
+            noHp,
+            email,
+            umur,
+            ijazah: downloadURL,
+          });
+          if (response.status === 200) {
+            setshowAlertDaftarSukses(true);
+            setTimeout(() => {
+              setshowAlertDaftarSukses(false);
+            }, 5000);
+            // Log input data to console
+            console.log('Input Data:', {
+              nama,
+              alamat,
+              jenisKelamin,
+              nik,
+              noHp,
+              email,
+              umur,
+              ijazah: downloadURL,
+            });
+            // Reset form fields
+            setNama("");
+            setAlamat("");
+            setJenisKelamin("");
+            setNik("");
+            setNoHp("");
+            setEmail("");
+            setUmur("");
+            setijazah("");
+          } else {
+            // Handle other response statuses or errors
+          }
+        } else {
+          alert('Use @gmail.com in email');
+        }
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        // Handle error scenarios
+      }
     }
   };
 
@@ -120,6 +195,7 @@ export default function DaftarBerkas() {
     setNik("");
     setEmail("");
     setUmur("");
+    setijazah("");
 
     setIsNamaEmpty(false);
     setIsAlamatEmpty(false);
@@ -128,8 +204,73 @@ export default function DaftarBerkas() {
     setIsNikEmpty(false);
     setIsEmailEmpty(false);
     setIsUmurEmpty(false);
+    setIsijazahEmpty(false);
   };
 
+  // Batas
+
+  const [imageFile, setImageFile] = useState<File>()
+  const [downloadURL, setDownloadURL] = useState('')
+  const [isUploading, setIsUploading] = useState(false)
+  const [progressUpload, setProgressUpload] = useState(0)
+  const [fileStatus, setFileStatus] = useState("Tidak ada gambar.");
+  const [isUploadButtonPressed, setIsUploadButtonPressed] = useState(false);
+
+  const handleSelectedFile = (files: any) => {
+    if (files && files[0].size < 10000000) {
+      setImageFile(files[0]);
+      setFileStatus(files[0].name); // Set file name as file status
+      setIsUploadButtonPressed(false);
+      console.log(files[0]);
+    } else {
+      message.error('File size too large');
+    }
+  };
+  const handleUploadFile = async () => {
+    if (imageFile) {
+      setIsUploading(true); // Set status upload menjadi true
+      setIsUploadButtonPressed(true);
+      const name = imageFile.name;
+      const storageRef = ref(storage, `image/${name}`);
+      const uploadTask = uploadBytesResumable(storageRef, imageFile);
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setProgressUpload(progress);
+          switch (snapshot.state) {
+            case 'paused':
+              console.log('Upload is paused');
+              break;
+            case 'running':
+              console.log('Upload is running');
+              break;
+          }
+        },
+        (error) => {
+          setIsUploading(false); // Set status upload menjadi false saat terjadi error
+          message.error(error.message);
+        },
+        async () => {
+          try {
+            const url = await getDownloadURL(uploadTask.snapshot.ref);
+            setDownloadURL(url);
+            setFileStatus(imageFile.name);
+            setIsUploading(false); // Set status upload menjadi false setelah selesai
+          } catch (error) {
+            console.error('Error getting download URL:', error);
+            setIsUploading(false); // Set status upload menjadi false saat terjadi error
+          }
+        },
+      );
+    } else {
+      message.error('File not found');
+    }
+  };
+  const handleRemoveFile = () => {
+    setImageFile(undefined);
+    setFileStatus("Tidak ada gambar");
+  };
 
   return (
     <>
@@ -144,7 +285,7 @@ export default function DaftarBerkas() {
                 <div className="w-[20%] flex justify-end items-end">
                   <Link href={"/page/landingPage/profil"}>
                     <SvgDashboardProfile />
-                  </Link> 
+                  </Link>
                 </div>
                 <div className="w-[70%] flex flex-col justify-start pl-2">
                   Selamat Datang, User
@@ -239,8 +380,10 @@ export default function DaftarBerkas() {
                     type="file"
                     id="imageUpload"
                     name="imageFile"
-                    className="absolute opacity-0 cursor-pointer bg-green-300 w-[10%]"
-                    onChange={handleFileChange}
+                    className="absolute opacity-0 cursor-pointer "
+                    onChange={(files) => handleSelectedFile(files.target.files)}
+                    placeholder="Select file to upload"
+                    accept="image/png"
                   />
                   <label htmlFor="ijazah" className="block mb-2 mt-2 md:mt-0 text-sm font-medium text-gray-900 dark:text-white">
                     Ijazah
@@ -262,6 +405,51 @@ export default function DaftarBerkas() {
                 </div>
               </form>
             </div>
+            <div className="mt-5">
+              <Card>
+                {imageFile && (
+                  <>
+                    <List.Item
+                      extra={[
+                        <Button
+                          key="btnRemoveFile"
+                          onClick={handleRemoveFile}
+                          type="text"
+                          icon={<i className="fas fa-times text-black"></i>}
+                        />,
+                      ]}
+                    >
+                      <List.Item.Meta
+                        title={imageFile.name}
+                        description={`Size: ${imageFile.size}`}
+                      />
+                    </List.Item>
+                    <div className="text-right mt-3">
+                      <Button
+                        loading={isUploading}
+                        // type="primary"
+                        onClick={handleUploadFile}
+                        className="opacity-50 bg-white"
+                      >
+                        Upload
+                      </Button>
+                      <Progress percent={progressUpload} />
+                    </div>
+                  </>
+                )}
+                {downloadURL && (
+                  <>
+                    <Image
+                      src={downloadURL}
+                      alt={downloadURL}
+                      style={{ width: 200, height: 200, objectFit: 'cover' }}
+                    />
+                    <p>{downloadURL}</p>
+                  </>
+                )}
+                <p></p>
+              </Card>
+            </div>
             {showInputDataPerlu && (
               <div className="md:fixed  md:ml-[70%]">
                 <AlertInputDataPerlu />
@@ -273,9 +461,14 @@ export default function DaftarBerkas() {
               </div>
             )}
             <div className="flex mt-5 justify-end items-center">
-              <label htmlFor="kirim" onClick={handleFormSubmit} className="bg-[#D2691E] hover:bg-[#F8A849] font-medium text-white hover:text-white inline-flex items-center px-14 py-1.5 cursor-pointer text-sm rounded-md shadow-lg">
+              <button
+                type="button"
+                onClick={handleFormSubmit}
+                className={`bg-[#D2691E] hover:bg-[#F8A849] font-medium text-white hover:text-white inline-flex items-center px-14 py-1.5 cursor-pointer text-sm rounded-md shadow-lg ${isUploadButtonPressed ? '' : 'opacity-50'}`}
+                disabled={!isUploadButtonPressed}
+              >
                 <span className="ml-1">Kirim</span>
-              </label>
+              </button>
             </div>
           </div>
         </div>

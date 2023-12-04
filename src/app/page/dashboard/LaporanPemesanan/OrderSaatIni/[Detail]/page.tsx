@@ -10,6 +10,7 @@ import axios from 'axios';
 import LihatDetailPemesanan from "@/app/components/LihatDetailPemesanan";
 
 import { useRouter } from 'next/router'
+import { Button } from "flowbite-react";
 
 export default function LaporanPemesanan({ params }: { params: { Detail: string } }) {
     const [currentTime, setCurrentTime] = useState(new Date());
@@ -43,9 +44,9 @@ export default function LaporanPemesanan({ params }: { params: { Detail: string 
     const data = [
         { produk: 'Ayam Geprek', jumlah: "1", harga: "10000" },
         { produk: 'Es Teh Manis', jumlah: "1", harga: "20000" },
-        { produk: 'Es Teh Manis', jumlah: "1", harga: "20000" },
-        { produk: 'Es Teh Manis', jumlah: "1", harga: "20000" },
-        { produk: 'Es Teh Manis', jumlah: "1", harga: "20000" },
+        // { produk: 'Es Teh Manis', jumlah: "1", harga: "20000" },
+        // { produk: 'Es Teh Manis', jumlah: "1", harga: "20000" },
+        // { produk: 'Es Teh Manis', jumlah: "1", harga: "20000" },
         // Tambahkan data lainnya sesuai kebutuhan
     ];
 
@@ -58,6 +59,25 @@ export default function LaporanPemesanan({ params }: { params: { Detail: string 
             console.error('Error fetching data:', error);
         }
     };
+
+    const handleTerimaPesanan = async () => {
+        try {
+            const response = await axios.post('/api/terimaPesanan', { invoiceId: invoiceData.noInvoice, status: 'diterima' });
+            console.log('Order accepted:', response.data);
+        } catch (error) {
+            console.error('Error accepting order:', error);
+        }
+    };
+
+    const handleTolakPesanan = async () => {
+        try {
+            const response = await axios.post('/api/tolakPesanan', { invoiceId: invoiceData.noInvoice, status: 'ditolak' });
+            console.log('Order rejected:', response.data);
+        } catch (error) {
+            console.error('Error rejecting order:', error);
+        }
+    };
+
 
     useEffect(() => {
         fetchData();
@@ -128,6 +148,14 @@ export default function LaporanPemesanan({ params }: { params: { Detail: string 
                             </div>
                         </div>
                         <LihatDetailPemesanan data={data} />
+                    </div>
+                    <div className="flex justify-center items-center mt-5 gap-5">
+                        <Button color="gray" className='bg-[#F8A849]' onClick={handleTerimaPesanan}>
+                            Terima Pesanan
+                        </Button>
+                        <Button color="gray" className='bg-[#D2691E]' onClick={handleTolakPesanan}>
+                            Tolak Pesanan
+                        </Button>
                     </div>
                 </div>
             </div>

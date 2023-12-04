@@ -122,20 +122,20 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
                                 </Tooltip>
                                 <Tooltip content="Terima Pegawai" style="dark" className='bg-black'>
                                     <Link href="" onClick={handleFromTerimaPegawai2}>
-                                        <svg width="31" height="30" viewBox="0 0 31 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <rect x="0.929688" width="30" height="30" rx="5" fill="#FFA437" />
-                                            <path d="M23.9297 9L12.9297 20L7.92969 15" fill="#F8A849" />
-                                            <path d="M23.9297 9L12.9297 20L7.92969 15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        <svg width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="0.929688" y="0.0537109" width="30" height="30" rx="5" fill="#22EE1E" fill-opacity="0.5" />
+                                            <path d="M24.7988 10L12.5621 21L7 16" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                         </svg>
                                     </Link>
                                 </Tooltip>
                                 <Tooltip content="Tolak Pegawai" style="dark" className='bg-black'>
                                     <Link href="" onClick={handleFromMenolakPegawai2}>
-                                        <svg width="31" height="30" viewBox="0 0 31 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <rect x="0.929688" width="30" height="30" rx="5" fill="#D86514" />
-                                            <path d="M21.9297 9L9.92969 21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            <path d="M9.92969 9L21.9297 21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        <svg width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="0.929688" y="0.0537109" width="30" height="30" rx="5" fill="#F30101" fill-opacity="0.5" />
+                                            <path d="M21.9297 9.05371L9.92969 21.0537" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M9.92969 9.05371L21.9297 21.0537" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                         </svg>
+
                                     </Link>
                                 </Tooltip>
                             </td>
