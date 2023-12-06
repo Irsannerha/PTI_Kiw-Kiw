@@ -5,8 +5,12 @@ import Link from 'next/link';
 import PaginationTable from './PaginationTable';
 import AlertMenolakPegawai1 from "@/app/components/AlertMenolakPegawai1"
 import AlertTerimaPegawai1 from "@/app/components/AlertTerimaPegawai1"
+import { useAxiosAuth } from '../hooks/useAxiosAuth';
+import { useLocalStorage } from 'usehooks-ts';
+import { mutate } from 'swr';
 
 interface TableRow {
+    id:string
     nama: string;
     nik: string;
 }
@@ -48,12 +52,21 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
         }, 3000);
     }
 
+    const axiosAuth = useAxiosAuth();
+    const [accessToken, _] = useLocalStorage("accessToken", "");
+
     const [showAlertMenolakPegawai2, setShowAlertMenolakPegawai2] = useState(false);
-    const handleFromMenolakPegawai2 = async () => {
-        setShowAlertMenolakPegawai2(true)
-        setTimeout(() => {
-            setShowAlertMenolakPegawai2(false);
-        }, 3000);
+    const handleFromMenolakPegawai2 = async (id:string) => {
+        try{
+            await axiosAuth.put(`/api/applicant/setStatusRejected`,{id:id},{
+                headers:{
+                    Authorization : `Bearer ${accessToken}`
+                }
+            })
+            mutate('/api/applicant/all/statusPending')
+        }catch(e){
+            console.log(e);
+        }
     }
 
     const [showAlertTerimaPegawai1, setShowAlertTerimaPegawai1] = useState(false);
@@ -65,11 +78,17 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
     }
 
     const [showAlertTerimaPegawai2, setShowAlertTerimaPegawai2] = useState(false);
-    const handleFromTerimaPegawai2 = async () => {
-        setShowAlertTerimaPegawai2(true)
-        setTimeout(() => {
-            setShowAlertTerimaPegawai2(false);
-        }, 3000);
+    const handleFromTerimaPegawai2 = async (id:string) => {
+        try{
+            await axiosAuth.put(`/api/applicant/setStatusAccepted`,{id:id},{
+                headers:{
+                    Authorization : `Bearer ${accessToken}`
+                }
+            })
+            mutate('/api/applicant/all/statusInterview')
+        }catch(e){
+            console.log(e);
+        }
     }
 
     return (
@@ -112,7 +131,7 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
                                 {/* <button className="text-blue-500">Edit</button> */}
                                 {/* <Link href="/page/dashboard/PrekTahap2LihatData"> */}
                                 <Tooltip content="Lihat Detail" style="dark" className='bg-black'>
-                                    <Link href="/[PrekTahap2LihatData]" as={`/page/dashboard/PrekTahap2/${row.nama}`}>
+                                    <Link href="/[PrekTahap2LihatData]" as={`/page/dashboard/PrekTahap2/${row.id}`}>
                                         <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <rect width="30" height="30" rx="5" fill="#F8A849" fill-opacity="0.5" />
                                             <path d="M5 15C5 15 8 8 15 8C22 8 25 15 25 15C25 15 22 22 15 22C8 22 5 15 5 15Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -121,7 +140,7 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
                                     </Link>
                                 </Tooltip>
                                 <Tooltip content="Terima Pegawai" style="dark" className='bg-black'>
-                                    <Link href="" onClick={handleFromTerimaPegawai2}>
+                                    <Link href="" onClick={() => handleFromTerimaPegawai2(row.id)}>
                                         <svg width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <rect x="0.929688" y="0.0537109" width="30" height="30" rx="5" fill="#22EE1E" fill-opacity="0.5" />
                                             <path d="M24.7988 10L12.5621 21L7 16" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -129,7 +148,7 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
                                     </Link>
                                 </Tooltip>
                                 <Tooltip content="Tolak Pegawai" style="dark" className='bg-black'>
-                                    <Link href="" onClick={handleFromMenolakPegawai2}>
+                                    <Link href="" onClick={() => handleFromMenolakPegawai2(row.id)}>
                                         <svg width="31" height="31" viewBox="0 0 31 31" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <rect x="0.929688" y="0.0537109" width="30" height="30" rx="5" fill="#F30101" fill-opacity="0.5" />
                                             <path d="M21.9297 9.05371L9.92969 21.0537" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />

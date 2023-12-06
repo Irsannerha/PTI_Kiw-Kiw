@@ -30,32 +30,32 @@ export default function RootLayout({
   const pathname = usePathname()
 
 
-  useEffect(() => {
-    // console.log(pathname);
-    if (pathname === '/page/dashboard/FormLogin' || pathname === '/page/pemesanan' || pathname === '/page/landingPage' || pathname === '/page/pemesanan/DetailPemesanan' || pathname === '/page/landingPage' || pathname === '/page/landingPage/loginPegawai' || pathname === '/page/landingPage/home' || pathname === '/page/landingPage/buatPassword' || pathname === '/page/landingPage/kodeOTP' || pathname === '/page/landingPage/lupaPassword') {
-      setCheck(true);
-      return
-    }
-    if (!accessToken) {
-      setCheck(false);
-      if (pathname === '/page/landingPage/dashboardRekrut') {
-        router.push('/page/landingPage/loginPegawai');
-      } else {
-        router.push('/page/dashboard/FormLogin');
-      }
-    } else {
-      setCheck(true);
-    }
-    return () => {
-    }
-  }, [pathname, accessToken, refreshToken]);
+  // useEffect(() => {
+  //   // console.log(pathname);
+  //   if (pathname === '/page/dashboard/FormLogin' || pathname === '/page/pemesanan' || pathname === '/page/landingPage' || pathname === '/page/pemesanan/DetailPemesanan' || pathname === '/page/landingPage' || pathname === '/page/landingPage/loginPegawai' || pathname === '/page/landingPage/home' || pathname === '/page/landingPage/buatPassword' || pathname === '/page/landingPage/kodeOTP' || pathname === '/page/landingPage/lupaPassword') {
+  //     setCheck(true);
+  //     return
+  //   }
+  //   if (!accessToken) {
+  //     setCheck(false);
+  //     if (pathname === '/page/landingPage/dashboardRekrut') {
+  //       router.push('/page/landingPage/loginPegawai');
+  //     } else {
+  //       router.push('/page/dashboard/FormLogin');
+  //     }
+  //   } else {
+  //     setCheck(true);
+  //   }
+  //   return () => {
+  //   }
+  // }, [pathname, accessToken, refreshToken]);
 
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-  }, []);
+  // const [loading, setLoading] = useState(true);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setLoading(false);
+  //   }, 3000);
+  // }, []);
 
   return (
     <html lang="en">
@@ -64,7 +64,7 @@ export default function RootLayout({
         <link rel="icon" href="/public/logoNavbar.ico" />
       </head>
       <body className={montserrat.className}>
-        {loading ? (
+        {/* {loading ? (
           <>
             <div className='h-screen flex flex-col justify-center items-center ' style={{ backgroundImage: 'url("/images/bg-loading.png")' }}>
               <div className="ml-10 mb-4">
@@ -82,7 +82,8 @@ export default function RootLayout({
           </>
         ) : (
           check && children
-        )}
+        )} */}
+        {children}
       </body>
     </html>
   )

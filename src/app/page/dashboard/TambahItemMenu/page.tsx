@@ -1,6 +1,6 @@
 "use client"
 import DashboardSideBar from "@/app/components/DashboardSideBar"
-import { useState, useEffect } from 'react';
+import { useState, useEffect, EffectCallback, SetStateAction } from 'react';
 import Link from "next/link";
 
 import SvgDashboardProfile from "@/app/components/SvgDashboardProfile"
@@ -8,11 +8,15 @@ import SvgDashboardKalender from "@/app/components/SvgDashboardKalender"
 import Input from "@/app/components/Input";
 import AlertInputData from "@/app/components/AlertInputData";
 import AlertSimpanData from "@/app/components/AlertSimpanData";
-import axios from "axios";
+import axios, { Axios } from "axios";
 
 import { Button, Card, List, message, Image, Progress } from 'antd'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import { storage } from "../../../../../firebaseConfig"
+import { useAxiosAuth } from "@/app/hooks/useAxiosAuth";
+import { useLocalStorage } from "usehooks-ts";
+import useSWR, { SWRResponse } from "swr";
+import { log } from "console";
 
 interface DataFecth {
     namaItem: string;
@@ -20,6 +24,15 @@ interface DataFecth {
     kategori: string;
     stok: string;
     gambar: File | string;
+}
+
+interface kategori {
+    id : string,
+    name : string
+}
+
+interface ListKategori {
+    data : kategori[]
 }
 
 export default function TambahItemMenu() {
@@ -45,6 +58,67 @@ export default function TambahItemMenu() {
     const [showAlertInputData, setShowAlertInputData] = useState(false);
     const [showAlertSimpanData, setShowAlertSimpanData] = useState(false);
 
+    const axiosAuth = useAxiosAuth();
+    const [accessToken, _] = useLocalStorage("accessToken", "");
+    const [isLoading, setIsLoading] = useState(true);
+    const [kategoriData, setKategoriData] = useState([]);
+    // let kategoriData: any[] = [];
+
+    // const { data: kategoriData, isLoading, error } = useSWR("/api/menu/allCategory", async (url) => {
+    //     const res = await axiosAuth.get(url,{
+    //         headers: {
+    //             Authorization: `Bearer ${accessToken}`
+    //         }
+    //     })
+    //     const filterData = res.data.map((e: any) => {
+    //         return {
+    //             id: e?.id,
+    //             name: e?.name
+    //         }
+    //     })
+    //     return filterData
+    // })
+    // console.log(kategoriData);
+
+    // const res = axiosAuth.get('api/menu/allCategory').then((res) => res.data)
+    
+
+    // const {data:kategoriData,isLoading,error}:SWRResponse<ListKategori,any,boolean> = useSWR("/api/menu/allCategory", (url) => 
+    //     axiosAuth.get(url).then((res) => res.data)
+    //     )
+    //     console.log(kategoriData);
+    // console.log(kategoriData)
+
+    useEffect(() => {
+        (async () => {
+            const res = async () => {
+                const response = await axiosAuth.get("/api/menu/allCategory");
+                // const filterData = response.data.map((e: any) => (
+                //     {
+                //         id: e?.id,
+                //         name: e?.name
+                //     }
+                // ))
+                response.data.map((e: any) => {
+                    setKategoriData([...kategoriData, {
+                        id: e?.id,
+                        name: e?.name
+                    }]);
+                })
+                // kategoriData = [...filterData];
+                console.log(kategoriData);
+                // console.log('huy', filterData);
+                
+                // kategoriData.push(filterData)
+                setIsLoading(false);
+            }
+            await res()
+            console.log(isLoading);
+            console.log(kategoriData);
+        })()
+    }, [isLoading])
+
+    // console.log(kategoriData);
     const handleFormSubmit = async () => {
         setIsnamaItemEmpty(false);
         setIshargaEmpty(false);
@@ -289,7 +363,7 @@ export default function TambahItemMenu() {
                         placeholder="Masukkan nama item"
                         required
                         type="text"
-                    />
+                        />
                     <div className="justify-between items-center grid grid-cols-3 md:grid-cols-3 gap-2 w-full mt-2">
                         <div className="w-[175px]">
                             <div className="text-[24px]">Harga</div>
@@ -300,7 +374,7 @@ export default function TambahItemMenu() {
                                     placeholder="10.000"
                                     required
                                     type="text"
-                                />
+                                    />
                             </div>
                         </div>
                         <div className="-ml-[30%] w-[100%]">
@@ -308,9 +382,10 @@ export default function TambahItemMenu() {
                             <div className="flex justify-between">
                                 <div className="flex">
                                     <select onChange={(e) => { setkategori(e.target.value); }} id="countrssies" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                        <option selected>Pilih Kategori</option>
-                                        <option value="Makanan">Makanan</option>
-                                        <option value="Minuman">Minuman</option>
+                                        {/* <option>Pilih Kategori</option> */}
+                                        {isLoading ? <option>loading..</option> : kategoriData?.map((item) => (
+                                            <option value={item.id}>{item.kategori}</option>
+                                        ))}
                                     </select>
                                 </div>
                             </div>
@@ -393,7 +468,7 @@ export default function TambahItemMenu() {
                                                 alt={downloadURL}
                                                 style={{ width: 200, height: 200, objectFit: 'cover' }}
                                             />
-                                            <p>{downloadURL}</p>
+                                            {/* <p>{downloadURL}</p> */}
                                         </>
                                     )}
                                     <p></p>

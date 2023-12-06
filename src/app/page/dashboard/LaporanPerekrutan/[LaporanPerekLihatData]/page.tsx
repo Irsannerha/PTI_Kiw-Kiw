@@ -5,6 +5,9 @@ import DashboardSideBar from "@/app/components/DashboardSideBar";
 import Link from "next/link";
 import SvgDashboardProfile from "@/app/components/SvgDashboardProfile";
 import SvgDashboardKalender from "@/app/components/SvgDashboardKalender";
+import { useAxiosAuth } from '@/app/hooks/useAxiosAuth';
+import { useLocalStorage } from 'usehooks-ts';
+import useSWR from 'swr';
 
 interface UserData {
     id?: number;
@@ -30,18 +33,18 @@ export default function LaporanPerekLihatData({ params }: { params: { LaporanPer
         return () => clearInterval(intervalId);
     }, []);
 
-    const [userData, setUserData] = useState({
-        id: "",
-        nik: "",
-        nama: "",
-        noHp: "",
-        email: "",
-        alamat: "",
-        jenisKelamin: "",
-        usia: "",
-        ijazah: "",
-        validate: "Diterima",
-    });
+    // const [userData, setUserData] = useState({
+    //     id: "",
+    //     nik: "",
+    //     nama: "",
+    //     noHp: "",
+    //     email: "",
+    //     alamat: "",
+    //     jenisKelamin: "",
+    //     usia: "",
+    //     ijazah: "",
+    //     validate: "Diterima",
+    // });
 
     const formattedTime = currentTime.toLocaleTimeString();
     const formattedDate = currentTime.toLocaleDateString('id-ID');
@@ -49,20 +52,25 @@ export default function LaporanPerekLihatData({ params }: { params: { LaporanPer
     const [fileStatus, setFileStatus] = useState("Tidak ada gambar.");
     // const [userData, setUserData] = useState<UserData>(initialUserData);
 
-    useEffect(() => {
-        console.log('Data Pengguna:', JSON.stringify(userData));
-        // Fetch data from the backend API endpoint using Axios
-        axios.get('http://localhost:3001/api/fetchData')
-            .then(response => {
-                setUserData(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
-    }, []);
+    const axiosAuth = useAxiosAuth();
+    const [accessToken, _] = useLocalStorage("accessToken", "");
+
+
+    // cara pake swr buat fetch data yang butuh header
+    const {data: userData, isLoading, error} = useSWR(`/api/applicant/one/${params.LaporanPerekLihatData}`, async (url) => {
+        const res = await axiosAuth.get(url, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        })
+        return res.data
+    });
 
     return (
         <>
+        {isLoading && <div>Loading...</div>}
+        {error && <div>Error...</div>}
+        {userData && (
             <div className='flex'>
                 <DashboardSideBar />
                 <div className="ml-[280px] p-[20px] w-[77%]">
@@ -128,13 +136,13 @@ export default function LaporanPerekLihatData({ params }: { params: { LaporanPer
                             <div className="ml-auto mt-4">Status</div>
                         </div>
                         <div className="text-black text-xl font-normal font-['Montserrat'] leading-10 ml-5">
-                            <div className="flex-shrink-0">: {userData.nik || 'Loading...'} </div>
-                            <div className="flex-shrink-0">: {userData.nama || 'Loading...'}</div>
-                            <div className="flex-shrink-0">: {userData.noHp || 'Loading...'}</div>
-                            <div className="flex-shrink-0">: {userData.email || 'Loading...'}</div>
-                            <div className="flex-shrink-0">: {userData.alamat || 'Loading...'}</div>
-                            <div className="flex-shrink-0">: {userData.jenisKelamin || 'Loading...'}</div>
-                            <div className="flex-shrink-0">: {userData.usia || 'Loading...'}</div>
+                            <div className="flex-shrink-0">: {userData.nik} </div>
+                            <div className="flex-shrink-0">: {userData.name}</div>
+                            <div className="flex-shrink-0">: {userData.noHp}</div>
+                            <div className="flex-shrink-0">: {userData.email}</div>
+                            <div className="flex-shrink-0">: {userData.alamat}</div>
+                            <div className="flex-shrink-0">: {userData.jenisKelamin}</div>
+                            <div className="flex-shrink-0">: {userData.usia}</div>
 
                             <div className="ml-auto">:
                                 <div className={`-mt-10 ml-3 mb-4 w-full bg-[#F8A849] shadow-lg rounded-xl hover:bg-[#C79618] ${userData.ijazah ? 'cursor-pointer' : 'cursor-not-allowed'}`}>
@@ -144,10 +152,10 @@ export default function LaporanPerekLihatData({ params }: { params: { LaporanPer
                                             <path d="M6.25 11.458L12.5 17.708L18.75 11.458" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                             <path d="M19.7913 21.875H5.20801" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                         </svg>
-                                        <div className={`text-[16px] w-full pr-4 ${userData.ijazah ? 'text-black' : 'text-black opacity-50'}`}>
-                                            {userData.ijazah ? (
-                                                <a href={userData.ijazah} download className='cursor-pointer'>
-                                                    Unduh
+                                        <div className={`text-[16px] w-full pr-4 ${userData.url_berkas ? 'text-black' : 'text-black opacity-50'}`}>
+                                            {userData.url_berkas ? (
+                                                <a href={userData.url_berkas} download className='cursor-pointer'>
+                                                    lihat
                                                 </a>
                                             ) : (
                                                 'Unduh'
@@ -157,11 +165,12 @@ export default function LaporanPerekLihatData({ params }: { params: { LaporanPer
                                 </div>
                             </div>
 
-                            <div className="mt-2">: {userData.validate || 'Diterima'}</div>
+                            <div className="mt-2">: {userData.status || 'Diterima'}</div>
                         </div>
                     </div>
                 </div>
             </div>
+        )}
         </>
     )
 }

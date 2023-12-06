@@ -10,7 +10,7 @@ import { useLocalStorage } from 'usehooks-ts';
 import { log } from 'console';
 import { Rowdies } from 'next/font/google';
 import { mutate } from 'swr';
-import ContohPage from '../page/dashboard/PrekTahap1LihatData/[...slug]';
+// import ContohPage from '../page/dashboard/PrekTahap1LihatData/[...slug]';
 
 interface TableRow {
     id: string;

@@ -15,7 +15,7 @@ export const useAxiosAuth = () => {
           (config) => {
             // console.log(config.headers["Authorization"] = `Bearer ${accessToken}`);
             if (!config.headers["Authorization"]) {
-              console.log("sadasdasd");
+              // console.log("sadasdasd");
               config.headers['Authorization'] = `Bearer ${accessToken}`;
             }
     
