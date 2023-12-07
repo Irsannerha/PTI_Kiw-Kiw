@@ -1,6 +1,6 @@
 "use client";
 import Input from "@/app/components/Input";
-import { useState } from "react";
+import { use, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Montserrat } from "next/font/google";
@@ -8,16 +8,22 @@ import SuccessOTP from "@/app/components/SuccessOTP"
 import AlertInputOTP from "@/app/components/AlertInputOTP"
 import AlertWrongOTP from "@/app/components/AlertWrongOTP";
 import Navbars from "@/app/components/Navbars";
-// Deklarasikan tipe data terlebih dahulu
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
+import { useAxiosAuth } from "@/app/hooks/useAxiosAuth";
+import { useLocalStorage } from "usehooks-ts";
+import { axiosInstance } from "@/app/utils/axios";
+import { useRouter } from "next/navigation";
+import { log } from "console";
 
 interface DataFecth {
-  otp?: number;
+  otp: string;
+  id: string;
 }
 
 export default function ForgotPassword() {
   const initialData: DataFecth = {
-    otp: 0,
+    otp: "",
+    id: ""
   };
 
   // const [otp, setotp] = useState(initialData.otp);
@@ -28,6 +34,13 @@ export default function ForgotPassword() {
   const [showInputOTP, setshowInputOTP] = useState(false);
   const [showWrongOTP, setshowWrongOTP] = useState(false);
 
+  const router = useRouter();
+  const axiosAuth = useAxiosAuth();
+  const [accessToken, _] = useLocalStorage("accessToken", "");
+  const [refreshToken, setrefreshToken] = useLocalStorage('refreshToken', '');
+  const [id, setId] = useLocalStorage('id', '')
+  const [otpP,__] = useLocalStorage('otp', '') 
+
   const handleFormSubmit = async () => {
     if (!otp) {
       setIsotpEmpty(true);
@@ -36,35 +49,53 @@ export default function ForgotPassword() {
     }
 
     if (otp) {
-      if (typeof otp === 'number' && /^\d{6}$/.test(otp.toString())) {
-        // Rest of your code remains unchanged
-        const userData = { otp };
-        console.log('User Data:', JSON.stringify(userData));
+      if (typeof otp === 'string' && /^\d{6}$/.test(otp.toString())) {
         try {
-          const response = await axios.post('/api/login', { otp });
-
-          if (response.status === 200) {
-            const data = response.data;
-            console.log('OTP successfully:', data);
+          const userData = {
+            otp,
+          }
+          if (otp === otpP) {  
+          console.log('User Data:', JSON.stringify(userData));
+          const response = await axiosInstance.post('/api/auth/verify/' + id, { otp });
+          const data = response.data;
+            // console.log(data)
             setshowSuccessOTPSend(true);
             setTimeout(() => {
               setshowWrongOTP(false);
             }, 3000);
-            // window.location.href = '/page/landingPage/buatPassword';
+            router.push('/page/landingPage/buatPassword');
           } else {
-            console.error('OTP Gagal:', response.status);
+             setshowWrongOTP(true);
+            setTimeout(() => {
+              setshowWrongOTP(false);
+            }, 3000);
+          }
+          // if (otp === response.data) {
+          //   console.log('====================================');
+          //   console.log("OTP Success", data);
+          //   console.log('====================================');
+          //   setshowSuccessOTPSend(true);
+          //   setTimeout(() => {
+          //     setshowWrongOTP(false);
+          //   }, 3000);
+          //   router.push('/page/landingPage/buatPassword');
+          // } else {
+          //   setshowWrongOTP(true);
+          //   setTimeout(() => {
+          //     setshowWrongOTP(false);
+          //   }, 3000);
+          // }
+        } catch (error) {
+          if (error instanceof AxiosError) {
+            console.log('====================================');
+            console.log('error: ' + error.message);
+            alert('Tidak Dapat Data API');
             setshowWrongOTP(true);
             setTimeout(() => {
               setshowWrongOTP(false);
-            }, 3000)
+            }, 3000);
+            console.log('====================================');
           }
-        } catch (error) {
-          console.error('Error OTP:', error);
-          alert('Tidak Dapat Data API');
-          setshowWrongOTP(true);
-          setTimeout(() => {
-            setshowWrongOTP(false);
-          }, 3000);
         }
       } else {
         alert('OTP harus berupa number angka dengan panjang 6.');
@@ -77,10 +108,8 @@ export default function ForgotPassword() {
         }, 3000);
       }
       alert('OTP Tidak Boleh Kosong dan Harus Angka.');
-
     }
   };
-
 
   const handleReset = () => {
     setotp(456789);
@@ -117,7 +146,7 @@ export default function ForgotPassword() {
               <div className="text-black">
                 <div className="mb-[30px]">
                   <Input
-                    onChange={(e) => { setotp(Number(e.target.value)); }}
+                    onChange={(e) => { setotp(e.target.value); }}
                     placeholder="Masukkan Kode OTP"
                     required
                     type="password"

@@ -7,96 +7,102 @@ import Navbars from "@/app/components/Navbars";
 import AlertInputDataPerlu from "@/app/components/AlertInputDataPerlu"
 import AlertRegistrasiSukses from "@/app/components/AlertRegistrasiSukses"
 import AlertInputPasssamaRe from "@/app/components/AlertInputPasssamaRe"
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
+import { useAxiosAuth } from "@/app/hooks/useAxiosAuth";
+import { useLocalStorage } from "usehooks-ts";
+import { axiosInstance } from "@/app/utils/axios";
+import { useRouter } from "next/navigation";
 
 // Deklarasikan tipe data terlebih dahulu
 interface DataFecth {
-    nama?: string;
-    email?: string;
-    newPassword?: string;
-    reNewPassword?: string;
+  name: string;
+  email: string;
+  password: string;
+  repassword: string;
 }
 
 export default function LandingPage() {
-    const initialData: DataFecth = {
-        nama: "",
-        email: "",
-        newPassword: "",
-        reNewPassword: "",
-    };
+  const initialData: DataFecth = {
+    name: "",
+    email: "",
+    password: "",
+    repassword: "",
+  };
 
-    const [nama, setName] = useState(initialData.nama);
-    const [email, setEmail] = useState(initialData.email);
-    const [newPassword, setNewPassword] = useState(initialData.newPassword);
-    const [reNewPassword, setReNewPassword] = useState(initialData.reNewPassword);
+  const [name, setName] = useState(initialData.name);
+  const [email, setEmail] = useState(initialData.email);
+  const [password, setpassword] = useState(initialData.password);
+  const [repassword, setRepassword] = useState(initialData.repassword);
 
-    const [isNamaEmpty, setIsNamaEmpty] = useState(false);
-    const [isEmailEmpty, setIsEmailEmpty] = useState(false);
-    const [isNewPasswordEmpty, setIsNewPasswordEmpty] = useState(false);
-    const [isReNewPasswordEmpty, setIsReNewPasswordEmpty] = useState(false);
+  const [isNameEmpty, setIsNameEmpty] = useState(false);
+  const [isEmailEmpty, setIsEmailEmpty] = useState(false);
+  const [ispasswordEmpty, setIspasswordEmpty] = useState(false);
+  const [isRepasswordEmpty, setIsRepasswordEmpty] = useState(false);
 
-    const [showInputDataPerlu, setShowInputDataPerlu] = useState(false);
-    const [showSuccesRegistrasiAlert, setShowSuccesRegistrasiAlert] = useState(false);
-    const [showAlertInputPasssamaRe, setShowAlertInputPasssamaRe] = useState(false);
+  const [showInputDataPerlu, setShowInputDataPerlu] = useState(false);
+  const [showSuccesRegistrasiAlert, setShowSuccesRegistrasiAlert] = useState(false);
+  const [showAlertInputPasssamaRe, setShowAlertInputPasssamaRe] = useState(false);
 
-    const handleFormSubmit = async () => {
-        setIsNamaEmpty(!nama);
-        setIsEmailEmpty(!email);
-        setIsNewPasswordEmpty(!newPassword);
-        setIsReNewPasswordEmpty(!reNewPassword);
+  const router = useRouter();
+  const axiosAuth = useAxiosAuth();
+  const [accessToken, _] = useLocalStorage("accessToken", "");
+  const [refreshToken, setrefreshToken] = useLocalStorage('refreshToken', '');
 
-       if (nama && email && newPassword && reNewPassword) {
-            if (email.includes('@gmail.com')) {
-                if (newPassword === reNewPassword) {
-                    try {
-                        const userData = {
-                            nama,
-                            email,
-                            newPassword,
-                            reNewPassword,
-                        };
+  const handleFormSubmit = async () => {
+    setIsNameEmpty(!name);
+    setIsEmailEmpty(!email);
+    setIspasswordEmpty(!password);
+    setIsRepasswordEmpty(!repassword);
 
-                        console.log('User Data:', JSON.stringify(userData));
+    if (name && email && password && repassword) {
+      if (email.includes('@gmail.com')) {
+        if (password === repassword) {
+          try {
+            const userData = {
+              name,
+              email,
+              password,
+            };
 
-                        const response = await axios.post('/api/login', userData);
-
-                        if (response.status === 200) {
-                            const data = response.data;
-                            console.log('Pendaftaran successfully:', data);
-                            setShowSuccesRegistrasiAlert(true);
-                            // Ganti dengan penggunaan router Next.js
-                            // router.push('/page/dashboard');
-                        } else {
-                            console.error('Pendaftaran Gagal:', response.status);
-                            alert('Pendaftaran Gagal');
-                        }
-                    } catch (error) {
-                        console.error('Error during Pendaftaran:', error);
-                        alert('Terjadi kesalahan saat Pendaftaran');
-                    }
-                } else {
-                    setShowAlertInputPasssamaRe(true);
-                    setTimeout(() => {
-                        setShowAlertInputPasssamaRe(false);
-                    }, 3000);
-                }
-                handleReset();
-            } else {
-                alert('Gunakan @gmail.com pada email');
+            console.log('User Data:', JSON.stringify(userData));
+            const response = await axiosInstance.post('/api/auth/register', { name, email, password })
+            const data = response.data;
+            console.log('====================================');
+            console.log('Register Success', data);
+            console.log('====================================');
+            setShowSuccesRegistrasiAlert(true);
+            router.push('/page/landingPage/loginPegawai')
+          } catch (error) {
+            if (error instanceof AxiosError) {
+              console.log('====================================');
+              console.log('error: ' + error.message);
+              alert('Pendaftaran Gagal');
+              console.log('====================================');
             }
+          }
         } else {
-            setShowInputDataPerlu(true);
-            setTimeout(() => {
-                setShowInputDataPerlu(false);
-            }, 3000);
+          setShowAlertInputPasssamaRe(true);
+          setTimeout(() => {
+            setShowAlertInputPasssamaRe(false);
+          }, 3000);
         }
-    };
-    const handleReset = () => {
-        setNewPassword("");
-        setReNewPassword("");
-        setIsNewPasswordEmpty(false);
-        setIsReNewPasswordEmpty(false);
-    };
+        handleReset();
+      } else {
+        alert('Gunakan @gmail.com pada email');
+      }
+    } else {
+      setShowInputDataPerlu(true);
+      setTimeout(() => {
+        setShowInputDataPerlu(false);
+      }, 3000);
+    }
+  };
+  const handleReset = () => {
+    setpassword("");
+    setRepassword("");
+    setIspasswordEmpty(false);
+    setIsRepasswordEmpty(false);
+  };
 
 
   return (
@@ -145,7 +151,7 @@ export default function LandingPage() {
                 </div>
                 <div className="mb-[20px]">
                   <Input
-                    onChange={(e) => { setNewPassword(e.target.value); }}
+                    onChange={(e) => { setpassword(e.target.value); }}
                     placeholder="Masukkan password baru"
                     required
                     type="password"
@@ -153,7 +159,7 @@ export default function LandingPage() {
                 </div>
                 <div className="mb-[40px]">
                   <Input
-                    onChange={(e) => { setReNewPassword(e.target.value); }}
+                    onChange={(e) => { setRepassword(e.target.value); }}
                     placeholder="Masukkan ulang password baru"
                     required
                     type="password"
