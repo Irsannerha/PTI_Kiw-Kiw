@@ -8,8 +8,12 @@ import Tolkit from "@/app/components/Tolkit";
 import AlertInputEmail from "@/app/components/AlertInputEmail"
 import AlertInputPassword from "@/app/components/AlertInputPassword"
 import AlertLoginSucces from "@/app/components/AlertLoginSucces"
+import AlertFailedLogin from "@/app/components/AlertFailedLogin"
 import Navbars from "@/app/components/Navbars";
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
+import { axiosInstance } from "@/app/utils/axios";
+import { useLocalStorage } from "usehooks-ts";
+import { useRouter } from "next/navigation";
 
 // Deklarasikan tipe data terlebih dahulu
 interface DataFecth {
@@ -33,6 +37,11 @@ export default function landingPage() {
     const [showEmailAlert, setShowEmailAlert] = useState(false);
     const [showSuccesLoginAlert, setshowSuccesLoginAlert] = useState(false);
     const [showInputEmailPassword, setshowInputEmailPassword] = useState(false);
+    const [showInvalidLogin,setshowInvalidLogin] = useState(false)
+
+    const router = useRouter();
+    const [accessToken, setAccessToken] = useLocalStorage('accessToken', '');
+    const [refreshToken, setrefreshToken] = useLocalStorage('refreshToken', '');
 
     // Fungsi untuk menangani pengiriman formulir
     const handleFormSubmit = async () => {
@@ -56,21 +65,26 @@ export default function landingPage() {
         if (email && password) {
             if (email.includes('@gmail.com')) {
                 const userData = { email, password };
-                console.log('User Data:', JSON.stringify(userData));
                 try {
-                    const response = await axios.post('/api/login', { email, password });
-                    if (response.status === 200) {
-                        const data = response.data;
-                        console.log('Login successful:', data);
-                        setshowSuccesLoginAlert(true);
-                        window.location.href = '/page/landingPage/dashboardRekrut';
-                    } else {
-                        console.error('Login Gagal:', response.status);
-                        alert('Login Gagal');
+                    const response = await axiosInstance.post('/api/auth/login', { email, password });
+                    const data = response.data;
+                    console.log('Login successful:', data);
+                    setAccessToken(data?.data.access_token);
+                    setrefreshToken(data?.data.refresh_token);
+                    setshowSuccesLoginAlert(true);
+                    router.push('/page/landingPage/dashboardRekrut');
+                    
+                }catch (error) {
+                    if (error instanceof AxiosError) {
+                        if(error?.response?.status === 401){
+                            setshowInvalidLogin(true);
+                            setTimeout(() => {
+                                setshowInvalidLogin(false);
+                            }, 3000);
+                        }else{
+                            
+                        }
                     }
-                } catch (error) {
-                    console.error('Error Login:', error);
-                    alert('Tidak Dapat Data API');
                 }
             } else {
                 alert('Use @gmail.com in email');
@@ -159,6 +173,12 @@ export default function landingPage() {
                             {showEmailAlert && (
                                 <div className="fixed mt-40 md:mt-40 ml-24 md:ml-60">
                                     <AlertInputEmail />
+                                </div>
+                            )}
+
+                            {showInvalidLogin && (
+                                <div className="absolute mt-[120px] ml-60">
+                                    <AlertFailedLogin/>
                                 </div>
                             )}
 

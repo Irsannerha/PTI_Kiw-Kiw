@@ -17,6 +17,8 @@ import { useAxiosAuth } from "@/app/hooks/useAxiosAuth";
 import { useLocalStorage } from "usehooks-ts";
 import useSWR, { SWRResponse } from "swr";
 import { log } from "console";
+import TambahKategori from "../TambahKategori/page";
+import { axiosInstance } from "@/app/utils/axios";
 
 interface DataFecth {
     namaItem: string;
@@ -58,25 +60,19 @@ export default function TambahItemMenu() {
     const [showAlertInputData, setShowAlertInputData] = useState(false);
     const [showAlertSimpanData, setShowAlertSimpanData] = useState(false);
 
+    const [kat,setkat] = useState([]);
     const axiosAuth = useAxiosAuth();
     const [accessToken, _] = useLocalStorage("accessToken", "");
-    const [isLoading, setIsLoading] = useState(true);
-    const [kategoriData, setKategoriData] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    // const [kategoriData, setKategoriData] = useState([]);
     // let kategoriData: any[] = [];
 
-    // const { data: kategoriData, isLoading, error } = useSWR("/api/menu/allCategory", async (url) => {
-    //     const res = await axiosAuth.get(url,{
+    // const { data: kategoriData, isLoading, error } = useSWR("/api/menu/allCategory",(url) => {
+    //     const res =  axiosAuth.get(url,{
     //         headers: {
     //             Authorization: `Bearer ${accessToken}`
     //         }
-    //     })
-    //     const filterData = res.data.map((e: any) => {
-    //         return {
-    //             id: e?.id,
-    //             name: e?.name
-    //         }
-    //     })
-    //     return filterData
+    //     }).then((res) => res.data)
     // })
     // console.log(kategoriData);
 
@@ -86,37 +82,49 @@ export default function TambahItemMenu() {
     // const {data:kategoriData,isLoading,error}:SWRResponse<ListKategori,any,boolean> = useSWR("/api/menu/allCategory", (url) => 
     //     axiosAuth.get(url).then((res) => res.data)
     //     )
-    //     console.log(kategoriData);
+        // console.log(kategoriData);
     // console.log(kategoriData)
 
     useEffect(() => {
-        (async () => {
-            const res = async () => {
-                const response = await axiosAuth.get("/api/menu/allCategory");
-                // const filterData = response.data.map((e: any) => (
-                //     {
-                //         id: e?.id,
-                //         name: e?.name
-                //     }
-                // ))
-                response.data.map((e: any) => {
-                    setKategoriData([...kategoriData, {
-                        id: e?.id,
-                        name: e?.name
-                    }]);
-                })
-                // kategoriData = [...filterData];
-                console.log(kategoriData);
-                // console.log('huy', filterData);
+        setIsLoading(true);
+
+        axiosAuth.get("/api/menu/allCategory").then((res) => {
+            setkat(res.data)
+            setIsLoading(false);
+        }).catch((err) => {
+            console.log(err);
+            setIsLoading(false);
+        })
+    },[])
+
+    // useEffect(() => {
+    //     (async () => {
+    //         const res = async () => {
+    //             const response = await axiosAuth.get("/api/menu/allCategory");
+    //             // const filterData = response.data.map((e: any) => (
+    //             //     {
+    //             //         id: e?.id,
+    //             //         name: e?.name
+    //             //     }
+    //             // ))
+    //             response.data.map((e: any) => {
+    //                 setKategoriData([...kategoriData, {
+    //                     id: e?.id,
+    //                     name: e?.name
+    //                 }]);
+    //             })
+    //             // kategoriData = [...filterData];
+    //             console.log(kategoriData);
+    //             // console.log('huy', filterData);
                 
-                // kategoriData.push(filterData)
-                setIsLoading(false);
-            }
-            await res()
-            console.log(isLoading);
-            console.log(kategoriData);
-        })()
-    }, [isLoading])
+    //             // kategoriData.push(filterData)
+    //             setIsLoading(false);
+    //         }
+    //         await res()
+    //         console.log(isLoading);
+    //         console.log(kategoriData);
+    //     })()
+    // }, [isLoading])
 
     // console.log(kategoriData);
     const handleFormSubmit = async () => {
@@ -383,8 +391,8 @@ export default function TambahItemMenu() {
                                 <div className="flex">
                                     <select onChange={(e) => { setkategori(e.target.value); }} id="countrssies" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                         {/* <option>Pilih Kategori</option> */}
-                                        {isLoading ? <option>loading..</option> : kategoriData?.map((item) => (
-                                            <option value={item.id}>{item.kategori}</option>
+                                        {kat.map((item:{id:string, name:string}) => (
+                                            <option value={item.id}>{item.name}</option>
                                         ))}
                                     </select>
                                 </div>

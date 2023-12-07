@@ -75,7 +75,6 @@ export default function landingPage() {
                     setrefreshToken(data?.data.refresh_token);
                     setshowSuccesLoginAlert(true);
                     router.push('/page/dashboard');
-                    
                 }catch (error) {
                     if (error instanceof AxiosError) {
                         if(error?.response?.status === 401){
