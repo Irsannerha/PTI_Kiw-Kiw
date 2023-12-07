@@ -7,16 +7,25 @@ import Image from "next/image";
 import Navbars from "@/app/components/Navbars";
 import AlertInputEmail from "@/app/components/AlertInputEmail"
 import SuccessOTP from "@/app/components/SuccessOTP";
-import axios from "axios";
 
-// Deklarasikan tipe data terlebih dahulu
+import axios, { AxiosError } from 'axios';
+import { useAxiosAuth } from "@/app/hooks/useAxiosAuth";
+import { useLocalStorage } from "usehooks-ts";
+import { axiosInstance } from "@/app/utils/axios";
+import { useRouter } from "next/navigation";
+// import { useRouter } from "next/router";
+
 interface DataFecth {
+  id: string;
   email: string;
+  otp: string;
 }
 
 export default function ForgotPassword() {
   const initialData: DataFecth = {
+    id: "",
     email: "",
+    otp: "",
   };
 
   const [email, setEmail] = useState(initialData.email);
@@ -24,6 +33,13 @@ export default function ForgotPassword() {
 
   const [showEmailAlert, setShowEmailAlert] = useState(false);
   const [showSuccessOTPSend, setshowSuccessOTPSend] = useState(false);
+
+  const router = useRouter();
+  const axiosAuth = useAxiosAuth();
+  const [accessToken, _] = useLocalStorage("accessToken", "");
+  const [refreshToken, setrefreshToken] = useLocalStorage('refreshToken', '');
+  const [id, setId] = useLocalStorage('id', '')
+  const [otp,setOtp] = useLocalStorage('otp', '');
 
   const handleFormSubmit = async () => {
     if (!email) {
@@ -37,20 +53,25 @@ export default function ForgotPassword() {
         const userData = { email };
         console.log('User Data:', JSON.stringify(userData));
         try {
-          const response = await axios.post('/api/send-email', { email });
-          if (response.status === 200) {
-            console.log('Email sent successfully:', response.data);
-            setshowSuccessOTPSend(true);
-            setTimeout(() => {
-              setshowSuccessOTPSend(false);
-            }, 3000);
-          } else {
-            console.error('Failed to send email:', response.status);
-            alert('Failed to send email');
-          }
+          const response = await axios.post('/api/auth/otp', { email });
+          const data = response.data;
+          setId(data.id);
+          setOtp(data.otp);
+          console.log('====================================');
+          console.log('Register Success', data);
+          console.log('====================================');
+          setshowSuccessOTPSend(true);
+          setTimeout(() => {
+            setshowSuccessOTPSend(false);
+          }, 3000);
+          router.push('/page/landingPage/kodeOTP')
         } catch (error) {
-          console.error('Error sending email:', error);
-          alert('Unable to send email');
+          if (error instanceof AxiosError) {
+            console.log('====================================');
+            console.log('error: ' + error.message);
+            alert('Gagal Terkirim');
+            console.log('====================================');
+          }
         }
       } else {
         alert('Use @gmail.com in email');

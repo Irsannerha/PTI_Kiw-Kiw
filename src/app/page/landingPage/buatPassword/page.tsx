@@ -8,99 +8,114 @@ import Navbars from "@/app/components/Navbars";
 import AlertSuksesBuatPasswordBaru from "@/app/components/AlertSuksesBuatPasswordBaru"
 import AlertInputDataPerlu from "@/app/components/AlertInputDataPerlu"
 import AlertInputPasssamaRe from "@/app/components/AlertInputPasssamaRe"
-import axios from 'axios';
+
+import axios, { AxiosError } from 'axios';
+import { useAxiosAuth } from "@/app/hooks/useAxiosAuth";
+import { useLocalStorage } from "usehooks-ts";
+import { axiosInstance } from "@/app/utils/axios";
+import { useRouter } from "next/navigation";
 
 interface DataFecth {
-  newPassword: string;
-  reNewPassword: string;
+  id: string;
+  password: string;
+  rePassword: string;
 }
 
 export default function landingPage() {
   const initialData: DataFecth = {
-    newPassword: "",
-    reNewPassword: "",
+    id: "",
+    password: "",
+    rePassword: "",
   };
 
-  const [newPassword, setnewPassword] = useState(initialData.newPassword);
-  const [reNewPassword, setreNewPassword] = useState(initialData.reNewPassword);
+  const [password, setpassword] = useState(initialData.password);
+  const [rePassword, setrePassword] = useState(initialData.rePassword);
 
-  const [isnewPasswordEmpty, setIsnewPasswordEmpty] = useState(false);
-  const [isreNewPasswordEmpty, setIsreNewPasswordEmpty] = useState(false);
+  const [ispasswordEmpty, setIspasswordEmpty] = useState(false);
+  const [isrePasswordEmpty, setIsrePasswordEmpty] = useState(false);
 
-  const [shownewPasswordAlert, setShownewPasswordAlert] = useState(false);
-  const [showreNewPasswordAlert, setShowreNewPasswordAlert] = useState(false);
+  const [showpasswordAlert, setShowpasswordAlert] = useState(false);
+  const [showrePasswordAlert, setShowrePasswordAlert] = useState(false);
 
   const [showSuccesUbahPassAlert, setshowSuccesUbahPassAlert] = useState(false);
 
+  const router = useRouter();
+  const axiosAuth = useAxiosAuth();
+  const [accessToken, _] = useLocalStorage("accessToken", "");
+  const [refreshToken, setrefreshToken] = useLocalStorage('refreshToken', '');
+  const [id, setId] = useLocalStorage("id", "");
+  const [otp,setOtp] = useLocalStorage('otp', "");
+
+
   const handleFormSubmit = async () => {
-    if (!newPassword) {
-      setIsnewPasswordEmpty(true);
+    if (!password) {
+      setIspasswordEmpty(true);
     } else {
-      setIsnewPasswordEmpty(false);
+      setIspasswordEmpty(false);
     }
 
-    if (!reNewPassword) {
-      setIsreNewPasswordEmpty(true);
+    if (!rePassword) {
+      setIsrePasswordEmpty(true);
     } else {
-      setIsreNewPasswordEmpty(false);
+      setIsrePasswordEmpty(false);
     }
 
-    if (newPassword.length > 12 || reNewPassword.length > 12) {
+    if (password.length > 12 || rePassword.length > 12) {
       console.error('Password Tidak Boleh Lebih dari 6 Angka');
       alert('Password Tidak Boleh Lebih dari 6 Angka');
       return;
     }
 
-    if (newPassword && reNewPassword) {
-      if (newPassword === reNewPassword) {
-        const userData = { newPassword, reNewPassword };
+    if (password && rePassword) {
+      if (password === rePassword) {
+        const userData = { password, rePassword };
         console.log('User Data:', JSON.stringify(userData));
         try {
-          const response = await axios.post('/api/login', { newPassword, reNewPassword });
-          if (response.status === 200) {
-            const data = response.data;
-            console.log('Successful:', data);
-            setshowSuccesUbahPassAlert(true);
-            setTimeout(() => {
-              setshowSuccesUbahPassAlert(false);
-            }, 3000);
-            window.location.href = '/page/dashboard/FormLogin';
-          } else {
-            console.error('Gagal:', response.status);
-            alert('Gagal');
-          }
+          const response = await axios.post('/api/auth/newPassword', {id, password });
+          const data = response.data;
+          console.log('====================================');
+          console.log('Sukkess', data);
+          setshowSuccesUbahPassAlert(true);
+          setTimeout(() => {
+            setshowSuccesUbahPassAlert(false);
+          }, 3000);
+          router.push('/page/landingPage/loginPegawai')
         } catch (error) {
-          console.error('Error:', error);
-          alert('Tidak Dapat Data API');
+          if (error instanceof AxiosError) {
+            console.log('====================================');
+            console.log('error: ' + error.message);
+            alert('Gagal Terkirim');
+            console.log('====================================');
+          }
         }
       } else {
         alert('Password Harus Sama, Maksimal 12 Terdiri dari huruf dan angka.');
       }
     }
 
-    if (newPassword && isreNewPasswordEmpty) {
-      setShowreNewPasswordAlert(true);
+    if (password && isrePasswordEmpty) {
+      setShowrePasswordAlert(true);
       setTimeout(() => {
-        setShowreNewPasswordAlert(false);
+        setShowrePasswordAlert(false);
       }, 3000);
-    } else if (reNewPassword && isnewPasswordEmpty) {
-      setShownewPasswordAlert(true);
+    } else if (rePassword && ispasswordEmpty) {
+      setShowpasswordAlert(true);
       setTimeout(() => {
-        setShownewPasswordAlert(false);
+        setShowpasswordAlert(false);
       }, 3000);
-    } else if (isnewPasswordEmpty && isnewPasswordEmpty) {
-      setShownewPasswordAlert(true);
+    } else if (ispasswordEmpty && ispasswordEmpty) {
+      setShowpasswordAlert(true);
       setTimeout(() => {
-        setShownewPasswordAlert(false);
+        setShowpasswordAlert(false);
       }, 3000);
     }
   };
 
   const handleReset = () => {
-    setnewPassword("");
-    setreNewPassword("");
-    setIsnewPasswordEmpty(false);
-    setIsreNewPasswordEmpty(false);
+    setpassword("");
+    setrePassword("");
+    setIspasswordEmpty(false);
+    setIsrePasswordEmpty(false);
   };
 
   return (
@@ -133,7 +148,7 @@ export default function landingPage() {
               <div className="text-black">
                 <div className="mb-[20px]">
                   <Input
-                    onChange={(e) => { setnewPassword(e.target.value); }}
+                    onChange={(e) => { setpassword(e.target.value); }}
                     placeholder="Masukkan password baru"
                     required
                     type="password"
@@ -141,7 +156,7 @@ export default function landingPage() {
                 </div>
                 <div className="mb-[40px]">
                   <Input
-                    onChange={(e) => { setreNewPassword(e.target.value); }}
+                    onChange={(e) => { setrePassword(e.target.value); }}
                     placeholder="Masukkan ulang password baru"
                     required
                     type="password"
@@ -149,33 +164,34 @@ export default function landingPage() {
                   {/* {isPasswordEmpty && <p className="text-red-500">Password is required</p>} */}
                 </div>
               </div>
-              {shownewPasswordAlert && (
+              {showpasswordAlert && (
                 <div className="fixed mt-20 md:mt-20 ml-28 md:ml-40 w-[60%] md:w-[70%]">
                   <AlertInputNewPass />
                 </div>
               )}
 
-              {showreNewPasswordAlert && (
+              {showrePasswordAlert && (
                 <div className="fixed mt-20 md:mt-20 ml-28 md:ml-40 w-[60%] md:w-[70%]">
                   <AlertInputRepeatPass />
                 </div>
               )}
 
-               {showreNewPasswordAlert && (
+              {showrePasswordAlert && (
                 <div className="fixed mt-20 md:mt-20 ml-28 md:ml-40 w-[60%] md:w-[70%]">
                   <AlertInputDataPerlu />
                 </div>
               )}
 
-              {showreNewPasswordAlert && (
+              {showrePasswordAlert && (
                 <div className="fixed mt-20 md:mt-20 ml-28 md:ml-40 w-[60%] md:w-[70%]">
                   <AlertSuksesBuatPasswordBaru />
                 </div>
               )}
 
-               {showSuccesUbahPassAlert && (
+              {showSuccesUbahPassAlert && (
                 <div className="fixed mt-20 md:mt-20 ml-28 md:ml-60 md:w-[50%]">
-                  <AlertInputPasssamaRe />
+                  {/* <AlertInputPasssamaRe /> */}
+                  <AlertSuksesBuatPasswordBaru />
                 </div>
               )}
               {/* <Link href="/forget-password-base"> */}

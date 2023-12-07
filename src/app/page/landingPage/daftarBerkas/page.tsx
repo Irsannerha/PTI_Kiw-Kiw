@@ -6,69 +6,78 @@ import { useState } from 'react';
 import Navbars from "@/app/components/Navbars";
 import AlertInputDataPerlu from "@/app/components/AlertInputDataPerlu"
 import AlertDaftarSukses from "@/app/components/AlertDaftarSukses"
-import axios from "axios";
 
 import { Button, Card, List, message, Image, Progress } from 'antd'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import { storage } from "../../../../../firebaseConfig"
+import axios, { AxiosError } from 'axios';
+import { useAxiosAuth } from "@/app/hooks/useAxiosAuth";
+import { useLocalStorage } from "usehooks-ts";
+import { axiosInstance } from "@/app/utils/axios";
+import { useRouter } from "next/navigation";
 
 interface DataFetch {
-  nama: string;
-  alamat: string;
+  name: string;
   nik: string;
-  jenisKelamin: string;
   noHp: string;
   email: string;
-  umur: string;
-  ijazah: File | string;
+  alamat: string;
+  jenisKelamin: string;
+  usia: string;
+  url_berkas: File | string;
 }
 
 export default function DaftarBerkas() {
   const initialData: DataFetch = {
-    nama: "",
+    name: "",
     alamat: "",
     nik: "",
     jenisKelamin: "",
     noHp: "",
     email: "",
-    umur: "",
-    ijazah: "", // Initialize ijazah property
+    usia: "",
+    url_berkas: "",
   }
 
-  const [nama, setNama] = useState(initialData.nama);
+  const [name, setName] = useState(initialData.name);
   const [alamat, setAlamat] = useState(initialData.alamat);
   const [nik, setNik] = useState(initialData.nik);
   const [jenisKelamin, setJenisKelamin] = useState(initialData.jenisKelamin);
   const [noHp, setNoHp] = useState(initialData.noHp);
   const [email, setEmail] = useState(initialData.email);
-  const [umur, setUmur] = useState(initialData.umur);
-  const [ijazah, setijazah] = useState<string | File | undefined>(/* initial value */);
+  const [usia, setusia] = useState(initialData.usia);
+  const [url_berkas, seturl_berkas] = useState<string | File | undefined>(/* initial value */);
 
-  const [isNamaEmpty, setIsNamaEmpty] = useState(false);
+  const [isNameEmpty, setIsNameEmpty] = useState(false);
   const [isAlamatEmpty, setIsAlamatEmpty] = useState(false);
   const [isNikEmpty, setIsNikEmpty] = useState(false);
   const [isJenisKelaminEmpty, setIsJenisKelaminEmpty] = useState(false);
   const [isNoHpEmpty, setIsNoHpEmpty] = useState(false);
   const [isEmailEmpty, setIsEmailEmpty] = useState(false);
-  const [isUmurEmpty, setIsUmurEmpty] = useState(false);
-  const [isijazahEmpty, setIsijazahEmpty] = useState(false);
+  const [isusiaEmpty, setIsusiaEmpty] = useState(false);
+  const [isurl_berkasEmpty, setIsurl_berkasEmpty] = useState(false);
 
   const [showAlertDaftarSukses, setshowAlertDaftarSukses] = useState(false);
   const [showInputDataPerlu, setshowInputDataPerlu] = useState(false);
 
+  const router = useRouter();
+  const axiosAuth = useAxiosAuth();
+  const [accessToken, _] = useLocalStorage("accessToken", "");
+  const [refreshToken, setrefreshToken] = useLocalStorage('refreshToken', '');
+
   const handleFormSubmit = async () => {
-    setIsNamaEmpty(false);
+    setIsNameEmpty(false);
     setIsAlamatEmpty(false);
     setIsNikEmpty(false);
     setIsJenisKelaminEmpty(false);
     setIsNoHpEmpty(false);
     setIsEmailEmpty(false);
-    setIsUmurEmpty(false);
-    setIsijazahEmpty(false);
-    if (!nama.trim()) {
-      setIsNamaEmpty(true);
+    setIsusiaEmpty(false);
+    setIsurl_berkasEmpty(false);
+    if (!name.trim()) {
+      setIsNameEmpty(true);
     } else {
-      setIsNamaEmpty(false);
+      setIsNameEmpty(false);
     }
     if (!alamat.trim()) {
       setIsAlamatEmpty(true);
@@ -95,26 +104,25 @@ export default function DaftarBerkas() {
     } else {
       setIsEmailEmpty(false);
     }
-    if (!umur.trim()) {
-      setIsUmurEmpty(true);
+    if (!usia.trim()) {
+      setIsusiaEmpty(true);
     } else {
-      setIsUmurEmpty(false);
+      setIsusiaEmpty(false);
     }
-    if (!ijazah) {
-      setIsijazahEmpty(true);
+    if (!url_berkas) {
+      setIsurl_berkasEmpty(true);
     } else {
-      setIsijazahEmpty(false);
+      setIsurl_berkasEmpty(false);
     }
-    // Tampilkan peringatan jika semua input kosong
-    if (isNamaEmpty && isAlamatEmpty && isJenisKelaminEmpty && isNikEmpty && isNoHpEmpty && isEmailEmpty && isUmurEmpty) {
+    if (isNameEmpty && isAlamatEmpty && isJenisKelaminEmpty && isNikEmpty && isNoHpEmpty && isEmailEmpty && isusiaEmpty) {
       setshowInputDataPerlu(true);
       setTimeout(() => {
         setshowInputDataPerlu(false);
       }, 3000);
-    } else if (nama && alamat && jenisKelamin && nik && noHp && email && umur) {
+    } else if (name && alamat && jenisKelamin && nik && noHp && email && usia) {
       try {
         const namaRegex = /^[A-Za-z\s]{1,20}(\s[A-Za-z\s]{1,20}){0,3}$/;
-        if (!namaRegex.test(nama)) {
+        if (!namaRegex.test(name)) {
           alert('Nama harus berupa huruf, tidak lebih dari 20 karakter, dan maksimal 4 kalimat');
           return;
         }
@@ -126,85 +134,92 @@ export default function DaftarBerkas() {
           if (imageFile) {
             await handleUploadFile();
           }
-          // Log input data to console
           console.log('Input Data:', {
-            nama,
+            name,
             alamat,
             jenisKelamin,
             nik,
             noHp,
             email,
-            umur,
-            ijazah: downloadURL,
+            usia,
+            url_berkas: downloadURL,
           });
-          // Send data to backend
-          const response = await axios.post('YOUR_BACKEND_API/menu', {
-            nama,
+          const response = await axiosInstance.post('/api/applicant/create', {
+            name,
             alamat,
             jenisKelamin,
             nik,
             noHp,
             email,
-            umur,
-            ijazah: downloadURL,
+            usia,
+            url_berkas: downloadURL,
           });
-          if (response.status === 200) {
-            setshowAlertDaftarSukses(true);
-            setTimeout(() => {
-              setshowAlertDaftarSukses(false);
-            }, 5000);
-            // Log input data to console
-            console.log('Input Data:', {
-              nama,
-              alamat,
-              jenisKelamin,
-              nik,
-              noHp,
-              email,
-              umur,
-              ijazah: downloadURL,
-            });
-            // Reset form fields
-            setNama("");
-            setAlamat("");
-            setJenisKelamin("");
-            setNik("");
-            setNoHp("");
-            setEmail("");
-            setUmur("");
-            setijazah("");
-          } else {
-            // Handle other response statuses or errors
-          }
+          const data = response.data;
+          console.log('====================================');
+          console.log('Register Success', data);
+          console.log('====================================');
+          setshowAlertDaftarSukses(true);
+          setTimeout(() => {
+            setshowAlertDaftarSukses(false);
+          }, 5000);
+
+          // router.push('/page/landingPage/loginPegawai')
+          // if (response.status === 200) {
+          console.log('Input Data:', {
+            name,
+            alamat,
+            jenisKelamin,
+            nik,
+            noHp,
+            email,
+            usia,
+            url_berkas: downloadURL,
+          });
+          // Reset form fields
+          setName("");
+          setAlamat("");
+          setJenisKelamin("");
+          setNik("");
+          setNoHp("");
+          setEmail("");
+          setusia("");
+          seturl_berkas("");
+          // } else {
+          //   // Handle other response statuses or errors
+          // }
         } else {
           alert('Use @gmail.com in email');
         }
       } catch (error) {
-        console.error('Error submitting form:', error);
-        // Handle error scenarios
+        if (error instanceof AxiosError) {
+          console.log('====================================');
+          console.log('error: ' + error.message);
+          alert('Pendaftaran Gagal');
+          console.log('====================================');
+        }
       }
     }
   };
 
   const handleReset = () => {
     // Mereset semua input dan status kosong
-    setNama("");
+    setName("");
     setAlamat("");
     setJenisKelamin("");
     setNoHp("");
     setNik("");
     setEmail("");
-    setUmur("");
-    setijazah("");
+    setusia("");
+    seturl_berkas("");
 
-    setIsNamaEmpty(false);
+    setIsNameEmpty(false);
     setIsAlamatEmpty(false);
     setIsJenisKelaminEmpty(false);
     setIsNoHpEmpty(false);
     setIsNikEmpty(false);
     setIsEmailEmpty(false);
-    setIsUmurEmpty(false);
-    setIsijazahEmpty(false);
+    setIsusiaEmpty(false);
+    setIsurl_berkasEmpty(false);
   };
 
   // Batas
@@ -304,7 +319,7 @@ export default function DaftarBerkas() {
                     Nama
                   </label>
                   <Input
-                    onChange={(e) => { setNama(e.target.value); }}
+                    onChange={(e) => { setName(e.target.value); }}
                     placeholder="Masukkan Nama"
                     required
                     type="text"
@@ -354,12 +369,12 @@ export default function DaftarBerkas() {
                   />
                 </div>
                 <div className="md:w-[30%]">
-                  <label htmlFor="umur" className="block mb-2 mt-2 md:mt-0 text-sm font-medium text-gray-900 dark:text-white">
-                    Umur
+                  <label htmlFor="usia" className="block mb-2 mt-2 md:mt-0 text-sm font-medium text-gray-900 dark:text-white">
+                    usia
                   </label>
                   <Input
-                    onChange={(e) => { setUmur(e.target.value); }}
-                    placeholder="Masukkan Umur"
+                    onChange={(e) => { setusia(e.target.value); }}
+                    placeholder="Masukkan usia"
                     required
                     type="text"
                   />
@@ -385,7 +400,7 @@ export default function DaftarBerkas() {
                     placeholder="Select file to upload"
                     accept="image/png"
                   />
-                  <label htmlFor="ijazah" className="block mb-2 mt-2 md:mt-0 text-sm font-medium text-gray-900 dark:text-white">
+                  <label htmlFor="url_berkas" className="block mb-2 mt-2 md:mt-0 text-sm font-medium text-gray-900 dark:text-white">
                     Ijazah
                   </label>
                   <label
@@ -444,7 +459,7 @@ export default function DaftarBerkas() {
                       alt={downloadURL}
                       style={{ width: 200, height: 200, objectFit: 'cover' }}
                     />
-                    <p>{downloadURL}</p>
+                    {/* <p>{downloadURL}</p> */}
                   </>
                 )}
                 <p></p>

@@ -14,7 +14,7 @@ export default function ProfilRekrutan() {
     alamat: "Bandar Lampung",
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e:any) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
