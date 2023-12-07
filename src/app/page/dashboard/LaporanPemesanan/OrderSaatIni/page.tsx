@@ -7,25 +7,15 @@ import TableOrderSaatIni from "@/app/components/TableOrderSaatIni"
 import Link from "next/link";
 
 import axios from 'axios';
+import { useAxiosAuth } from "@/app/hooks/useAxiosAuth";
+import { useLocalStorage } from "usehooks-ts";
+import useSWR from "swr";
 
 export default function LaporanPemesanan() {
     const [currentTime, setCurrentTime] = useState(new Date());
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get('/api/pegawai');
-                if (response.status === 200) {
-                    setData(response.data);
-                } else {
-                    console.error('Error fetching data:', response.status);
-                }
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-        fetchData();
         const intervalId = setInterval(() => {
             setCurrentTime(new Date());
         }, 1000);
@@ -46,6 +36,30 @@ export default function LaporanPemesanan() {
             setFileStatus("Tidak ada gambar.");
         }
     };
+
+    const axiosAuth = useAxiosAuth();
+    const [accessToken, _] = useLocalStorage("accessToken", "");
+
+    const {data:dataPending,isLoading,error} = useSWR('/api/order/all/order/pending', async (url) => {
+        const res = await axiosAuth.get(url,{
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        })
+        const filterData = res.data.map((e: any) => {
+            return {
+                id:e?.id,
+                uid:e?.noInvoice,
+                name:e?.name
+            }
+        })
+        return filterData
+    })
+
+    const dataLoading = [
+        {id:'loading..', uid: 'loading..', name: "loading.."},
+    ]
+
     const datadumy = [
         { uid: '0001', tanggal: "23/11/2023", namaPemesan: "ando1", jumlah: "100", harga: "10000" },
         { uid: '0002', tanggal: "24/10/2023", namaPemesan: "ando2", jumlah: "100", harga: "10000" },
@@ -117,7 +131,7 @@ export default function LaporanPemesanan() {
                     <div className="div">
                         <div className="mb-5 w-full text-[32px]">Order Saat Ini</div>
                         <div className="container mx-auto mt-8 text-cent0002r">
-                            <TableOrderSaatIni data={datadumy} />
+                            {isLoading ? <TableOrderSaatIni data={dataLoading}/> : <TableOrderSaatIni data = {dataPending} />}
                         </div>
                     </div>
                 </div>

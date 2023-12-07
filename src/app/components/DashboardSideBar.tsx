@@ -46,9 +46,9 @@ export default function DashboardSideBar() {
         setRefreshToken('')
     }
 
-    if (!check) {
-        return (<div>Loading...</div>);
-    }
+    // if (!check) {
+    //     return (<div>Loading...</div>);
+    // }
 
     return (
         <>

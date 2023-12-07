@@ -5,8 +5,9 @@ import Link from 'next/link';
 import PaginationTable from './PaginationTable';
 
 interface TableRow {
+    id:string;
     uid: string;
-    namaPemesan: string;
+    name: string;
 }
 
 interface TableProps {
@@ -26,7 +27,7 @@ const TableModalPemesanan: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) =
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const filteredData = data.filter((row) => {
-        return row.namaPemesan.toLowerCase().includes(filterValue.toLowerCase()) ||
+        return row.name.toLowerCase().includes(filterValue.toLowerCase()) ||
             row.uid.toLowerCase().includes(filterValue.toLowerCase());
     });
     const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
@@ -69,11 +70,11 @@ const TableModalPemesanan: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) =
                         <tr key={index}>
                             <td className="px-9 py-4 whitespace-nowrap"> {index + indexOfFirstItem + 1}</td>
                             <td className="px-9 py-4 whitespace-nowrap">{row.uid}</td>
-                            <td className="px-9 py-4 whitespace-nowrap">{row.namaPemesan}</td>
+                            <td className="px-9 py-4 whitespace-nowrap">{row.name}</td>
                             <td className="px-9 py-4 whitespace-nowrap flex justify-center items-center">
                                 {/* <ModalOrderLihat /> */}
                                 <Tooltip content="Lihat Detail" style="dark" className='bg-black'>
-                                    <Link href="/[OrderSaatIni]" as={`/page/dashboard/LaporanPemesanan/OrderSaatIni/${row.uid}`}>
+                                    <Link href="/[OrderSaatIni]" as={`/page/dashboard/LaporanPemesanan/OrderSaatIni/${row.id}`}>
                                         <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <rect width="30" height="30" rx="5" fill="#F8A849" fill-opacity="0.5" />
                                             <path d="M5 15C5 15 8 8 15 8C22 8 25 15 25 15C25 15 22 22 15 22C8 22 5 15 5 15Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />

@@ -9,7 +9,15 @@ import TableLihatLaporanPemesanan from "@/app/components/TableLihatLaporanPemesa
 import axios from 'axios';
 
 import { useRouter } from 'next/router'
+import { useAxiosAuth } from "@/app/hooks/useAxiosAuth";
+import { useLocalStorage } from "usehooks-ts";
+import useSWR from "swr";
 
+interface dataUser {
+    noInvoice: string,
+    name:string,
+    orderDate: string
+}
 export default function LaporanPemesanan({ params }: { params: { ViewLaporanPemesanan: string } }) {
     const [currentTime, setCurrentTime] = useState(new Date());
     useEffect(() => {
@@ -30,6 +38,60 @@ export default function LaporanPemesanan({ params }: { params: { ViewLaporanPeme
         tanggal: '',
     });
 
+    const axiosAuth = useAxiosAuth();
+    const [accessToken, _] = useLocalStorage("accessToken", "");
+    const [loading, setLoading] = useState(false);
+    const [dataOr, setDataOr] = useState<dataUser>();
+
+    const { data: dataOrder, isLoading, error } = useSWR(`/api/order/allOrderDetailByOrderId/${params.ViewLaporanPemesanan}`, async (url) => {
+        const res = await axiosAuth.get(url, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        // console.log(res.data);
+        const filterData = res.data.map((e: any) => {
+            return {
+                produk: e?.item,
+                jumlah: e?.quantity,
+                harga: e?.subTotal,
+            }
+        })
+        return filterData
+    })
+
+    const dataLoading = [
+        { produk: 'loading..', jumlah: "loading..", harga: "loading.." },
+    ]
+
+    // const {data:dataOr,isLoading:lala,error:rara} = useSWR(`/api/order/oneOrder/${params.ViewLaporanPemesanan}`, async (url) => {
+    //     const res = await axiosAuth.get(url, {
+    //         headers: {
+    //             Authorization: `Bearer ${accessToken}`,
+    //         },
+    //     });
+    //     console.log(res.data)
+    //     const filter = res.data.map((e: any) => {
+    //         return {
+    //             noInvoice:e?.noInvoice,
+    //             name:e?.name,
+    //             tanggal:e?.orderDate
+    //         }
+    //     })
+    //     return filter
+    // })
+
+    useEffect(() => {
+        setLoading(true);
+
+        axiosAuth.get(`/api/order/oneOrder/${params.ViewLaporanPemesanan}`).then((res) => {
+            setDataOr(res.data)
+            setLoading(false)
+        }).catch((err) => {
+            console.log(err);
+            setLoading(false);
+        })
+    }, [])
     const handleFileChange = (e: any) => {
         const input = e.target;
         if (input.files.length > 0) {
@@ -48,19 +110,19 @@ export default function LaporanPemesanan({ params }: { params: { ViewLaporanPeme
         // Tambahkan data lainnya sesuai kebutuhan
     ];
 
-    const fetchData = async () => {
-        try {
-            const response = await axios.get('/api/laporanPemesanan');
-            // Assuming your backend response structure has keys like noInvoice, namaPemesan, tanggal
-            setInvoiceData(response.data);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    };
+    // const fetchData = async () => {
+    //     try {
+    //         const response = await axios.get('/api/laporanPemesanan');
+    //         // Assuming your backend response structure has keys like noInvoice, namaPemesan, tanggal
+    //         setInvoiceData(response.data);
+    //     } catch (error) {
+    //         console.error('Error fetching data:', error);
+    //     }
+    // };
 
-    useEffect(() => {
-        fetchData();
-    }, []);
+    // useEffect(() => {
+    //     fetchData();
+    // }, []);
 
     return (
         <>
@@ -122,12 +184,12 @@ export default function LaporanPemesanan({ params }: { params: { ViewLaporanPeme
                             <div className="div flex-shrink-0">Tanggal</div>
                         </div>
                         <div className="text-black text-xl font-normal font-['Montserrat'] leading-10 ml-5">
-                            <div className="flex-shrink-0">: {invoiceData.noInvoice || 'Loading...'}  </div>
-                            <div className="flex-shrink-0">: {invoiceData.namaPemesan || 'Loading...'}</div>
-                            <div className="flex-shrink-0">: {invoiceData.tanggal || 'Loading...'}</div>
+                            <div className="flex-shrink-0">: {loading ? 'Loading...' : dataOr?.noInvoice} </div>
+                            <div className="flex-shrink-0">: {loading ? 'Loading...' : dataOr?.name}</div>
+                            <div className="flex-shrink-0">: {loading ? 'Loading...' : dataOr?.orderDate}</div>
                         </div>
                     </div>
-                    <TableLihatLaporanPemesanan data={data} />
+                    {isLoading ? <TableLihatLaporanPemesanan data={dataLoading} /> : <TableLihatLaporanPemesanan data={dataOrder} />}
                 </div>
             </div>
         </>

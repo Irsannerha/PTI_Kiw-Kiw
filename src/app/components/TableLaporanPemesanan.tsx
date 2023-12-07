@@ -5,11 +5,12 @@ import Link from 'next/link';
 import PaginationTable from './PaginationTable';
 
 interface TableRow {
+    id: string;
     uid: string;
     tanggal: string;
-    namaPemesan: string;
-    jumlah: string;
-    harga: string;
+    name: string;
+    total: string;
+    status: string;
 }
 
 interface TableProps {
@@ -29,7 +30,7 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const filteredData = data.filter((row) => {
-        return row.namaPemesan.toLowerCase().includes(filterValue.toLowerCase()) ||
+        return row.name.toLowerCase().includes(filterValue.toLowerCase()) ||
             row.uid.toLowerCase().includes(filterValue.toLowerCase()) || row.tanggal.toLowerCase().includes(filterValue.toLowerCase());
     });
 
@@ -47,9 +48,9 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
         const printableData = {
             UID: selectedData.uid,
             Tanggal: selectedData.tanggal,
-            'Nama Pemesan': selectedData.namaPemesan,
-            Jumlah: selectedData.jumlah,
-            Harga: selectedData.harga,
+            'Nama Pemesan': selectedData.name,
+            Harga: selectedData.total,
+            Status: selectedData.status
         };
         const printContent = `
     <img src="/images/logoNavbar.png" width="80" height="80" className="justify-center" alt="Logo Kedai Bu Titin" />
@@ -134,10 +135,10 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
                             Nama Pemesan
                         </th>
                         <th scope="col" className=" py-3 font-bold text-xs text-black uppercase tracking-wider">
-                            Jumlah
+                            Harga
                         </th>
                         <th scope="col" className=" py-3 font-bold text-xs text-black uppercase tracking-wider">
-                            Harga
+                            Status
                         </th>
                         <th scope="col" className=" py-3 font-bold text-xs text-black uppercase tracking-wider">
                             Aksi
@@ -150,14 +151,14 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
                             <td className="px-9 py-4 whitespace-nowrap">{index + indexOfFirstItem + 1}</td>
                             <td className="px-9 py-4 whitespace-nowrap">{row.uid}</td>
                             <td className="px-9 py-4 whitespace-nowrap">{row.tanggal}</td>
-                            <td className="px-9 py-4 whitespace-nowrap">{row.namaPemesan}</td>
-                            <td className="px-9 py-4 whitespace-nowrap">{row.jumlah}</td>
-                            <td className="px-9 py-4 whitespace-nowrap ">{row.harga}</td>
+                            <td className="px-9 py-4 whitespace-nowrap">{row.name}</td>
+                            <td className="px-9 py-4 whitespace-nowrap ">{row.total}</td>
+                            <td className="px-9 py-4 whitespace-nowrap">{row.status}</td>
                             <td className="px-9 py-4 whitespace-nowrap flex justify-center items-center gap-2">
                                 {/* <button className="text-blue-500">Edit</button> */}
                                 {/* <Link href="/page/dashboard/LaporanPemesanan/"> */}
                                 <Tooltip content="Lihat Detail" style="dark" className='bg-black'>
-                                    <Link href="/[ViewLaporanPemesanan]" as={`/page/dashboard/LaporanPemesanan/${row.uid}`}>
+                                    <Link href="/[ViewLaporanPemesanan]" as={`/page/dashboard/LaporanPemesanan/${row.id}`}>
                                         <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <rect width="30" height="30" rx="5" fill="#F8A849" fill-opacity="0.5" />
                                             <path d="M5 15C5 15 8 8 15 8C22 8 25 15 25 15C25 15 22 22 15 22C8 22 5 15 5 15Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
