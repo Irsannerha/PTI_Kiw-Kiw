@@ -15,7 +15,6 @@ import { axiosInstance } from "@/app/utils/axios";
 import { useRouter } from "next/navigation";
 // import { useRouter } from "next/router";
 
-// Deklarasikan tipe data terlebih dahulu
 interface DataFecth {
   id: string;
   email: string;
