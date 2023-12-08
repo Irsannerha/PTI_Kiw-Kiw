@@ -16,14 +16,16 @@ import Link from "next/link";
 import axios from 'axios';
 import { useAxiosAuth } from '@/app/hooks/useAxiosAuth';
 import { useLocalStorage } from 'usehooks-ts';
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
+import { RouteKind } from 'next/dist/server/future/route-kind';
+import { useRouter } from 'next/navigation';
 
 interface MenuItem {
-    id?: number;
+    id: string;
     name?: string;
     price?: string;
     stock?: string;
-    gambar?: string|undefined;
+    gambar?: string | undefined;
 }
 
 export default function KelolaMenuPemesanan() {
@@ -82,7 +84,7 @@ export default function KelolaMenuPemesanan() {
             setLoading(false);
             console.log(err);
         })
-    },[])
+    }, [])
 
     // const menuMinumandumy = [
     //     { id: 1, nama: "Es Teh", harga: "5000", stok: "10", image: '/images/esTeh.png' },
@@ -114,11 +116,24 @@ export default function KelolaMenuPemesanan() {
     // ];
 
     const [showAlertHapusData, setShowAlertHapusData] = useState(false);
-    const handleFromDelete = async () => {
-        setShowAlertHapusData(true)
-        setTimeout(() => {
-            setShowAlertHapusData(false);
-        }, 3000);
+
+    const router = useRouter();
+
+    const handleFromDelete = async (id:string) => {
+        // setShowAlertHapusData(true);
+        try {
+            await axiosAuth.put(`/api/menu/deleteItem/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+            mutate('/api/menu/allItem');
+        } catch (e) {
+            console.log(e);
+        }
+        // setTimeout(() => {
+        //     setShowAlertHapusData(false);
+        // }, 3000);
     }
 
     function ExampleAdditionalContent() {
@@ -201,23 +216,23 @@ export default function KelolaMenuPemesanan() {
                                                 <div className="text-[10px] ml-2 text-gray-500 dark:text-gray-400">Stok : <span> {item.stock}</span></div>
                                                 <div className="flex mt-1 gap-0.5  w-full">
                                                     <Link href="/[EditItemMenu]" as={`/page/dashboard/KelolaMenuPemesanan/${item.id}`} className=" px-1 py-1 text-sm font-medium text-center text-white rounded-bl-lg bg-[#C79618] hover:bg-[#F8A849]  w-[50%] flex justify-center items-center "><SvgEditKelolaPemesanan /></Link>
-                                                    <Link onClick={handleFromDelete} href="#" className=" px-1 py-1 text-sm font-medium text-center text-gray-900 bg-[#F30101] hover:bg-[#950000] w-[50%] flex justify-center items-center rounded-br-lg"><SvgDeleteKelolaPemesanan /></Link>
+                                                    <Link onClick={() => handleFromDelete(item.id)} href="#" className=" px-1 py-1 text-sm font-medium text-center text-gray-900 bg-[#F30101] hover:bg-[#950000] w-[50%] flex justify-center items-center rounded-br-lg"><SvgDeleteKelolaPemesanan /></Link>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 ))}
                             </div>
-                            {showAlertHapusData && (
-                                <div className="absolute mt-[30%] ml-[70%] bg-white">
-                                    <Alert additionalContent={<ExampleAdditionalContent />} color="warning" icon={RiErrorWarningLine} className='text-[#F8A849]'>
-                                        <span className="font-medium">Apakah anda yakin untuk menghapus data ini?</span>
-                                    </Alert>
-                                </div>
-                            )}
+                            {/* {showAlertHapusData && (
+                                    <div className="absolute mt-[30%] ml-[70%] bg-white">
+                                        <Alert additionalContent={<ExampleAdditionalContent />} color="warning" icon={RiErrorWarningLine} className='text-[#F8A849]'>
+                                            <span className="font-medium">Apakah anda yakin untuk menghapus data ini?</span>
+                                        </Alert>
+                                    </div>
+                                )} */}
                             <div className="ml-[52%] m-2 text-[24px] absolute">Minuman</div>
                             <div className="pt-12 grid grid-cols-2 md:grid-cols-3 gap-4 bg-[#EFEFFF] w-[49%] p-2 rounded-lg shadow-xl h-full">
-                                {menuMinuman.map((order )=> (
+                                {menuMinuman.map((order) => (
                                     <div className="max-w-full rounded-lg">
                                         <div className="w-full max-w-sm rounded-lg shadow  bg-white">
                                             <div className="div">
@@ -230,7 +245,7 @@ export default function KelolaMenuPemesanan() {
                                                     {/* <a href="/page/dashboard/EditItemMenu" className=" px-1 py-1 text-sm font-medium text-center text-white rounded-bl-lg bg-[#C79618] hover:bg-[#F8A849]  w-[50%] flex justify-center items-center "><SvgEditKelolaPemesanan /></a> */}
                                                     <Link href="/[EditItemMenu]" as={`/page/dashboard/KelolaMenuPemesanan/${order.id}`} className=" px-1 py-1 text-sm font-medium text-center text-white rounded-bl-lg bg-[#C79618] hover:bg-[#F8A849]  w-[50%] flex justify-center items-center "><SvgEditKelolaPemesanan /></Link>
                                                     {/* <a onClick={handleFromDelete} href="#" className=" px-1 py-1 text-sm font-medium text-center text-gray-900 bg-[#F30101] hover:bg-[#950000] w-[50%] flex justify-center items-center rounded-br-lg"><SvgDeleteKelolaPemesanan /></a> */}
-                                                    <Link onClick={handleFromDelete} href="#" className=" px-1 py-1 text-sm font-medium text-center text-gray-900 bg-[#F30101] hover:bg-[#950000] w-[50%] flex justify-center items-center rounded-br-lg"><SvgDeleteKelolaPemesanan /></Link>
+                                                    <Link onClick={() => handleFromDelete(order.id)} href="#" className=" px-1 py-1 text-sm font-medium text-center text-gray-900 bg-[#F30101] hover:bg-[#950000] w-[50%] flex justify-center items-center rounded-br-lg"><SvgDeleteKelolaPemesanan /></Link>
                                                 </div>
                                             </div>
                                         </div>

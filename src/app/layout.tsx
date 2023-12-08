@@ -38,7 +38,7 @@ export default function RootLayout({
     }
     if (!accessToken) {
       setCheck(false);
-      if (pathname === '/page/landingPage/dashboardRekrut') {
+      if (pathname === '/page/landingPage/dashboardRekrut' || pathname === '/page/landingPage/cekStatus' || pathname === '/page/landingPage/profil') {
         router.push('/page/landingPage/loginPegawai');
       } else {
         router.push('/page/dashboard/FormLogin');

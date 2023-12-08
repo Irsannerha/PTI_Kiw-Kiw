@@ -9,8 +9,18 @@ import TableLihatLaporanPemesanan from "@/app/components/TableLihatLaporanPemesa
 import axios from 'axios';
 import LihatDetailPemesanan from "@/app/components/LihatDetailPemesanan";
 
-import { useRouter } from 'next/router'
 import { Button } from "flowbite-react";
+import useSWR from "swr";
+import { useAxiosAuth } from "@/app/hooks/useAxiosAuth";
+import { useLocalStorage } from "usehooks-ts";
+import { RouteKind } from "next/dist/server/future/route-kind";
+import { useRouter } from "next/navigation";
+
+interface dataUser {
+    noInvoice: string,
+    name:string,
+    orderDate: string
+}
 
 export default function LaporanPemesanan({ params }: { params: { Detail: string } }) {
     const [currentTime, setCurrentTime] = useState(new Date());
@@ -32,6 +42,31 @@ export default function LaporanPemesanan({ params }: { params: { Detail: string 
         tanggal: '',
     });
 
+    const router = useRouter()
+    const axiosAuth = useAxiosAuth();
+    const [accessToken, _] = useLocalStorage("accessToken", "");
+    const [loading, setLoading] = useState(false);
+    const [dataOr, setDataOr] = useState<dataUser>();
+
+    const { data: dataOrder, isLoading, error } = useSWR(`/api/order/allOrderDetailByOrderId/${params.Detail}`, async (url) => {
+        const res = await axiosAuth.get(url, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        // console.log(res.data);
+        const filterData = res.data.map((e: any) => {
+            return {
+                produk: e?.item,
+                jumlah: e?.quantity,
+                harga: e?.subTotal,
+            }
+        })
+        return filterData
+    })
+
+
+
     const handleFileChange = (e: any) => {
         const input = e.target;
         if (input.files.length > 0) {
@@ -40,6 +75,22 @@ export default function LaporanPemesanan({ params }: { params: { Detail: string 
             setFileStatus("Tidak ada gambar.");
         }
     };
+
+    const dataLoading = [
+        {produk:'loading',jumlah:'loading',harga:'loading'}
+    ]
+
+    useEffect(() => {
+        setLoading(true);
+
+        axiosAuth.get(`/api/order/oneOrder/${params.Detail}`).then((res) => {
+            setDataOr(res.data)
+            setLoading(false)
+        }).catch((err) => {
+            console.log(err);
+            setLoading(false);
+        })
+    }, [])
 
     const data = [
         { produk: 'Ayam Geprek', jumlah: "1", harga: "10000" },
@@ -62,8 +113,9 @@ export default function LaporanPemesanan({ params }: { params: { Detail: string 
 
     const handleTerimaPesanan = async () => {
         try {
-            const response = await axios.post('/api/terimaPesanan', { invoiceId: invoiceData.noInvoice, status: 'diterima' });
-            console.log('Order accepted:', response.data);
+            const response = await axiosAuth.put(`/api/order/setStatusAccepted/${params.Detail}`);
+            // console.log('Order accepted:', response.data);
+            router.push('/page/dashboard/LaporanPemesanan')
         } catch (error) {
             console.error('Error accepting order:', error);
         }
@@ -71,8 +123,9 @@ export default function LaporanPemesanan({ params }: { params: { Detail: string 
 
     const handleTolakPesanan = async () => {
         try {
-            const response = await axios.post('/api/tolakPesanan', { invoiceId: invoiceData.noInvoice, status: 'ditolak' });
+            const response = await axiosAuth.put(`/api/order/setStatusRejected/${params.Detail}`);
             console.log('Order rejected:', response.data);
+            router.push('/page/dashboard/LaporanPemesanan')
         } catch (error) {
             console.error('Error rejecting order:', error);
         }
@@ -142,12 +195,14 @@ export default function LaporanPemesanan({ params }: { params: { Detail: string 
                                 <div className="flex-shrink-0">Tanggal</div>
                             </div>
                             <div className="text-black text-xl font-normal font-['Montserrat'] leading-10 ml-5">
-                                <div className="flex-shrink-0">: {invoiceData.noInvoice || 'Loading...'}  </div>
-                                <div className="flex-shrink-0">: {invoiceData.namaPemesan || 'Loading...'}</div>
-                                <div className="flex-shrink-0">: {invoiceData.tanggal || 'Loading...'}</div>
+                                <div className="flex-shrink-0">: {loading ? 'Loading...' : dataOr?.noInvoice}  </div>
+                                <div className="flex-shrink-0">: {loading ? 'Loading...' : dataOr?.name}</div>
+                                <div className="flex-shrink-0">: {loading ? 'Loading...' : dataOr?.orderDate}</div>
                             </div>
                         </div>
-                        <LihatDetailPemesanan data={data} />
+                        {
+                            isLoading ? <LihatDetailPemesanan data={dataLoading} /> : <LihatDetailPemesanan data={dataOrder} />
+                        }
                     </div>
                     <div className="flex justify-center items-center mt-5 gap-5">
                         <Button color="gray" className='bg-[#F8A849]' onClick={handleTerimaPesanan}>

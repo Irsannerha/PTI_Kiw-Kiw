@@ -9,11 +9,13 @@ import AlertInputEmail from "@/app/components/AlertInputEmail"
 import AlertInputPassword from "@/app/components/AlertInputPassword"
 import AlertLoginSucces from "@/app/components/AlertLoginSucces"
 import AlertFailedLogin from "@/app/components/AlertFailedLogin"
+import AlertFailedUserLogin from "@/app/components/AlertFailedUserLogin"
 import Navbars from "@/app/components/Navbars";
 import axios, { AxiosError } from 'axios';
 import { axiosInstance } from "@/app/utils/axios";
 import { useLocalStorage } from "usehooks-ts";
 import { useRouter } from "next/navigation";
+import { useAxiosAuth } from "@/app/hooks/useAxiosAuth";
 
 // Deklarasikan tipe data terlebih dahulu
 interface DataFecth {
@@ -37,11 +39,14 @@ export default function landingPage() {
     const [showEmailAlert, setShowEmailAlert] = useState(false);
     const [showSuccesLoginAlert, setshowSuccesLoginAlert] = useState(false);
     const [showInputEmailPassword, setshowInputEmailPassword] = useState(false);
-    const [showInvalidLogin,setshowInvalidLogin] = useState(false)
+    const [showInvalidLogin, setshowInvalidLogin] = useState(false)
+    const [showFailedLogin, setshowFailedLogin] = useState(false)
 
     const router = useRouter();
+    const axiosAuth = useAxiosAuth()
     const [accessToken, setAccessToken] = useLocalStorage('accessToken', '');
     const [refreshToken, setrefreshToken] = useLocalStorage('refreshToken', '');
+    const [idUser,setIdUser] = useLocalStorage('idUser', '');
 
     // Fungsi untuk menangani pengiriman formulir
     const handleFormSubmit = async () => {
@@ -66,23 +71,31 @@ export default function landingPage() {
             if (email.includes('@gmail.com')) {
                 const userData = { email, password };
                 try {
-                    const response = await axiosInstance.post('/api/auth/login', { email, password });
+                    const response = await axiosAuth.post('/api/auth/loginUser', { email, password });
+                    if (response.data.status === 400) {
+                        setshowFailedLogin(true);
+                        setTimeout(() => {
+                            setshowFailedLogin(false);
+                        }, 3000);
+                    }
+                    console.log(response.data);
                     const data = response.data;
                     console.log('Login successful:', data);
                     setAccessToken(data?.data.access_token);
                     setrefreshToken(data?.data.refresh_token);
+                    setIdUser(data?.id);
                     setshowSuccesLoginAlert(true);
                     router.push('/page/landingPage/dashboardRekrut');
-                    
-                }catch (error) {
+
+                } catch (error) {
                     if (error instanceof AxiosError) {
-                        if(error?.response?.status === 401){
+                        if (error?.response?.status === 401) {
                             setshowInvalidLogin(true);
                             setTimeout(() => {
                                 setshowInvalidLogin(false);
                             }, 3000);
-                        }else{
-                            
+                        } else {
+
                         }
                     }
                 }
@@ -178,9 +191,16 @@ export default function landingPage() {
 
                             {showInvalidLogin && (
                                 <div className="absolute mt-[120px] ml-60">
-                                    <AlertFailedLogin/>
+                                    <AlertFailedLogin />
                                 </div>
                             )}
+                            {
+                                showFailedLogin && (
+                                    <div className="absolute mt-[120px] ml-60">
+                                        <AlertFailedUserLogin />
+                                    </div>
+                                )
+                            }
 
                             {showSuccesLoginAlert && (
                                 <div className="fixed mt-40 md:mt-40 ml-24 md:ml-60">

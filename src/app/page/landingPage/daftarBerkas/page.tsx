@@ -144,7 +144,7 @@ export default function DaftarBerkas() {
             usia,
             url_berkas: downloadURL,
           });
-          const response = await axiosInstance.post('/api/applicant/create', {
+          const response = await axiosAuth.post('/api/applicant/create', {
             name,
             alamat,
             jenisKelamin,
@@ -155,6 +155,8 @@ export default function DaftarBerkas() {
             url_berkas: downloadURL,
           });
           const data = response.data;
+          console.log(response)
+          router.push('/page/landingPage/dashboardRekrut');
           console.log('====================================');
           console.log('Register Success', data);
           console.log('====================================');
@@ -194,7 +196,7 @@ export default function DaftarBerkas() {
         if (error instanceof AxiosError) {
           console.log('====================================');
           console.log('error: ' + error.message);
-          alert('Pendaftaran Gagal');
+          alert('User Sudah Pernah Mendaftar');
           console.log('====================================');
         }
       }

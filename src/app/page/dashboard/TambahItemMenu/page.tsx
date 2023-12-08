@@ -19,36 +19,38 @@ import useSWR, { SWRResponse } from "swr";
 import { log } from "console";
 import TambahKategori from "../TambahKategori/page";
 import { axiosInstance } from "@/app/utils/axios";
+import { RouteKind } from "next/dist/server/future/route-kind";
+import { useRouter } from "next/navigation";
 
 interface DataFecth {
-    namaItem: string;
-    harga: string;
-    kategori: string;
-    stok: string;
+    name: string;
+    price: string;
+    categoryId: string;
+    stock: string;
     gambar: File | string;
 }
 
 interface kategori {
-    id : string,
-    name : string
+    id: string,
+    name: string
 }
 
 interface ListKategori {
-    data : kategori[]
+    data: kategori[]
 }
 
 export default function TambahItemMenu() {
     const initialData: DataFecth = {
-        namaItem: "",
-        harga: "",
-        kategori: "",
-        stok: "",
+        name: "",
+        price: "",
+        categoryId: "",
+        stock: "",
         gambar: "",
     };
-    const [namaItem, setnamaItem] = useState(initialData.namaItem);
-    const [harga, setharga] = useState(initialData.harga);
-    const [kategori, setkategori] = useState(initialData.kategori);
-    const [stok, setstok] = useState(initialData.stok);
+    const [name, setnamaItem] = useState(initialData.name);
+    const [price, setharga] = useState(initialData.price);
+    const [categoryId, setkategori] = useState(initialData.categoryId);
+    const [stock, setstok] = useState(initialData.stock);
     const [gambar, setgambar] = useState<string | File | undefined>(/* initial value */);
 
     const [isnamaItemEmpty, setIsnamaItemEmpty] = useState(false);
@@ -60,10 +62,11 @@ export default function TambahItemMenu() {
     const [showAlertInputData, setShowAlertInputData] = useState(false);
     const [showAlertSimpanData, setShowAlertSimpanData] = useState(false);
 
-    const [kat,setkat] = useState([]);
+    const [kat, setkat] = useState([]);
     const axiosAuth = useAxiosAuth();
     const [accessToken, _] = useLocalStorage("accessToken", "");
     const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
     // const [kategoriData, setKategoriData] = useState([]);
     // let kategoriData: any[] = [];
 
@@ -77,12 +80,12 @@ export default function TambahItemMenu() {
     // console.log(kategoriData);
 
     // const res = axiosAuth.get('api/menu/allCategory').then((res) => res.data)
-    
+
 
     // const {data:kategoriData,isLoading,error}:SWRResponse<ListKategori,any,boolean> = useSWR("/api/menu/allCategory", (url) => 
     //     axiosAuth.get(url).then((res) => res.data)
     //     )
-        // console.log(kategoriData);
+    // console.log(kategoriData);
     // console.log(kategoriData)
 
     useEffect(() => {
@@ -95,7 +98,7 @@ export default function TambahItemMenu() {
             console.log(err);
             setIsLoading(false);
         })
-    },[])
+    }, [])
 
     // useEffect(() => {
     //     (async () => {
@@ -116,7 +119,7 @@ export default function TambahItemMenu() {
     //             // kategoriData = [...filterData];
     //             console.log(kategoriData);
     //             // console.log('huy', filterData);
-                
+
     //             // kategoriData.push(filterData)
     //             setIsLoading(false);
     //         }
@@ -133,22 +136,22 @@ export default function TambahItemMenu() {
         setIskategoriEmpty(false);
         setIsstokEmpty(false);
         setIsgambarEmpty(false);
-        if (!namaItem.trim()) {
+        if (!name.trim()) {
             setIsnamaItemEmpty(true);
         } else {
             setIsnamaItemEmpty(false);
         }
-        if (!harga.trim()) {
+        if (!price.trim()) {
             setIshargaEmpty(true);
         } else {
             setIshargaEmpty(false);
         }
-        if (!kategori.trim()) {
+        if (!categoryId.trim()) {
             setIskategoriEmpty(true);
         } else {
             setIskategoriEmpty(false);
         }
-        if (!stok.trim()) {
+        if (!stock.trim()) {
             setIsstokEmpty(true);
         } else {
             setIsstokEmpty(false);
@@ -158,31 +161,31 @@ export default function TambahItemMenu() {
         } else {
             setIsgambarEmpty(false);
         }
-        if (isnamaItemEmpty || ishargaEmpty || iskategoriEmpty || isstokEmpty) {
+        if (isnamaItemEmpty || ishargaEmpty || isstokEmpty) {
             setShowAlertInputData(true);
             setTimeout(() => {
                 setShowAlertInputData(false);
             }, 5000);
-        } else if (namaItem && harga && kategori && stok) {
+        } else if (name && price && stock) {
             try {
                 const namaItemRegex = /^[A-Za-z\s]{1,20}(\s[A-Za-z\s]{1,20}){0,3}$/;
-                if (!namaItemRegex.test(namaItem)) {
+                if (!namaItemRegex.test(name)) {
                     alert('Nama item harus berupa huruf, tidak lebih dari 20 karakter, dan maksimal 4 kalimat');
                     return;
                 }
-                if (parseInt(stok) > 1000) {
+                if (parseInt(stock) > 1000) {
                     alert('Stok tidak boleh lebih dari 1000');
                     return;
                 }
-                if (isNaN(parseInt(stok))) {
+                if (isNaN(parseInt(stock))) {
                     alert('Stok harus berupa angka');
                     return;
                 }
-                if (isNaN(parseInt(harga))) {
+                if (isNaN(parseInt(price))) {
                     alert('Inputan Harga harus berupa angka');
                     return;
                 }
-                if (parseInt(harga) > 1000000) {
+                if (parseInt(price) > 1000000) {
                     alert('Inputan Harga tidak boleh lebih dari Rp. 100.000');
                     return;
                 }
@@ -190,43 +193,53 @@ export default function TambahItemMenu() {
                     await handleUploadFile();
                 }
                 // Log input data to console
-                console.log('Input Data:', {
-                    namaItem,
-                    harga,
-                    kategori,
-                    stok,
-                    gambar: downloadURL,
-                });
+                // console.log('Input Data:', {
+                //     name,
+                //     price,
+                //     kategori,
+                //     stok,
+                //     gambar: downloadURL,
+                // });
                 // Send data to backend
-                const response = await axios.post('YOUR_BACKEND_API/menu', {
-                    namaItem,
-                    harga,
-                    kategori,
-                    stok,
+                // console.log('Input Data:', {
+                //     name,
+                //     price,
+                //     categoryId,
+                //     stock,
+                //     gambar: downloadURL,
+                // });
+                const response = await axiosAuth.post("/api/menu/createItem", {
+                    name,
+                    price,
+                    stock,
                     gambar: downloadURL,
+                    categoryId
                 });
-                if (response.status === 200) {
-                    setShowAlertSimpanData(true);
-                    setTimeout(() => {
-                        setShowAlertSimpanData(false);
-                    }, 5000);
-                    // Log input data to console
-                    console.log('Input Data:', {
-                        namaItem,
-                        harga,
-                        kategori,
-                        stok,
-                        gambar: downloadURL,
-                    });
-                    // Reset form fields
-                    setnamaItem("");
-                    setharga("");
-                    setkategori("");
-                    setstok("");
-                    setgambar("");
-                } else {
-                    // Handle other response statuses or errors
-                }
+                router.push('/page/dashboard/KelolaMenuPemesanan');
+                console.log(response);
+                // const data = response.data;
+                // if (response.status === 200) {
+                //     setShowAlertSimpanData(true);
+                //     setTimeout(() => {
+                //         setShowAlertSimpanData(false);
+                //     }, 5000);
+                //     // Log input data to console
+                //     console.log('Input Data:', {
+                //         namaItem,
+                //         harga,
+                //         kategori,
+                //         stok,
+                //         gambar: downloadURL,
+                //     });
+                //     // Reset form fields
+                //     setnamaItem("");
+                //     setharga("");
+                //     setkategori("");
+                //     setstok("");
+                //     setgambar("");
+                // } else {
+                //     // Handle other response statuses or errors
+                // }
             } catch (error) {
                 console.error('Error submitting form:', error);
                 // Handle error scenarios
@@ -371,7 +384,7 @@ export default function TambahItemMenu() {
                         placeholder="Masukkan nama item"
                         required
                         type="text"
-                        />
+                    />
                     <div className="justify-between items-center grid grid-cols-3 md:grid-cols-3 gap-2 w-full mt-2">
                         <div className="w-[175px]">
                             <div className="text-[24px]">Harga</div>
@@ -382,7 +395,7 @@ export default function TambahItemMenu() {
                                     placeholder="10.000"
                                     required
                                     type="text"
-                                    />
+                                />
                             </div>
                         </div>
                         <div className="-ml-[30%] w-[100%]">
@@ -391,8 +404,8 @@ export default function TambahItemMenu() {
                                 <div className="flex">
                                     <select onChange={(e) => { setkategori(e.target.value); }} id="countrssies" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                         {/* <option>Pilih Kategori</option> */}
-                                        {kat.map((item:{id:string, name:string}) => (
-                                            <option value={item.id}>{item.name}</option>
+                                        {kat.map((item: { id: string, name: string }) => (
+                                            <option key={item.id} value={item.id}>{item.name}</option>
                                         ))}
                                     </select>
                                 </div>
