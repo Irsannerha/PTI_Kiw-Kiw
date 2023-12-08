@@ -39,6 +39,7 @@ export default function landingPage() {
 
     const [accessToken, setAccessToken] = useLocalStorage('accessToken', '');
     const [refreshToken, setrefreshToken] = useLocalStorage('refreshToken', '');
+    const [idUser,setIdUser] = useLocalStorage('idUser', '');
 
 
     const handleFormSubmit = async () => {
@@ -73,6 +74,7 @@ export default function landingPage() {
                     console.log('Login successful:', data);
                     setAccessToken(data?.data.access_token);
                     setrefreshToken(data?.data.refresh_token);
+                    setIdUser(data?.id);
                     setshowSuccesLoginAlert(true);
                     router.push('/page/dashboard');
                 }catch (error) {

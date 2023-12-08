@@ -110,7 +110,8 @@ export default function ProfilRekrutan() {
                       type="text"
                       className="border border-1 border-yellow-600 rounded-md"
                       value={formData.nama}
-                      onChange={handleChange}
+                      readOnly
+                      // onChange={handleChange}
                     />
                   </div>
                   <div>
@@ -159,13 +160,13 @@ export default function ProfilRekrutan() {
               </div>
             </div>
             <div className="flex justify-center items-center">
-              <label
+              {/* <label
                 htmlFor="ubah"
                 className="bg-[#F8A849] hover:bg-[#D2691E] font-medium text-black hover:text-white inline-flex items-center px-6 py-1.5 cursor-pointer text-sm rounded-xl shadow-lg"
                 onClick={handleSubmit}
               >
                 <span className="ml-1">Simpan</span>
-              </label>
+              </label> */}
             </div>
             <div className="flex justify-end items-center mt-5">
               <label

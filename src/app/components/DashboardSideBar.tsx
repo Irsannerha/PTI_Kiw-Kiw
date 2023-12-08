@@ -11,8 +11,7 @@ export default function DashboardSideBar() {
     const [check, setCheck] = useState(false);
     const [accessToken, setAccessToken] = useLocalStorage('accessToken', '');
     const [refreshToken, setRefreshToken] = useLocalStorage('refreshToken', '');
-
-
+    const [idUser, setIdUser] = useLocalStorage("idUser", "");
 
     const [currentPath, setCurrentPath] = useState('/page/dashboard/KelolaMenuPemesanan');
 
@@ -44,6 +43,7 @@ export default function DashboardSideBar() {
         // Example: Hide alert after 3 seconds
         setAccessToken('')
         setRefreshToken('')
+        setIdUser('')
     }
 
     // if (!check) {
