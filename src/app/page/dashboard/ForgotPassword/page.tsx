@@ -4,15 +4,25 @@ import { useState } from "react";
 import Image from 'next/image'
 import AlertInputEmail from "@/app/components/AlertInputEmail"
 import SuccessOTP from "@/app/components/SuccessOTP"
-import axios from 'axios';
+
+import axios, { AxiosError } from 'axios';
+import { useAxiosAuth } from "@/app/hooks/useAxiosAuth";
+import { useLocalStorage } from "usehooks-ts";
+import { axiosInstance } from "@/app/utils/axios";
+import { useRouter } from "next/navigation";
+// import { useRouter } from "next/router";
 
 interface DataFecth {
+  id: string;
   email: string;
+  otp: string;
 }
 
 export default function ForgotPassword() {
   const initialData: DataFecth = {
+    id: "",
     email: "",
+    otp: "",
   };
 
   const [email, setEmail] = useState(initialData.email);
@@ -20,6 +30,13 @@ export default function ForgotPassword() {
 
   const [showEmailAlert, setShowEmailAlert] = useState(false);
   const [showSuccessOTPSend, setshowSuccessOTPSend] = useState(false);
+
+  const router = useRouter();
+  const axiosAuth = useAxiosAuth();
+  const [accessToken, _] = useLocalStorage("accessToken", "");
+  const [refreshToken, setrefreshToken] = useLocalStorage('refreshToken', '');
+  const [id, setId] = useLocalStorage('id', '')
+  const [otp, setOtp] = useLocalStorage('otp', '');
 
   const handleFormSubmit = async () => {
     if (!email) {
@@ -33,23 +50,25 @@ export default function ForgotPassword() {
         const userData = { email };
         console.log('User Data:', JSON.stringify(userData));
         try {
-          const response = await axios.post('/api/login', { email });
-
-          if (response.status === 200) {
-            const data = response.data;
-            console.log('Login successful:', data);
-            setshowSuccessOTPSend(true);
-            setTimeout(() => {
-              setshowSuccessOTPSend(false);
-            }, 3000);
-            window.location.href = '/page/dashboard/CodeOTP';
-          } else {
-            console.error('Gagal:', response.status);
-            alert('Gagal');
-          }
+          const response = await axios.post('/api/auth/otp', { email });
+          const data = response.data;
+          setId(data.id);
+          setOtp(data.otp);
+          console.log('====================================');
+          console.log('Register Success', data);
+          console.log('====================================');
+          setshowSuccessOTPSend(true);
+          setTimeout(() => {
+            setshowSuccessOTPSend(false);
+          }, 3000);
+          router.push('/page/dashboard/CodeOTP')
         } catch (error) {
-          console.error('Error Login:', error);
-          alert('Tidak Dapat Data API');
+          if (error instanceof AxiosError) {
+            console.log('====================================');
+            console.log('error: ' + error.message);
+            alert('Gagal Terkirim');
+            console.log('====================================');
+          }
         }
       } else {
         alert('Use @gmail.com in email');
