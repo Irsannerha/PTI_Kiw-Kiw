@@ -1,4 +1,8 @@
 'use client';
+
+import { Button, Modal } from 'flowbite-react';
+import { HiOutlineExclamationCircle } from 'react-icons/hi';
+
 import { Tooltip } from 'flowbite-react';
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -7,10 +11,7 @@ import AlertMenolakPegawai1 from "@/app/components/AlertMenolakPegawai1"
 import AlertTerimaPegawai1 from "@/app/components/AlertTerimaPegawai1"
 import { useAxiosAuth } from '../hooks/useAxiosAuth';
 import { useLocalStorage } from 'usehooks-ts';
-import { log } from 'console';
-import { Rowdies } from 'next/font/google';
 import { mutate } from 'swr';
-// import ContohPage from '../page/dashboard/PrekTahap1LihatData/[...slug]';
 
 interface TableRow {
     id: string;
@@ -47,29 +48,29 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
 
     // batas
     const [showAlertMenolakPegawai1, setShowAlertMenolakPegawai1] = useState(false);
-    const handleFromMenolakPegawai1 = async (id:string) => {
-        try{
-            await axiosAuth.put(`/api/applicant/setStatusRejected`,{id:id},{
-                headers:{
-                    Authorization : `Bearer ${accessToken}`
+    const handleFromMenolakPegawai1 = async (id: string) => {
+        try {
+            await axiosAuth.put(`/api/applicant/setStatusRejected`, { id: id }, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
                 }
             })
             mutate('/api/applicant/all/statusPending')
-        }catch(e){
+        } catch (e) {
             console.log(e);
         }
     }
 
     const [showAlertMenolakPegawai2, setShowAlertMenolakPegawai2] = useState(false);
-    const handleFromMenolakPegawai2 = async (id:string) => {
-        try{
-            await axiosAuth.put(`/api/applicant/setStatusRejected`,{id:id},{
-                headers:{
-                    Authorization : `Bearer ${accessToken}`
+    const handleFromMenolakPegawai2 = async (id: string) => {
+        try {
+            await axiosAuth.put(`/api/applicant/setStatusRejected`, { id: id }, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
                 }
             })
             mutate('/api/applicant/all/statusPending')
-        }catch(e){
+        } catch (e) {
             console.log(e);
         }
     }
@@ -95,18 +96,21 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
     }
 
     const [showAlertTerimaPegawai2, setShowAlertTerimaPegawai2] = useState(false);
-    const handleFromTerimaPegawai2 = async (id:string) => {
-        try{
-            await axiosAuth.put(`/api/applicant/setStatusRejected`,{id:id},{
-                headers:{
-                    Authorization : `Bearer ${accessToken}`
+    const handleFromTerimaPegawai2 = async (id: string) => {
+        try {
+            await axiosAuth.put(`/api/applicant/setStatusRejected`, { id: id }, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
                 }
             })
             mutate('/api/applicant/all/statusPending')
-        }catch(e){
+        } catch (e) {
             console.log(e);
         }
     }
+
+    const [openModalTerima, setOpenModalTerima] = useState(false);
+    const [openModalTolak, setOpenModalTolak] = useState(false);
 
     return (
         <>
@@ -138,15 +142,13 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
                         </th>
                     </tr>
                 </thead>
-                <tbody className=" divide-y divide-black">
+                <tbody className="divide-y divide-black">
                     {currentItems.map((row, index) => (
                         <tr key={index}>
                             <td className="px-6 py-4 whitespace-nowrap">{index + indexOfFirstItem + 1}</td>
                             <td className="px-6 py-4 whitespace-nowrap">{row.nama}</td>
                             <td className="px-6 py-4 whitespace-nowrap ">{row.nik}</td>
                             <td className="px-6 py-4 whitespace-nowrap flex justify-center items-center gap-2">
-                                {/* <button className="text-blue-500">Edit</button> */}
-                                {/* <Link href="/page/dashboard/PrekTahap1LihatData"> */}
                                 <Tooltip content="Lihat Detail" style="dark" className='bg-black'>
                                     <Link href={`/page/dashboard/PrekTahap1/detail/${row.id}`}>
                                         <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -157,22 +159,70 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
                                     </Link>
                                 </Tooltip>
                                 <Tooltip content="Terima Tahap1" style="dark" className='bg-black'>
-                                    <Link href="#" onClick={() => handleFromTerimaPegawai1(row.id)}>
+                                    <Link href="#" onClick={() => setOpenModalTerima(true)}>
                                         <svg width="31" height="30" viewBox="0 0 31 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <rect x="0.929688" width="30" height="30" rx="5" fill="#FFA437" />
                                             <path d="M23.9297 9L12.9297 20L7.92969 15" fill="#F8A849" />
                                             <path d="M23.9297 9L12.9297 20L7.92969 15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                         </svg>
                                     </Link>
+                                    <Modal show={openModalTerima} size="md" onClose={() => setOpenModalTerima(false)} popup className='backdrop-blur-lg pt-[10%]'>
+                                        <Modal.Header />
+                                        <Modal.Body>
+                                            <div className="text-center m-auto">
+                                                <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                                                <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                                                    Yakin Ingin Menerima Pegawai Tahap 1 ???
+                                                    Anda Akan Melanjutkan Pegawai Ke Tahap 2...
+                                                </h3>
+                                                <div className="flex justify-center gap-4">
+                                                    <Button className='bg-[#f7c990] hover:bg-[#cea676] text-white' onClick={() => setOpenModalTerima(false)}>
+                                                        Kembali
+                                                    </Button>
+                                                    <Button className='bg-[#F8A849] hover:bg-[#a77232] text-white' color="white"
+                                                        onClick={() => {
+                                                            handleFromTerimaPegawai1(row.id)
+                                                            setOpenModalTerima(false);
+                                                        }}>
+                                                        Ya Terima Tahap 1
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                        </Modal.Body>
+                                    </Modal>
                                 </Tooltip>
                                 <Tooltip content="Tolak Tahap1" style="dark" className='bg-black'>
-                                    <Link href="" onClick={() => handleFromMenolakPegawai1(row.id)}>
+                                    <Link href="" onClick={() => setOpenModalTolak(true)}>
                                         <svg width="31" height="30" viewBox="0 0 31 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <rect x="0.929688" width="30" height="30" rx="5" fill="#D86514" />
                                             <path d="M21.9297 9L9.92969 21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                             <path d="M9.92969 9L21.9297 21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                         </svg>
                                     </Link>
+                                    <Modal show={openModalTolak} size="md" onClose={() => setOpenModalTolak(false)} popup className='backdrop-blur-lg pt-[10%]'>
+                                        <Modal.Header />
+                                        <Modal.Body>
+                                            <div className="text-center m-auto">
+                                                <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                                                <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                                                    Yakin Ingin Menolak Pegawai Tahap 1 ???
+                                                    Anda Akan Menghapus Pegawai Pada Tahap Ini
+                                                </h3>
+                                                <div className="flex justify-center gap-4">
+                                                    <Button className='bg-[#f7c990] hover:bg-[#cea676] text-white' onClick={() => setOpenModalTolak(false)}>
+                                                        Kembali
+                                                    </Button>
+                                                    <Button className='bg-[#D86514] hover:bg-[#845838] text-white' color="white"
+                                                        onClick={() => {
+                                                            handleFromMenolakPegawai1(row.id);
+                                                            setOpenModalTolak(false);
+                                                        }}>
+                                                        Ya Tolak Tahap 1
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                        </Modal.Body>
+                                    </Modal>
                                 </Tooltip>
                             </td>
                         </tr>

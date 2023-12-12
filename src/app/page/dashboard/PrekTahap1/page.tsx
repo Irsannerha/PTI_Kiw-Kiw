@@ -26,21 +26,8 @@ export default function TambahItemMenu() {
     const formattedTime = currentTime.toLocaleTimeString();
     const formattedDate = currentTime.toLocaleDateString('id-ID');
 
-
-    const [fileStatus, setFileStatus] = useState("Tidak ada gambar.");
-
-    const handleFileChange = (e: any) => {
-        const input = e.target;
-        if (input.files.length > 0) {
-            setFileStatus(input.files[0].name);
-        } else {
-            setFileStatus("Tidak ada gambar.");
-        }
-    };
-
     const axiosAuth = useAxiosAuth();
     const [accessToken, _] = useLocalStorage("accessToken", "");
-
 
     // cara pake swr buat fetch data yang butuh header
     const { data: datatest, isLoading, error } = useSWR("/api/applicant/all/statusPending", async (url) => {
@@ -126,7 +113,6 @@ export default function TambahItemMenu() {
                     </div>
                 </div >
             </div >
-
         </>
     )
 }

@@ -67,27 +67,7 @@ export default function TambahItemMenu() {
     const [accessToken, _] = useLocalStorage("accessToken", "");
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
-    // const [kategoriData, setKategoriData] = useState([]);
-    // let kategoriData: any[] = [];
-
-    // const { data: kategoriData, isLoading, error } = useSWR("/api/menu/allCategory",(url) => {
-    //     const res =  axiosAuth.get(url,{
-    //         headers: {
-    //             Authorization: `Bearer ${accessToken}`
-    //         }
-    //     }).then((res) => res.data)
-    // })
-    // console.log(kategoriData);
-
-    // const res = axiosAuth.get('api/menu/allCategory').then((res) => res.data)
-
-
-    // const {data:kategoriData,isLoading,error}:SWRResponse<ListKategori,any,boolean> = useSWR("/api/menu/allCategory", (url) => 
-    //     axiosAuth.get(url).then((res) => res.data)
-    //     )
-    // console.log(kategoriData);
-    // console.log(kategoriData)
-
+    
     useEffect(() => {
         setIsLoading(true);
 
@@ -100,36 +80,6 @@ export default function TambahItemMenu() {
         })
     }, [])
 
-    // useEffect(() => {
-    //     (async () => {
-    //         const res = async () => {
-    //             const response = await axiosAuth.get("/api/menu/allCategory");
-    //             // const filterData = response.data.map((e: any) => (
-    //             //     {
-    //             //         id: e?.id,
-    //             //         name: e?.name
-    //             //     }
-    //             // ))
-    //             response.data.map((e: any) => {
-    //                 setKategoriData([...kategoriData, {
-    //                     id: e?.id,
-    //                     name: e?.name
-    //                 }]);
-    //             })
-    //             // kategoriData = [...filterData];
-    //             console.log(kategoriData);
-    //             // console.log('huy', filterData);
-
-    //             // kategoriData.push(filterData)
-    //             setIsLoading(false);
-    //         }
-    //         await res()
-    //         console.log(isLoading);
-    //         console.log(kategoriData);
-    //     })()
-    // }, [isLoading])
-
-    // console.log(kategoriData);
     const handleFormSubmit = async () => {
         setIsnamaItemEmpty(false);
         setIshargaEmpty(false);
@@ -192,22 +142,7 @@ export default function TambahItemMenu() {
                 if (imageFile) {
                     await handleUploadFile();
                 }
-                // Log input data to console
-                // console.log('Input Data:', {
-                //     name,
-                //     price,
-                //     kategori,
-                //     stok,
-                //     gambar: downloadURL,
-                // });
-                // Send data to backend
-                // console.log('Input Data:', {
-                //     name,
-                //     price,
-                //     categoryId,
-                //     stock,
-                //     gambar: downloadURL,
-                // });
+
                 const response = await axiosAuth.post("/api/menu/createItem", {
                     name,
                     price,
@@ -217,32 +152,12 @@ export default function TambahItemMenu() {
                 });
                 router.push('/page/dashboard/KelolaMenuPemesanan');
                 console.log(response);
-                // const data = response.data;
-                // if (response.status === 200) {
-                //     setShowAlertSimpanData(true);
-                //     setTimeout(() => {
-                //         setShowAlertSimpanData(false);
-                //     }, 5000);
-                //     // Log input data to console
-                //     console.log('Input Data:', {
-                //         namaItem,
-                //         harga,
-                //         kategori,
-                //         stok,
-                //         gambar: downloadURL,
-                //     });
-                //     // Reset form fields
-                //     setnamaItem("");
-                //     setharga("");
-                //     setkategori("");
-                //     setstok("");
-                //     setgambar("");
-                // } else {
-                //     // Handle other response statuses or errors
-                // }
+                setShowAlertSimpanData(true);
+                setTimeout(() => {
+                    setShowAlertSimpanData(false);
+                }, 5000);
             } catch (error) {
                 console.error('Error submitting form:', error);
-                // Handle error scenarios
             }
         }
     };
@@ -279,7 +194,7 @@ export default function TambahItemMenu() {
     const handleSelectedFile = (files: any) => {
         if (files && files[0].size < 10000000) {
             setImageFile(files[0]);
-            setFileStatus(files[0].name); // Set file name as file status
+            setFileStatus(files[0].name);
             console.log(files[0]);
         } else {
             message.error('File size too large');
@@ -377,7 +292,7 @@ export default function TambahItemMenu() {
                             </div>
                         </div>
                     </div>
-                    <div className="mb-5 w-full text-[32px]">Tambah Pesanan</div>
+                    <div className="mb-5 w-full text-[32px]">Tambah Menu</div>
                     <div className="text-[24px]">Nama Item</div>
                     <Input
                         onChange={(e) => { setnamaItem(e.target.value); }}
@@ -465,8 +380,8 @@ export default function TambahItemMenu() {
                                                 ]}
                                             >
                                                 <List.Item.Meta
-                                                    title={imageFile.name}
-                                                    description={`Size: ${imageFile.size}`}
+                                                    // title={imageFile.name}
+                                                // description={`Size: ${imageFile.size}`}
                                                 />
                                             </List.Item>
                                             <div className="text-right mt-3">

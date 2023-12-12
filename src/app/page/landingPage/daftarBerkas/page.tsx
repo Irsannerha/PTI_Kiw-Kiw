@@ -15,6 +15,7 @@ import { useAxiosAuth } from "@/app/hooks/useAxiosAuth";
 import { useLocalStorage } from "usehooks-ts";
 import { axiosInstance } from "@/app/utils/axios";
 import { useRouter } from "next/navigation";
+import useSWR from "swr";
 
 interface DataFetch {
   name: string;
@@ -61,9 +62,18 @@ export default function DaftarBerkas() {
   const [showInputDataPerlu, setshowInputDataPerlu] = useState(false);
 
   const router = useRouter();
-  const axiosAuth = useAxiosAuth();
-  const [accessToken, _] = useLocalStorage("accessToken", "");
   const [refreshToken, setrefreshToken] = useLocalStorage('refreshToken', '');
+  const axiosAuth = useAxiosAuth();
+  const [accessToken, setAccessToken] = useLocalStorage("accessToken", "");
+  const [idUser, _] = useLocalStorage("idUser", "");
+  const { data: dataUs, isLoading, error } = useSWR(`/api/applicant/oneUser/${idUser}`, async (url) => {
+    const res = await axiosAuth.get(url, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return res.data;
+  })
 
   const handleFormSubmit = async () => {
     setIsNameEmpty(false);
@@ -164,9 +174,6 @@ export default function DaftarBerkas() {
           setTimeout(() => {
             setshowAlertDaftarSukses(false);
           }, 5000);
-
-          // router.push('/page/landingPage/loginPegawai')
-          // if (response.status === 200) {
           console.log('Input Data:', {
             name,
             alamat,
@@ -177,7 +184,6 @@ export default function DaftarBerkas() {
             usia,
             url_berkas: downloadURL,
           });
-          // Reset form fields
           setName("");
           setAlamat("");
           setJenisKelamin("");
@@ -186,9 +192,6 @@ export default function DaftarBerkas() {
           setEmail("");
           setusia("");
           seturl_berkas("");
-          // } else {
-          //   // Handle other response statuses or errors
-          // }
         } else {
           alert('Use @gmail.com in email');
         }
@@ -299,13 +302,29 @@ export default function DaftarBerkas() {
           <div className="text-start justify-start items-start ml-5">
             <div className="mt-8 mb-2">
               <div className="flex p-3 gap-5">
+                <div className="flex items-center mb-4">
+                  <Link href={"/page/landingPage/dashboardRekrut"}>
+                    <button className="bg-[#F8A849] rounded-lg flex items-center hover:bg-[#FBD09C] text-gray-700 dark:text-white hover:text-gray-900 dark:hover:text-gray-200">
+                      <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15 23.75L6.25 15L15 6.25" stroke="#616161" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M23.75 15H6.25" stroke="#616161" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <rect x="0.5" y="0.5" width="29" height="29" stroke="#F8A849" stroke-opacity="0.2" />
+                      </svg>
+                      <span className="text-sm font-medium text-center mx-3">Kembali</span>
+                    </button>
+                  </Link>
+                </div>
                 <div className="w-[20%] flex justify-end items-end">
                   <Link href={"/page/landingPage/profil"}>
                     <SvgDashboardProfile />
                   </Link>
                 </div>
                 <div className="w-[70%] flex flex-col justify-start pl-2">
-                  Selamat Datang, User
+                  {isLoading && <p>Loading...</p>}
+                  {error && <p>Error: {error.message}</p>}
+                  {!isLoading && !error && (
+                    <p>Selamat Datang, {dataUs?.name || "User"}</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -397,7 +416,7 @@ export default function DaftarBerkas() {
                     type="file"
                     id="imageUpload"
                     name="imageFile"
-                    className="absolute opacity-0 cursor-pointer "
+                    className="lg:absolute opacity-0 cursor-pointer "
                     onChange={(files) => handleSelectedFile(files.target.files)}
                     placeholder="Select file to upload"
                     accept="image/png"
@@ -437,8 +456,8 @@ export default function DaftarBerkas() {
                       ]}
                     >
                       <List.Item.Meta
-                        title={imageFile.name}
-                        description={`Size: ${imageFile.size}`}
+                        // title={imageFile.name}
+                        // description={`Size: ${imageFile.size}`}
                       />
                     </List.Item>
                     <div className="text-right mt-3">

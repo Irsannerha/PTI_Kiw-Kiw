@@ -1,9 +1,26 @@
+'use client'
 import Image from "next/image"
 import Link from "next/link"
-
+// import { Tooltip } from 'flowbite-react';
+import { useState, useEffect } from "react";
+import useSWR from "swr";
+import { useAxiosAuth } from "@/app/hooks/useAxiosAuth";
+import { useLocalStorage } from "usehooks-ts";
 import SvgDashboardProfile from '@/app/components/SvgDashboardProfile';
 import Navbars from "@/app/components/Navbars";
+
 export default function DashboardRekrut() {
+  const axiosAuth = useAxiosAuth();
+  const [accessToken, setAccessToken] = useLocalStorage("accessToken", "");
+  const [idUser, _] = useLocalStorage("idUser", "");
+  const { data: dataUs, isLoading, error } = useSWR(`/api/applicant/oneUser/${idUser}`, async (url) => {
+    const res = await axiosAuth.get(url, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return res.data;
+  })
   return (
     <>
       <div className="nav">
@@ -16,10 +33,16 @@ export default function DashboardRekrut() {
               <Link href={"/page/landingPage/profil"}>
                 <div className="flex p-3 gap-5">
                   <div className="w-[20%] flex justify-end items-end">
-                    <SvgDashboardProfile />
+                    {/* <Tooltip content="Profile" style="dark" className='bg-black'> */}
+                      <SvgDashboardProfile />
+                    {/* </Tooltip> */}
                   </div>
                   <div className="w-[70%] flex flex-col justify-start pl-2">
-                    Selamat Datang, User
+                    {isLoading && <p>Loading...</p>}
+                    {error && <p>Error: {error.message}</p>}
+                    {!isLoading && !error && (
+                      <p>Selamat Datang, {dataUs?.name || "User"}</p>
+                    )}
                   </div>
                 </div>
               </Link>

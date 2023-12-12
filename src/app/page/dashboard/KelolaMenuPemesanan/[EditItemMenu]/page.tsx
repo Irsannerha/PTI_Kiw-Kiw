@@ -372,7 +372,7 @@ export default function EditItemMenu({ params }: { params: { EditItemMenu: strin
                                     </div>
                                 </div>
                             </div>
-                            <div className="mb-5 w-full text-[32px]">Ubah Pesanan</div>
+                            <div className="mb-5 w-full text-[32px]">Ubah Menu</div>
                             <div className="text-[24px]">Nama Item</div>
                             <Input
                                 onChange={(e) => { setnamaItem(e.target.value); }}
@@ -465,7 +465,7 @@ export default function EditItemMenu({ params }: { params: { EditItemMenu: strin
                                                     >
                                                         <List.Item.Meta
                                                             title={imageFile.name}
-                                                            description={`Size: ${imageFile.size}`}
+                                                            // description={`Size: ${imageFile.size}`}
                                                         />
                                                     </List.Item>
                                                     <div className="text-right mt-3">
@@ -488,7 +488,7 @@ export default function EditItemMenu({ params }: { params: { EditItemMenu: strin
                                                         alt={downloadURL}
                                                         style={{ width: 200, height: 200, objectFit: 'cover' }}
                                                     />
-                                                    <p>{downloadURL}</p>
+                                                    {/* <p>{downloadURL}</p> */}
                                                 </>
                                             )}
                                             <p></p>
@@ -502,7 +502,6 @@ export default function EditItemMenu({ params }: { params: { EditItemMenu: strin
                                 <AlertUbahData />
                             </div>
                         )}
-                        {/* <Link href="/page/dashboard"> */}
                         <div className="div">
                             <button
                                 type="button"
@@ -511,7 +510,6 @@ export default function EditItemMenu({ params }: { params: { EditItemMenu: strin
                             >
                                 Ubah
                             </button>
-                            {/* </Link> */}
                         </div >
                     </div>
                 )}

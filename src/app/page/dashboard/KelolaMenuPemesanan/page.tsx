@@ -1,10 +1,9 @@
 'use client';
 
-import { HiEye } from 'react-icons/hi';
-import { RiErrorWarningLine } from "react-icons/ri";
-import { Alert } from 'flowbite-react';
+import { Button, Modal } from 'flowbite-react';
 import DashboardSideBar from "@/app/components/DashboardSideBar"
 import { useState, useEffect } from 'react';
+import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
 import Image from "next/image";
 import SvgDashboardProfile from "@/app/components/SvgDashboardProfile"
@@ -19,8 +18,10 @@ import { useLocalStorage } from 'usehooks-ts';
 import useSWR, { mutate } from 'swr';
 import { RouteKind } from 'next/dist/server/future/route-kind';
 import { useRouter } from 'next/navigation';
+import { Tooltip } from 'flowbite-react';
 
 interface MenuItem {
+    img?: string;
     id: string;
     name?: string;
     price?: string;
@@ -49,27 +50,8 @@ export default function KelolaMenuPemesanan() {
     const [accessToken, _] = useLocalStorage("accessToken", "");
     const [loading, setLoading] = useState(false);
 
-    // const { data:menuMakanandumy,isLoading,error} = useSWR('/api/menu/allItemMakanan', async (url) => {
-    //     const res = await axiosAuth.get(url,{
-    //         headers: {
-    //             Authorization: `Bearer ${accessToken}`
-    //         }
-    //     })
-    //     const filterData = res.data.map((e: any) => {
-    //         return {
-    //             id: e?.id,
-    //             nama:e?.name,
-    //             harga:e?.price,
-    //             stok:e?.stock,
-    //             image:e?.gambar,
-    //         }
-    //     })
-    //     return filterData
-    // })
-
     useEffect(() => {
         setLoading(true)
-
         axiosAuth.get('/api/menu/allItemMakanan').then((res) => {
             setMenuMakanan(res.data)
             setLoading(false)
@@ -86,41 +68,11 @@ export default function KelolaMenuPemesanan() {
         })
     }, [])
 
-    // const menuMinumandumy = [
-    //     { id: 1, nama: "Es Teh", harga: "5000", stok: "10", image: '/images/esTeh.png' },
-    //     { id: 2, nama: "Es Jeruk", harga: "5000", stok: "100", image: '/images/esTeh.png' },
-    //     { id: 3, nama: "Kopi", harga: "5000", stok: "100", image: '/images/esTeh.png' },
-    //     { id: 4, nama: "Teh Anget", harga: "5000", stok: "100", image: '/images/esTeh.png' },
-    //     { id: 5, nama: "Jus Buah Naga", harga: "5000", stok: "100", image: '/images/esTeh.png' },
-    //     { id: 6, nama: "Jus Melon", harga: "5000", stok: "100", image: '/images/esTeh.png' },
-    //     { id: 7, nama: "Jus Mangga", harga: "5000", stok: "100", image: '/images/esTeh.png' },
-    //     { id: 8, nama: "Es Tawar", harga: "3000", stok: "100", image: '/images/esTeh.png' },
-    // ];
-
-    // const menuMakanandumy = [
-    //     { id: 1, nama: "Ayam Bakar", harga: "13000", stok: "100", image: '/images/menu/ayamBakar.jpeg' },
-    //     { id: 2, nama: "Ayam Geprek ", harga: "12000", stok: "100", image: '/images/menu/ayamGeprek2.jpeg' },
-    //     { id: 3, nama: "Kwetiaw", harga: "13000", stok: "100", image: '/images/menu/ayamBakar.jpeg' },
-    //     { id: 4, nama: "Nasi Kotak", harga: "12000", stok: "100", image: '/images/menu/nasiKotakPaketLengkap.jpeg' },
-    //     { id: 5, nama: "Nasi Urap", harga: "6000", stok: "100", image: '/images/menu/nasiUrapTelor.jpeg' },
-    //     { id: 6, nama: "Nasi Urap + Telor", harga: "10000", stok: "100", image: '/images/menu/nasiUrapTelor.jpeg' },
-    //     { id: 7, nama: "Ayam Geprek", harga: "10000", stok: "100", image: '/images/ayamGeprek.png' },
-    //     { id: 8, nama: "Seblak", harga: "10000", stok: "100", image: '/images/menu/seblak.jpeg' },
-    //     { id: 9, nama: "Nila Bakar", harga: "13000", stok: "100", image: '/images/ayamGeprek.png' },
-    //     { id: 10, nama: "Nila Goreng", harga: "13000", stok: "100", image: '/images/ayamGeprek.png' },
-    //     { id: 11, nama: "Rice Bowl Cumi", harga: "10000", stok: "100", image: '/images/ayamGeprek.png' },
-    //     { id: 12, nama: "Rice Ayam Mentega", harga: "10000", stok: "100", image: '/images/ayamGeprek.png' },
-    //     { id: 13, nama: "Rice Bowl Udang Saos", harga: "10000", stok: "100", image: '/images/ayamGeprek.png' },
-    //     { id: 14, nama: "Paket Bento Nasi Goreng", harga: "10000", stok: "100", image: '/images/menu/paketBentoNasgor.jpeg' },
-    //     { id: 15, nama: "Ayam Penyet Cabe Ijo", harga: "13000", stok: "100", image: '/images/menu/ayamPenyet.jpeg' },
-    // ];
-
     const [showAlertHapusData, setShowAlertHapusData] = useState(false);
-
     const router = useRouter();
 
-    const handleFromDelete = async (id:string) => {
-        // setShowAlertHapusData(true);
+    const handleFromDelete = async (id: string) => {
+        setShowAlertHapusData(true);
         try {
             await axiosAuth.put(`/api/menu/deleteItem/${id}`, {
                 headers: {
@@ -128,29 +80,16 @@ export default function KelolaMenuPemesanan() {
                 }
             })
             mutate('/api/menu/allItem');
+            setTimeout(() => {
+                setShowAlertHapusData(false);
+            }, 3000);
         } catch (e) {
             console.log(e);
         }
-        // setTimeout(() => {
-        //     setShowAlertHapusData(false);
-        // }, 3000);
     }
 
-    function ExampleAdditionalContent() {
-        const [isVisible, setIsVisible] = useState(true);
-
-        const handleClose = () => {
-            setIsVisible(false);
-        };
-        return (
-            <>
-                <div className="flex justify-center items-center m-auto w-full mt-2">
-                    <Link href='/page/dashboard' className="bg-[#F30101] hover:bg-[#950000] w-[20%] py-1 text-white rounded-lg mx-1 text-center"> Ya</Link>
-                    <button onClick={handleClose} className="bg-[#C79618] hover:bg-[#F8A849] w-[20%] py-1 text-white rounded-lg mx-1">Tidak</button>
-                </div>
-            </>
-        );
-    }
+    const [openModal, setOpenModal] = useState(false);
+    const [openModalMakanan, setOpenModalMakanan] = useState(false);
 
     return (
         <>
@@ -184,7 +123,6 @@ export default function KelolaMenuPemesanan() {
                             </div>
                         </div>
                     </div>
-
                     <div className="flex justify-end -mt-4 gap-4">
                         <div className="text-end justify-end items-end">
                             <div className="mt-4 mb-4 w-full bg-[#F8A849] shadow-lg rounded-lg hover:bg-[#C79618]">
@@ -209,43 +147,126 @@ export default function KelolaMenuPemesanan() {
                                     <div className="max-w-full rounded-lg">
                                         <div className="w-full max-w-sm rounded-lg shadow  bg-white">
                                             <div className="div">
-                                                <div className="flex flex-col items-center justify-center m-auto w-20 h-20 mt-2 mb-2 rounded-full shadow-lg">
-                                                    <Image src='/images/ayamGeprek.png' alt={`order-${item.id}`} width={120} height={120} className="m-0 mt-4 rounded-full" /></div>
+                                                <div className="flex flex-col items-center justify-center m-auto w-24 h-24 mt-2 mb-2 rounded-full shadow-lg">
+                                                    <Image
+                                                        src={`${item.gambar}`}
+                                                        alt={`order-${item.id}`}
+                                                        width={60}
+                                                        height={60}
+                                                        layout="fixed"
+                                                        className="mt-2 w-full h-full rounded-full p-3"
+                                                    />
+                                                </div>
                                                 <div className="text-[14px] ml-2  font-medium text-gray-900 dark:text-white">{item.name}</div>
                                                 <span className="text-[14px] ml-2 text-gray-500 dark:text-gray-400">Rp. {item.price}</span>
                                                 <div className="text-[10px] ml-2 text-gray-500 dark:text-gray-400">Stok : <span> {item.stock}</span></div>
-                                                <div className="flex mt-1 gap-0.5  w-full">
-                                                    <Link href="/[EditItemMenu]" as={`/page/dashboard/KelolaMenuPemesanan/${item.id}`} className=" px-1 py-1 text-sm font-medium text-center text-white rounded-bl-lg bg-[#C79618] hover:bg-[#F8A849]  w-[50%] flex justify-center items-center "><SvgEditKelolaPemesanan /></Link>
-                                                    <Link onClick={() => handleFromDelete(item.id)} href="#" className=" px-1 py-1 text-sm font-medium text-center text-gray-900 bg-[#F30101] hover:bg-[#950000] w-[50%] flex justify-center items-center rounded-br-lg"><SvgDeleteKelolaPemesanan /></Link>
+                                                <div className="flex mt-1 gap-0.5 w-full">
+                                                    <div className="w-[50%]">
+                                                        <Tooltip content="Edit Menu" style="dark" className='bg-black'>
+                                                            <Link href="/[EditItemMenu]" as={`/page/dashboard/KelolaMenuPemesanan/${item.id}`} className="px-1 py-1 text-sm font-medium text-center text-white rounded-bl-lg bg-[#C79618] hover:bg-[#F8A849] w-full flex justify-center items-center cursor-pointer">
+                                                                <SvgEditKelolaPemesanan />
+                                                            </Link>
+                                                        </Tooltip>
+                                                    </div>
+                                                    <div className="w-[50%]">
+                                                        <Tooltip content="Delete Menu" style="dark" className='bg-black'>
+                                                            <Link onClick={() => setOpenModalMakanan(true)} href="#" className=" px-1 py-1 text-sm font-medium text-center text-gray-900 bg-[#F30101] hover:bg-[#950000] w-full flex justify-center items-center rounded-br-lg">
+                                                                <SvgDeleteKelolaPemesanan />
+                                                            </Link>
+                                                        </Tooltip>
+                                                    </div>
+                                                    <Modal show={openModalMakanan} size="md" onClose={() => setOpenModalMakanan(false)} popup className='backdrop-blur-lg pt-[10%]'>
+                                                        <Modal.Header />
+                                                        <Modal.Body>
+                                                            <div className="text-center m-auto">
+                                                                <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                                                                <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                                                                    Yakin Ingin Menghapus Menu Makanan Ini ???
+                                                                    Anda Akan Kehilangan Semua Data Pada Menu Ini...
+                                                                </h3>
+                                                                <div className="flex justify-center gap-4">
+                                                                    <Button className='bg-[#C79618] hover:bg-[#F8A849] text-white' onClick={() => setOpenModalMakanan(false)}>
+                                                                        Tidak
+                                                                    </Button>
+                                                                    <Button className='bg-[#F30101] hover:bg-[#950000] text-white' color="white"
+                                                                        // onClick={() => handleFromDelete(order.id)}
+                                                                        onClick={() => {
+                                                                            handleFromDelete(item.id);
+                                                                            setOpenModalMakanan(false);
+                                                                            window.location.reload();
+                                                                        }}>
+                                                                        Ya Hapus
+                                                                    </Button>
+                                                                </div>
+                                                            </div>
+                                                        </Modal.Body>
+                                                    </Modal>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 ))}
                             </div>
-                            {/* {showAlertHapusData && (
-                                    <div className="absolute mt-[30%] ml-[70%] bg-white">
-                                        <Alert additionalContent={<ExampleAdditionalContent />} color="warning" icon={RiErrorWarningLine} className='text-[#F8A849]'>
-                                            <span className="font-medium">Apakah anda yakin untuk menghapus data ini?</span>
-                                        </Alert>
-                                    </div>
-                                )} */}
                             <div className="ml-[52%] m-2 text-[24px] absolute">Minuman</div>
                             <div className="pt-12 grid grid-cols-2 md:grid-cols-3 gap-4 bg-[#EFEFFF] w-[49%] p-2 rounded-lg shadow-xl h-full">
                                 {menuMinuman.map((order) => (
                                     <div className="max-w-full rounded-lg">
                                         <div className="w-full max-w-sm rounded-lg shadow  bg-white">
                                             <div className="div">
-                                                <div className=" w-20 h-20 mt-2 mb-2 rounded-full shadow-lg flex flex-col items-center m-auto">
-                                                    <Image src='/images/esTeh.png' alt={`order-${order.id}`} width={40} height={40} className="" /></div>
+                                                <div className="flex flex-col items-center justify-center m-auto w-24 h-24 mt-2 mb-2 rounded-full shadow-lg">
+                                                    <Image
+                                                        src={`${order.gambar}`}
+                                                        alt={`order-${order.id}`}
+                                                        width={60}
+                                                        height={60}
+                                                        layout="fixed"
+                                                        className="mt-2 w-full h-full rounded-full p-3"
+                                                    />
+                                                </div>
                                                 <div className="text-[14px] ml-2 font-medium text-gray-900 dark:text-white">{order.name}</div>
                                                 <span className="text-[14px] ml-2 text-gray-500 dark:text-gray-400">Rp. {order.price}</span>
                                                 <div className="text-[10px] ml-2 text-gray-500 dark:text-gray-400">Stok : <span> {order.stock}</span></div>
                                                 <div className="flex mt-1 gap-0.5 w-full">
-                                                    {/* <a href="/page/dashboard/EditItemMenu" className=" px-1 py-1 text-sm font-medium text-center text-white rounded-bl-lg bg-[#C79618] hover:bg-[#F8A849]  w-[50%] flex justify-center items-center "><SvgEditKelolaPemesanan /></a> */}
-                                                    <Link href="/[EditItemMenu]" as={`/page/dashboard/KelolaMenuPemesanan/${order.id}`} className=" px-1 py-1 text-sm font-medium text-center text-white rounded-bl-lg bg-[#C79618] hover:bg-[#F8A849]  w-[50%] flex justify-center items-center "><SvgEditKelolaPemesanan /></Link>
-                                                    {/* <a onClick={handleFromDelete} href="#" className=" px-1 py-1 text-sm font-medium text-center text-gray-900 bg-[#F30101] hover:bg-[#950000] w-[50%] flex justify-center items-center rounded-br-lg"><SvgDeleteKelolaPemesanan /></a> */}
-                                                    <Link onClick={() => handleFromDelete(order.id)} href="#" className=" px-1 py-1 text-sm font-medium text-center text-gray-900 bg-[#F30101] hover:bg-[#950000] w-[50%] flex justify-center items-center rounded-br-lg"><SvgDeleteKelolaPemesanan /></Link>
+                                                    <div className="w-[50%]">
+                                                        <Tooltip content="Edit Menu" style="dark" className='bg-black'>
+                                                            <Link href="/[EditItemMenu]" as={`/page/dashboard/KelolaMenuPemesanan/${order.id}`} className=" px-1 py-1 text-sm font-medium text-center text-white rounded-bl-lg bg-[#C79618] hover:bg-[#F8A849] w-full flex justify-center items-center ">
+                                                                <SvgEditKelolaPemesanan />
+                                                            </Link>
+                                                        </Tooltip>
+                                                    </div>
+                                                    <div className="w-[50%]">
+                                                        <Tooltip content="Edit Menu" style="dark" className='bg-black'>
+                                                            <Link onClick={() => setOpenModal(true)} href="#" className=" px-1 py-1 text-sm font-medium text-center text-gray-900 bg-[#F30101] hover:bg-[#950000] w-full flex justify-center items-center rounded-br-lg">
+                                                                <SvgDeleteKelolaPemesanan />
+                                                            </Link>
+                                                        </Tooltip>
+                                                    </div>
+                                                    <Modal show={openModal} size="md" onClose={() => setOpenModal(false)} popup className='backdrop-blur-lg pt-[10%]'>
+                                                        <Modal.Header />
+                                                        <Modal.Body>
+                                                            <div className="text-center m-auto">
+                                                                <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                                                                <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                                                                    Yakin Ingin Menghapus Menu Minuman ???
+                                                                    Anda Akan Kehilangan Semua Data Pada Menu Ini..."
+                                                                </h3>
+                                                                <div className="flex justify-center gap-4">
+                                                                    <Button className='bg-[#C79618] hover:bg-[#F8A849] text-white' onClick={() => setOpenModal(false)}>
+                                                                        Tidak
+                                                                    </Button>
+                                                                    <Button className='bg-[#F30101] hover:bg-[#950000] text-white' color="white"
+                                                                        // onClick={() => handleFromDelete(order.id)}
+                                                                        onClick={() => {
+                                                                            handleFromDelete(order.id);
+                                                                            setOpenModal(false);
+                                                                            window.location.reload();
+                                                                        }}>
+                                                                        Ya Hapus
+                                                                    </Button>
+                                                                </div>
+                                                            </div>
+                                                        </Modal.Body>
+                                                    </Modal>
                                                 </div>
                                             </div>
                                         </div>
