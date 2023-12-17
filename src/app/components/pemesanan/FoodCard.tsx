@@ -1,18 +1,18 @@
 import React from "react";
 export interface ProductCardComponentProps {
-    id?: number;
+    itemId?: string;
     name?: string;
     price?: number;
     img?: string;
     category?: string;
     desc?: string;
-    onAddToCart: (itemData: { id: number; name: string; price: number; img: string }) => void;
+    onAddToCart: (itemData: { itemId: string; name: string; price: number; img: string }) => void;
 }
 
-const FoodCard = ({ id = 1, name = "Makanan", price = 10000, desc = "ini makanan", img = "", category = "", onAddToCart }: ProductCardComponentProps) => {
+const FoodCard = ({ itemId = "2", name = "Makanan", price = 10000, desc = "ini makanan", img = "", category = "", onAddToCart }: ProductCardComponentProps) => {
 
     const handleAddToCart = () => {
-        const itemData = { id, name, price, img };
+        const itemData = { itemId, name, price, img };
         onAddToCart(itemData);
     };
 
