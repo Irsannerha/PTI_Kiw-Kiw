@@ -71,6 +71,9 @@ export default function LandingPage() {
             console.log('Register Success', data);
             console.log('====================================');
             setShowSuccesRegistrasiAlert(true);
+            setTimeout(() => {
+              setShowSuccesRegistrasiAlert(false);
+            }, 3000);
             router.push('/page/landingPage/loginPegawai')
           } catch (error) {
             if (error instanceof AxiosError) {

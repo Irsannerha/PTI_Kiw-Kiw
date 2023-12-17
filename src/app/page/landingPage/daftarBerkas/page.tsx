@@ -124,7 +124,7 @@ export default function DaftarBerkas() {
     } else {
       setIsurl_berkasEmpty(false);
     }
-    if (isNameEmpty && isAlamatEmpty && isJenisKelaminEmpty && isNikEmpty && isNoHpEmpty && isEmailEmpty && isusiaEmpty) {
+    if (isNameEmpty || isAlamatEmpty || isJenisKelaminEmpty || isNikEmpty || isNoHpEmpty || isEmailEmpty || isusiaEmpty) {
       setshowInputDataPerlu(true);
       setTimeout(() => {
         setshowInputDataPerlu(false);
@@ -165,15 +165,15 @@ export default function DaftarBerkas() {
             url_berkas: downloadURL,
           });
           const data = response.data;
+          setshowAlertDaftarSukses(true);
+          setTimeout(() => {
+            setshowAlertDaftarSukses(false);
+          }, 5000);
           console.log(response)
           router.push('/page/landingPage/dashboardRekrut');
           console.log('====================================');
           console.log('Register Success', data);
           console.log('====================================');
-          setshowAlertDaftarSukses(true);
-          setTimeout(() => {
-            setshowAlertDaftarSukses(false);
-          }, 5000);
           console.log('Input Data:', {
             name,
             alamat,
@@ -207,7 +207,6 @@ export default function DaftarBerkas() {
   };
 
   const handleReset = () => {
-    // Mereset semua input dan status kosong
     setName("");
     setAlamat("");
     setJenisKelamin("");
@@ -268,7 +267,7 @@ export default function DaftarBerkas() {
           }
         },
         (error) => {
-          setIsUploading(false); // Set status upload menjadi false saat terjadi error
+          setIsUploading(false);
           message.error(error.message);
         },
         async () => {
@@ -276,10 +275,10 @@ export default function DaftarBerkas() {
             const url = await getDownloadURL(uploadTask.snapshot.ref);
             setDownloadURL(url);
             setFileStatus(imageFile.name);
-            setIsUploading(false); // Set status upload menjadi false setelah selesai
+            setIsUploading(false);
           } catch (error) {
             console.error('Error getting download URL:', error);
-            setIsUploading(false); // Set status upload menjadi false saat terjadi error
+            setIsUploading(false);
           }
         },
       );
@@ -321,7 +320,7 @@ export default function DaftarBerkas() {
                 </div>
                 <div className="w-[70%] flex flex-col justify-start pl-2">
                   {isLoading && <p>Loading...</p>}
-                  {error && <p>Error: {error.message}</p>}
+                  {error && <p>Selamat Datang, User</p>}
                   {!isLoading && !error && (
                     <p>Selamat Datang, {dataUs?.name || "User"}</p>
                   )}
@@ -362,7 +361,13 @@ export default function DaftarBerkas() {
                     NIK
                   </label>
                   <Input
-                    onChange={(e) => { setNik(e.target.value); }}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      // Validasi hanya angka
+                      if (!isNaN(Number(value))) {
+                        setNik(value);
+                      }
+                    }}
                     placeholder="Masukkan NIK"
                     required
                     type="text"
@@ -383,7 +388,13 @@ export default function DaftarBerkas() {
                     No. HP
                   </label>
                   <Input
-                    onChange={(e) => { setNoHp(e.target.value); }}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      // Validasi hanya angka
+                      if (!isNaN(Number(value))) {
+                        setNoHp(value);
+                      }
+                    }}
                     placeholder="Masukkan No. HP"
                     required
                     type="text"
@@ -394,8 +405,14 @@ export default function DaftarBerkas() {
                     usia
                   </label>
                   <Input
-                    onChange={(e) => { setusia(e.target.value); }}
-                    placeholder="Masukkan usia"
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      // Validasi hanya angka
+                      if (!isNaN(Number(value))) {
+                        setusia(value);
+                      }
+                    }}
+                    placeholder="Masukkan Usia"
                     required
                     type="text"
                   />
@@ -456,8 +473,8 @@ export default function DaftarBerkas() {
                       ]}
                     >
                       <List.Item.Meta
-                        // title={imageFile.name}
-                        // description={`Size: ${imageFile.size}`}
+                      // title={imageFile.name}
+                      // description={`Size: ${imageFile.size}`}
                       />
                     </List.Item>
                     <div className="text-right mt-3">

@@ -23,7 +23,7 @@ export default function LandingPage() {
             <div className="w-[50%] text-right ">
               <div className="font-bold text-black text-[40px]">KEDAI</div>
               <div className="font-bold text-black text-[35px]">Bu Titin</div>
-              <div className="font-normal text-black text-[10px]">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's</div>
+              <div className="font-normal text-black text-[10px]">Kedai Bu Titin, berlokasi di Jati Agung, Lampung Selatan, merupakan usaha makanan dan minuman dengan fokus pada pelayanan kepada masyarakat setempat. Kedai ini memperkenalkan sistem pemesanan dan perekrutan pegawai sebagai inovasi layanan.</div>
               <div className="mt-2 flex justify-end items-end">
                 <div className=" w-[80%] bg-[#D2691E] shadow-lg rounded-lg hover:bg-[#C79618]">
                   <Link href="#menu">
@@ -50,7 +50,7 @@ export default function LandingPage() {
             <div className="w-[50%] text-right ">
               <div className="font-bold text-black text-[80px]">KEDAI</div>
               <div className="font-bold text-black text-[60px]">Bu Titin</div>
-              <div className="font-normal text-black text-[20px]">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's</div>
+              <div className="font-normal text-black text-[20px]">Kedai Bu Titin, berlokasi di Jati Agung, Lampung Selatan, merupakan usaha makanan dan minuman dengan fokus pada pelayanan kepada masyarakat setempat. Kedai ini memperkenalkan sistem pemesanan dan perekrutan pegawai sebagai inovasi layanan.</div>
               <div className="mt-2 flex justify-end items-end">
                 <div className=" w-[80%] bg-[#D2691E] shadow-lg rounded-lg hover:bg-[#C79618]">
                   <Link href="#menu">
@@ -77,7 +77,7 @@ export default function LandingPage() {
             <div className="w-[60%] text-right ">
               <div className="font-bold text-black text-[120px]">KEDAI</div>
               <div className="font-bold text-black text-[70px] -mt-10">Bu Titin</div>
-              <div className="font-normal text-black text-[24px] pl-24">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</div>
+              <div className="font-normal text-black text-[24px] pl-24">Kedai Bu Titin, berlokasi di Jati Agung, Lampung Selatan, merupakan usaha makanan dan minuman dengan fokus pada pelayanan kepada masyarakat setempat. Kedai ini memperkenalkan sistem pemesanan dan perekrutan pegawai sebagai inovasi layanan.</div>
               <div className="mt-5 flex justify-end items-end">
                 <div className=" w-[30%] bg-[#D2691E] shadow-lg rounded-lg hover:bg-[#C79618]">
                   <Link href="#menu">
@@ -113,15 +113,7 @@ export default function LandingPage() {
                 Tentang Kedai Bu Titin
               </h1>
               <p className="pl-5 pr-5 text-black mt-2 max-w-3xl space-y-60 flex justify-center items-center text-[12px] text-justify">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy text
-                ever since the 1500s, when an unknown printer took a galley of type
-                and scrambled it to make a type specimen book. It has survived not
-                only five centuries, but also the leap into electronic typesetting,
-                remaining essentially unchanged. It was popularized in the 1960s with
-                the release of Letraset sheets containing Lorem Ipsum passages, and
-                more recently with desktop publishing software like Aldus PageMaker
-                including versions of Lorem Ipsum.
+                Kedai Bu Titin, berlokasi di Jati Agung, Lampung Selatan, merupakan usaha makanan dan minuman dengan fokus pada pelayanan kepada masyarakat setempat. Kedai ini memperkenalkan sistem pemesanan dan perekrutan pegawai sebagai inovasi layanan. Kedai ini berfokus pada penjualan makanan dan minuman untuk masyarakat sekitar didaerah tersebut. Makanan yang disajikan berupa makanan pokok yang dapat dinikmati oleh masyarakat sekitar dan minuman yang diberikan berbagai rasa seperti jus, jeruk, es teh dan lain-lainnya.
               </p>
             </div>
           </div>
@@ -138,15 +130,7 @@ export default function LandingPage() {
                 Tentang Kedai Bu Titin
               </div>
               <p className="pl-5 pr-5 text-black mt-6 max-w-3xl space-y-60 flex justify-center items-center text-[24px] text-justify">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy text
-                ever since the 1500s, when an unknown printer took a galley of type
-                and scrambled it to make a type specimen book. It has survived not
-                only five centuries, but also the leap into electronic typesetting,
-                remaining essentially unchanged. It was popularized in the 1960s with
-                the release of Letraset sheets containing Lorem Ipsum passages, and
-                more recently with desktop publishing software like Aldus PageMaker
-                including versions of Lorem Ipsum.
+                Kedai Bu Titin, berlokasi di Jati Agung, Lampung Selatan, merupakan usaha makanan dan minuman dengan fokus pada pelayanan kepada masyarakat setempat. Kedai ini memperkenalkan sistem pemesanan dan perekrutan pegawai sebagai inovasi layanan. Kedai ini berfokus pada penjualan makanan dan minuman untuk masyarakat sekitar didaerah tersebut. Makanan yang disajikan berupa makanan pokok yang dapat dinikmati oleh masyarakat sekitar dan minuman yang diberikan berbagai rasa seperti jus, jeruk, es teh dan lain-lainnya.
               </p>
             </div>
           </div>
@@ -163,15 +147,7 @@ export default function LandingPage() {
                 Tentang Kedai Bu Titin
               </h1>
               <p className="text-black mt-4 max-w-3xl space-y-60 py-5 mr-5">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy text
-                ever since the 1500s, when an unknown printer took a galley of type
-                and scrambled it to make a type specimen book. It has survived not
-                only five centuries, but also the leap into electronic typesetting,
-                remaining essentially unchanged. It was popularized in the 1960s with
-                the release of Letraset sheets containing Lorem Ipsum passages, and
-                more recently with desktop publishing software like Aldus PageMaker
-                including versions of Lorem Ipsum.
+                Kedai Bu Titin, berlokasi di Jati Agung, Lampung Selatan, merupakan usaha makanan dan minuman dengan fokus pada pelayanan kepada masyarakat setempat. Kedai ini memperkenalkan sistem pemesanan dan perekrutan pegawai sebagai inovasi layanan. Kedai ini berfokus pada penjualan makanan dan minuman untuk masyarakat sekitar didaerah tersebut. Makanan yang disajikan berupa makanan pokok yang dapat dinikmati oleh masyarakat sekitar dan minuman yang diberikan berbagai rasa seperti jus, jeruk, es teh dan lain-lainnya.
               </p>
             </div>
           </div>
@@ -204,7 +180,7 @@ export default function LandingPage() {
               </div>
               <div className="w-full">
                 <p className="text-sm mt-3 text-slate-800 text-justify pl-5 pr-5  mb-5">
-                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                  Jika anda ingin menghubungi kedai kami lebih lanjut, maka hubungi nomor telefon di bawah ini..
                 </p>
                 <ul className="space-y-8">
                   <li className="flex items-start justify-start m-auto pl-5">
@@ -213,7 +189,7 @@ export default function LandingPage() {
                         <path d="M45.833 35.25V41.5C45.8353 42.0802 45.7165 42.6546 45.4841 43.1862C45.2516 43.7178 44.9107 44.195 44.4832 44.5873C44.0556 44.9795 43.5509 45.2781 43.0012 45.464C42.4516 45.6499 41.8692 45.7189 41.2913 45.6667C34.8806 44.9701 28.7226 42.7795 23.3122 39.2709C18.2785 36.0723 14.0108 31.8046 10.8122 26.7709C7.29128 21.3359 5.10016 15.1479 4.41632 8.70837C4.36426 8.13226 4.43273 7.55162 4.61737 7.00342C4.802 6.45522 5.09876 5.95148 5.48875 5.52425C5.87874 5.09702 6.35342 4.75568 6.88255 4.52196C7.41169 4.28824 7.9837 4.16725 8.56216 4.16671H14.8122C15.8232 4.15675 16.8034 4.51479 17.57 5.17407C18.3366 5.83334 18.8373 6.74889 18.9788 7.75004C19.2426 9.75018 19.7318 11.7141 20.4372 13.6042C20.7175 14.3499 20.7781 15.1603 20.612 15.9394C20.4458 16.7185 20.0598 17.4336 19.4997 18L16.8538 20.6459C19.8196 25.8616 24.1381 30.1801 29.3538 33.1459L31.9997 30.5C32.5661 29.9399 33.2812 29.5539 34.0603 29.3877C34.8394 29.2216 35.6498 29.2822 36.3955 29.5625C38.2856 30.2679 40.2495 30.7571 42.2497 31.0209C43.2617 31.1636 44.1859 31.6734 44.8466 32.4532C45.5073 33.2329 45.8583 34.2283 45.833 35.25Z" stroke="#646464" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
                       </svg>
 
-                      <strong className="flex items-center text-center text-[24px]">+62 812 3456 7891</strong>
+                      <strong className="flex items-center text-center text-[24px]">+62 853-6661-5817</strong>
                     </a>
                   </li>
                 </ul>
@@ -237,7 +213,7 @@ export default function LandingPage() {
               </div>
               <div className="w-full">
                 <p className="text-sm mt-3 text-slate-800 text-justify pl-10 pr-10 mb-10">
-                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                  Jika anda ingin menghubungi kedai kami lebih lanjut, maka hubungi nomor telefon di bawah ini..
                 </p>
                 <ul className="space-y-8">
                   <li className="flex items-start justify-start m-auto pl-10">
@@ -246,7 +222,7 @@ export default function LandingPage() {
                         <path d="M45.833 35.25V41.5C45.8353 42.0802 45.7165 42.6546 45.4841 43.1862C45.2516 43.7178 44.9107 44.195 44.4832 44.5873C44.0556 44.9795 43.5509 45.2781 43.0012 45.464C42.4516 45.6499 41.8692 45.7189 41.2913 45.6667C34.8806 44.9701 28.7226 42.7795 23.3122 39.2709C18.2785 36.0723 14.0108 31.8046 10.8122 26.7709C7.29128 21.3359 5.10016 15.1479 4.41632 8.70837C4.36426 8.13226 4.43273 7.55162 4.61737 7.00342C4.802 6.45522 5.09876 5.95148 5.48875 5.52425C5.87874 5.09702 6.35342 4.75568 6.88255 4.52196C7.41169 4.28824 7.9837 4.16725 8.56216 4.16671H14.8122C15.8232 4.15675 16.8034 4.51479 17.57 5.17407C18.3366 5.83334 18.8373 6.74889 18.9788 7.75004C19.2426 9.75018 19.7318 11.7141 20.4372 13.6042C20.7175 14.3499 20.7781 15.1603 20.612 15.9394C20.4458 16.7185 20.0598 17.4336 19.4997 18L16.8538 20.6459C19.8196 25.8616 24.1381 30.1801 29.3538 33.1459L31.9997 30.5C32.5661 29.9399 33.2812 29.5539 34.0603 29.3877C34.8394 29.2216 35.6498 29.2822 36.3955 29.5625C38.2856 30.2679 40.2495 30.7571 42.2497 31.0209C43.2617 31.1636 44.1859 31.6734 44.8466 32.4532C45.5073 33.2329 45.8583 34.2283 45.833 35.25Z" stroke="#646464" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
                       </svg>
 
-                      <strong className="flex items-center text-center text-[24px]">+62 812 3456 7891</strong>
+                      <strong className="flex items-center text-center text-[24px]">+62 853-6661-5817</strong>
                     </a>
                   </li>
                 </ul>
@@ -262,7 +238,7 @@ export default function LandingPage() {
               <div className="w-[45%]">
                 <h1 className="text-4xl font-extrabold text-slate-800">Hubungi Kami</h1>
                 <p className="w-[90%] text-sm mt-3 text-slate-800 ">
-                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                  Jika anda ingin menghubungi kedai kami lebih lanjut, maka hubungi nomor telefon di bawah ini..
                 </p>
                 <ul className="mt-12 space-y-8">
                   <li className="flex items-center">
@@ -271,7 +247,7 @@ export default function LandingPage() {
                         <path d="M45.833 35.25V41.5C45.8353 42.0802 45.7165 42.6546 45.4841 43.1862C45.2516 43.7178 44.9107 44.195 44.4832 44.5873C44.0556 44.9795 43.5509 45.2781 43.0012 45.464C42.4516 45.6499 41.8692 45.7189 41.2913 45.6667C34.8806 44.9701 28.7226 42.7795 23.3122 39.2709C18.2785 36.0723 14.0108 31.8046 10.8122 26.7709C7.29128 21.3359 5.10016 15.1479 4.41632 8.70837C4.36426 8.13226 4.43273 7.55162 4.61737 7.00342C4.802 6.45522 5.09876 5.95148 5.48875 5.52425C5.87874 5.09702 6.35342 4.75568 6.88255 4.52196C7.41169 4.28824 7.9837 4.16725 8.56216 4.16671H14.8122C15.8232 4.15675 16.8034 4.51479 17.57 5.17407C18.3366 5.83334 18.8373 6.74889 18.9788 7.75004C19.2426 9.75018 19.7318 11.7141 20.4372 13.6042C20.7175 14.3499 20.7781 15.1603 20.612 15.9394C20.4458 16.7185 20.0598 17.4336 19.4997 18L16.8538 20.6459C19.8196 25.8616 24.1381 30.1801 29.3538 33.1459L31.9997 30.5C32.5661 29.9399 33.2812 29.5539 34.0603 29.3877C34.8394 29.2216 35.6498 29.2822 36.3955 29.5625C38.2856 30.2679 40.2495 30.7571 42.2497 31.0209C43.2617 31.1636 44.1859 31.6734 44.8466 32.4532C45.5073 33.2329 45.8583 34.2283 45.833 35.25Z" stroke="#646464" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
                       </svg>
 
-                      <strong className="flex items-center text-center text-[24px]">+62 812 3456 7891</strong>
+                      <strong className="flex items-center text-center text-[24px]">+62 853-6661-5817</strong>
                     </a>
                   </li>
                 </ul>

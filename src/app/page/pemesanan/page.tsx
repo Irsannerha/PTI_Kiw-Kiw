@@ -102,7 +102,7 @@ export default function Pemesanan() {
     useEffect(() => {
         setTimeout(() => {
             setLoading(false);
-        }, 1000);
+        }, 3000);
     }, []);
 
     return (
@@ -232,12 +232,14 @@ export default function Pemesanan() {
                                     Total Harga : Rp. {data.reduce((total, item) => total + (item.price * (item.qty || 1)), 0)}
                                 </h3>
                                 <hr className="w-[90vw] lg:w-[18vw] my-2" />
-                                <button
-                                    onClick={handleCheckout}
-                                    className="bg-[#D2691E] hover:bg-[#F8A849] font-bold px-3 text-white py-2 rounded-lg w-[90vw] lg:w-[18vw] mb-5"
-                                >
-                                    Pesan Sekarang
-                                </button>
+                                <Link href={'/page/pemesanan/detaiPemesanan'}>
+                                    <button
+                                        onClick={handleCheckout}
+                                        className="bg-[#D2691E] hover:bg-[#F8A849] font-bold px-3 text-white py-2 rounded-lg w-[90vw] lg:w-[18vw] mb-5"
+                                    >
+                                        Pesan Sekarang
+                                    </button>
+                                </Link>
                             </div>
                         </div>
                         <MdShoppingCart

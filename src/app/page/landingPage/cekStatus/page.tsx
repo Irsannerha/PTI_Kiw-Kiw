@@ -97,7 +97,11 @@ export default function CekStatus() {
                     </Link>
                   </div>
                   <div className="w-[70%] flex flex-col justify-start pl-2">
-                    Selamat Datang, {dataUs.name ? dataUs.name : "User"}
+                    {isLoading && <p>Loading...</p>}
+                    {error && <p>Selamat Datang, User</p>}
+                    {!isLoading && !error && (
+                      <p>Selamat Datang, {dataUs?.name || "User"}</p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -159,7 +163,7 @@ export default function CekStatus() {
                 <h2 className="text-base font-bold leading-7 text-gray-900">Detail Data Pegawai</h2>
               </div>
               <div className="flex justify-center items-center mb-4">
-                <div className="bg-[#FFD8A9] shadow-md rounded-xl drop-shadow-2xl p-5">
+                <div className="bg-[#FFD8A9] shadow-md rounded-xl drop-shadow-2xl p-5 w-[40%]">
                   <div className="flex p-1">
                     <div className="flex justify-end items-end">
                     </div>
@@ -170,6 +174,13 @@ export default function CekStatus() {
                       <span className="text-base font-medium leading-7 text-gray-900">: {dataUs.nik || 'Loading...'}</span>
                       <span className="text-base font-semibold leading-7 text-gray-900">Status</span>
                       <span className="text-base font-medium leading-7 text-gray-900">: {dataUs.status || 'Loading...'}</span>
+                      <span className="text-base font-semibold leading-7 text-gray-900">Keterangan</span>
+                      <span className="text-base font-medium leading-7 text-gray-900">: {dataUs.status === 'accepted' ? 'Status anda diterima, silahkan untuk menghubungi +62 853-6661-5817 untuk informasi lebih lanjut' : dataUs.keterangan
+                        || dataUs.status === 'pending' ? 'Status anda pending, silahkan untuk Menunggu Proses paling lama 2 hari..' : dataUs.keterangan
+                          || dataUs.status === 'rejected' ? 'Status anda Ditolak, silahkan untuk coba lagi..' : dataUs.keterangan
+                            || dataUs.status === 'interview' ? 'Status anda intervew, anda berhasil melalui tahap 1 (seleksi) berkas. Silahkan untuk datang langsung ke Kedai atau hubungi +62 853-6661-5817 untuk seleksi wawancara.' : dataUs.keterangan
+                      || 'Loading...'}
+                      </span>
                     </div>
                   </div>
                 </div>

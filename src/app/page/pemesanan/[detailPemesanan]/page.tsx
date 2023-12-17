@@ -1,4 +1,3 @@
-// Import yang diperlukan
 'use client'
 import React, { useEffect, useState } from "react";
 import { PacmanLoader } from "react-spinners";
@@ -24,7 +23,7 @@ interface TableProps {
     itemsPerPage?: number;
 }
 
-const detailPemesanan = () => {
+export default function DetailPemesanan({ params }: { params: { itemId: string } }) {
     const [loading, setLoading] = useState(true);
     const [order, setOrder] = useState<Order | null>(null);
 
@@ -32,10 +31,9 @@ const detailPemesanan = () => {
         setTimeout(() => {
             setLoading(false);
         }, 5000);
-
-        axios.get('YOUR_BACKEND_API_ENDPOINT')
+        const itemId = params.itemId;
+        axios.get(`YOUR_BACKEND_API_ENDPOINT/${itemId}`)
             .then(response => {
-                // Assuming your backend returns an order object
                 setOrder(response.data);
                 setLoading(false);
             })
@@ -58,6 +56,24 @@ const detailPemesanan = () => {
         { produk: 'Es Teh Manis', jumlah: "1", harga: "20000" },
     ];
 
+    const [currentTime, setCurrentTime] = useState(new Date());
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentTime(new Date());
+        }, 1000); // Update every second
+
+        return () => clearInterval(interval);
+    }, []);
+
+    const formattedTime = currentTime.toLocaleString('id-ID', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'short',
+        hour: 'numeric',
+        minute: 'numeric',
+    });
+
     return (
         <div className="relative bg-[#E2E2E2] h-screen flex items-center justify-center w-full">
             {loading ? (
@@ -72,7 +88,7 @@ const detailPemesanan = () => {
                                 <Image src="/images/logoNavbar.png" width={80} height={80} className="justify-start" alt="Logo Kedai Bu Titin" />
                                 <div className="text-[18px] font-bold">Kedai Bu Titin</div>
                             </div>
-                            <div className="flex justify-end text-right text-[10px] text-[#646464] -mt-2">Sabtu, 20 Okt, 15:00</div>
+                            <div className="flex justify-end text-right text-[10px] text-[#646464] -mt-2">{formattedTime}</div>
                             <div className="border-t-2 border-[#C79618]"></div>
                             <div className="text-center text-[14px]">Nama: {order?.customerName}</div>
                             <div className="text-center text-[#646464] text-[14px]">Id Pemesanan : </div>
@@ -93,5 +109,3 @@ const detailPemesanan = () => {
         </div>
     );
 };
-
-export default detailPemesanan;
