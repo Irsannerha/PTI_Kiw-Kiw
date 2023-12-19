@@ -56,6 +56,7 @@ export default function Pemesanan() {
         return filterData
     })
 
+    // console.log(dataItem);
 
     const handleAddToCart = (itemData: Product) => {
         const existingItem = data.find((item) => item.itemId === itemData.itemId);
@@ -120,8 +121,9 @@ export default function Pemesanan() {
             const response = await axios.post('/api/order/createOrder', userData);
             console.log('Backend response:', response.data);
             route.detailPemesanan = response.data.id
+            const id=response.data.id
             console.log(route.detailPemesanan);
-            routess.push(`/page/pemesanan/${response.data.id}`);
+            routess.push(`/page/pemesanan/${id}`);
             // router.push({
             //     pathname: '/page/pemesanan/detailPemesanan/[data]',
             //     query: { data: response.data.id },
@@ -199,7 +201,7 @@ export default function Pemesanan() {
                                     name={dataItem.name}
                                     price={dataItem.price}
                                     desc={dataItem.deskripsi}
-                                    img={dataItem.gambar}
+                                    img={dataItem.img}
                                     onAddToCart={handleAddToCart}
                                 />
                             ))}

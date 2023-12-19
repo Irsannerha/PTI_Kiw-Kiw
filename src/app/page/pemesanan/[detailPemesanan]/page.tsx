@@ -5,8 +5,10 @@ import Image from "next/image";
 import TableLihatPemesanan from "@/app/components/pemesanan/TableLihatPemesanan"
 import axios from "axios";
 import Link from "next/link";
-import { log } from "console";
+import { error, log } from "console";
 import { usePathname } from "next/navigation";
+import useSWR from "swr";
+import { useAxiosAuth } from "@/app/hooks/useAxiosAuth";
 
 interface TableRow {
     produk: string;
@@ -20,32 +22,50 @@ interface Order {
     items: TableRow[];
 }
 
+interface dataOrder {
+    name:string;
+    noInvoice:string;
+}
+
 interface TableProps {
     data: TableRow[];
     itemsPerPage?: number;
 }
 
-export default function DetailPemesanan({ params }: { params: { itemId: string } }) {
+export default function DetailPemesanan({ params }: { params: { detailPemesanan: string } }) {
     const [loading, setLoading] = useState(true);
     const [order, setOrder] = useState<Order | null>(null);
+    const [data,setData] = useState<dataOrder>()
     const pathname = usePathname()
 
     useEffect(() => {
         setTimeout(() => {
             setLoading(false);
         }, 5000);
-        const itemId = params.itemId;
-        axios.get(`YOUR_BACKEND_API_ENDPOINT/${itemId}`)
-            .then(response => {
-                setOrder(response.data);
-                setLoading(false);
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-                setLoading(false);
-            });
-            console.log(pathname);
+        const itemId = params.detailPemesanan;
+        const data = axios.get(`/api/order/oneOrder/${itemId}`).then((res) => {
+            setData(res.data)
+            setLoading(false)
+        }).catch((error) => {
+            console.log(error);
+            setLoading(false)
+        })
     }, []);
+
+    const id = params.detailPemesanan
+
+    const axiosAuth = useAxiosAuth()
+    const {data:dataItem,isLoading,error} = useSWR(`/api/order/allOrderDetailByOrderId/${id}`,async(url)=>{
+        const res = await axios.get(url)
+        const filterData = res.data.map((e:any)=>{
+            return {
+                produk:e?.item,
+                jumlah:e?.quantity,
+                harga:e?.subTotal,
+            }
+        })
+        return filterData
+    })
 
     const dataDumy = [
         { produk: 'Ayam Geprek', jumlah: "1", harga: "10000" },
@@ -94,11 +114,12 @@ export default function DetailPemesanan({ params }: { params: { itemId: string }
                             </div>
                             <div className="flex justify-end text-right text-[10px] text-[#646464] -mt-2">{formattedTime}</div>
                             <div className="border-t-2 border-[#C79618]"></div>
-                            <div className="text-center text-[14px]">Nama: {order?.customerName}</div>
+                            <div className="text-center text-[14px]">Nama: {data?.name}</div>
                             <div className="text-center text-[#646464] text-[14px]">Id Pemesanan : </div>
-                            <div className="text-center text-[26px] font-bold">{order?.id}</div>
+                            <div className="text-center text-[26px] font-bold">{data?.noInvoice}</div>
                             <div className="border-t-2 border-[#C79618]"></div>
-                            <TableLihatPemesanan data={order?.items || []} />
+                            {/* <TableLihatPemesanan data={order?.items || []} /> */}
+                            {isLoading ? <TableLihatPemesanan data={dataDumy}></TableLihatPemesanan> : <TableLihatPemesanan data={dataItem}></TableLihatPemesanan>}
                         </div>
                     </div>
                     <Link href={"/page/pemesanan"}>
