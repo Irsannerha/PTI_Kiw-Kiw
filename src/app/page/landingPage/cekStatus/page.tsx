@@ -25,7 +25,7 @@ enum TAHAP {
 
 export default function CekStatus() {
   const axiosAuth = useAxiosAuth();
-  const [accessToken, setAccessToken] = useLocalStorage("accessToken", "");
+  const [accessToken, __] = useLocalStorage("accessToken", "");
   const [idUser, _] = useLocalStorage("idUser", "");
   const [tahap, setTahap] = useState<TAHAP>(TAHAP.TAHAP1);
 
