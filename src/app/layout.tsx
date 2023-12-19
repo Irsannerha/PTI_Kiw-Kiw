@@ -32,7 +32,7 @@ export default function RootLayout({
 
   useEffect(() => {
     // console.log(pathname);
-    if (pathname === '/page/dashboard/FormLogin' || pathname === '/page/dashboard/ForgotPassword' || pathname === '/page/dashboard/CodeOTP' || pathname === '/page/dashboard/NewPassword' || pathname === '/page/pemesanan' || pathname === '/page/landingPage' || pathname === '/page/pemesanan/DetailPemesanan' || pathname === '/page/landingPage' || pathname === '/page/landingPage/loginPegawai' || pathname === '/page/landingPage/home' || pathname === '/page/landingPage/buatPassword' || pathname === '/page/landingPage/kodeOTP' || pathname === '/page/landingPage/lupaPassword' || pathname === '/page/landingPage/loginPrekrutan') {
+    if (pathname === '/page/dashboard/FormLogin' || pathname === '/page/dashboard/ForgotPassword' || pathname === '/page/dashboard/CodeOTP' || pathname === '/page/dashboard/NewPassword' || pathname === '/page/pemesanan' || pathname === '/page/landingPage' || pathname === '/page/pemesanan/DetailPemesanan' || pathname === '/page/landingPage' || pathname === '/page/landingPage/loginPegawai' || pathname === '/page/landingPage/home' || pathname === '/page/landingPage/buatPassword' || pathname === '/page/landingPage/kodeOTP' || pathname === '/page/landingPage/lupaPassword' || pathname === '/page/landingPage/loginPrekrutan' || pathname === '/page/pemesanan/detaiPemesanan' || pathname === '{/page/pemesanan/detaiPemesanan}') {
       setCheck(true);
       return
     }

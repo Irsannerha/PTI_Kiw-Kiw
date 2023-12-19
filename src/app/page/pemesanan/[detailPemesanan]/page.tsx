@@ -5,6 +5,8 @@ import Image from "next/image";
 import TableLihatPemesanan from "@/app/components/pemesanan/TableLihatPemesanan"
 import axios from "axios";
 import Link from "next/link";
+import { log } from "console";
+import { usePathname } from "next/navigation";
 
 interface TableRow {
     produk: string;
@@ -26,6 +28,7 @@ interface TableProps {
 export default function DetailPemesanan({ params }: { params: { itemId: string } }) {
     const [loading, setLoading] = useState(true);
     const [order, setOrder] = useState<Order | null>(null);
+    const pathname = usePathname()
 
     useEffect(() => {
         setTimeout(() => {
@@ -41,6 +44,7 @@ export default function DetailPemesanan({ params }: { params: { itemId: string }
                 console.error('Error fetching data:', error);
                 setLoading(false);
             });
+            console.log(pathname);
     }, []);
 
     const dataDumy = [

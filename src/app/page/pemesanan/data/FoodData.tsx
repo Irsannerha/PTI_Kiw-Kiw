@@ -2,16 +2,16 @@
 
 const FoodData = [
     {
-        id: 1,
-        name: "Nama1",
+        id: 20,
+        name: "Ayam Goreng",
         price: 10000,
         desc: "Lorem Ipsum is simply the.......",
         img: "/images/ayamGeprek.png",
         category: "Makanan",
     },
     {
-        id: 2,
-        name: "Nama2",
+        id: 22,
+        name: "Es Jeruk",
         price: 10000,
         desc: "Lorem Ipsum is simply the.......",
         img: "/images/ayamGeprek.png",
