@@ -12,6 +12,9 @@ import { PiMinusSquare } from "react-icons/pi";
 import Link from "next/link";
 import axios from 'axios';
 import Image from "next/image";
+import useSWR from "swr";
+import { useParams, useRouter } from "next/navigation";
+import { log } from "console";
 
 export interface Product {
     itemId: string;
@@ -34,6 +37,26 @@ export default function Pemesanan() {
         setSearchValue(e.target.value);
     };
 
+    
+
+    const {data:dataItem,isLoading,error} = useSWR("/api/menu/allItem",async(url)=>{
+        const res = await axios.get(url)
+        const filterData = res.data.map((e:any) => {
+            return {
+                id:e.id,
+                itemId:e.id,
+                name: e.name,
+                price: e.price,
+                img:e.gambar,
+                des:e.deskripsi,
+                category:e.categoryId,
+            }
+        })
+        // setdata(filterData)
+        return filterData
+    })
+
+
     const handleAddToCart = (itemData: Product) => {
         const existingItem = data.find((item) => item.itemId === itemData.itemId);
         if (existingItem) {
@@ -44,11 +67,12 @@ export default function Pemesanan() {
         }
     };
 
+    
     const filteredFoodData = () => {
         if (selectedCategory === "Semua") {
-            return FoodData.filter(food => food.name.toLowerCase().includes(searchValue.toLowerCase()));
+            return dataItem;
         } else {
-            return FoodData.filter((food) => food.category === selectedCategory);
+            return null
         }
     };
 
@@ -73,6 +97,8 @@ export default function Pemesanan() {
         setdata(updateddata);
     };
 
+    const route = useParams<{detailPemesanan:string}>();
+    const routess = useRouter()
     const handleCheckout = async () => {
         // const userData = { name, data };
         // console.log('User Data:', JSON.stringify(userData));
@@ -93,6 +119,13 @@ export default function Pemesanan() {
         try {
             const response = await axios.post('/api/order/createOrder', userData);
             console.log('Backend response:', response.data);
+            route.detailPemesanan = response.data.id
+            console.log(route.detailPemesanan);
+            routess.push(`/page/pemesanan/${response.data.id}`);
+            // router.push({
+            //     pathname: '/page/pemesanan/detailPemesanan/[data]',
+            //     query: { data: response.data.id },
+            // });
         } catch (error) {
             console.error('Error during checkout:', error);
         }
@@ -102,7 +135,7 @@ export default function Pemesanan() {
     useEffect(() => {
         setTimeout(() => {
             setLoading(false);
-        }, 3000);
+        }, 1500);
     }, []);
 
     return (
@@ -159,14 +192,14 @@ export default function Pemesanan() {
                             />
                         </div>
                         <div className="rounded-lg grid grid-cols-2 md:grid-cols-3 lg:flex flex-wrap justify-center lg:justify-center gap-5 md:gap-5 mx-5 my-5 max-h-[400px] md:max-h-[700px] lg:max-h-[400px] overflow-y-auto overscroll-auto md:pl-10 md:pr-10 mb-10">
-                            {filteredFoodData().map((food) => (
+                            {filteredFoodData().map((dataItem: any) => (
                                 <FoodCard
-                                    key={food.id}
-                                    itemId={food.id.toString()}
-                                    name={food.name}
-                                    price={food.price}
-                                    desc={food.desc}
-                                    img={food.img}
+                                    key={dataItem.id}
+                                    itemId={dataItem.id}
+                                    name={dataItem.name}
+                                    price={dataItem.price}
+                                    desc={dataItem.deskripsi}
+                                    img={dataItem.gambar}
                                     onAddToCart={handleAddToCart}
                                 />
                             ))}
@@ -192,17 +225,17 @@ export default function Pemesanan() {
                                 />
                             </div>
                             <div className="scroll-m-10" style={{ maxHeight: "400px", overflowY: "scroll" }}>
-                                {data.map((item, index) => (
+                                {data.map((dataItem,index) => (
                                     <div key={index} className="flex gap-2 shadow-md rounded-lg p-2 mb-3 bg-white">
                                         <div className="grid grid-cols-3 justify-center items-center gap-2">
                                             <div className="">
-                                                <img src={item.img} alt={item.name} className="w-12 h-12 object-cover rounded" />
+                                                <img src={dataItem.img} alt={dataItem.name} className="w-12 h-12 object-cover rounded" />
                                             </div>
                                             <div className="-ml-12">
-                                                <h2 className="font-bold text-gray-800">{item.name}</h2>
+                                                <h2 className="font-bold text-gray-800">{dataItem.name}</h2>
                                                 <span className="text-[#D2691E] font-bold">
                                                     Rp.
-                                                    <span className="ml-1">{item.price * (item.qty || 0)}</span>
+                                                    <span className="ml-1">{dataItem.price * (dataItem.qty || 0)}</span>
                                                 </span>
                                             </div>
                                             <div className="right-0 justify-end items-center m-auto ml-9">
@@ -212,10 +245,10 @@ export default function Pemesanan() {
                                                 />
                                                 <div className="flex gap-2 mt-2">
                                                     <PiMinusSquare
-                                                        onClick={() => (item.qty && item.qty > 1) && handleqtyChange(index, 'subtract')}
-                                                        className={`cursor-pointer text-[#D2691E] ${item.qty === 1 ? 'opacity-50' : ''}`} size={20}
+                                                        onClick={() => (dataItem.qty && dataItem.qty > 1) && handleqtyChange(index, 'subtract')}
+                                                        className={`cursor-pointer text-[#D2691E] ${dataItem.qty === 1 ? 'opacity-50' : ''}`} size={20}
                                                     />
-                                                    <span className="text-[#D2691E]">{item.qty || 0}</span>
+                                                    <span className="text-[#D2691E]">{dataItem.qty || 0}</span>
                                                     <FiPlusSquare
                                                         onClick={() => handleqtyChange(index, 'add')}
                                                         className="cursor-pointer text-[#D2691E] hover:text-[#D2691E]" size={20}
@@ -232,14 +265,14 @@ export default function Pemesanan() {
                                     Total Harga : Rp. {data.reduce((total, item) => total + (item.price * (item.qty || 1)), 0)}
                                 </h3>
                                 <hr className="w-[90vw] lg:w-[18vw] my-2" />
-                                <Link href={'/page/pemesanan/detaiPemesanan'}>
+                                {/* <Link href={'/page/pemesanan/detaiPemesanan'}> */}
                                     <button
                                         onClick={handleCheckout}
                                         className="bg-[#D2691E] hover:bg-[#F8A849] font-bold px-3 text-white py-2 rounded-lg w-[90vw] lg:w-[18vw] mb-5"
                                     >
                                         Pesan Sekarang
                                     </button>
-                                </Link>
+                                {/* </Link> */}
                             </div>
                         </div>
                         <MdShoppingCart

@@ -13,6 +13,7 @@ const FoodCard = ({ itemId = "2", name = "Makanan", price = 10000, desc = "ini m
 
     const handleAddToCart = () => {
         const itemData = { itemId, name, price, img };
+        console.log(itemData);
         onAddToCart(itemData);
     };
 
