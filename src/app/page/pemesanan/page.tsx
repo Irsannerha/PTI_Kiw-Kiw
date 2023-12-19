@@ -59,6 +59,7 @@ export default function Pemesanan() {
                 img: e.gambar,
                 des: e.deskripsi,
                 category: e.categoryId,
+                stock:e.stock
             }
         })
         // setdata(filterData)
@@ -88,6 +89,7 @@ export default function Pemesanan() {
                 img: e.gambar,
                 des: e.deskripsi,
                 category: e.categoryId,
+                stock:e.stock
             }
         })
         return filterMakanan
@@ -103,6 +105,7 @@ export default function Pemesanan() {
                 img: e.gambar,
                 des: e.deskripsi,
                 category: e.categoryId,
+                stock:e.stock
             }
         })
         return filterMakanan
