@@ -24,10 +24,19 @@ export interface Product {
     qty?: number;
 }
 
+interface Makanan {
+    itemId: string;
+    name: string;
+    price: number;
+    img: string;
+    qty?: number;
+}
+
 export default function Pemesanan() {
     const [activeCart, setActiveCart] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState("Semua");
     const [searchValue, setSearchValue] = useState("");
+    const [makanan,setMakanan] = useState<Makanan[]>([]);
     const [data, setdata] = useState<Product[]>([]);
     const [name, setname] = useState("");
     const handleCategoryChange = (category: string) => {
@@ -37,26 +46,25 @@ export default function Pemesanan() {
         setSearchValue(e.target.value);
     };
 
-    
 
-    const {data:dataItem,isLoading,error} = useSWR("/api/menu/allItem",async(url)=>{
+
+    const { data: dataItem, isLoading, error } = useSWR("/api/menu/allItem", async (url) => {
         const res = await axios.get(url)
-        const filterData = res.data.map((e:any) => {
+        const filterData = res.data.map((e: any) => {
             return {
-                id:e.id,
-                itemId:e.id,
+                id: e.id,
+                itemId: e.id,
                 name: e.name,
                 price: e.price,
-                img:e.gambar,
-                des:e.deskripsi,
-                category:e.categoryId,
+                img: e.gambar,
+                des: e.deskripsi,
+                category: e.categoryId,
             }
         })
         // setdata(filterData)
         return filterData
     })
 
-    // console.log(dataItem);
 
     const handleAddToCart = (itemData: Product) => {
         const existingItem = data.find((item) => item.itemId === itemData.itemId);
@@ -68,12 +76,45 @@ export default function Pemesanan() {
         }
     };
 
-    
+    const { data: dataMakanan, isLoading:lala, error:rara } = useSWR('/api/menu/allItemMakanan', async (url) => {
+        const res = await axios.get(url)
+        const filterMakanan = res.data.map((e: any) => {
+            return {
+                id: e.id,
+                itemId: e.id,
+                name: e.name,
+                price: e.price,
+                img: e.gambar,
+                des: e.deskripsi,
+                category: e.categoryId,
+            }
+        })
+        return filterMakanan
+    })
+    const { data: dataMinuman, isLoading:haha, error:huhu } = useSWR('/api/menu/allItemMinuman', async (url) => {
+        const res = await axios.get(url)
+        const filterMakanan = res.data.map((e: any) => {
+            return {
+                id: e.id,
+                itemId: e.id,
+                name: e.name,
+                price: e.price,
+                img: e.gambar,
+                des: e.deskripsi,
+                category: e.categoryId,
+            }
+        })
+        return filterMakanan
+    })
+
     const filteredFoodData = () => {
         if (selectedCategory === "Semua") {
             return dataItem;
-        } else {
-            return null
+        } else if (selectedCategory === "Makanan") {
+            // console.log("MAKANAN");
+            return dataMakanan;
+        }else{
+            return dataMinuman
         }
     };
 
@@ -98,7 +139,7 @@ export default function Pemesanan() {
         setdata(updateddata);
     };
 
-    const route = useParams<{detailPemesanan:string}>();
+    const route = useParams<{ detailPemesanan: string }>();
     const routess = useRouter()
     const handleCheckout = async () => {
         // const userData = { name, data };
@@ -121,7 +162,7 @@ export default function Pemesanan() {
             const response = await axios.post('/api/order/createOrder', userData);
             console.log('Backend response:', response.data);
             route.detailPemesanan = response.data.id
-            const id=response.data.id
+            const id = response.data.id
             console.log(route.detailPemesanan);
             routess.push(`/page/pemesanan/${id}`);
             // router.push({
@@ -194,7 +235,7 @@ export default function Pemesanan() {
                             />
                         </div>
                         <div className="rounded-lg grid grid-cols-2 md:grid-cols-3 lg:flex flex-wrap justify-center lg:justify-center gap-5 md:gap-5 mx-5 my-5 max-h-[400px] md:max-h-[700px] lg:max-h-[400px] overflow-y-auto overscroll-auto md:pl-10 md:pr-10 mb-10">
-                            {filteredFoodData().map((dataItem: any) => (
+                            {filteredFoodData().map((dataItem:any) => (
                                 <FoodCard
                                     key={dataItem.id}
                                     itemId={dataItem.id}
@@ -227,7 +268,7 @@ export default function Pemesanan() {
                                 />
                             </div>
                             <div className="scroll-m-10" style={{ maxHeight: "400px", overflowY: "scroll" }}>
-                                {data.map((dataItem,index) => (
+                                {data.map((dataItem, index) => (
                                     <div key={index} className="flex gap-2 shadow-md rounded-lg p-2 mb-3 bg-white">
                                         <div className="grid grid-cols-3 justify-center items-center gap-2">
                                             <div className="">
@@ -268,12 +309,12 @@ export default function Pemesanan() {
                                 </h3>
                                 <hr className="w-[90vw] lg:w-[18vw] my-2" />
                                 {/* <Link href={'/page/pemesanan/detaiPemesanan'}> */}
-                                    <button
-                                        onClick={handleCheckout}
-                                        className="bg-[#D2691E] hover:bg-[#F8A849] font-bold px-3 text-white py-2 rounded-lg w-[90vw] lg:w-[18vw] mb-5"
-                                    >
-                                        Pesan Sekarang
-                                    </button>
+                                <button
+                                    onClick={handleCheckout}
+                                    className="bg-[#D2691E] hover:bg-[#F8A849] font-bold px-3 text-white py-2 rounded-lg w-[90vw] lg:w-[18vw] mb-5"
+                                >
+                                    Pesan Sekarang
+                                </button>
                                 {/* </Link> */}
                             </div>
                         </div>
