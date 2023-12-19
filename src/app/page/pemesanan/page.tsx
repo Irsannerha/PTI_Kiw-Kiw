@@ -65,6 +65,7 @@ export default function Pemesanan() {
         return filterData
     })
 
+    // console.log(dataItem);
 
     const handleAddToCart = (itemData: Product) => {
         const existingItem = data.find((item) => item.itemId === itemData.itemId);
@@ -109,12 +110,16 @@ export default function Pemesanan() {
 
     const filteredFoodData = () => {
         if (selectedCategory === "Semua") {
-            return dataItem;
-        } else if (selectedCategory === "Makanan") {
-            // console.log("MAKANAN");
-            return dataMakanan;
-        }else{
-            return dataMinuman
+            return dataItem.filter((item: { name: string; price: { toString: () => string | string[]; }; }) =>
+                item.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+                item.price.toString().includes(searchValue.toLowerCase())
+            );
+        } else {
+            return dataItem.filter((item: { category: string; name: string; price: { toString: () => string | string[]; }; }) =>
+                item.category.toLowerCase() === selectedCategory.toLowerCase() &&
+                (item.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+                    item.price.toString().includes(searchValue.toLowerCase()))
+            );
         }
     };
 
@@ -142,15 +147,6 @@ export default function Pemesanan() {
     const route = useParams<{ detailPemesanan: string }>();
     const routess = useRouter()
     const handleCheckout = async () => {
-        // const userData = { name, data };
-        // console.log('User Data:', JSON.stringify(userData));
-        // try {
-        //     const response = await axios.post('/api/order/createOrder', userData); // Send userData to the backend
-        //     // window.location.href = '/page/pemesanan/detailPemesanan';
-        //     console.log('Backend response:', response.data); // Log or handle the response from the backend
-        // } catch (error) {
-        //     console.error('Error during checkout:', error);
-        // }
 
         const itemsToCheckout = data.map(({ itemId, qty }) => ({ itemId, qty }));
 
@@ -165,10 +161,6 @@ export default function Pemesanan() {
             const id = response.data.id
             console.log(route.detailPemesanan);
             routess.push(`/page/pemesanan/${id}`);
-            // router.push({
-            //     pathname: '/page/pemesanan/detailPemesanan/[data]',
-            //     query: { data: response.data.id },
-            // });
         } catch (error) {
             console.error('Error during checkout:', error);
         }
@@ -241,7 +233,6 @@ export default function Pemesanan() {
                                     itemId={dataItem.id}
                                     name={dataItem.name}
                                     price={dataItem.price}
-                                    // desc={dataItem.deskripsi}
                                     img={dataItem.img}
                                     onAddToCart={handleAddToCart}
                                 />
@@ -268,6 +259,7 @@ export default function Pemesanan() {
                                 />
                             </div>
                             <div className="scroll-m-10" style={{ maxHeight: "400px", overflowY: "scroll" }}>
+                                {data.map((dataItem, index) => (
                                 {data.map((dataItem, index) => (
                                     <div key={index} className="flex gap-2 shadow-md rounded-lg p-2 mb-3 bg-white">
                                         <div className="grid grid-cols-3 justify-center items-center gap-2">
@@ -309,12 +301,12 @@ export default function Pemesanan() {
                                 </h3>
                                 <hr className="w-[90vw] lg:w-[18vw] my-2" />
                                 {/* <Link href={'/page/pemesanan/detaiPemesanan'}> */}
-                                <button
-                                    onClick={handleCheckout}
-                                    className="bg-[#D2691E] hover:bg-[#F8A849] font-bold px-3 text-white py-2 rounded-lg w-[90vw] lg:w-[18vw] mb-5"
-                                >
-                                    Pesan Sekarang
-                                </button>
+                                    <button
+                                        onClick={handleCheckout}
+                                        className="bg-[#D2691E] hover:bg-[#F8A849] font-bold px-3 text-white py-2 rounded-lg w-[90vw] lg:w-[18vw] mb-5"
+                                    >
+                                        Pesan Sekarang
+                                    </button>
                                 {/* </Link> */}
                             </div>
                         </div>
