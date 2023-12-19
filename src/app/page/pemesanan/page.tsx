@@ -200,7 +200,7 @@ export default function Pemesanan() {
                                     itemId={dataItem.id}
                                     name={dataItem.name}
                                     price={dataItem.price}
-                                    desc={dataItem.deskripsi}
+                                    // desc={dataItem.deskripsi}
                                     img={dataItem.img}
                                     onAddToCart={handleAddToCart}
                                 />

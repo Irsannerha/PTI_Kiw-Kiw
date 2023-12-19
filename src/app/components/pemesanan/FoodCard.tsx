@@ -5,11 +5,11 @@ export interface ProductCardComponentProps {
     price?: number;
     img?: string;
     category?: string;
-    desc?: string;
+    // desc?: string;
     onAddToCart: (itemData: { itemId: string; name: string; price: number; img: string }) => void;
 }
 
-const FoodCard = ({ itemId = "2", name = "Makanan", price = 10000, desc = "ini makanan", img = "", category = "", onAddToCart }: ProductCardComponentProps) => {
+const FoodCard = ({ itemId = "2", name = "Makanan", price = 10000, img = "", category = "", onAddToCart }: ProductCardComponentProps) => {
 
     const handleAddToCart = () => {
         const itemData = { itemId, name, price, img };
@@ -30,7 +30,7 @@ const FoodCard = ({ itemId = "2", name = "Makanan", price = 10000, desc = "ini m
             <div className="text-xs md:text-sm flex justify-between text-[#D2691E]">
                 <h2>Rp. {price}</h2>
             </div>
-            <p className="text-xs md:text-sm font-normal">{desc.slice(0, 50)}...</p>
+            {/* <p className="text-xs md:text-sm font-normal">{desc.slice(0, 50)}...</p> */}
             <div className="flex justify-between">
                 <span className="flex justify-center items-center">
                 </span>
