@@ -31,7 +31,7 @@ const Navbars = () => {
                 <div className={`w-full md:block md:w-auto ${isDropdownOpen ? 'block' : 'hidden'}`} id="navbar-dropdown">
                     <ul className="mb-6 md:mt-4 lg:mb-4 font-medium flex flex-col p-4 md:p-0 mt-4 border bordbg-[#FBC380] rounded-lg lg:bg-[#FBC380] md:bg-[#FBC380] md:flex-row md:space-x-8 md:border-0 bg-white">
                         <li>
-                            <a href="#home"  className="block py-2 pl-3 pr-4 text-black hover:text-white rounded hover:bg-[#FBC380] md:p-0 font-bold" aria-current="page">Home</a>
+                            <a href="/page/landingPage"  className="block py-2 pl-3 pr-4 text-black hover:text-white rounded hover:bg-[#FBC380] md:p-0 font-bold" aria-current="page">Home</a>
                         </li>
                         <li>
                             <a href="/page/landingPage/loginPegawai" className="block py-2 pl-3 pr-4 text-black hover:text-white rounded hover:bg-[#FBC380] md:p-0 font-bold">Perekrutan Pegawai</a>

@@ -4,21 +4,25 @@ import { Carousel } from 'flowbite-react';
 
 function CarouselComponent() {
     const imagesMakanan = [
-        "/images/ayamGeprek.png",
-        "/images/ayamGeprek.png",
-        "/images/ayamGeprek.png",
-        "/images/ayamGeprek.png",
-        "/images/esTeh.png",
-        "/images/esTeh.png",
+        "/images/menu/ayamBakar.jpeg",
+        "/images/menu/ayamGeprek.jpeg",
+        "/images/menu/ayamGeprekPaktHemat.jpeg",
+        "/images/menu/ayamPenyet.jpeg",
+        "/images/menu/nasiKotakPaketLengkap.jpeg",
+        "/images/menu/nasiUrapTelor.jpeg",
+        "/images/menu/paketBentoNasgor.jpeg",
+        "/images/menu/seblak.jpeg",
     ];
 
     const imagesMinuman = [
-        "/images/esTeh.png",
-        "/images/esTeh.png",
-        "/images/esTeh.png",
-        "/images/esTeh.png",
-        "/images/ayamGeprek.png",
-        "/images/ayamGeprek.png",
+        "/images/menu/esTeh.png",
+        "/images/menu/buah-naga.jpeg",
+        "/images/menu/es-jeruk.jpg",
+        "/images/menu/jus-apel.jpg",
+        "/images/menu/jus-markisa.jpg",
+        "/images/menu/jus-tomat.jpg",
+        "/images/menu/lemon.jpeg",
+        "/images/menu/markisa.jpg",
     ];
     const chunkSize = 3;
 
@@ -31,21 +35,25 @@ function CarouselComponent() {
     );
 
     const titlesMakanan = [
-        "Ayam Geprek",
         "Ayam Bakar",
-        "Ikan Bakar",
-        "Ayam Goreng",
-        "Singkong",
-        "Gorengan",
+        "Ayam Geprek",
+        "Ayam Geprek Paket Hemat",
+        "Ayam Penyet",
+        "Nasi Kotak",
+        "Nasi Urap",
+        "Paket Bento Nasgor",
+        "Seblak",
     ];
 
     const titlesMinuman = [
         "Es Teh",
+        "Jus Buah Naga",
         "Es Jeruk",
         "Jus Apel",
-        "Jus Mangga",
         "Jus Markisa",
-        "Es Kelapa",
+        "Jus Tomat",
+        "Es Lemon",
+        "Es Markisa",
     ];
 
     return (
@@ -176,7 +184,7 @@ function CarouselComponent() {
                                     <div className="w-full relative overflow-hidden z-0" key={index}>
                                         <div className="duration-200 ease-linear flex justify-center" data-carousel-item>
                                             <div className="rounded-xl w-[95%] max-w-sm bg-white border z-30 overflow-hidden shadow-xl">
-                                                <div className="bg-white rounded-lg flex flex-col items-center justify-content-center m-auto text-center blur-none justify-center h-[200px]">
+                                                <div className="bg-white rounded-full flex flex-col items-center justify-content-center m-auto text-center blur-none justify-center h-[200px]">
                                                     <img alt={`carousel-${index + 1 + setIndex * chunkSize}`} className="pt-2 h-[140px] rounded-full shadow-lg" src={image} />
                                                     <h5 className="p-2 lg:text-xl md:text-lg sm:text-sm font-medium text-black dark:text-white">{titlesMinuman[index + setIndex * chunkSize]}</h5>
                                                 </div>

@@ -12,7 +12,6 @@ import useSWR from "swr";
 export default function LaporanPemesanan() {
     const [currentTime, setCurrentTime] = useState(new Date());
     const [data, setData] = useState([]);
-
     useEffect(() => {
         const intervalId = setInterval(() => {
             setCurrentTime(new Date());
@@ -21,7 +20,6 @@ export default function LaporanPemesanan() {
             clearInterval(intervalId);
         };
     }, []);
-
     const formattedTime = currentTime.toLocaleTimeString();
     const formattedDate = currentTime.toLocaleDateString('id-ID');
     const [fileStatus, setFileStatus] = useState("Tidak ada gambar.");
@@ -33,10 +31,8 @@ export default function LaporanPemesanan() {
             setFileStatus("Tidak ada gambar.");
         }
     };
-
     const axiosAuth = useAxiosAuth();
     const [accessToken, _] = useLocalStorage("accessToken", "");
-
     const {data:dataPesanan,isLoading,error} = useSWR('/api/order/all/order/accepted/paid/rejected', async (url) => {
         const res = await axiosAuth.get(url,{
             headers: {
@@ -55,11 +51,9 @@ export default function LaporanPemesanan() {
         })
         return filterData
     })
-
     const dataLoading = [
         {id:'loading..', uid: 'loading..', tanggal: "loading..", name: "loading..", total: "loading..", status: "loading.."},
     ]
-
     const datadumy = [
         {id:'1', uid: '0001', tanggal: "23/11/2023", namaPemesan: "ando1", jumlah: "100", harga: "10000", status: "Selesai"},
     ];

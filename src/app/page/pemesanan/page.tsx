@@ -14,19 +14,19 @@ import axios from 'axios';
 import Image from "next/image";
 
 export interface Product {
-    id: number;
+    itemId: string;
     name: string;
     price: number;
     img: string;
-    quantity?: number;
+    qty?: number;
 }
 
 export default function Pemesanan() {
     const [activeCart, setActiveCart] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState("Semua");
     const [searchValue, setSearchValue] = useState("");
-    const [cartItems, setCartItems] = useState<Product[]>([]);
-    const [namaLengkap, setNamaLengkap] = useState("");
+    const [data, setdata] = useState<Product[]>([]);
+    const [name, setname] = useState("");
     const handleCategoryChange = (category: string) => {
         setSelectedCategory(category);
     };
@@ -35,12 +35,12 @@ export default function Pemesanan() {
     };
 
     const handleAddToCart = (itemData: Product) => {
-        const existingItem = cartItems.find((item) => item.id === itemData.id);
+        const existingItem = data.find((item) => item.itemId === itemData.itemId);
         if (existingItem) {
-            existingItem.quantity = (existingItem.quantity || 0) + 1;
-            setCartItems([...cartItems]);
+            existingItem.qty = (existingItem.qty || 0) + 1;
+            setdata([...data]);
         } else {
-            setCartItems([...cartItems, { ...itemData, quantity: 1 }]);
+            setdata([...data, { ...itemData, qty: 1 }]);
         }
     };
 
@@ -52,34 +52,47 @@ export default function Pemesanan() {
         }
     };
 
-    const handleQuantityChange = (index: number, action: 'add' | 'subtract') => {
-        const updatedCartItems = [...cartItems];
-        const updatedItem = { ...updatedCartItems[index] };
+    const handleqtyChange = (index: number, action: 'add' | 'subtract') => {
+        const updateddata = [...data];
+        const updatedItem = { ...updateddata[index] };
         if (action === 'add') {
-            updatedItem.quantity = (updatedItem.quantity || 0) + 1;
+            updatedItem.qty = (updatedItem.qty || 0) + 1;
         } else if (action === 'subtract') {
-            updatedItem.quantity = Math.max((updatedItem.quantity || 0) - 1, 0);
-            if (updatedItem.quantity === 0) {
-                updatedCartItems.splice(index, 1);
+            updatedItem.qty = Math.max((updatedItem.qty || 0) - 1, 0);
+            if (updatedItem.qty === 0) {
+                updateddata.splice(index, 1);
             }
         }
 
-        updatedCartItems[index] = updatedItem;
-        setCartItems(updatedCartItems);
+        updateddata[index] = updatedItem;
+        setdata(updateddata);
     };
 
     const handleDeleteItem = (index: number) => {
-        const updatedCartItems = cartItems.filter((_, i) => i !== index);
-        setCartItems(updatedCartItems);
+        const updateddata = data.filter((_, i) => i !== index);
+        setdata(updateddata);
     };
 
     const handleCheckout = async () => {
-        const userData = { cartItems, namaLengkap };
+        // const userData = { name, data };
+        // console.log('User Data:', JSON.stringify(userData));
+        // try {
+        //     const response = await axios.post('/api/order/createOrder', userData); // Send userData to the backend
+        //     // window.location.href = '/page/pemesanan/detailPemesanan';
+        //     console.log('Backend response:', response.data); // Log or handle the response from the backend
+        // } catch (error) {
+        //     console.error('Error during checkout:', error);
+        // }
+
+        const itemsToCheckout = data.map(({ itemId, qty }) => ({ itemId, qty }));
+
+        const userData = { name, data: itemsToCheckout };
+
         console.log('User Data:', JSON.stringify(userData));
+
         try {
-            const response = await axios.post('/api/checkout', userData); // Send userData to the backend
-            window.location.href = '/page/pemesanan/detailPemesanan';
-            console.log('Backend response:', response.data); // Log or handle the response from the backend
+            const response = await axios.post('/api/order/createOrder', userData);
+            console.log('Backend response:', response.data);
         } catch (error) {
             console.error('Error during checkout:', error);
         }
@@ -89,7 +102,7 @@ export default function Pemesanan() {
     useEffect(() => {
         setTimeout(() => {
             setLoading(false);
-        }, 1000);
+        }, 3000);
     }, []);
 
     return (
@@ -106,7 +119,6 @@ export default function Pemesanan() {
                             />
                         </div>
                         <div className="mb-4 mr-6">
-                            {/* color="#F8A849" */}
                             <PacmanLoader color="#965A36" />
                         </div>
                     </div>
@@ -150,7 +162,7 @@ export default function Pemesanan() {
                             {filteredFoodData().map((food) => (
                                 <FoodCard
                                     key={food.id}
-                                    id={food.id}
+                                    itemId={food.id.toString()}
                                     name={food.name}
                                     price={food.price}
                                     desc={food.desc}
@@ -175,12 +187,12 @@ export default function Pemesanan() {
                                     type="text"
                                     placeholder="Masukkan Nama Anda"
                                     className='rounded-lg w-full'
-                                    value={namaLengkap}
-                                    onChange={(e) => setNamaLengkap(e.target.value)}
+                                    value={name}
+                                    onChange={(e) => setname(e.target.value)}
                                 />
                             </div>
                             <div className="scroll-m-10" style={{ maxHeight: "400px", overflowY: "scroll" }}>
-                                {cartItems.map((item, index) => (
+                                {data.map((item, index) => (
                                     <div key={index} className="flex gap-2 shadow-md rounded-lg p-2 mb-3 bg-white">
                                         <div className="grid grid-cols-3 justify-center items-center gap-2">
                                             <div className="">
@@ -190,7 +202,7 @@ export default function Pemesanan() {
                                                 <h2 className="font-bold text-gray-800">{item.name}</h2>
                                                 <span className="text-[#D2691E] font-bold">
                                                     Rp.
-                                                    <span className="ml-1">{item.price * (item.quantity || 0)}</span>
+                                                    <span className="ml-1">{item.price * (item.qty || 0)}</span>
                                                 </span>
                                             </div>
                                             <div className="right-0 justify-end items-center m-auto ml-9">
@@ -200,12 +212,12 @@ export default function Pemesanan() {
                                                 />
                                                 <div className="flex gap-2 mt-2">
                                                     <PiMinusSquare
-                                                        onClick={() => (item.quantity && item.quantity > 1) && handleQuantityChange(index, 'subtract')}
-                                                        className={`cursor-pointer text-[#D2691E] ${item.quantity === 1 ? 'opacity-50' : ''}`} size={20}
+                                                        onClick={() => (item.qty && item.qty > 1) && handleqtyChange(index, 'subtract')}
+                                                        className={`cursor-pointer text-[#D2691E] ${item.qty === 1 ? 'opacity-50' : ''}`} size={20}
                                                     />
-                                                    <span className="text-[#D2691E]">{item.quantity || 0}</span>
+                                                    <span className="text-[#D2691E]">{item.qty || 0}</span>
                                                     <FiPlusSquare
-                                                        onClick={() => handleQuantityChange(index, 'add')}
+                                                        onClick={() => handleqtyChange(index, 'add')}
                                                         className="cursor-pointer text-[#D2691E] hover:text-[#D2691E]" size={20}
                                                     />
                                                 </div>
@@ -215,12 +227,12 @@ export default function Pemesanan() {
                                 ))}
                             </div>
                             <div className="absolute bottom-0 bg-white w-full -ml-5 pl-5 pt-2 m-auto">
-                                <h3 className="font-semibold text-gray-800">Pesanan :  {cartItems.reduce((total, item) => total + (item.quantity || 0), 0)} </h3>
+                                <h3 className="font-semibold text-gray-800">Pesanan :  {data.reduce((total, item) => total + (item.qty || 0), 0)} </h3>
                                 <h3 className="font-semibold text-gray-800">
-                                    Total Harga : Rp. {cartItems.reduce((total, item) => total + (item.price * (item.quantity || 1)), 0)}
+                                    Total Harga : Rp. {data.reduce((total, item) => total + (item.price * (item.qty || 1)), 0)}
                                 </h3>
                                 <hr className="w-[90vw] lg:w-[18vw] my-2" />
-                                <Link href={"/page/pemesanan/detailPemesanan"}>
+                                <Link href={'/page/pemesanan/detaiPemesanan'}>
                                     <button
                                         onClick={handleCheckout}
                                         className="bg-[#D2691E] hover:bg-[#F8A849] font-bold px-3 text-white py-2 rounded-lg w-[90vw] lg:w-[18vw] mb-5"

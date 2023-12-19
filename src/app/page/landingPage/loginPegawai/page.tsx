@@ -46,7 +46,7 @@ export default function landingPage() {
     const axiosAuth = useAxiosAuth()
     const [accessToken, setAccessToken] = useLocalStorage('accessToken', '');
     const [refreshToken, setrefreshToken] = useLocalStorage('refreshToken', '');
-    const [idUser,setIdUser] = useLocalStorage('idUser', '');
+    const [idUser, setIdUser] = useLocalStorage('idUser', '');
 
     // Fungsi untuk menangani pengiriman formulir
     const handleFormSubmit = async () => {
@@ -85,8 +85,10 @@ export default function landingPage() {
                     setrefreshToken(data?.data.refresh_token);
                     setIdUser(data?.id);
                     setshowSuccesLoginAlert(true);
+                    setTimeout(() => {
+                        setshowSuccesLoginAlert(false);
+                    }, 3000);
                     router.push('/page/landingPage/dashboardRekrut');
-
                 } catch (error) {
                     if (error instanceof AxiosError) {
                         if (error?.response?.status === 401) {

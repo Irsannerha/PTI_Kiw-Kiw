@@ -8,7 +8,8 @@ const nextConfig = {
         }
       ];
     },
-    images: {
+  images: {
+      domains: ['firebasestorage.googleapis.com'],
       formats: ['image/avif', 'image/webp'],
       remotePatterns: [
         {

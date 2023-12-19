@@ -1,9 +1,33 @@
+'use client'
 import Image from "next/image"
 import Link from "next/link"
-
+import { useState, useEffect } from "react";
+import useSWR from "swr";
+import { useAxiosAuth } from "@/app/hooks/useAxiosAuth";
+import { useLocalStorage } from "usehooks-ts";
 import SvgDashboardProfile from '@/app/components/SvgDashboardProfile';
 import Navbars from "@/app/components/Navbars";
+
+
 export default function DashboardRekrut() {
+  const axiosAuth = useAxiosAuth();
+  const [accessToken, setAccessToken] = useLocalStorage("accessToken", "");
+  const [idUser, _] = useLocalStorage("idUser", "");
+  const { data: dataUs, isLoading, error } = useSWR(`/api/applicant/oneUser/${idUser}`, async (url) => {
+    const res = await axiosAuth.get(url, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return res.data;
+  })
+
+  const [reload, setReload] = useState(false);
+
+  const handleReload = () => {
+    setReload(true);
+    window.location.href = '/page/landingPage/cekStatus';
+  };
   return (
     <>
       <div className="nav">
@@ -16,10 +40,16 @@ export default function DashboardRekrut() {
               <Link href={"/page/landingPage/profil"}>
                 <div className="flex p-3 gap-5">
                   <div className="w-[20%] flex justify-end items-end">
+                    {/* <Tooltip content="Profile" style="dark" className='bg-black'> */}
                     <SvgDashboardProfile />
+                    {/* </Tooltip> */}
                   </div>
                   <div className="w-[70%] flex flex-col justify-start pl-2">
-                    Selamat Datang, User
+                    {isLoading && <p>Loading...</p>}
+                    {error && <p>Selamat Datang, User</p>}
+                    {!isLoading && !error && (
+                      <p>Selamat Datang, {dataUs?.name || "User"}</p>
+                    )}
                   </div>
                 </div>
               </Link>
@@ -48,7 +78,7 @@ export default function DashboardRekrut() {
           </div>
         </Link>
         <Link href={"/page/landingPage/cekStatus"}>
-          <div className="m-4 w-72 bg-[#BA937C] hover:bg-[#F8A849] shadow-xl rounded-lg">
+          <div className="m-4 w-72 bg-[#BA937C] hover:bg-[#F8A849] shadow-xl rounded-lg" onClick={handleReload}>
             <div className="rounded-t-lg text-xl p-3 pl-4 justify-center items-center flex">
               <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M66.6667 41.6667H33.3333C28.731 41.6667 25 45.3976 25 50V83.3333C25 87.9357 28.731 91.6667 33.3333 91.6667H66.6667C71.269 91.6667 75 87.9357 75 83.3333V50C75 45.3976 71.269 41.6667 66.6667 41.6667Z" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
