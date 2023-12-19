@@ -39,10 +39,11 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
         setCurrentPage(page);
     };
 
-    const handlePrint = (selectedUid: string) => {
-        const selectedData = data.find((row) => row.uid === selectedUid);
+    const handlePrint = (id: string) => {
+        const selectedData = data.find((row) => row.id === id);
+        console.log(selectedData);
         if (!selectedData) {
-            console.error(`Data with UID ${selectedUid} not found.`);
+            console.error(`Data with UID ${id} not found.`);
             return;
         }
         const printableData = {
@@ -170,7 +171,7 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
                                     <Link href="/" passHref>
                                         <div onClick={(e) => {
                                             e.preventDefault();
-                                            handlePrint(row.uid);
+                                            handlePrint(row.id);
                                         }}>
                                             <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <rect width="30" height="30" rx="5" fill="#F8A849" />

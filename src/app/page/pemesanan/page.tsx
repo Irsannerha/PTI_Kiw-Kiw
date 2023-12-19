@@ -114,11 +114,15 @@ export default function Pemesanan() {
                 item.name.toLowerCase().includes(searchValue.toLowerCase()) ||
                 item.price.toString().includes(searchValue.toLowerCase())
             );
-        } else {
-            return dataItem.filter((item: { category: string; name: string; price: { toString: () => string | string[]; }; }) =>
-                item.category.toLowerCase() === selectedCategory.toLowerCase() &&
-                (item.name.toLowerCase().includes(searchValue.toLowerCase()) ||
-                    item.price.toString().includes(searchValue.toLowerCase()))
+        } else if(selectedCategory ==="Makanan"){
+            return dataMakanan.filter((item: { name: string; price: { toString: () => string | string[]; }; }) =>
+                item.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+                item.price.toString().includes(searchValue.toLowerCase())
+            );
+        }else{
+            return dataMinuman.filter((item: { name: string; price: { toString: () => string | string[]; }; }) =>
+                item.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+                item.price.toString().includes(searchValue.toLowerCase())
             );
         }
     };
@@ -260,7 +264,6 @@ export default function Pemesanan() {
                             </div>
                             <div className="scroll-m-10" style={{ maxHeight: "400px", overflowY: "scroll" }}>
                                 {data.map((dataItem, index) => (
-                                {data.map((dataItem, index) => (
                                     <div key={index} className="flex gap-2 shadow-md rounded-lg p-2 mb-3 bg-white">
                                         <div className="grid grid-cols-3 justify-center items-center gap-2">
                                             <div className="">
@@ -303,6 +306,7 @@ export default function Pemesanan() {
                                 {/* <Link href={'/page/pemesanan/detaiPemesanan'}> */}
                                     <button
                                         onClick={handleCheckout}
+                                        disabled={name === "" || data.length === 0}
                                         className="bg-[#D2691E] hover:bg-[#F8A849] font-bold px-3 text-white py-2 rounded-lg w-[90vw] lg:w-[18vw] mb-5"
                                     >
                                         Pesan Sekarang
