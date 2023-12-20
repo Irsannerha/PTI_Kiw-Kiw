@@ -67,7 +67,7 @@ export default function TambahItemMenu() {
     const [accessToken, _] = useLocalStorage("accessToken", "");
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
-    
+
     useEffect(() => {
         setIsLoading(true);
 
@@ -150,12 +150,12 @@ export default function TambahItemMenu() {
                     gambar: downloadURL,
                     categoryId
                 });
-                router.push('/page/dashboard/KelolaMenuPemesanan');
                 console.log(response);
                 setShowAlertSimpanData(true);
                 setTimeout(() => {
                     setShowAlertSimpanData(false);
                 }, 5000);
+                router.push('/page/dashboard/KelolaMenuPemesanan');
             } catch (error) {
                 console.error('Error submitting form:', error);
             }
@@ -380,7 +380,7 @@ export default function TambahItemMenu() {
                                                 ]}
                                             >
                                                 <List.Item.Meta
-                                                    // title={imageFile.name}
+                                                // title={imageFile.name}
                                                 // description={`Size: ${imageFile.size}`}
                                                 />
                                             </List.Item>

@@ -9,16 +9,19 @@ import TableLihatLaporanPemesanan from "@/app/components/TableLihatLaporanPemesa
 import axios from 'axios';
 import LihatDetailPemesanan from "@/app/components/LihatDetailPemesanan";
 
-import { Button } from "flowbite-react";
 import useSWR from "swr";
 import { useAxiosAuth } from "@/app/hooks/useAxiosAuth";
 import { useLocalStorage } from "usehooks-ts";
 import { RouteKind } from "next/dist/server/future/route-kind";
 import { useRouter } from "next/navigation";
 
+import { MdFavoriteBorder } from "react-icons/md";
+import { ImCross } from "react-icons/im";
+import { Button, Modal } from 'flowbite-react';
+
 interface dataUser {
     noInvoice: string,
-    name:string,
+    name: string,
     orderDate: string
 }
 
@@ -77,7 +80,7 @@ export default function LaporanPemesanan({ params }: { params: { Detail: string 
     };
 
     const dataLoading = [
-        {produk:'loading',jumlah:'loading',harga:'loading'}
+        { produk: 'loading', jumlah: 'loading', harga: 'loading' }
     ]
 
     useEffect(() => {
@@ -135,6 +138,9 @@ export default function LaporanPemesanan({ params }: { params: { Detail: string 
     // useEffect(() => {
     //     fetchData();
     // }, []);
+
+    const [openModalDiterima, setOpenModalDiterima] = useState(false);
+    const [openModalDitolak, setOpenModalDitolak] = useState(false);
 
     return (
         <>
@@ -205,15 +211,61 @@ export default function LaporanPemesanan({ params }: { params: { Detail: string 
                         }
                     </div>
                     <div className="flex justify-center items-center mt-5 gap-5">
-                        <Button color="gray" className='bg-[#F8A849]' onClick={handleTerimaPesanan}>
+                        <Button color="gray" className='bg-[#F8A849]'
+                            onClick={() => {
+                                setOpenModalDiterima(true);
+                            }}>
                             Terima Pesanan
                         </Button>
-                        <Button color="gray" className='bg-[#D2691E]' onClick={handleTolakPesanan}>
+                        <Button color="gray" className='bg-[#D2691E]'
+                            onClick={() => {
+                                setOpenModalDitolak(true);
+                            }}>
                             Tolak Pesanan
                         </Button>
-                    </div>
                 </div>
             </div>
+        </div >
+
+            <Modal show={openModalDiterima} size="md" onClose={() => setOpenModalDiterima(false)} popup className='backdrop-blur-lg pt-[10%]'>
+                <Modal.Header />
+                <Modal.Body>
+                    <div className="text-center m-auto">
+                        <MdFavoriteBorder className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                        <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                            Pesanan Diterima ?
+                        </h3>
+                        <div className="flex justify-center gap-4">
+                            <Link href={"/page/pemesanan"}>
+                                <Button className='bg-[#C79618] hover:bg-[#F8A849] text-white' color="white"
+                                    onClick={handleTerimaPesanan}>
+                                    Ok
+                                </Button>
+                            </Link>
+                        </div>
+                    </div>
+                </Modal.Body>
+            </Modal>
+
+            <Modal show={openModalDitolak} size="md" onClose={() => setOpenModalDitolak(false)} popup className='backdrop-blur-lg pt-[10%]'>
+                <Modal.Header />
+                <Modal.Body>
+                    <div className="text-center m-auto">
+                        <ImCross className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                        <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                            Pesanan Ditolak ?
+                        </h3>
+                        <div className="flex justify-center gap-4">
+                            <Link href={"/page/pemesanan"}>
+                                <Button className='bg-[#F30101] hover:bg-[#950000] text-white' color="white"
+                                    onClick={handleTolakPesanan}>
+                                    Ok
+                                </Button>
+                            </Link>
+                        </div>
+                    </div>
+                </Modal.Body>
+            </Modal>
         </>
     )
 }

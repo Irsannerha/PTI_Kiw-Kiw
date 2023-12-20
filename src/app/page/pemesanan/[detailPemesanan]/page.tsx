@@ -10,6 +10,9 @@ import { usePathname } from "next/navigation";
 import useSWR from "swr";
 import { useAxiosAuth } from "@/app/hooks/useAxiosAuth";
 
+import { HiOutlineExclamationCircle } from 'react-icons/hi';
+import { Button, Modal } from 'flowbite-react';
+
 interface TableRow {
     produk: string;
     jumlah: string;
@@ -23,8 +26,8 @@ interface Order {
 }
 
 interface dataOrder {
-    name:string;
-    noInvoice:string;
+    name: string;
+    noInvoice: string;
 }
 
 interface TableProps {
@@ -35,7 +38,7 @@ interface TableProps {
 export default function DetailPemesanan({ params }: { params: { detailPemesanan: string } }) {
     const [loading, setLoading] = useState(true);
     const [order, setOrder] = useState<Order | null>(null);
-    const [data,setData] = useState<dataOrder>()
+    const [data, setData] = useState<dataOrder>()
     const pathname = usePathname()
 
     useEffect(() => {
@@ -55,13 +58,13 @@ export default function DetailPemesanan({ params }: { params: { detailPemesanan:
     const id = params.detailPemesanan
 
     const axiosAuth = useAxiosAuth()
-    const {data:dataItem,isLoading,error} = useSWR(`/api/order/allOrderDetailByOrderId/${id}`,async(url)=>{
+    const { data: dataItem, isLoading, error } = useSWR(`/api/order/allOrderDetailByOrderId/${id}`, async (url) => {
         const res = await axios.get(url)
-        const filterData = res.data.map((e:any)=>{
+        const filterData = res.data.map((e: any) => {
             return {
-                produk:e?.item,
-                jumlah:e?.quantity,
-                harga:e?.subTotal,
+                produk: e?.item,
+                jumlah: e?.quantity,
+                harga: e?.subTotal,
             }
         })
         return filterData
@@ -85,7 +88,7 @@ export default function DetailPemesanan({ params }: { params: { detailPemesanan:
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentTime(new Date());
-        }, 1000); // Update every second
+        }, 1000); 
 
         return () => clearInterval(interval);
     }, []);
@@ -97,6 +100,8 @@ export default function DetailPemesanan({ params }: { params: { detailPemesanan:
         hour: 'numeric',
         minute: 'numeric',
     });
+
+    const [openModal, setOpenModal] = useState(false);
 
     return (
         <div className="relative bg-[#E2E2E2] h-screen flex items-center justify-center w-full">
@@ -118,17 +123,41 @@ export default function DetailPemesanan({ params }: { params: { detailPemesanan:
                             <div className="text-center text-[#646464] text-[14px]">Id Pemesanan : </div>
                             <div className="text-center text-[26px] font-bold">{data?.noInvoice}</div>
                             <div className="border-t-2 border-[#C79618]"></div>
-                            {/* <TableLihatPemesanan data={order?.items || []} /> */}
                             {isLoading ? <TableLihatPemesanan data={dataDumy}></TableLihatPemesanan> : <TableLihatPemesanan data={dataItem}></TableLihatPemesanan>}
                         </div>
                     </div>
-                    <Link href={"/page/pemesanan"}>
-                        <button
-                            className="bg-[#D2691E] hover:bg-[#F8A849] font-bold px-3 text-white py-2 rounded-lg w-[90vw] md:w-[20vw] lg:w-[18vw] mb-5 bottom-0 left-4 md:left-72 lg:left-[525px] absolute"
-                        >
-                            Back To Menu
-                        </button>
-                    </Link>
+                    <button
+                        onClick={() => setOpenModal(true)}
+                        className="bg-[#D2691E] hover:bg-[#F8A849] font-bold px-3 text-white py-2 rounded-lg w-[90vw] md:w-[20vw] lg:w-[18vw] mb-5 bottom-0 left-4 md:left-72 lg:left-[525px] absolute"
+                    >
+                        Back To Menu
+                    </button>
+
+                    <Modal show={openModal} size="md" onClose={() => setOpenModal(false)} popup className='backdrop-blur-lg pt-[10%]'>
+                        <Modal.Header />
+                        <Modal.Body>
+                            <div className="text-center m-auto">
+                                <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                                <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                                    Yakin Ingin Kembali ke menu pemesanan ?
+                                    Pesanan anda akan hilang jika anda klik tombol ya..
+                                </h3>
+                                <div className="flex justify-center gap-4">
+                                    <Button className='bg-[#C79618] hover:bg-[#F8A849] text-white' onClick={() => setOpenModal(false)}>
+                                        Tidak
+                                    </Button>
+                                    <Link href={"/page/pemesanan"}>
+                                        <Button className='bg-[#F30101] hover:bg-[#950000] text-white' color="white"
+                                            onClick={() => {
+                                                setOpenModal(false);
+                                            }}>
+                                            Ya
+                                        </Button>
+                                    </Link>
+                                </div>
+                            </div>
+                        </Modal.Body>
+                    </Modal>
                 </>
             )}
         </div>

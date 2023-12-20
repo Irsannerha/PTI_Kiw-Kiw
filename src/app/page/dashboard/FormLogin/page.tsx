@@ -33,13 +33,13 @@ export default function landingPage() {
     const [showEmailAlert, setShowEmailAlert] = useState(false);
     const [showSuccesLoginAlert, setshowSuccesLoginAlert] = useState(false);
     const [showInputEmailPassword, setshowInputEmailPassword] = useState(false);
-    const [showInvalidLogin,setshowInvalidLogin] = useState(false)
+    const [showInvalidLogin, setshowInvalidLogin] = useState(false)
 
     const router = useRouter();
 
     const [accessToken, setAccessToken] = useLocalStorage('accessToken', '');
     const [refreshToken, setrefreshToken] = useLocalStorage('refreshToken', '');
-    const [idUser,setIdUser] = useLocalStorage('idUser', '');
+    const [idUser, setIdUser] = useLocalStorage('idUser', '');
 
 
     const handleFormSubmit = async () => {
@@ -77,15 +77,18 @@ export default function landingPage() {
                     setIdUser(data?.id);
                     setshowSuccesLoginAlert(true);
                     router.push('/page/dashboard');
-                }catch (error) {
+                } catch (error) {
                     if (error instanceof AxiosError) {
-                        if(error?.response?.status === 401){
+                        if (error?.response?.status === 401) {
                             setshowInvalidLogin(true);
                             setTimeout(() => {
                                 setshowInvalidLogin(false);
                             }, 3000);
-                        }else{
-                            
+                        } else {
+                            setshowInvalidLogin(true);
+                            setTimeout(() => {
+                                setshowInvalidLogin(false);
+                            }, 3000);
                         }
                     }
                 }
@@ -93,7 +96,6 @@ export default function landingPage() {
                 alert('Use @gmail.com in email');
             }
         }
-
 
         if (email && isPasswordEmpty) {
             setShowPasswordAlert(true);
@@ -189,7 +191,7 @@ export default function landingPage() {
 
                             {showInvalidLogin && (
                                 <div className="absolute mt-[120px] ml-60">
-                                    <AlertFailedLogin/>
+                                    <AlertFailedLogin />
                                 </div>
                             )}
 
