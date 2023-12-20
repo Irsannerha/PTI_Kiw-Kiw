@@ -27,15 +27,17 @@ export default function RootLayout({
   const [check, setCheck] = useState(false);
   const [accessToken, _] = useLocalStorage('accessToken', '');
   const [refreshToken, __] = useLocalStorage('refreshToken', '');
+  const [id,setPemesanan] = useLocalStorage("idPemesanan","")
   const pathname = usePathname()
 
 
   useEffect(() => {
-    // console.log(pathname);
-    if (pathname === '/page/dashboard/FormLogin' || pathname === '/page/dashboard/ForgotPassword' || pathname === '/page/dashboard/CodeOTP' || pathname === '/page/dashboard/NewPassword' || pathname === '/page/pemesanan' || pathname === '/page/landingPage' || pathname === '/page/pemesanan/DetailPemesanan' || pathname === '/page/landingPage' || pathname === '/page/landingPage/loginPegawai' || pathname === '/page/landingPage/home' || pathname === '/page/landingPage/buatPassword' || pathname === '/page/landingPage/kodeOTP' || pathname === '/page/landingPage/lupaPassword' || pathname === '/page/landingPage/loginPrekrutan' || pathname === '/page/pemesanan/detaiPemesanan' || pathname === '{/page/pemesanan/detaiPemesanan}') {
+    // console.log(pathname);\
+    if (pathname === '/page/dashboard/FormLogin' || pathname === '/page/dashboard/ForgotPassword' || pathname === '/page/dashboard/CodeOTP' || pathname === '/page/dashboard/NewPassword' || pathname === '/page/pemesanan' || pathname === '/page/landingPage' || pathname === '/page/pemesanan/DetailPemesanan' || pathname === '/page/landingPage' || pathname === '/page/landingPage/loginPegawai' || pathname === '/page/landingPage/home' || pathname === '/page/landingPage/buatPassword' || pathname === '/page/landingPage/kodeOTP' || pathname === '/page/landingPage/lupaPassword' || pathname === '/page/landingPage/loginPrekrutan' || pathname === '/page/pemesanan/detaiPemesanan' || pathname === '{/page/pemesanan/detaiPemesanan}' || pathname === `/page/pemesanan/${id}`) {
       setCheck(true);
       return
     }
+    
     if (!accessToken) {
       setCheck(false);
       if (pathname === '/page/landingPage/dashboardRekrut' || pathname === '/page/landingPage/cekStatus' || pathname === '/page/landingPage/profil') {
@@ -50,6 +52,9 @@ export default function RootLayout({
     }
   }, [pathname, accessToken, refreshToken]);
 
+  if( id === "") {
+    router.push('/page/pemesanan')
+  }
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     setTimeout(() => {

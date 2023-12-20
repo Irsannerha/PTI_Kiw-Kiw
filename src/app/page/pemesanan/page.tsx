@@ -15,6 +15,7 @@ import Image from "next/image";
 import useSWR from "swr";
 import { useParams, useRouter } from "next/navigation";
 import { log } from "console";
+import { useLocalStorage } from "usehooks-ts";
 
 export interface Product {
     itemId: string;
@@ -153,6 +154,7 @@ export default function Pemesanan() {
 
     const route = useParams<{ detailPemesanan: string }>();
     const routess = useRouter()
+    const [pemesanan,setPemesanan] = useLocalStorage("idPemesanan","")
     const handleCheckout = async () => {
 
         const itemsToCheckout = data.map(({ itemId, qty }) => ({ itemId, qty }));
@@ -165,9 +167,14 @@ export default function Pemesanan() {
             const response = await axios.post('/api/order/createOrder', userData);
             console.log('Backend response:', response.data);
             route.detailPemesanan = response.data.id
+            setPemesanan(response.data.id)
             const id = response.data.id
+            if (pemesanan !== id ){
+                routess.push('/page/pemesanan')
+            }else{
+                routess.push(`/page/pemesanan/${id}`);
+            }
             console.log(route.detailPemesanan);
-            routess.push(`/page/pemesanan/${id}`);
         } catch (error) {
             console.error('Error during checkout:', error);
         }
