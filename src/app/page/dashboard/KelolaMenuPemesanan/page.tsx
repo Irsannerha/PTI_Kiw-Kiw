@@ -29,6 +29,7 @@ interface MenuItem {
     gambar?: string | undefined;
 }
 
+
 export default function KelolaMenuPemesanan() {
     const [currentTime, setCurrentTime] = useState(new Date());
     const [menuMinuman, setMenuMinuman] = useState<MenuItem[]>([]);
@@ -70,6 +71,13 @@ export default function KelolaMenuPemesanan() {
 
     const [showAlertHapusData, setShowAlertHapusData] = useState(false);
     const router = useRouter();
+    const [dataModal, setDataModal] = useState()
+    const [id, setId] = useState("")
+
+    const inputchange = (e: any) => {
+        setId(e.target.value);
+        console.log(e.target.value);
+    }
 
     const handleFromDelete = async (id: string) => {
         setShowAlertHapusData(true);
@@ -79,13 +87,19 @@ export default function KelolaMenuPemesanan() {
                     Authorization: `Bearer ${accessToken}`
                 }
             })
-            mutate('/api/menu/allItem');
+            // mutate('/api/menu/allItem');
+            // console.log(id);
             setTimeout(() => {
                 setShowAlertHapusData(false);
             }, 3000);
         } catch (e) {
             console.log(e);
         }
+    }
+
+    const checkId = (id: string) => {
+        setId(id);
+        // console.log(id);
     }
 
     const [openModal, setOpenModal] = useState(false);
@@ -170,7 +184,7 @@ export default function KelolaMenuPemesanan() {
                                                     </div>
                                                     <div className="w-[50%]">
                                                         <Tooltip content="Delete Menu" style="dark" className='bg-black'>
-                                                            <Link onClick={() => setOpenModalMakanan(true)} href="#" className=" px-1 py-1 text-sm font-medium text-center text-gray-900 bg-[#F30101] hover:bg-[#950000] w-full flex justify-center items-center rounded-br-lg">
+                                                            <Link defaultValue={item.id} onClick={() => { checkId(item.id); setOpenModalMakanan(true); }} href="#" className=" px-1 py-1 text-sm font-medium text-center text-gray-900 bg-[#F30101] hover:bg-[#950000] w-full flex justify-center items-center rounded-br-lg">
                                                                 <SvgDeleteKelolaPemesanan />
                                                             </Link>
                                                         </Tooltip>
@@ -188,13 +202,14 @@ export default function KelolaMenuPemesanan() {
                                                                     <Button className='bg-[#C79618] hover:bg-[#F8A849] text-white' onClick={() => setOpenModalMakanan(false)}>
                                                                         Tidak
                                                                     </Button>
-                                                                    <Button className='bg-[#F30101] hover:bg-[#950000] text-white' color="white"
+                                                                    <Button value={item.id} onChange={inputchange} className='bg-[#F30101] hover:bg-[#950000] text-white' color="white"
                                                                         // onClick={() => handleFromDelete(order.id)}
                                                                         onClick={() => {
-                                                                            handleFromDelete(item.id);
+                                                                            handleFromDelete(id);
                                                                             setOpenModalMakanan(false);
-                                                                            window.location.reload();
+                                                                            window.location.reload()
                                                                         }}>
+
                                                                         Ya Hapus
                                                                     </Button>
                                                                 </div>
@@ -236,7 +251,7 @@ export default function KelolaMenuPemesanan() {
                                                     </div>
                                                     <div className="w-[50%]">
                                                         <Tooltip content="Edit Menu" style="dark" className='bg-black'>
-                                                            <Link onClick={() => setOpenModal(true)} href="#" className=" px-1 py-1 text-sm font-medium text-center text-gray-900 bg-[#F30101] hover:bg-[#950000] w-full flex justify-center items-center rounded-br-lg">
+                                                            <Link onClick={() => { checkId(order.id); setOpenModal(true); }} href="#" className=" px-1 py-1 text-sm font-medium text-center text-gray-900 bg-[#F30101] hover:bg-[#950000] w-full flex justify-center items-center rounded-br-lg">
                                                                 <SvgDeleteKelolaPemesanan />
                                                             </Link>
                                                         </Tooltip>
@@ -257,9 +272,10 @@ export default function KelolaMenuPemesanan() {
                                                                     <Button className='bg-[#F30101] hover:bg-[#950000] text-white' color="white"
                                                                         // onClick={() => handleFromDelete(order.id)}
                                                                         onClick={() => {
-                                                                            handleFromDelete(order.id);
+                                                                            // console.log(id);
+                                                                            handleFromDelete(id);
                                                                             setOpenModal(false);
-                                                                            window.location.reload();
+                                                                            window.location.reload()
                                                                         }}>
                                                                         Ya Hapus
                                                                     </Button>
