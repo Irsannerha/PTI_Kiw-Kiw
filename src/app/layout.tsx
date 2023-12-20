@@ -37,7 +37,7 @@ export default function RootLayout({
       setCheck(true);
       return
     }
-    
+
     if (!accessToken) {
       setCheck(false);
       if (pathname === '/page/landingPage/dashboardRekrut' || pathname === '/page/landingPage/cekStatus' || pathname === '/page/landingPage/profil') {
@@ -52,7 +52,7 @@ export default function RootLayout({
     }
   }, [pathname, accessToken, refreshToken]);
 
-  if( id === "") {
+  if( id === "" && pathname === `/page/pemesanan/${id}` || pathname === '/page/pemesanan/{detailPemesanan}') {
     router.push('/page/pemesanan')
   }
   const [loading, setLoading] = useState(true);

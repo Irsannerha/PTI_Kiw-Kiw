@@ -35,9 +35,10 @@ interface Makanan {
 
 export default function Pemesanan() {
     const [activeCart, setActiveCart] = useState(false);
+    const [pemesanan, setPemesanan] = useLocalStorage("idPemesanan", "")
     const [selectedCategory, setSelectedCategory] = useState("Semua");
     const [searchValue, setSearchValue] = useState("");
-    const [makanan,setMakanan] = useState<Makanan[]>([]);
+    const [makanan, setMakanan] = useState<Makanan[]>([]);
     const [data, setdata] = useState<Product[]>([]);
     const [name, setname] = useState("");
     const handleCategoryChange = (category: string) => {
@@ -60,7 +61,7 @@ export default function Pemesanan() {
                 img: e.gambar,
                 des: e.deskripsi,
                 category: e.categoryId,
-                stock:e.stock
+                stock: e.stock
             }
         })
         // setdata(filterData)
@@ -79,7 +80,7 @@ export default function Pemesanan() {
         }
     };
 
-    const { data: dataMakanan, isLoading:lala, error:rara } = useSWR('/api/menu/allItemMakanan', async (url) => {
+    const { data: dataMakanan, isLoading: lala, error: rara } = useSWR('/api/menu/allItemMakanan', async (url) => {
         const res = await axios.get(url)
         const filterMakanan = res.data.map((e: any) => {
             return {
@@ -90,12 +91,12 @@ export default function Pemesanan() {
                 img: e.gambar,
                 des: e.deskripsi,
                 category: e.categoryId,
-                stock:e.stock
+                stock: e.stock
             }
         })
         return filterMakanan
     })
-    const { data: dataMinuman, isLoading:haha, error:huhu } = useSWR('/api/menu/allItemMinuman', async (url) => {
+    const { data: dataMinuman, isLoading: haha, error: huhu } = useSWR('/api/menu/allItemMinuman', async (url) => {
         const res = await axios.get(url)
         const filterMakanan = res.data.map((e: any) => {
             return {
@@ -106,7 +107,7 @@ export default function Pemesanan() {
                 img: e.gambar,
                 des: e.deskripsi,
                 category: e.categoryId,
-                stock:e.stock
+                stock: e.stock
             }
         })
         return filterMakanan
@@ -118,12 +119,12 @@ export default function Pemesanan() {
                 item.name.toLowerCase().includes(searchValue.toLowerCase()) ||
                 item.price.toString().includes(searchValue.toLowerCase())
             );
-        } else if(selectedCategory ==="Makanan"){
+        } else if (selectedCategory === "Makanan") {
             return dataMakanan.filter((item: { name: string; price: { toString: () => string | string[]; }; }) =>
                 item.name.toLowerCase().includes(searchValue.toLowerCase()) ||
                 item.price.toString().includes(searchValue.toLowerCase())
             );
-        }else{
+        } else {
             return dataMinuman.filter((item: { name: string; price: { toString: () => string | string[]; }; }) =>
                 item.name.toLowerCase().includes(searchValue.toLowerCase()) ||
                 item.price.toString().includes(searchValue.toLowerCase())
@@ -154,9 +155,8 @@ export default function Pemesanan() {
 
     const route = useParams<{ detailPemesanan: string }>();
     const routess = useRouter()
-    const [pemesanan,setPemesanan] = useLocalStorage("idPemesanan","")
     const handleCheckout = async () => {
-
+        setPemesanan("")
         const itemsToCheckout = data.map(({ itemId, qty }) => ({ itemId, qty }));
 
         const userData = { name, data: itemsToCheckout };
@@ -169,11 +169,7 @@ export default function Pemesanan() {
             route.detailPemesanan = response.data.id
             setPemesanan(response.data.id)
             const id = response.data.id
-            if (pemesanan !== id ){
-                routess.push('/page/pemesanan')
-            }else{
-                routess.push(`/page/pemesanan/${id}`);
-            }
+            routess.push(`/page/pemesanan/${id}`);
             console.log(route.detailPemesanan);
         } catch (error) {
             console.error('Error during checkout:', error);
@@ -241,7 +237,7 @@ export default function Pemesanan() {
                             />
                         </div>
                         <div className="rounded-lg grid grid-cols-2 md:grid-cols-3 lg:flex flex-wrap justify-center lg:justify-center gap-5 md:gap-5 mx-5 my-5 max-h-[400px] md:max-h-[700px] lg:max-h-[400px] overflow-y-auto overscroll-auto md:pl-10 md:pr-10 mb-10">
-                            {filteredFoodData().map((dataItem:any) => (
+                            {filteredFoodData().map((dataItem: any) => (
                                 <FoodCard
                                     key={dataItem.id}
                                     itemId={dataItem.id}
@@ -314,13 +310,13 @@ export default function Pemesanan() {
                                 </h3>
                                 <hr className="w-[90vw] lg:w-[18vw] my-2" />
                                 {/* <Link href={'/page/pemesanan/detaiPemesanan'}> */}
-                                    <button
-                                        onClick={handleCheckout}
-                                        disabled={name === "" || data.length === 0}
-                                        className="bg-[#D2691E] hover:bg-[#F8A849] font-bold px-3 text-white py-2 rounded-lg w-[90vw] lg:w-[18vw] mb-5"
-                                    >
-                                        Pesan Sekarang
-                                    </button>
+                                <button
+                                    onClick={handleCheckout}
+                                    disabled={name === "" || data.length === 0}
+                                    className="bg-[#D2691E] hover:bg-[#F8A849] font-bold px-3 text-white py-2 rounded-lg w-[90vw] lg:w-[18vw] mb-5"
+                                >
+                                    Pesan Sekarang
+                                </button>
                                 {/* </Link> */}
                             </div>
                         </div>

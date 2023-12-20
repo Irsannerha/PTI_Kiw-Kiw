@@ -12,6 +12,7 @@ import { useAxiosAuth } from "@/app/hooks/useAxiosAuth";
 
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 import { Button, Modal } from 'flowbite-react';
+import { useLocalStorage } from "usehooks-ts";
 
 interface TableRow {
     produk: string;
@@ -40,6 +41,7 @@ export default function DetailPemesanan({ params }: { params: { detailPemesanan:
     const [order, setOrder] = useState<Order | null>(null);
     const [data, setData] = useState<dataOrder>()
     const pathname = usePathname()
+    const [pemesanan,setPemesanan] = useLocalStorage("idPemesanan","")
 
     useEffect(() => {
         setTimeout(() => {
@@ -150,6 +152,7 @@ export default function DetailPemesanan({ params }: { params: { detailPemesanan:
                                         <Button className='bg-[#F30101] hover:bg-[#950000] text-white' color="white"
                                             onClick={() => {
                                                 setOpenModal(false);
+                                                setPemesanan("")
                                             }}>
                                             Ya
                                         </Button>
