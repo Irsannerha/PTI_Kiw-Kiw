@@ -29,6 +29,7 @@ interface MenuItem {
     gambar?: string | undefined;
 }
 
+
 export default function KelolaMenuPemesanan() {
     const [currentTime, setCurrentTime] = useState(new Date());
     const [menuMinuman, setMenuMinuman] = useState<MenuItem[]>([]);
@@ -87,6 +88,7 @@ export default function KelolaMenuPemesanan() {
                 }
             })
             // mutate('/api/menu/allItem');
+            // console.log(id);
             setTimeout(() => {
                 setShowAlertHapusData(false);
             }, 3000);
