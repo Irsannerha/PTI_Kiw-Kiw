@@ -80,18 +80,23 @@ export default function KelolaMenuPemesanan() {
     }
 
     const handleFromDelete = async (id: string) => {
-        setShowAlertHapusData(true);
+        // setShowAlertHapusData(true);
         try {
-            await axiosAuth.put(`/api/menu/deleteItem/${id}`, {
+            const response = await axiosAuth.put(`/api/menu/deleteItem/${id}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
             })
+            if (response.data.status === 401) {
+                alert(response.data.message)
+            } else {
+                window.location.reload()
+            }
             // mutate('/api/menu/allItem');
             // console.log(id);
-            setTimeout(() => {
-                setShowAlertHapusData(false);
-            }, 3000);
+            // setTimeout(() => {
+            //     setShowAlertHapusData(false);
+            // }, 3000);
         } catch (e) {
             console.log(e);
         }
@@ -207,7 +212,6 @@ export default function KelolaMenuPemesanan() {
                                                                         onClick={() => {
                                                                             handleFromDelete(id);
                                                                             setOpenModalMakanan(false);
-                                                                            window.location.reload()
                                                                         }}>
 
                                                                         Ya Hapus
@@ -275,7 +279,6 @@ export default function KelolaMenuPemesanan() {
                                                                             // console.log(id);
                                                                             handleFromDelete(id);
                                                                             setOpenModal(false);
-                                                                            window.location.reload()
                                                                         }}>
                                                                         Ya Hapus
                                                                     </Button>

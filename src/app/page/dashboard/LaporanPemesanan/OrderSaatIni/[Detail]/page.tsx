@@ -101,15 +101,15 @@ export default function LaporanPemesanan({ params }: { params: { Detail: string 
         // Tambahkan data lainnya sesuai kebutuhan
     ];
 
-    const fetchData = async () => {
-        try {
-            const response = await axios.get('/api/laporanPemesanan');
-            // Assuming your backend response structure has keys like noInvoice, namaPemesan, tanggal
-            setInvoiceData(response.data);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    };
+    // const fetchData = async () => {
+    //     try {
+    //         const response = await axios.get('/api/laporanPemesanan');
+    //         // Assuming your backend response structure has keys like noInvoice, namaPemesan, tanggal
+    //         setInvoiceData(response.data);
+    //     } catch (error) {
+    //         console.error('Error fetching data:', error);
+    //     }
+    // };
 
     const handleTerimaPesanan = async () => {
         try {
@@ -132,9 +132,9 @@ export default function LaporanPemesanan({ params }: { params: { Detail: string 
     };
 
 
-    useEffect(() => {
-        fetchData();
-    }, []);
+    // useEffect(() => {
+    //     fetchData();
+    // }, []);
 
     return (
         <>
