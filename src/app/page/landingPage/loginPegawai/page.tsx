@@ -17,14 +17,12 @@ import { useLocalStorage } from "usehooks-ts";
 import { useRouter } from "next/navigation";
 import { useAxiosAuth } from "@/app/hooks/useAxiosAuth";
 
-// Deklarasikan tipe data terlebih dahulu
 interface DataFecth {
     email: string;
     password: string;
 }
 
 export default function landingPage() {
-    // Inisialisasi state dan variabel yang diperlukan
     const initialData: DataFecth = {
         email: "",
         password: ""
@@ -48,7 +46,6 @@ export default function landingPage() {
     const [refreshToken, setrefreshToken] = useLocalStorage('refreshToken', '');
     const [idUser, setIdUser] = useLocalStorage('idUser', '');
 
-    // Fungsi untuk menangani pengiriman formulir
     const handleFormSubmit = async () => {
         if (!email) {
             setIsEmailEmpty(true);
@@ -97,7 +94,10 @@ export default function landingPage() {
                                 setshowInvalidLogin(false);
                             }, 3000);
                         } else {
-
+                            setshowInvalidLogin(true);
+                            setTimeout(() => {
+                                setshowInvalidLogin(false);
+                            }, 3000);
                         }
                     }
                 }
@@ -124,14 +124,12 @@ export default function landingPage() {
         }
     };
 
-    // Fungsi untuk mereset formulir
     const handleReset = () => {
         setEmail("");
         setPassword("");
         setIsEmailEmpty(false);
         setIsPasswordEmpty(false);
     };
-
 
     return (
         <>

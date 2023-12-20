@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from 'next/image'
 import AlertInputEmail from "@/app/components/AlertInputEmail"
 import SuccessOTP from "@/app/components/SuccessOTP"
+import AlertSendEmail from "@/app/components/AlertSendEmail"
 
 import axios, { AxiosError } from 'axios';
 import { useAxiosAuth } from "@/app/hooks/useAxiosAuth";
@@ -30,6 +31,7 @@ export default function ForgotPassword() {
 
   const [showEmailAlert, setShowEmailAlert] = useState(false);
   const [showSuccessOTPSend, setshowSuccessOTPSend] = useState(false);
+  const [showAlertEmailSend, setShowAlertEmailSend] = useState(false);
 
   const router = useRouter();
   const axiosAuth = useAxiosAuth();
@@ -57,9 +59,9 @@ export default function ForgotPassword() {
           console.log('====================================');
           console.log('Register Success', data);
           console.log('====================================');
-          setshowSuccessOTPSend(true);
+          setShowAlertEmailSend(true);
           setTimeout(() => {
-            setshowSuccessOTPSend(false);
+            setShowAlertEmailSend(false);
           }, 3000);
           router.push('/page/dashboard/CodeOTP')
         } catch (error) {
@@ -82,10 +84,7 @@ export default function ForgotPassword() {
       }, 3000);
     }
   };
-  // const handleReset = () => {
-  //   setEmail("");
-  //   setIsEmailEmpty(false);
-  // };
+  
   return (
     <>
       <div className="m-0 box-border flex h-screen w-full bg-slate-500 p-0">
@@ -125,9 +124,9 @@ export default function ForgotPassword() {
                   <AlertInputEmail />
                 </div>
               )}
-              {showSuccessOTPSend && (
+              {showAlertEmailSend && (
                 <div className="absolute mt-[150px] ml-16 w-full">
-                  <SuccessOTP />
+                  <AlertSendEmail />
                 </div>
               )}
               {/* <Link href="/forget-password-base"> */}

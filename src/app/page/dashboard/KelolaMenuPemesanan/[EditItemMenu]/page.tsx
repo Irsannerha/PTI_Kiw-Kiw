@@ -75,10 +75,6 @@ export default function EditItemMenu({ params }: { params: { EditItemMenu: strin
         })
     }, [])
 
-
-
-
-
     const handleReset = () => {
         setnamaItem("");
         setharga("");
@@ -108,13 +104,10 @@ export default function EditItemMenu({ params }: { params: { EditItemMenu: strin
     const [progressUpload, setProgressUpload] = useState(0)
 
 
-    // Extract the image name from the URL or use a default value
     const imageName = typeof initialData.gambar === 'string' ? initialData.gambar.split('/').pop() : "Tidak ada gambar.";
 
-    // Set the initial file status
     const [fileStatus, setFileStatus] = useState(imageName);
 
-    // Function to delete the existing image from Firebase Storage
     const deleteExistingImage = async (imageUrl: string) => {
         try {
             const existingImageRef = ref(storage, imageUrl);
@@ -122,29 +115,19 @@ export default function EditItemMenu({ params }: { params: { EditItemMenu: strin
             console.log('Existing image deleted successfully');
         } catch (error) {
             console.error('Error deleting existing image:', error);
-            // Handle error (e.g., display an error message to the user)
         }
     };
-    // Function to upload a new image to Firebase Storage
     const uploadNewImage = async (imageFile: File) => {
         const name = imageFile.name;
         const storageRef = ref(storage, `image/${name}`);
         const uploadTask = uploadBytesResumable(storageRef, imageFile);
-
-        // Handle upload progress, errors, and completion
-        // (similar to your existing handleUploadFile function)
     };
     const handleSelectedFile = (files: any) => {
         if (files && files[0].size < 10000000) {
             if (typeof initialData.gambar === 'string') {
-                // Delete existing image first if it's a string (URL)
                 deleteExistingImage(initialData.gambar);
             }
-
-            // Upload the new image
             uploadNewImage(files[0]);
-
-            // Update your component state accordingly
             setImageFile(files[0]);
             setFileStatus(files[0].name);
         } else {
@@ -177,7 +160,6 @@ export default function EditItemMenu({ params }: { params: { EditItemMenu: strin
                     try {
                         const url = await getDownloadURL(uploadTask.snapshot.ref);
                         setDownloadURL(url);
-                        // Set the file status here
                         setFileStatus(imageFile.name);
                     } catch (error) {
                         console.error('Error getting download URL:', error);
@@ -187,10 +169,8 @@ export default function EditItemMenu({ params }: { params: { EditItemMenu: strin
         } else {
             message.error('File not found');
         }
-        // Set the file status to the new image name
         setFileStatus(imageFile?.name || "Tidak ada gambar");
     };
-    // Similarly, when removing the file, you can reset the file status
     const handleRemoveFile = () => {
         setImageFile(undefined);
         setFileStatus("Tidak ada gambar");
@@ -263,258 +243,260 @@ export default function EditItemMenu({ params }: { params: { EditItemMenu: strin
         //             await handleUploadFile();
         //         }
 
-                // Log input data to console
-                console.log('Input Data:', {
-                    namaItem,
-                    harga,
-                    // kategori,
-                    stok,
-                    gambar: downloadURL,
-                });
-                // Send data to backend
-                try {
-                    const response = await axiosAuth.put(`/api/menu/editItem/${params.EditItemMenu}`, {
-                        name: namaItem,
-                        price: harga,
-                        stock: stok,
-                        gambar: downloadURL,
-                    });
-                    console.log(response.data);
-                    router.push('/page/dashboard/KelolaMenuPemesanan');
-                } catch (err) {
-                    console.log(err);
-                }
-
-                // const response = await axios.post('YOUR_BACKEND_API/menu', {
-                //     namaItem,
-                //     harga,
-                //     kategori,
-                //     stok,
-                //     gambar: downloadURL,
-                // });
-                // if (response.status === 200) {
-                //     setShowAlertUbahData(true);
-                //     setTimeout(() => {
-                //         setShowAlertUbahData(false);
-                //     }, 5000);
-                //     // Log input data to console
-                //     console.log('Input Data:', {
-                //         namaItem,
-                //         harga,
-                //         kategori,
-                //         stok,
-                //         gambar: downloadURL,
-                //     });
-                //     // Reset form fields
-                //     setnamaItem("");
-                //     setharga("");
-                //     setkategori("");
-                //     setstok("");
-                //     setgambar("");
-                // } else {
-                //     // Handle other response statuses or errors
-
-            // } catch (error) {
-            //     console.error('Error submitting form:', error);
-            // }
+        // Log input data to console
+        console.log('Input Data:', {
+            namaItem,
+            harga,
+            stok,
+            gambar: downloadURL,
+        });
+        try {
+            const response = await axiosAuth.put(`/api/menu/editItem/${params.EditItemMenu}`, {
+                name: namaItem,
+                price: harga,
+                stock: stok,
+                gambar: downloadURL,
+            });
+            console.log(response.data);
+            setShowAlertUbahData(true);
+            setTimeout(() => {
+                setShowAlertUbahData(false);
+            }, 5000);
+            router.push('/page/dashboard/KelolaMenuPemesanan');
+        } catch (err) {
+            console.log(err);
         }
-        return (
-            <>
-                {isLoading && <div>Loading...</div>}
-                {error && <div>Erorrrr..</div>}
-                {dataItem && (
-                    <div style={{ display: 'flex' }}>
-                        <DashboardSideBar />
-                        <div style={{ marginLeft: '280px', padding: '20px' }} className="w-[77%]">
-                            <div className="flex justify-between">
-                                <div className="text-start justify-start items-start">
-                                    <div className="mt-4 mb-4 w-44 bg-[#FFE4C4] shadow-lg rounded-lg">
-                                        <div className="flex p-3">
-                                            <div className="flex flex-col justify-center">
-                                                <SvgDashboardKalender />
-                                            </div>
-                                            <div className="w-full">
-                                                <div className="justify-end items-end flex">{formattedDate}</div>
-                                                <div className="justify-end items-end flex">{formattedTime}</div>
-                                            </div>
+
+        // const response = await axios.post('YOUR_BACKEND_API/menu', {
+        //     namaItem,
+        //     harga,
+        //     kategori,
+        //     stok,
+        //     gambar: downloadURL,
+        // });
+        // if (response.status === 200) {
+        //     setShowAlertUbahData(true);
+        //     setTimeout(() => {
+        //         setShowAlertUbahData(false);
+        //     }, 5000);
+        //     // Log input data to console
+        //     console.log('Input Data:', {
+        //         namaItem,
+        //         harga,
+        //         kategori,
+        //         stok,
+        //         gambar: downloadURL,
+        //     });
+        //     // Reset form fields
+        //     setnamaItem("");
+        //     setharga("");
+        //     setkategori("");
+        //     setstok("");
+        //     setgambar("");
+        // } else {
+        //     // Handle other response statuses or errors
+
+        // } catch (error) {
+        //     console.error('Error submitting form:', error);
+        // }
+    }
+    return (
+        <>
+            {isLoading && <div>Loading...</div>}
+            {error && <div>Erorrrr..</div>}
+            {dataItem && (
+                <div style={{ display: 'flex' }}>
+                    <DashboardSideBar />
+                    <div style={{ marginLeft: '280px', padding: '20px' }} className="w-[77%]">
+                        <div className="flex justify-between">
+                            <div className="text-start justify-start items-start">
+                                <div className="mt-4 mb-4 w-44 bg-[#FFE4C4] shadow-lg rounded-lg">
+                                    <div className="flex p-3">
+                                        <div className="flex flex-col justify-center">
+                                            <SvgDashboardKalender />
                                         </div>
-                                    </div>
-                                </div>
-                                <div className="text-end justify-end items-end">
-                                    <div className="mt-4 mb-4 w-52 bg-[#FFE4C4] shadow-lg rounded-lg">
-                                        <div className="flex p-3 gap-5">
-                                            <div className="w-[80%] flex flex-col justify-center">
-                                                Selamat Datang, Admin
-                                            </div>
-                                            <div className="w-[20%] flex justify-end items-end">
-                                                <SvgDashboardProfile />
-                                            </div>
+                                        <div className="w-full">
+                                            <div className="justify-end items-end flex">{formattedDate}</div>
+                                            <div className="justify-end items-end flex">{formattedTime}</div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="flex justify-between -mt-4 ">
-                                <div className="text-start justify-start items-start">
-                                    <div className="mt-4 mb-4 w-full bg-[#F8A849] shadow-lg rounded-lg hover:bg-[#C79618]">
-                                        <Link href="/page/dashboard/KelolaMenuPemesanan">
-                                            <div className=" flex p-2 gap-2 justify-center items-center m-auto text-center text-white">
-                                                <div className="flex flex-col justify-center">
-                                                    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M15 23.75L6.25 15L15 6.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                                        <path d="M23.75 15H6.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                                    </svg>
-                                                </div>
-                                                <div className="flex items-center text-black">
-                                                    Kembali
-                                                </div>
-                                            </div>
-                                        </Link>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="mb-5 w-full text-[32px]">Ubah Menu</div>
-                            <div className="text-[24px]">Nama Item</div>
-                            <Input
-                                onChange={(e) => { setnamaItem(e.target.value); }}
-                                placeholder={dataItem?.name}
-                                required
-                                type="text"
-                                value={namaItem}
-                            />
-                            <div className="justify-between items-center grid grid-cols-3 md:grid-cols-3 gap-2 w-full mt-2">
-                                <div className="w-[175px]">
-                                    <div className="text-[24px]">Harga</div>
-                                    <div className="flex gap-3">
-                                        <div className="text-center flex justify-center items-center">Rp.</div>
-                                        <Input
-                                            onChange={(e) => { setharga(e.target.value); }}
-                                            placeholder={dataItem?.price}
-                                            required
-                                            type="text"
-                                            value={harga}
-                                        />
-                                    </div>
-                                </div>
-                                <div className="-ml-[30%] w-[100%]">
-                                    <div className="text-[24px]">Kategori</div>
-                                    <div className="flex justify-between">
-                                        <div className="flex">
-                                            <select onChange={(e) => { setkategori(e.target.value); }} id="countrssies" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                                {kat.map((kat: { id: number, name: string }) => (
-                                                    <option key={kat.id} value={kat.id}>
-                                                        {kat.name}
-                                                    </option>
-                                                ))}
-                                            </select>
+                            <div className="text-end justify-end items-end">
+                                <div className="mt-4 mb-4 w-52 bg-[#FFE4C4] shadow-lg rounded-lg">
+                                    <div className="flex p-3 gap-5">
+                                        <div className="w-[80%] flex flex-col justify-center">
+                                            Selamat Datang, Admin
                                         </div>
-                                    </div>
-                                </div>
-                                <div className="-ml-[60%]">
-                                    <div className="text-[24px]">Stok</div>
-                                    <div className="flex gap-3">
-                                        <Input
-                                            onChange={(e) => { setstok(e.target.value); }}
-                                            placeholder={dataItem?.stock}
-                                            required
-                                            type="text"
-                                            value={stok}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="gap-2 w-full mt-2">
-                                <div className="text-[24px]">Gambar</div>
-                                <div className="col-lg-8 offset-lg-2">
-                                    <div className="flex justify-between">
-                                        <div className="flex">
-                                            <div className="inline-block text-left w-96 relative rounded-md text-[14px]">
-                                                <input
-                                                    type="file"
-                                                    id="imageUpload"
-                                                    name="imageFile"
-                                                    className="absolute opacity-0 cursor-pointer "
-                                                    onChange={(files) => handleSelectedFile(files.target.files)}
-                                                    placeholder="Select file to upload"
-                                                    accept="image/png"
-                                                />
-                                                <label
-                                                    htmlFor="imageUpload"
-                                                    className="bg-[#FA8F21] hover:bg-[#8B6A56] text-black hover:text-black inline-block mr-2 px-4 py-2 h-9 rounded-md cursor-pointer"
-                                                >
-                                                    Masukkan Gambar
-                                                </label>
-                                                <span id="imageStatus" className="text-black">
-                                                    {fileStatus}
-                                                </span>
-                                            </div>
+                                        <div className="w-[20%] flex justify-end items-end">
+                                            <SvgDashboardProfile />
                                         </div>
-                                    </div>
-                                    <div className="mt-5">
-                                        <Card>
-                                            {imageFile && (
-                                                <>
-                                                    <List.Item
-                                                        extra={[
-                                                            <Button
-                                                                key="btnRemoveFile"
-                                                                onClick={handleRemoveFile}
-                                                                type="text"
-                                                                icon={<i className="fas fa-times text-black"></i>}
-                                                            />,
-                                                        ]}
-                                                    >
-                                                        <List.Item.Meta
-                                                            title={imageFile.name}
-                                                            // description={`Size: ${imageFile.size}`}
-                                                        />
-                                                    </List.Item>
-                                                    <div className="text-right mt-3">
-                                                        <Button
-                                                            loading={isUploading}
-                                                            // type="primary"
-                                                            onClick={handleUploadFile}
-                                                            className="opacity-50 bg-white"
-                                                        >
-                                                            Upload
-                                                        </Button>
-                                                        <Progress percent={progressUpload} />
-                                                    </div>
-                                                </>
-                                            )}
-                                            {downloadURL && (
-                                                <>
-                                                    <Image
-                                                        src={downloadURL}
-                                                        alt={downloadURL}
-                                                        style={{ width: 200, height: 200, objectFit: 'cover' }}
-                                                    />
-                                                    {/* <p>{downloadURL}</p> */}
-                                                </>
-                                            )}
-                                            <p></p>
-                                        </Card>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        {showAlertUbahData && (
-                            <div className="absolute mt-[40%] ml-[78%]">
-                                <AlertUbahData />
+                        <div className="flex justify-between -mt-4 ">
+                            <div className="text-start justify-start items-start">
+                                <div className="mt-4 mb-4 w-full bg-[#F8A849] shadow-lg rounded-lg hover:bg-[#C79618]">
+                                    <Link href="/page/dashboard/KelolaMenuPemesanan">
+                                        <div className=" flex p-2 gap-2 justify-center items-center m-auto text-center text-white">
+                                            <div className="flex flex-col justify-center">
+                                                <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M15 23.75L6.25 15L15 6.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                    <path d="M23.75 15H6.25" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                </svg>
+                                            </div>
+                                            <div className="flex items-center text-black">
+                                                Kembali
+                                            </div>
+                                        </div>
+                                    </Link>
+                                </div>
                             </div>
-                        )}
-                        <div className="div">
-                            <button
-                                type="button"
-                                onClick={handleFormSubmit}
-                                className="-ml-32 mt-[35%] absolute text-black w-[8%] bg-[#F8A849] hover:bg-[#8B6A56] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm py-2.5 mb-2 dark:bg-[#8B6A56] dark:hover:bg-[#F8A849] focus:outline-none flex justify-center items-center shadow-lg"
-                            >
-                                Ubah
-                            </button>
-                        </div >
+                        </div>
+                        <div className="mb-5 w-full text-[32px]">Ubah Menu</div>
+                        <div className="text-[24px]">Nama Item</div>
+                        <Input
+                            onChange={(e) => { setnamaItem(e.target.value); }}
+                            placeholder={dataItem?.name}
+                            required
+                            type="text"
+                            value={namaItem}
+                        />
+                        <div className="justify-between items-center grid grid-cols-3 md:grid-cols-3 gap-2 w-full mt-2">
+                            <div className="w-[175px]">
+                                <div className="text-[24px]">Harga</div>
+                                <div className="flex gap-3">
+                                    <div className="text-center flex justify-center items-center">Rp.</div>
+                                    <Input
+                                        onChange={(e) => { setharga(e.target.value); }}
+                                        placeholder={dataItem?.price}
+                                        required
+                                        type="text"
+                                        value={harga}
+                                    />
+                                </div>
+                            </div>
+                            <div className="-ml-[30%] w-[100%]">
+                                <div className="text-[24px]">Kategori</div>
+                                <div className="flex justify-between">
+                                    <div className="flex">
+                                        <select onChange={(e) => { setkategori(e.target.value); }} id="countrssies" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                            {kat.map((kat: { id: number, name: string }) => (
+                                                <option key={kat.id} value={kat.id}>
+                                                    {kat.name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="-ml-[60%]">
+                                <div className="text-[24px]">Stok</div>
+                                <div className="flex gap-3">
+                                    <Input
+                                        onChange={(e) => { setstok(e.target.value); }}
+                                        placeholder={dataItem?.stock}
+                                        required
+                                        type="text"
+                                        value={stok}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="gap-2 w-full mt-2">
+                            <div className="text-[24px]">Gambar</div>
+                            <div className="col-lg-8 offset-lg-2">
+                                <div className="flex justify-between">
+                                    <div className="flex">
+                                        <div className="inline-block text-left w-96 relative rounded-md text-[14px]">
+                                            <input
+                                                type="file"
+                                                id="imageUpload"
+                                                name="imageFile"
+                                                className="absolute opacity-0 cursor-pointer "
+                                                onChange={(files) => handleSelectedFile(files.target.files)}
+                                                placeholder="Select file to upload"
+                                                accept="image/png"
+                                            />
+                                            <label
+                                                htmlFor="imageUpload"
+                                                className="bg-[#FA8F21] hover:bg-[#8B6A56] text-black hover:text-black inline-block mr-2 px-4 py-2 h-9 rounded-md cursor-pointer"
+                                            >
+                                                Masukkan Gambar
+                                            </label>
+                                            <span id="imageStatus" className="text-black">
+                                                {fileStatus}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="mt-5">
+                                    <Card>
+                                        {imageFile && (
+                                            <>
+                                                <List.Item
+                                                    extra={[
+                                                        <Button
+                                                            key="btnRemoveFile"
+                                                            onClick={handleRemoveFile}
+                                                            type="text"
+                                                            icon={<i className="fas fa-times text-black"></i>}
+                                                        />,
+                                                    ]}
+                                                >
+                                                    <List.Item.Meta
+                                                        title={imageFile.name}
+                                                    // description={`Size: ${imageFile.size}`}
+                                                    />
+                                                </List.Item>
+                                                <div className="text-right mt-3">
+                                                    <Button
+                                                        loading={isUploading}
+                                                        // type="primary"
+                                                        onClick={handleUploadFile}
+                                                        className="opacity-50 bg-white"
+                                                    >
+                                                        Upload
+                                                    </Button>
+                                                    <Progress percent={progressUpload} />
+                                                </div>
+                                            </>
+                                        )}
+                                        {downloadURL && (
+                                            <>
+                                                <Image
+                                                    src={downloadURL}
+                                                    alt={downloadURL}
+                                                    style={{ width: 200, height: 200, objectFit: 'cover' }}
+                                                />
+                                                {/* <p>{downloadURL}</p> */}
+                                            </>
+                                        )}
+                                        <p></p>
+                                    </Card>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                )}
-            </>
-        )
-    }
+                    {showAlertUbahData && (
+                        <div className="absolute mt-[40%] ml-[78%]">
+                            <AlertUbahData />
+                        </div>
+                    )}
+                    <div className="div">
+                        <button
+                            type="button"
+                            onClick={handleFormSubmit}
+                            className="-ml-32 mt-[35%] absolute text-black w-[8%] bg-[#F8A849] hover:bg-[#8B6A56] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm py-2.5 mb-2 dark:bg-[#8B6A56] dark:hover:bg-[#F8A849] focus:outline-none flex justify-center items-center shadow-lg"
+                        >
+                            Ubah
+                        </button>
+                    </div >
+                </div>
+            )}
+        </>
+    )
+}
 
 

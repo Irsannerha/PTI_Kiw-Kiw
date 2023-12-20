@@ -79,7 +79,7 @@ export default function KelolaMenuPemesanan() {
                     Authorization: `Bearer ${accessToken}`
                 }
             })
-            mutate('/api/menu/allItem');
+            // mutate('/api/menu/allItem');
             setTimeout(() => {
                 setShowAlertHapusData(false);
             }, 3000);
@@ -173,34 +173,34 @@ export default function KelolaMenuPemesanan() {
                                                             <Link onClick={() => setOpenModalMakanan(true)} href="#" className=" px-1 py-1 text-sm font-medium text-center text-gray-900 bg-[#F30101] hover:bg-[#950000] w-full flex justify-center items-center rounded-br-lg">
                                                                 <SvgDeleteKelolaPemesanan />
                                                             </Link>
+                                                            <Modal show={openModalMakanan} size="md" onClose={() => setOpenModalMakanan(false)} popup className='backdrop-blur-lg pt-[10%]'>
+                                                                <Modal.Header />
+                                                                <Modal.Body>
+                                                                    <div className="text-center m-auto">
+                                                                        <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" color="red" />
+                                                                        <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                                                                            Yakin Ingin Menghapus Menu Makanan Ini?
+                                                                            Anda Akan Kehilangan Data Tersebut Pada Menu Ini..
+                                                                        </h3>
+                                                                        <div className="flex justify-center gap-4">
+                                                                            <Button className='bg-[#C79618] hover:bg-[#F8A849] text-white' onClick={() => setOpenModalMakanan(false)}>
+                                                                                Tidak
+                                                                            </Button>
+                                                                            <Button className='bg-[#F30101] hover:bg-[#950000] text-white' color="white"
+                                                                                // onClick={() => handleFromDelete(order.id)}
+                                                                                onClick={() => {
+                                                                                    handleFromDelete(item.id);
+                                                                                    setOpenModalMakanan(true);
+                                                                                    window.location.reload();
+                                                                                }}>
+                                                                                Ya, Hapus
+                                                                            </Button>
+                                                                        </div>
+                                                                    </div>
+                                                                </Modal.Body>
+                                                            </Modal>
                                                         </Tooltip>
                                                     </div>
-                                                    <Modal show={openModalMakanan} size="md" onClose={() => setOpenModalMakanan(false)} popup className='backdrop-blur-lg pt-[10%]'>
-                                                        <Modal.Header />
-                                                        <Modal.Body>
-                                                            <div className="text-center m-auto">
-                                                                <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
-                                                                <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                                                                    Yakin Ingin Menghapus Menu Makanan Ini ???
-                                                                    Anda Akan Kehilangan Semua Data Pada Menu Ini...
-                                                                </h3>
-                                                                <div className="flex justify-center gap-4">
-                                                                    <Button className='bg-[#C79618] hover:bg-[#F8A849] text-white' onClick={() => setOpenModalMakanan(false)}>
-                                                                        Tidak
-                                                                    </Button>
-                                                                    <Button className='bg-[#F30101] hover:bg-[#950000] text-white' color="white"
-                                                                        // onClick={() => handleFromDelete(order.id)}
-                                                                        onClick={() => {
-                                                                            handleFromDelete(item.id);
-                                                                            setOpenModalMakanan(false);
-                                                                            window.location.reload();
-                                                                        }}>
-                                                                        Ya Hapus
-                                                                    </Button>
-                                                                </div>
-                                                            </div>
-                                                        </Modal.Body>
-                                                    </Modal>
                                                 </div>
                                             </div>
                                         </div>
@@ -245,10 +245,10 @@ export default function KelolaMenuPemesanan() {
                                                         <Modal.Header />
                                                         <Modal.Body>
                                                             <div className="text-center m-auto">
-                                                                <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                                                                <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" color="red" />
                                                                 <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                                                                    Yakin Ingin Menghapus Menu Minuman ???
-                                                                    Anda Akan Kehilangan Semua Data Pada Menu Ini..."
+                                                                    Yakin Ingin Menghapus Menu Minuman?
+                                                                    Anda Akan Kehilangan Data Tersebut Pada Menu Ini.."
                                                                 </h3>
                                                                 <div className="flex justify-center gap-4">
                                                                     <Button className='bg-[#C79618] hover:bg-[#F8A849] text-white' onClick={() => setOpenModal(false)}>
@@ -258,10 +258,10 @@ export default function KelolaMenuPemesanan() {
                                                                         // onClick={() => handleFromDelete(order.id)}
                                                                         onClick={() => {
                                                                             handleFromDelete(order.id);
-                                                                            setOpenModal(false);
+                                                                            setOpenModal(true);
                                                                             window.location.reload();
                                                                         }}>
-                                                                        Ya Hapus
+                                                                        Ya, Hapus
                                                                     </Button>
                                                                 </div>
                                                             </div>
