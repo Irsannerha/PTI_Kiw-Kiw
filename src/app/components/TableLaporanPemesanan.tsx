@@ -111,10 +111,14 @@ const Table: React.FC<TableProps> = ({ data, itemsPerPage = 5 }) => {
                 <div className="text-end justify-end items-end relative">
                     <Link href={"/page/dashboard/LaporanPemesanan/OrderSaatIni"}>
                         <div className="w-full bg-[#F8A849] shadow-lg rounded-lg hover:bg-[#C79618] cursor-pointer">
-                            <div className="flex p-2 gap-2 justify-center items-center m-auto text-center text-black">
-                                <div className="flex items-center">
+                            <div className="flex pl-2 pb-2 pt-2 gap-2 justify-end items-center m-auto text-center text-black">
+                                <div className="flex items-center pr-2">
                                     Order Saat Ini
                                 </div>
+                                <span className="flex h-3 w-3 absolute mb-10">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#D2691E] opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-3 w-3 bg-[#D2691E]"></span>
+                                </span>
                             </div>
                         </div>
                     </Link>

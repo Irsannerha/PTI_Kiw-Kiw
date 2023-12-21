@@ -7,18 +7,21 @@ export interface ProductCardComponentProps {
     category?: string;
     // desc?: string;
     onAddToCart: (itemData: { itemId: string; name: string; price: number; img: string }) => void;
+    disabled: boolean;
 }
 
-const FoodCard = ({ itemId = "2", name = "Makanan", price = 10000, img = "", category = "", onAddToCart }: ProductCardComponentProps) => {
+const FoodCard = ({ itemId = "2", name = "Makanan", price = 10000, img = "", category = "", onAddToCart, disabled }: ProductCardComponentProps) => {
 
     const handleAddToCart = () => {
-        const itemData = { itemId, name, price, img };
-        console.log(itemData);
-        onAddToCart(itemData);
+        if (!disabled) {
+            const itemData = { itemId, name, price, img };
+            console.log(itemData);
+            onAddToCart(itemData);
+        }
     };
 
     return (
-        <div className="font-bold w-full md:w-[200px] bg-white md:p-5 p-3 flex flex-col rounded-lg gap-1 md:gap-1">
+        <div className={`font-bold w-full md:w-[200px] bg-white md:p-5 p-3 flex flex-col rounded-lg gap-1 md:gap-1 ${disabled ? 'opacity-50' : ''}`}>
             <img
                 src={img}
                 alt=""
@@ -36,9 +39,10 @@ const FoodCard = ({ itemId = "2", name = "Makanan", price = 10000, img = "", cat
                 </span>
                 <button
                     onClick={handleAddToCart}
+                    disabled={disabled}
                     className="p-1 text-white bg-[#D2691E] hover:bg-[#F0C898] rounded-lg text-xs md:text-sm"
                 >
-                    Tambah
+                    {disabled ? 'Habis' : 'Tambah'}
                 </button>
             </div>
         </div>

@@ -60,9 +60,9 @@ export default function landingPage() {
       setIsrePasswordEmpty(false);
     }
 
-    if (password.length > 12 || rePassword.length > 12) {
-      console.error('Password Tidak Boleh Lebih dari 6 Angka');
-      alert('Password Tidak Boleh Lebih dari 6 Angka');
+    if (password.length > 6 || rePassword.length > 6) {
+      console.error('Password Tidak Boleh Lebih dari 6 Karakter');
+      alert('Password Tidak Boleh Lebih dari 6 Karakter');
       return;
     }
 
@@ -89,7 +89,7 @@ export default function landingPage() {
           }
         }
       } else {
-        alert('Password Harus Sama, Maksimal 12 Terdiri dari huruf dan angka.');
+        alert('Password Harus Sama, Maksimal 6 Karakter');
       }
     }
 

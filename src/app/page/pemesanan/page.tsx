@@ -37,9 +37,9 @@ export default function Pemesanan() {
     const [activeCart, setActiveCart] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState("Semua");
     const [searchValue, setSearchValue] = useState("");
-    const [makanan,setMakanan] = useState<Makanan[]>([]);
+    const [makanan, setMakanan] = useState<Makanan[]>([]);
     const [data, setdata] = useState<Product[]>([]);
-    const [idPem,setIdPem] = useLocalStorage("idPemesanan","")
+    const [idPem, setIdPem] = useLocalStorage("idPemesanan", "")
     const [name, setname] = useState("");
     const handleCategoryChange = (category: string) => {
         setSelectedCategory(category);
@@ -61,7 +61,7 @@ export default function Pemesanan() {
                 img: e.gambar,
                 des: e.deskripsi,
                 category: e.categoryId,
-                stock:e.stock
+                stock: e.stock
             }
         })
         // setdata(filterData)
@@ -80,7 +80,7 @@ export default function Pemesanan() {
         }
     };
 
-    const { data: dataMakanan, isLoading:lala, error:rara } = useSWR('/api/menu/allItemMakanan', async (url) => {
+    const { data: dataMakanan, isLoading: lala, error: rara } = useSWR('/api/menu/allItemMakanan', async (url) => {
         const res = await axios.get(url)
         const filterMakanan = res.data.map((e: any) => {
             return {
@@ -91,12 +91,12 @@ export default function Pemesanan() {
                 img: e.gambar,
                 des: e.deskripsi,
                 category: e.categoryId,
-                stock:e.stock
+                stock: e.stock
             }
         })
         return filterMakanan
     })
-    const { data: dataMinuman, isLoading:haha, error:huhu } = useSWR('/api/menu/allItemMinuman', async (url) => {
+    const { data: dataMinuman, isLoading: haha, error: huhu } = useSWR('/api/menu/allItemMinuman', async (url) => {
         const res = await axios.get(url)
         const filterMakanan = res.data.map((e: any) => {
             return {
@@ -107,7 +107,7 @@ export default function Pemesanan() {
                 img: e.gambar,
                 des: e.deskripsi,
                 category: e.categoryId,
-                stock:e.stock
+                stock: e.stock
             }
         })
         return filterMakanan
@@ -119,12 +119,12 @@ export default function Pemesanan() {
                 item.name.toLowerCase().includes(searchValue.toLowerCase()) ||
                 item.price.toString().includes(searchValue.toLowerCase())
             );
-        } else if(selectedCategory ==="Makanan"){
+        } else if (selectedCategory === "Makanan") {
             return dataMakanan.filter((item: { name: string; price: { toString: () => string | string[]; }; }) =>
                 item.name.toLowerCase().includes(searchValue.toLowerCase()) ||
                 item.price.toString().includes(searchValue.toLowerCase())
             );
-        }else{
+        } else {
             return dataMinuman.filter((item: { name: string; price: { toString: () => string | string[]; }; }) =>
                 item.name.toLowerCase().includes(searchValue.toLowerCase()) ||
                 item.price.toString().includes(searchValue.toLowerCase())
@@ -205,27 +205,34 @@ export default function Pemesanan() {
                 <>
                     <div className=" bg-[#E2E2E2] h-screen max-h-max w-full">
                         <NavbarPemesanan />
-                        <div className="">
-                            <div className="my-5 flex gap-3 overflow-x-scroll scroll-smooth lg:overflow-x-hidden justify-center md:justify-center lg:justify-center">
-                                <button
-                                    onClick={() => handleCategoryChange("Semua")}
-                                    className={`text-white px-3 py-2 bg-[#F8A849] opacity-70 font-bold rounded-lg hover:bg-[#D2691E] hover:text-white ${selectedCategory === "Semua" && "bg-[#D2691E] text-white"}`}
-                                >
-                                    Semua
-                                </button>
-                                <button
-                                    onClick={() => handleCategoryChange("Makanan")}
-                                    className={`text-white px-3 py-2 bg-[#F8A849] opacity-70 font-bold rounded-lg hover:bg-[#D2691E] hover:text-white ${selectedCategory === "Makanan" && "bg-[#D2691E] text-white"}`}
-                                >
-                                    Makanan
-                                </button>
-                                <button
-                                    onClick={() => handleCategoryChange("Minuman")}
-                                    className={`text-white px-3 py-2 bg-[#F8A849] opacity-70 font-bold rounded-lg hover:bg-[#D2691E] hover:text-white ${selectedCategory === "Minuman" && "bg-[#D2691E] text-white"}`}
-                                >
-                                    Minuman
-                                </button>
-                            </div>
+                        <div className="my-5 flex gap-3 overflow-x-scroll scroll-smooth lg:overflow-x-hidden justify-center md:justify-center lg:justify-center">
+                            <button
+                                onClick={() => handleCategoryChange("Semua")}
+                                className={`text-white px-3 py-2 font-bold rounded-lg ${selectedCategory === "Semua"
+                                        ? "bg-[#D2691E] hover:bg-[#F8A849]"
+                                        : "bg-[#F8A849] opacity-70 hover:bg-[#D2691E] hover:text-white"
+                                    }`}
+                            >
+                                Semua
+                            </button>
+                            <button
+                                onClick={() => handleCategoryChange("Makanan")}
+                                className={`text-white px-3 py-2 font-bold rounded-lg ${selectedCategory === "Makanan"
+                                        ? "bg-[#D2691E] hover:bg-[#F8A849]"
+                                        : "bg-[#F8A849] opacity-70 hover:bg-[#D2691E] hover:text-white"
+                                    }`}
+                            >
+                                Makanan
+                            </button>
+                            <button
+                                onClick={() => handleCategoryChange("Minuman")}
+                                className={`text-white px-3 py-2 font-bold rounded-lg ${selectedCategory === "Minuman"
+                                        ? "bg-[#D2691E] hover:bg-[#F8A849]"
+                                        : "bg-[#F8A849] opacity-70 hover:bg-[#D2691E] hover:text-white"
+                                    }`}
+                            >
+                                Minuman
+                            </button>
                         </div>
                         <div className="flex justify-center md:justify-center lg:justify-center mx-5 lg:mx-5">
                             <input
@@ -237,7 +244,7 @@ export default function Pemesanan() {
                             />
                         </div>
                         <div className="rounded-lg grid grid-cols-2 md:grid-cols-3 lg:flex flex-wrap justify-center lg:justify-center gap-5 md:gap-5 mx-5 my-5 max-h-[400px] md:max-h-[700px] lg:max-h-[400px] overflow-y-auto overscroll-auto md:pl-10 md:pr-10 mb-10">
-                            {filteredFoodData().map((dataItem:any) => (
+                            {filteredFoodData().map((dataItem: any) => (
                                 <FoodCard
                                     key={dataItem.id}
                                     itemId={dataItem.id}
@@ -245,6 +252,7 @@ export default function Pemesanan() {
                                     price={dataItem.price}
                                     img={dataItem.img}
                                     onAddToCart={handleAddToCart}
+                                    disabled={dataItem.stock === 0}
                                 />
                             ))}
                         </div>
@@ -310,13 +318,13 @@ export default function Pemesanan() {
                                 </h3>
                                 <hr className="w-[90vw] lg:w-[18vw] my-2" />
                                 {/* <Link href={'/page/pemesanan/detaiPemesanan'}> */}
-                                    <button
-                                        onClick={handleCheckout}
-                                        disabled={name === "" || data.length === 0}
-                                        className="bg-[#D2691E] hover:bg-[#F8A849] font-bold px-3 text-white py-2 rounded-lg w-[90vw] lg:w-[18vw] mb-5"
-                                    >
-                                        Pesan Sekarang
-                                    </button>
+                                <button
+                                    onClick={handleCheckout}
+                                    disabled={name === "" || data.length === 0}
+                                    className="bg-[#D2691E] hover:bg-[#F8A849] font-bold px-3 text-white py-2 rounded-lg w-[90vw] lg:w-[18vw] mb-5"
+                                >
+                                    Pesan Sekarang
+                                </button>
                                 {/* </Link> */}
                             </div>
                         </div>
