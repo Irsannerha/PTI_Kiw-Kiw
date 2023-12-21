@@ -82,11 +82,16 @@ export default function KelolaMenuPemesanan() {
     const handleFromDelete = async (id: string) => {
         setShowAlertHapusData(true);
         try {
-            await axiosAuth.put(`/api/menu/deleteItem/${id}`, {
+            const response = await axiosAuth.put(`/api/menu/deleteItem/${id}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
             })
+            if (response.data.status === 401) {
+                alert(response.data.message)
+            } else {
+                window.location.reload()
+            }
             // mutate('/api/menu/allItem');
             setTimeout(() => {
                 setShowAlertHapusData(false);
@@ -206,7 +211,6 @@ export default function KelolaMenuPemesanan() {
                                                                         onClick={() => {
                                                                             handleFromDelete(id);
                                                                             setOpenModalMakanan(false);
-                                                                            window.location.reload()
                                                                         }}>
 
                                                                         Ya Hapus
@@ -274,7 +278,6 @@ export default function KelolaMenuPemesanan() {
                                                                             // console.log(id);
                                                                             handleFromDelete(id);
                                                                             setOpenModal(false);
-                                                                            window.location.reload()
                                                                         }}>
                                                                         Ya Hapus
                                                                     </Button>
