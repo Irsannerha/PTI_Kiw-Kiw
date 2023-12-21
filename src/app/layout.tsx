@@ -27,12 +27,13 @@ export default function RootLayout({
   const [check, setCheck] = useState(false);
   const [accessToken, _] = useLocalStorage('accessToken', '');
   const [refreshToken, __] = useLocalStorage('refreshToken', '');
+  const [idPem,setIdPem] = useLocalStorage("idPemesanan","")
   const pathname = usePathname()
 
 
   useEffect(() => {
     // console.log(pathname);
-    if (pathname === '/page/dashboard/FormLogin' || pathname === '/page/dashboard/ForgotPassword' || pathname === '/page/dashboard/CodeOTP' || pathname === '/page/dashboard/NewPassword' || pathname === '/page/pemesanan' || pathname === '/page/landingPage' || pathname === '/page/pemesanan/DetailPemesanan' || pathname === '/page/landingPage' || pathname === '/page/landingPage/loginPegawai' || pathname === '/page/landingPage/home' || pathname === '/page/landingPage/buatPassword' || pathname === '/page/landingPage/kodeOTP' || pathname === '/page/landingPage/lupaPassword' || pathname === '/page/landingPage/loginPrekrutan' || pathname === '/page/pemesanan/detaiPemesanan' || pathname === '{/page/pemesanan/detaiPemesanan}') {
+    if (pathname === '/page/dashboard/FormLogin' || pathname === '/page/dashboard/ForgotPassword' || pathname === '/page/dashboard/CodeOTP' || pathname === '/page/dashboard/NewPassword' || pathname === '/page/pemesanan' || pathname === '/page/landingPage' || pathname === '/page/pemesanan/DetailPemesanan' || pathname === '/page/landingPage' || pathname === '/page/landingPage/loginPegawai' || pathname === '/page/landingPage/home' || pathname === '/page/landingPage/buatPassword' || pathname === '/page/landingPage/kodeOTP' || pathname === '/page/landingPage/lupaPassword' || pathname === '/page/landingPage/loginPrekrutan' || pathname === '/page/pemesanan/detaiPemesanan' || pathname === '{/page/pemesanan/detaiPemesanan}' || pathname === '/page/pemesanan/[detailPemesanan]'|| pathname === `/page/pemesanan/${idPem}`) {
       setCheck(true);
       return
     }

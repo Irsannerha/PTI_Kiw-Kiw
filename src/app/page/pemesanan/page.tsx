@@ -15,6 +15,7 @@ import Image from "next/image";
 import useSWR from "swr";
 import { useParams, useRouter } from "next/navigation";
 import { log } from "console";
+import { useLocalStorage } from "usehooks-ts";
 
 export interface Product {
     itemId: string;
@@ -38,6 +39,7 @@ export default function Pemesanan() {
     const [searchValue, setSearchValue] = useState("");
     const [makanan,setMakanan] = useState<Makanan[]>([]);
     const [data, setdata] = useState<Product[]>([]);
+    const [idPem,setIdPem] = useLocalStorage("idPemesanan","")
     const [name, setname] = useState("");
     const handleCategoryChange = (category: string) => {
         setSelectedCategory(category);
@@ -167,6 +169,7 @@ export default function Pemesanan() {
             route.detailPemesanan = response.data.id
             const id = response.data.id
             console.log(route.detailPemesanan);
+            setIdPem(id)
             routess.push(`/page/pemesanan/${id}`);
         } catch (error) {
             console.error('Error during checkout:', error);
